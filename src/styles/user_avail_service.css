@@ -1,0 +1,97 @@
+/*  html,
+body {
+  width: 100%;
+  height: 100%;
+}
+body {
+  background-color: #2980b9;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}*/
+
+.card {
+  display: flex;
+  min-width: 90%;
+  min-height: 50%;
+  overflow-x: auto;
+  margin-left: 3em;
+  position: absolute;
+  
+}
+.card::-webkit-scrollbar {
+  display: none;
+}
+.card--content {
+  background-color: #8de3f8;
+  min-width: 30%;
+  margin: 1.5em;
+  padding: 5px;
+  color: #34495e;
+}
+
+
+
+.table-row {
+    display: flex;           
+    display: -webkit-flex;
+    flex-direction: row;     
+    -webkit-flex-direction: row;
+    flex-grow: 0;            
+    -webkit-flex-grow: 0;
+    width: 100%;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+  
+  /* Wrappers around cells and other wrappers: flex, row, wrap*/
+  .wrapper {
+    display: flex;           
+    display: -webkit-flex;
+    flex-direction: row;     
+    -webkit-flex-direction: row;
+    flex-grow: 0;            
+    -webkit-flex-grow: 0;
+    flex-wrap: wrap;         
+    -webkit-flex-wrap: wrap;
+  }
+  
+  /* Text based cells and wrappers: grow equally when there is extra space.*/
+  .text-4, .text-2, .text {
+    flex-grow: 1;           
+    -webkit-flex-grow: 1;
+  }
+  
+  /* Text based cells: truncate and show ellipsis when there is not enough space*/
+  .text {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    padding-right: 20px;
+  }
+  
+
+
+  
+  /*
+   * General good-look styles, not mandatory.
+   */
+  body {
+    font-size: 20px;
+  }
+  
+  .table-row {
+    border-bottom: 2px solid #e0e0e0;
+    border-collapse: collapse;
+    padding-top: 5px;
+  }
+  
+  .table-row.header {
+    background-color: #FFEEDB;
+    font-weight: bold;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    display: inline-block;
+    text-align:center;
+  }
