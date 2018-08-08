@@ -24,6 +24,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+        <canvas id="canvas"></canvas>
         <div class="loginbox">
         <Image src={logo}/>
         {

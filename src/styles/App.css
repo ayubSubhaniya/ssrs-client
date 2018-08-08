@@ -1,8 +1,7 @@
 body {
   background: #000;
-  padding-top: 4em;
-  padding-left: 1em;
-  padding-right: 1em;
+  /* padding-left: 1em; */
+  /* padding-right: 1em; */
   min-height: 100vh;
   font-family: Futura, sans-serif;
   background-position: center;
@@ -49,7 +48,7 @@ body {
 
 .loginbox p{
   margin: 0;
-  padding: 0;
+  padding-bottom: 5px;
   font-weight: bold;
   color: #fff;
 }
@@ -59,7 +58,7 @@ body {
 }
 .loginbox input[type="text"], input[type="password"]{
   border: 1px solid #000;
-  border-radius: 2px;
+  border-radius: 9px;
   background: #fff;
   outline: none;
   height: 40px;
