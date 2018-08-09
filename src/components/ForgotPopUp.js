@@ -14,7 +14,7 @@ const CustomModal = () => (
     contentStyle={contentStyle}
   >
     {close => (
-      <div className="modal">
+      <div className="modal_popup">
         <a className="close" onClick={close}>
           &times;
         </a>
@@ -29,7 +29,7 @@ const CustomModal = () => (
         <div className="actions">
           <button
             className="button"
-          > 
+          >
             Send
           </button>
           <button

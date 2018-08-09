@@ -1,0 +1,73 @@
+import React, { Component } from 'react';
+import logo from '../images/daiict.png'
+import {domainUrl} from '../config/configuration'
+import Image from './Image'
+
+import Home from './Home';
+import NavigationBar from './NavigationBar';
+
+
+class HomePage extends Component {
+    constructor() {
+        super();
+        this.fetchNews();
+        this.fetchNotification();
+        this.state = {
+            news: [],
+            notification: []
+        }
+    }
+    fetchNews = () => {
+        const that  = this;
+        const url = domainUrl + '/news'
+        var request = new XMLHttpRequest();
+        request.open('GET', url, true);
+        request.withCredentials = true;
+        request.onload = function () {
+            if (this.status == 202) {
+                try{
+                    const obj = JSON.parse(request.responseText);
+                    that.setState({
+                        news: obj.news
+                    })
+                }catch(e) {
+                    console.error(e); 
+                }
+            };
+        };
+        request.send();
+    }
+
+    fetchNotification = () => {
+        const that  = this;
+        const url = domainUrl + '/notification'
+        var request = new XMLHttpRequest();
+        request.open('GET', url, true);
+        request.withCredentials = true;
+        request.onload = function () {
+            if (this.status == 202) {
+                try{
+                    const obj = JSON.parse(request.responseText);
+                    that.setState({
+                        notification: obj.notification
+                    })
+                }catch(e) {
+                    console.error(e); 
+                }
+            };
+        };
+        request.send();
+    }
+    render() {
+        
+        return (
+            <React.Fragment>
+                <Image src={logo} className={'logo'} />
+                <NavigationBar />
+                <Home news={this.state.news} notification={this.state.notification} />
+            </React.Fragment>
+        );
+    }
+}
+
+export default HomePage;

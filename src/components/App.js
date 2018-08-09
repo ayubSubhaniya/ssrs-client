@@ -1,47 +1,25 @@
 import React, { Component } from 'react';
 import '../styles/App.css';
-import logo from '../images/dalogo.jpg'
-import Login from '../components/Login'
-import Signup from '../components/Signup'
-import Image from '../components/Image'
-import Hyperlink from '../components/Hyperlink'
-import ForgotPopUp from './ForgotPopUp';
-
-const contentStyle = {
-  maxWidth: "600px",
-  width: "90%"
-};
+import {
+  BrowserRouter as Router,
+  Route,
+  Link,
+  Redirect,
+  withRouter
+} from "react-router-dom";
+import PublicHomePage from './PublicHomePage';
+import HomePage from './HomePage';
+import AddService from './AddService';
 
 class App extends Component {
-  constructor() {
-    super();
-    this.state = {
-      current: 'Login'
-    }
-  }
-
-  changeComponent = () => {
-    this.setState({
-      current: this.state.current === 'Login' ? 'Signup' : 'Login'
-    })
-  }
-
-
   render() {
-    return (
-      <div className="App">
-        <canvas id="canvas"></canvas>
-        <div class="loginbox">
-          <Image src={logo} />
-          {
-            this.state.current === 'Login' ? <Login id="login" /> : <Signup id="signup" />
-          }
-          <Hyperlink text={this.state.current === "Login" ? 'Signup' : 'Login'} handleClick={this.changeComponent} />
-          <br />
-        </div>     
-        <ForgotPopUp/>          
-      </div>
-    );
+   return (<Router>
+        <div>
+        <Route exact path="/" component={PublicHomePage}/>
+        <Route path="/home" component={HomePage} />
+        <Route path="/addservice" component={AddService} />
+        </div>
+    </Router>)
   }
 }
 
