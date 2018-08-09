@@ -1,40 +1,23 @@
 import React, { Component } from 'react';
 import '../styles/App.css';
-import logo from '../images/dalogo.jpg'
-import Login from '../components/Login'
-import Signup from '../components/Signup'
-import Image from '../components/Image'
-import Button from '../components/Button'
+import {
+  BrowserRouter as Router,
+  Route,
+  Link,
+  Redirect,
+  withRouter
+} from "react-router-dom";
+import PublicHomePage from './PublicHomePage';
+import HomePage from './HomePage';
 
 class App extends Component {
-  constructor(){
-    super();
-    this.state = {
-        current: 'Login'
-    }
-  }
-
-  changeComponent = () => {
-    this.setState({
-      current: this.state.current=='Login'?'Signup':'Login'
-    })
-  }
-
-
   render() {
-    return (
-      <div className="App">
-        <canvas id="canvas"></canvas>
-        <div class="loginbox">
-        <Image src={logo}/>
-        {
-          this.state.current=='Login'?<Login/>:<Signup/>
-        }
-        
-        <Button text={this.state.current=="Login"?'Signup':'Login'} handleClick={this.changeComponent}/>
-      </div>
-      </div>
-    );
+   return (<Router>
+        <div>
+        <Route exact path="/" component={PublicHomePage}/>
+        <Route path="/home" component={HomePage} />
+        </div>
+    </Router>)
   }
 }
 
