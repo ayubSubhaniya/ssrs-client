@@ -5,11 +5,10 @@ class News extends Component {
     return (
        <div className='news-content'>
             <ul>
-                {
-                    this.props.news.map(news => 
-                    (<li>{news.message}</li>)
+               { this.props.news.map(
+                  (news) => (<li key={news._id}>{news.message}</li>)
                 )
-            }
+              }
             </ul>
         </div>
     );

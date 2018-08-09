@@ -21,7 +21,7 @@ class NavigationBar extends Component {
             <MenuItem eventKey={3.4}>Separated link</MenuItem>
             </NavDropdown>
             <NavDropdown eventKey={3} title="Service Mangement" id="basic-nav-dropdown">
-            <MenuItem eventKey={3.1}>Add Service</MenuItem>
+            <MenuItem eventKey={3.1} href='/addservice'>Add Service</MenuItem>
             <MenuItem eventKey={3.2}>Another action</MenuItem>
             <MenuItem eventKey={3.3}>Something else here</MenuItem>
             <MenuItem divider />
@@ -34,7 +34,7 @@ class NavigationBar extends Component {
             <MenuItem divider />
             <MenuItem eventKey={3.4}>Separated link</MenuItem>
             </NavDropdown>
-            <NavItem eventKey={1} href="#">
+            <NavItem eventKey={1} href="/">
                 Logout 
             </NavItem>
         </Nav>

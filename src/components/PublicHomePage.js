@@ -5,6 +5,8 @@ import Login from '../components/Login'
 import Signup from '../components/Signup'
 import Image from '../components/Image'
 import Button from '../components/Button'
+import Background from '../js/background';
+
 
 class PublicHomePage extends Component {
   constructor(){
@@ -18,6 +20,10 @@ class PublicHomePage extends Component {
     this.setState({
       current: this.state.current=='Login'?'Signup':'Login'
     })
+  }
+
+  componentDidMount(){
+    Background();
   }
   
   render() {

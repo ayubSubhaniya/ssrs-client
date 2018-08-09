@@ -10,8 +10,6 @@ class Tab extends Component {
         }
     }
 
-    
-
     changeTab = (e) => {
         this.setState({
             currentTab: e.target.dataset.tab
@@ -20,7 +18,7 @@ class Tab extends Component {
 
   render() {
     return (
-        <div class="tabmodal"> 
+        <div className="tabmodal"> 
         <div className='tabname'>
             <div 
                 className={'notification ' + (this.state.currentTab=='notification'?'focus':'')}
@@ -36,9 +34,10 @@ class Tab extends Component {
             </div>
         </div>
        { 
-           this.state.currentTab=='notification'?
+           
+           (this.state.currentTab=='notification'?
            <Notification notification={this.props.notification}/>:
-           <News news={this.props.news}/>
+           <News news={this.props.news}/>)
        }
         </div>
     );

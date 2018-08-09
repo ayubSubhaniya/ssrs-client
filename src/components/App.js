@@ -9,6 +9,7 @@ import {
 } from "react-router-dom";
 import PublicHomePage from './PublicHomePage';
 import HomePage from './HomePage';
+import AddService from './AddService';
 
 class App extends Component {
   render() {
@@ -16,6 +17,7 @@ class App extends Component {
         <div>
         <Route exact path="/" component={PublicHomePage}/>
         <Route path="/home" component={HomePage} />
+        <Route path="/addservice" component={AddService} />
         </div>
     </Router>)
   }

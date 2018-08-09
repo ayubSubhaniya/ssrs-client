@@ -90,27 +90,27 @@ class ServiceForm extends Component {
                                 />
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-25" style={{ "width": "10%" }}>
+                        <div className="row">
+                            <div className="col-25" style={{ "width": "10%" }}>
                                 <label for="subject">Service Description</label>
                             </div>
-                            <div class="col-75">
+                            <div className="col-75">
                                 <textarea id="subject" name="subject" placeholder="Write Service Description" style={{ "height": "200px" }}
                                     value={this.state.description} onChange={this.handleDescriptionChange}
                                 ></textarea>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-25" style={{ "width": "10%" }}>
+                        <div className="row">
+                            <div className="col-25" style={{ "width": "10%" }}>
                                 <label for="maxUnits">Max unit</label>
                             </div>
-                            <div class="col-75">
+                            <div className="col-75">
                                 <input type="text" id="maxUnits" style={{ "width": "30%" }} name="firstname" placeholder="Enter Maximum Allowed Unit"
                                     value={this.state.maxUnits} onChange={this.handlemaxUnitsChange}
                                 />
                             </div>
                         </div>
-                        <div class="row">
+                        <div className="row">
                             <input type="submit" value="Submit" />
                         </div>
                     </form>

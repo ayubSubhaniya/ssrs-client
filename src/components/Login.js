@@ -33,9 +33,12 @@ class Login extends Component {
   }
 
   handleLogIn = () => {
-   
+    const that = this;
     var url = domainUrl + '/account/signin'
-    var userObj = this.state;
+    var userObj = {
+      daiictId: this.state.daiictId,
+      password: this.state.password
+    };
     var request = new XMLHttpRequest();
     request.open('POST', url, true);
     request.withCredentials = true;
@@ -44,9 +47,7 @@ class Login extends Component {
       if (this.status == 202) {
         var res = JSON.parse(request.response)
         var user = res.user;
-        console.log(user);
-        this.setState({ redirectToReferrer: true });
-        // window.open("\homepage_admin.html", "_self");
+        that.setState({ redirectToReferrer: true });
       };
     };
     request.send(JSON.stringify(userObj));

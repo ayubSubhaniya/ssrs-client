@@ -4,9 +4,12 @@ class Notification extends Component {
   render() {
     return (
        <div className='notification-content'>
-       <ul>
-           <li>show Notification here</li>
-        </ul>
+            <ul>
+               { this.props.notification.map(
+                  (notification) => (<li key={notification._id}>{notification.message}</li>)
+                )
+              }
+            </ul>
         </div>
     );
   }
