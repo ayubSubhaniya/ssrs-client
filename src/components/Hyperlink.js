@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
 
 class Button extends Component {
+
   render() {
+    let style = {
+      fontSize: '15px',
+    }
     return (
-        <button onClick={this.props.handleClick}>{this.props.text}</button>
+        <a href="#" onClick={this.props.handleClick} style= {style}>{this.props.text}</a>
     );
   }
 }
