@@ -87,13 +87,30 @@ body {
   font-size: 12px;
   line-height: 20px;
   color: #fff;
+  text-align: center;
+  display: block
 }
 
 .loginbox a:hover{
   color: red;
 }
 
+.forgotInput input[type="text"]{
+  border: 1px solid #000;
+  border-radius: 9px;
+  background: #fff;
+  outline: none;
+  height: 30px;
+  color: #000;
+  font-size: 16px;
+  padding-left: 5px;
+}
+
 .preformat{
+  font-size: 15px;
+  font-weight: bold;
+  padding: 5px;
+  border-radius: 9px;
   background: rgb(143, 220, 250);
 }
 
@@ -118,4 +135,106 @@ body {
   color: #000;
   font-size: 16;
   padding-left: 5px;
+}
+
+
+.warper {
+  width: 100%;
+
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.button {
+  font-family: "Roboto", Arial, sans-serif;
+  color: #000000;
+  cursor: pointer;
+  padding: 0px 30px;
+  display: inline-block;
+  margin: 10px 15px;
+  text-transform: uppercase;
+  line-height: 2em;
+  letter-spacing: 1.5px;
+  font-size: 1em;
+  outline: none;
+  position: relative;
+  font-size: 14px;
+  border: 3px solid #cfcece;
+  background-color: #ffffff;
+  border-radius: 15px 15px 15px 15px;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+}
+
+.button:hover,
+.button.hover {
+  border-color: #2980b9;
+}
+/*
+card 
+*/
+.card {
+  font-size: 12px;
+}
+.card > .header {
+  width: 100%;
+  border-bottom: 1px solid gray;
+  font-size: 14px;
+  text-align: center;
+}
+
+.modal {
+  font-size: 12px;
+}
+.modal > .header {
+  width: 100%;
+  border-bottom: 1px solid gray;
+  font-size: 18px;
+  text-align: center;
+  padding: 5px;
+}
+.modal > .content {
+  width: 100%;
+  padding: 10px 5px;
+}
+.modal > .actions {
+  margin: auto;
+}
+.modal > .actions {
+  width: 100%;
+  padding: 10px 5px;
+  text-align: center;
+}
+.modal > .close {
+  cursor: pointer;
+  position: absolute;
+  display: block;
+  padding: 2px 5px;
+  line-height: 20px;
+  right: -10px;
+  top: -10px;
+  font-size: 24px;
+  background: #ffffff;
+  border-radius: 18px;
+  border: 1px solid #cfcece;
+}
+
+.warper-start {
+  width: 100%;
+  padding: 20px 5%;
+  display: flex;
+  flex-wrap: wrap;
+  border: 1px #cfcece dashed;
+}
+
+.popUp {
+  text-decoration: none;
+  font-size: 15px;
+  line-height: 0px;
+  color: #fff
+}
+
+.popUp:hover {
+  color: red;
 }

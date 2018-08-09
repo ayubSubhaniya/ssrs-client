@@ -4,19 +4,25 @@ import logo from '../images/dalogo.jpg'
 import Login from '../components/Login'
 import Signup from '../components/Signup'
 import Image from '../components/Image'
-import Button from '../components/Button'
+import Hyperlink from '../components/Hyperlink'
+import ForgotPopUp from './ForgotPopUp';
+
+const contentStyle = {
+  maxWidth: "600px",
+  width: "90%"
+};
 
 class App extends Component {
-  constructor(){
+  constructor() {
     super();
     this.state = {
-        current: 'Login'
+      current: 'Login'
     }
   }
 
   changeComponent = () => {
     this.setState({
-      current: this.state.current=='Login'?'Signup':'Login'
+      current: this.state.current === 'Login' ? 'Signup' : 'Login'
     })
   }
 
@@ -26,13 +32,14 @@ class App extends Component {
       <div className="App">
         <canvas id="canvas"></canvas>
         <div class="loginbox">
-        <Image src={logo}/>
-        {
-          this.state.current=='Login'?<Login/>:<Signup/>
-        }
-        
-        <Button text={this.state.current=="Login"?'Signup':'Login'} handleClick={this.changeComponent}/>
-      </div>
+          <Image src={logo} />
+          {
+            this.state.current === 'Login' ? <Login id="login" /> : <Signup id="signup" />
+          }
+          <Hyperlink text={this.state.current === "Login" ? 'Signup' : 'Login'} handleClick={this.changeComponent} />
+          <br />
+        </div>     
+        <ForgotPopUp/>          
       </div>
     );
   }
