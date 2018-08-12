@@ -1,5 +1,5 @@
 import React from "react";
-import Warper from "./Warper";
+import Warper from "../Warper";
 import Popup from "reactjs-popup";
 
 const contentStyle = {
@@ -9,7 +9,7 @@ const contentStyle = {
 
 const CustomModal = () => (
   <Popup
-    trigger={<a href="#" className="popUp"> Forgot Password? </a>}
+    trigger={<a href="/#" className="popUp"> Forgot Password? </a>}
     modal
     contentStyle={contentStyle}
   >
@@ -21,7 +21,7 @@ const CustomModal = () => (
         <div className="header"> Forgot Password? </div>
         <form>
             <div className="forgotInput">
-            <p><strong>Enter your Registration ID</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <p><strong>Enter your Registration ID</strong>
             <input type="text" name="" placeholder="Enter your Registration ID"/></p>
             </div>
             <pre class="preformat">You will be sent reset password link to your webmail</pre>

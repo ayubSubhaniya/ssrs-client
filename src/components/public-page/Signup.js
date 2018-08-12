@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {domainUrl} from '../config/configuration'
+import {domainUrl} from '../../config/configuration'
 
 class SignUp extends Component {
   constructor() {

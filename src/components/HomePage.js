@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import logo from '../images/daiict.png'
 import {domainUrl} from '../config/configuration'
-import Image from './Image'
 
-import Home from './Home';
-import NavigationBar from './NavigationBar';
+import Header from "./Header";
+import Tab from "./home/Tab";
 
 
 class HomePage extends Component {
@@ -31,7 +29,7 @@ class HomePage extends Component {
                         news: obj.news
                     })
                 }catch(e) {
-                    console.error(e); 
+                    console.error(e);
                 }
             };
         };
@@ -52,19 +50,18 @@ class HomePage extends Component {
                         notification: obj.notification
                     })
                 }catch(e) {
-                    console.error(e); 
+                    console.error(e);
                 }
             };
         };
         request.send();
     }
     render() {
-        
+
         return (
             <React.Fragment>
-                <Image src={logo} className={'logo'} />
-                <NavigationBar />
-                <Home news={this.state.news} notification={this.state.notification} />
+                <Header title={'Welcome to Student Service Request System'}/>
+                <Tab news={this.state.news} notification={this.state.notification}/>
             </React.Fragment>
         );
     }

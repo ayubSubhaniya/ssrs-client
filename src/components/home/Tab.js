@@ -18,23 +18,22 @@ class Tab extends Component {
 
   render() {
     return (
-        <div className="tabmodal"> 
+        <div className="tabmodal">
         <div className='tabname'>
-            <div 
-                className={'notification ' + (this.state.currentTab=='notification'?'focus':'')}
+            <div
+                className={'notification light-blue ' + (this.state.currentTab=='notification'?'focus':'')}
                 data-tab='notification'
                 onClick={this.changeTab}>
                 Notification
             </div>
-            <div 
-                className={'news ' + (this.state.currentTab=='news'?'focus':'')}
+            <div
+                className={'news light-blue ' + (this.state.currentTab=='news'?'focus':'')}
                 data-tab='news'
                 onClick={this.changeTab}>
                 News
             </div>
         </div>
-       { 
-           
+       {
            (this.state.currentTab=='notification'?
            <Notification notification={this.props.notification}/>:
            <News news={this.props.news}/>)
