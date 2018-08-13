@@ -10,6 +10,7 @@ import {
     withRouter
 } from "react-router-dom";
 import Header from "../Header";
+import * as HttpStatus from "http-status-codes";
 
 /*
 collectionType = [
@@ -99,7 +100,7 @@ class ServiceForm extends Component {
         request.open('GET', url, true);
         request.withCredentials = true;
         request.onload = function () {
-            if (this.status == 202) {
+            if (this.status == HttpStatus.ACCEPTED) {
                 try {
                     const obj = JSON.parse(request.responseText);
                     console.log(obj);
@@ -156,7 +157,7 @@ class ServiceForm extends Component {
         request.withCredentials = true;
         request.setRequestHeader("Content-type", "application/json");
         request.onload = function () {
-            if (this.status == 201) {
+            if (this.status == HttpStatus.CREATED) {
                 const response = JSON.parse(request.response)
                 console.log(response);
                 that.props.history.push('/service');
@@ -174,7 +175,7 @@ class ServiceForm extends Component {
         request.withCredentials = true;
         request.setRequestHeader("Content-type", "application/json");
         request.onload = function () {
-            if (this.status == 202) {
+            if (this.status == HttpStatus.ACCEPTED) {
                 const response = JSON.parse(request.response)
                 console.log(response);
                 that.props.history.push('/service');

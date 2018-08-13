@@ -3,6 +3,8 @@ import {domainUrl} from '../config/configuration'
 
 import Header from "./Header";
 import Tab from "./home/Tab";
+import * as HttpStatus from 'http-status-codes'
+
 
 
 class HomePage extends Component {
@@ -22,7 +24,7 @@ class HomePage extends Component {
         request.open('GET', url, true);
         request.withCredentials = true;
         request.onload = function () {
-            if (this.status == 202) {
+            if (this.status == HttpStatus.ACCEPTED) {
                 try{
                     const obj = JSON.parse(request.responseText);
                     that.setState({
@@ -43,7 +45,7 @@ class HomePage extends Component {
         request.open('GET', url, true);
         request.withCredentials = true;
         request.onload = function () {
-            if (this.status == 202) {
+            if (this.status == HttpStatus.ACCEPTED) {
                 try{
                     const obj = JSON.parse(request.responseText);
                     that.setState({

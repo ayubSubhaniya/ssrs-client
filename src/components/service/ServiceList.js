@@ -5,6 +5,8 @@ import {domainUrl} from "../../config/configuration";
 import {Link} from "react-router-dom"
 import _ from "lodash"
 import ServiceDetails from "./ServiceDetails";
+import * as HttpStatus from 'http-status-codes'
+
 
 class ServiceList extends Component {
     constructor(props, context) {
@@ -25,7 +27,7 @@ class ServiceList extends Component {
         request.open('GET', url, true);
         request.withCredentials = true;
         request.onload = function () {
-            if (this.status == 200) {
+            if (this.status == HttpStatus.OK) {
                 try{
                     const obj = JSON.parse(request.response);
                     console.log(obj)
@@ -51,7 +53,7 @@ class ServiceList extends Component {
         request.open('DELETE', url, true);
         request.withCredentials = true;
         request.onload = function () {
-            if (this.status == 202) {
+            if (this.status == HttpStatus.ACCEPTED) {
                 console.log("Deleted: ",request.response,service);
                 that.setState({
                     services: _.filter(that.state.services,(o) => {return(o._id!==service._id)})

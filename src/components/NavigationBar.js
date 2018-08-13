@@ -5,6 +5,7 @@ import { Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap'
 import {Link} from 'react-router-dom'
 import {authentication} from "./App";
 import {domainUrl} from "../config/configuration";
+import * as HttpStatus from "http-status-codes";
 
 class NavigationBar extends Component {
   render() {
@@ -46,7 +47,7 @@ class NavigationBar extends Component {
                 request.open('GET', url, true);
                 request.withCredentials = true;
                 request.onload = function () {
-                    if (this.status == 200) {
+                    if (this.status == HttpStatus.OK) {
                         authentication.isAuthenticated = false;
                         window.location.reload();
                     };

@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {domainUrl} from '../../config/configuration'
+import * as HttpStatus from 'http-status-codes'
 
 class SignUp extends Component {
     constructor() {
@@ -42,7 +43,7 @@ class SignUp extends Component {
         request.withCredentials = true;
         request.setRequestHeader("Content-type", "application/json");
         request.onload = function () {
-            if (this.status == 201) {
+            if (this.status == HttpStatus.CREATED) {
                 var htmlPage = request.responseText;
                 document.write(htmlPage);
                 // window.open("\homepage_admin.html", "_self");

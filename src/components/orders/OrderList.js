@@ -4,6 +4,7 @@ import {domainUrl} from "../../config/configuration";
 import {Link} from "react-router-dom"
 import _ from "lodash"
 import OrderDetails from "./OrderDetails";
+import * as HttpStatus from "http-status-codes";
 
 class OrderList extends Component {
     constructor(props, context) {
@@ -24,7 +25,7 @@ class OrderList extends Component {
         request.open('GET', url, true);
         request.withCredentials = true;
         request.onload = function () {
-            if (this.status == 202) {
+            if (this.status == HttpStatus.ACCEPTED) {
                 try{
                     const obj = JSON.parse(request.responseText);
                     that.setState({

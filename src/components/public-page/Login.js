@@ -8,7 +8,8 @@ import {
     withRouter
 } from "react-router-dom";
 import {authentication} from "../App";
-import {setCookie} from "../../cookies";
+import * as HttpStatus from 'http-status-codes'
+
 
 
 class Login extends Component {
@@ -52,7 +53,7 @@ class Login extends Component {
         request.withCredentials = true;
         request.setRequestHeader("Content-type", "application/json");
         request.onload = function () {
-            if (this.status == 202) {
+            if (this.status == HttpStatus.ACCEPTED) {
                 var res = JSON.parse(request.response)
                 var user = res.user;
                 authentication.isAuthenticated = true;
