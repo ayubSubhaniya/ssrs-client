@@ -14,6 +14,7 @@ import logo from "../images/daiict.png";
 import NavigationBar from "./NavigationBar";
 import ManageService from "./service/ManageService";
 import ServiceForm from "./service/ServiceForm";
+import ManageOrders from './orders/ManageOrders'
 import {getCookie,setCookie,checkCookie} from "../cookies";
 
 
@@ -39,6 +40,7 @@ class App extends Component {
                     <PrivateRoute exact path="/service" component={ManageService}/>
                     <PrivateRoute exact path="/service/add" component={() => <ServiceForm title={'Add Service'} />}/>
                     <PrivateRoute exact path="/service/edit" component={() => <ServiceForm title={'Edit Service'} />}/>
+                    <PrivateRoute exact path="/order" component={ManageOrders}/>
                 </div>
             </Router>
         )

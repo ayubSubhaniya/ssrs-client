@@ -1,26 +1,25 @@
 import React, { Component } from 'react';
 import {PanelGroup,Panel} from 'react-bootstrap'
-import {Service} from "../../test/Services";
 import {domainUrl} from "../../config/configuration";
 import {Link} from "react-router-dom"
 import _ from "lodash"
-import ServiceDetails from "./ServiceDetails";
+import OrderDetails from "./OrderDetails";
 
-class ServiceList extends Component {
+class OrderList extends Component {
     constructor(props, context) {
         super(props, context);
         this.handleSelect = this.handleSelect.bind(this);
         this.state = {
             activeKey: '0',
-            services: []
+            orders: []
         };
-        this.fetchServices();
+        this.fetchOrders();
     }
 
-    fetchServices = () => {
-        console.log("fetching services");
+    fetchOrders = () => {
+        console.log("fetching orders");
         const that  = this;
-        const url = domainUrl + '/service'
+        const url = domainUrl + '/order'
         var request = new XMLHttpRequest();
         request.open('GET', url, true);
         request.withCredentials = true;
@@ -29,7 +28,7 @@ class ServiceList extends Component {
                 try{
                     const obj = JSON.parse(request.responseText);
                     that.setState({
-                        services: obj
+                        orders: obj
                     })
                 }catch(e) {
                     console.error(e);
@@ -54,15 +53,15 @@ class ServiceList extends Component {
                 >
 
                     {
-                        _.map(this.state.services,(service,i) => {
+                        _.map(this.state.orders,(order,i) => {
                             return(
                                 <Panel eventKey={i+1}>
                                     <Panel.Heading>
                                         <div className={'service-panel'}>
-                                            <Panel.Title toggle>{service.name}</Panel.Title>
+                                            <Panel.Title toggle>{order.name}</Panel.Title>
                                             <Link to={{
-                                                pathname: '/service/edit',
-                                                state: {service}
+                                                pathname: '/order/edit',
+                                                state: {order}
                                             }}>
                                                 <div className="btn btn-default btn-sm"
                                                      data-index={i} >
@@ -72,23 +71,23 @@ class ServiceList extends Component {
                                         </div>
                                     </Panel.Heading>
                                     <Panel.Body collapsible>
-                                        <ServiceDetails service={service}/>
+                                        <OrderDetails order={order}/>
                                     </Panel.Body>
                                 </Panel>
                             )
                         })
                     }
                 </PanelGroup>
-                <Link to={'/service/add'} style={{ textDecoration: 'none' }}>
-                    <input
-                        className='submit'
-                        type="submit"
-                        value="Add New Service"/>
-                </Link>
+                {/*<Link to={'/order/add'} style={{ textDecoration: 'none' }}>*/}
+                    {/*<input*/}
+                        {/*className='submit'*/}
+                        {/*type="submit"*/}
+                        {/*value="Add New Order"/>*/}
+                {/*</Link>*/}
             </div>
         );
     }
 }
 
-export default ServiceList;
+export default OrderList;
 

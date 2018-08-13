@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Header from "../Header";
-import ServiceList from "./ServiceList";
+import OrderList from "./OrderList";
 
 
 class ManageOrders extends Component {
@@ -8,11 +8,11 @@ class ManageOrders extends Component {
         return (
             <div>
                 <Header title={'Manage Orders'}/>
-                </>
+                <OrderList/>
             </div>
         );
     }
 }
 
-export default ManageService;
+export default ManageOrders;
 

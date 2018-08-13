@@ -35,10 +35,10 @@ class ServiceForm extends Component {
         }
 
         const defaultState = {
-            name: 'adsdds',
-            description: 'asdasdasdasd',
-            maxUnits: '10',
-            baseCharge: '20',
+            name: '',
+            description: '',
+            maxUnits: '',
+            baseCharge: '',
             paymentModes: [COD, DEBITCARD, NETBANKING, PAYTM],
             collectionType: [],
             parameter: [],

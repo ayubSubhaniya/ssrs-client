@@ -16,8 +16,8 @@ class NavigationBar extends Component {
             </Navbar.Brand>
         </Navbar.Header>
         <Nav>
-            <NavDropdown eventKey={1} title="Request Mangement" id="basic-nav-dropdown">
-            <MenuItem eventKey={1.1}>Action</MenuItem>
+            <NavDropdown eventKey={1} title="Order Mangement" id="basic-nav-dropdown">
+            <MenuItem eventKey={1.1}  href='/order'>All Orders</MenuItem>
             <MenuItem eventKey={1.2}>Another action</MenuItem>
             <MenuItem eventKey={1.3}>Something else here</MenuItem>
             <MenuItem divider />

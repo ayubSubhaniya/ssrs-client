@@ -78,7 +78,6 @@ class ServiceList extends Component {
                                     <Panel.Heading>
                                         <div className={'service-panel'}>
                                             <Panel.Title toggle>{service.name}</Panel.Title>
-
                                             <div>
                                                 <Link to={{
                                                     pathname: '/service/edit',
