@@ -44,6 +44,23 @@ class ServiceList extends Component {
         this.setState({ activeKey });
     }
 
+    deleterService = (service) => {
+        const that = this;
+        const url = domainUrl + '/service/' + service._id;
+        const request = new XMLHttpRequest();
+        request.open('DELETE', url, true);
+        request.withCredentials = true;
+        request.onload = function () {
+            if (this.status == 202) {
+                console.log("Deleted: ",request.response,service);
+                that.setState({
+                    services: _.filter(that.state.services,(o) => {return(o._id!==service._id)})
+                })
+            }
+        };
+        request.send();
+    }
+
     render() {
         return (
             <div className={'service-list-container'}>
@@ -57,19 +74,26 @@ class ServiceList extends Component {
                     {
                         _.map(this.state.services,(service,i) => {
                            return(
-                               <Panel eventKey={i+1}>
+                               <Panel key={service._id} eventKey={i+1}>
                                     <Panel.Heading>
                                         <div className={'service-panel'}>
                                             <Panel.Title toggle>{service.name}</Panel.Title>
-                                            <Link to={{
-                                                pathname: '/service/edit',
-                                                state: {service}
-                                            }}>
-                                            <div className="btn btn-default btn-sm"
-                                                    data-index={i} >
-                                                <span className="glyphicon glyphicon-pencil"></span>
+
+                                            <div>
+                                                <Link to={{
+                                                    pathname: '/service/edit',
+                                                    state: {service}
+                                                }}>
+                                                    <div className="btn btn-default btn-sm"
+                                                         data-index={i}>
+                                                        <span className="glyphicon glyphicon-pencil"></span>
+                                                    </div>
+                                                </Link>
+                                                <div type="button" className="btn btn-default btn-sm margin-l" onClick={() => this.deleterService(service)}>
+                                                    <span className="glyphicon glyphicon-trash"></span>
+                                                </div>
                                             </div>
-                                            </Link>
+
                                         </div>
                                     </Panel.Heading>
                                     <Panel.Body collapsible>

@@ -28,17 +28,17 @@ class ServiceForm extends Component {
     constructor(props) {
         super(props);
         const service = props.location.state ? props.location.state.service : undefined;
-        this.serviceId = service._id;
+        this.serviceId = service?service._id:undefined;
         console.log(props.location)
         if (!service && props.location.pathname == ('/service/edit')) {
             props.history.push('/service');
         }
 
         const defaultState = {
-            name: '',
-            description: '',
-            maxUnits: '',
-            baseCharge: '',
+            name: 'adsdds',
+            description: 'asdasdasdasd',
+            maxUnits: '10',
+            baseCharge: '20',
             paymentModes: [COD, DEBITCARD, NETBANKING, PAYTM],
             collectionType: [],
             parameter: [],
@@ -148,13 +148,8 @@ class ServiceForm extends Component {
         return service;
     }
 
-    addService(){
-
-    }
-
-    handleSubmit = (event) => {
+    addService = () => {
         const that = this;
-        event.preventDefault();
         const url = domainUrl + '/service/'
         const request = new XMLHttpRequest();
         request.open('POST', url, true);
@@ -169,6 +164,33 @@ class ServiceForm extends Component {
             ;
         };
         request.send(JSON.stringify(this.getServiceFromState()));
+    }
+
+    updateService = () => {
+        const that = this;
+        const url = domainUrl + '/service/' + this.serviceId;
+        const request = new XMLHttpRequest();
+        request.open('PATCH', url, true);
+        request.withCredentials = true;
+        request.setRequestHeader("Content-type", "application/json");
+        request.onload = function () {
+            if (this.status == 202) {
+                const response = JSON.parse(request.response)
+                console.log(response);
+                that.props.history.push('/service');
+            }
+            ;
+        };
+        request.send(JSON.stringify(this.getServiceFromState()));
+    }
+
+    handleSubmit = (event) => {
+        event.preventDefault();
+        if(this.serviceId){
+            this.updateService()
+        }else{
+            this.addService()
+        }
     }
 
     getCollectionTypeToggledList = (value) => {
