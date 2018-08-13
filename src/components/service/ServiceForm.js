@@ -5,12 +5,8 @@ import {COD, PAYTM, DEBITCARD, NETBANKING} from "../../constants/PaymentMode"
 import CheckboxMultiSelect from "./CheckboxMultiSelect"
 import _ from 'lodash'
 import '../../styles/service.css'
-import {Service} from "../../test/Services";
+import PaymentModes from './PaymentModes'
 import {
-    BrowserRouter as Router,
-    Route,
-    Link,
-    Redirect,
     withRouter
 } from "react-router-dom";
 import Header from "../Header";
@@ -31,39 +27,42 @@ collectionType = [
 class ServiceForm extends Component {
     constructor(props) {
         super(props);
-        const service = props.location.state?props.location.state.service:undefined;
+        const service = props.location.state ? props.location.state.service : undefined;
+        this.serviceId = service._id;
         console.log(props.location)
-        if(!service && props.location.pathname==('/service/edit')){
+        if (!service && props.location.pathname == ('/service/edit')) {
             props.history.push('/service');
         }
-        this.paymentMode = {
-            [COD]: false,
-            [PAYTM]: false,
-            [DEBITCARD]: false,
-            [NETBANKING]: false
-        }
+
         const defaultState = {
-            name:'',
+            name: '',
             description: '',
             maxUnits: '',
             baseCharge: '',
-            paymentMode: [COD, DEBITCARD, NETBANKING, PAYTM],
+            paymentModes: [COD, DEBITCARD, NETBANKING, PAYTM],
             collectionType: [],
-            parameter: []
+            parameter: [],
+            other: {
+                currentCollectionType: [],
+                currentAvailableParameters: []
+            }
         }
         this.state = service ? {
-            _id: service._id,
-            name:service.name,
-            description: service.description,
-            maxUnits: service.maxUnits,
-            baseCharge: service.baseCharge,
-            paymentMode: this.changePaymentModeObjectToArray(service.paymentMode),
-            collectionType: service.collectionType,
-            parameter: service.parameter
-        }
-        : defaultState;
-        this.fetchCollectioType();
-        this.fetchParameter();
+                name: service.name,
+                description: service.description,
+                maxUnits: service.maxUnits,
+                baseCharge: service.baseCharge,
+                paymentModes: this.changePaymentModeObjectToArray(service.paymentModes),
+                collectionType: service.collectionType,
+                parameter: service.parameter,
+                other: {
+                    currentCollectionType: [],
+                    currentAvailableParameters: []
+                }
+            }
+            : defaultState;
+        this.fetch("collectionType");
+        this.fetch("parameter");
     }
 
     handleNameChange = (event) => {
@@ -88,12 +87,14 @@ class ServiceForm extends Component {
     }
     handlePaymentModeChange = (event) => {
         this.setState({
-            paymentMode: event
+            paymentModes: event
         });
     }
-    fetchCollectioType = () => {
+
+
+    fetch(dataName) {
         const that = this;
-        const url = domainUrl + '/collectionType'
+        const url = domainUrl + '/' + dataName
         var request = new XMLHttpRequest();
         request.open('GET', url, true);
         request.withCredentials = true;
@@ -101,8 +102,9 @@ class ServiceForm extends Component {
             if (this.status == 202) {
                 try {
                     const obj = JSON.parse(request.responseText);
+                    console.log(obj);
                     that.setState({
-                        collectionType: obj
+                        [dataName]: obj[dataName]
                     })
                 } catch (e) {
                     console.error(e);
@@ -113,46 +115,45 @@ class ServiceForm extends Component {
         request.send();
     }
 
-    fetchParameter = () => {
-        const that = this;
-        const url = domainUrl + '/parameter'
-        var request = new XMLHttpRequest();
-        request.open('GET', url, true);
-        request.withCredentials = true;
-        request.onload = function () {
-            if (this.status == 202) {
-                try {
-                    const obj = JSON.parse(request.responseText);
-                    that.setState({
-                        parameter: obj
-                    })
-                } catch (e) {
-                    console.error(e);
-                }
+    changePaymentModeArrayToObject = (paymentModesArray) => {
+        return Object.assign({}, {
+            [COD]: false,
+            [PAYTM]: false,
+            [DEBITCARD]: false,
+            [NETBANKING]: false
+        }, _.zipObject(paymentModesArray, _.map(paymentModesArray, () => true)));
+    }
+
+    changePaymentModeObjectToArray = (paymentModesObject) => {
+        return _.keys(_.pickBy(paymentModesObject));
+    }
+
+    filterObjectWithNameInArray = (object, array) => {
+        return _.pickBy(object, (value) => {
+            if (_.some(array, (o) => o === value.name)) {
+                return true;
             }
-            ;
-        };
-        request.send();
+            return false;
+        })
     }
-
-    changePaymentModeArrayToObject = (paymentModeArray) => {
-        return Object.assign({}, this.paymentMode, _.zipObject(paymentModeArray, _.map(paymentModeArray, () => true)));
-    }
-
-    changePaymentModeObjectToArray = (paymentModeObject) => {
-        return _.keys(_.pickBy(paymentModeObject));
-    }
-
 
     getServiceFromState() {
-        var service = Object.assign({}, this.state);
-        service.paymentMode = Object.assign({}, this.changePaymentModeArrayToObject(service.paymentMode));
+        const {other, ...service} = this.state;
+        service.paymentModes = Object.assign({}, this.changePaymentModeArrayToObject(service.paymentModes));
+        service.collectionTypes = _.map(this.filterObjectWithNameInArray(this.state.collectionType, this.state.other.currentCollectionType), '_id');
+        service.availableParameters = _.map(this.filterObjectWithNameInArray(this.state.parameter, this.state.other.currentAvailableParameters), '_id');
+        delete service.parameter;
+        delete service.collectionType;``
+        console.log(service);
         return service;
     }
 
+    addService(){
+
+    }
+
     handleSubmit = (event) => {
-        // this.props.history.push('/service')
-        console.log(this.getServiceFromState());
+        const that = this;
         event.preventDefault();
         const url = domainUrl + '/service/'
         const request = new XMLHttpRequest();
@@ -163,12 +164,41 @@ class ServiceForm extends Component {
             if (this.status == 201) {
                 const response = JSON.parse(request.response)
                 console.log(response);
-                this.props.history.push('/service');
+                that.props.history.push('/service');
             }
             ;
         };
         request.send(JSON.stringify(this.getServiceFromState()));
     }
+
+    getCollectionTypeToggledList = (value) => {
+        const index = _.indexOf(this.state.other.currentCollectionType, value);
+        if (index > -1) {
+            return _.difference(this.state.other.currentCollectionType, [value]);
+        }
+        return _.concat(this.state.other.currentCollectionType, [value]);
+    }
+
+    handleCollectionTypeChange = ({target}) => {
+        this.setState({
+            other: Object.assign({}, this.state.other, {currentCollectionType: this.getCollectionTypeToggledList(target.dataset.name)})
+        })
+    }
+
+    getParamterToggledList = (value) => {
+        const index = _.indexOf(this.state.other.currentAvailableParameters, value);
+        if (index > -1) {
+            return _.difference(this.state.other.currentAvailableParameters, [value]);
+        }
+        return _.concat(this.state.other.currentAvailableParameters, [value]);
+    }
+
+    handleAvailabelParametersChange = ({target}) => {
+        this.setState({
+            other: Object.assign({}, this.state.other, {currentAvailableParameters: this.getParamterToggledList(target.dataset.name)})
+        })
+    }
+
 
     render() {
         const {collectionType, parameter} = this.state
@@ -176,7 +206,7 @@ class ServiceForm extends Component {
             <div>
                 <Header title={this.props.title}/>
                 <div className="service-form-container">
-                    <form className={'service-form'} onSubmit={this.handleSubmit}>
+                    <form autoComplete="on" className={'service-form'} onSubmit={this.handleSubmit}>
                         <div className={'dual margin-b'}>
                             <div className={'field margin-r'}>
                                 <label>Service Name</label>
@@ -215,50 +245,31 @@ class ServiceForm extends Component {
                                 onChange={this.handleDescriptionChange}>
                             </textarea>
                         </div>
-                        <div className={'dual margin-b'}>
-                            <div className={'field margin-r'}>
-                                <label>Maximum Unit</label>
-                                <input
-                                    className={'input'}
-                                    type="text"
-                                    name="firstname"
-                                    placeholder="Enter Maximum Allowed Unit"
-                                    value={this.state.maxUnits}
-                                    onChange={this.handlemaxUnitsChange}/>
-                            </div>
+                        <div className={'field margin-b width-half'}>
+                            <label>Maximum Unit</label>
+                            <input
+                                className={'input'}
+                                type="text"
+                                name="firstname"
+                                placeholder="Enter Maximum Allowed Unit"
+                                value={this.state.maxUnits}
+                                onChange={this.handlemaxUnitsChange}/>
                         </div>
 
-                        <div
-                            className={'field margin-b'}>
-                            <label>
-                                Payment Mode
-                            </label>
-                            <ButtonToolbar>
-                                <ToggleButtonGroup
-                                    type="checkbox"
-                                    defaultValue={this.state.paymentMode}
-                                    onChange={this.handlePaymentModeChange}>
-                                    <ToggleButton
-                                        value={COD}>
-                                        Cash(Offline)
-                                    </ToggleButton>
-                                    <ToggleButton
-                                        value={DEBITCARD}>
-                                        Debit Card
-                                    </ToggleButton>
-                                    <ToggleButton
-                                        value={NETBANKING}>
-                                        Netbanking
-                                    </ToggleButton>
-                                    <ToggleButton
-                                        value={PAYTM}>
-                                        Paytm
-                                    </ToggleButton>
-                                </ToggleButtonGroup>
-                            </ButtonToolbar>
-                        </div>
-                        <CheckboxMultiSelect label={'Collection Type'} collectionType={collectionType}/>
-                        <CheckboxMultiSelect label={'Parameters'} collectionType={parameter}/>
+                        <PaymentModes
+                            paymentModes={this.state.paymentModes}
+                            handleChange={this.handlePaymentModeChange}/>
+
+                        <CheckboxMultiSelect
+                            label={'Collection Type'}
+                            collectionType={collectionType}
+                            currentValues={this.state.other.currentCollectionType}
+                            handleChange={this.handleCollectionTypeChange}/>
+                        <CheckboxMultiSelect
+                            label={'Parameters'}
+                            collectionType={parameter}
+                            currentValues={this.state.other.currentAvailableParameters}
+                            handleChange={this.handleAvailabelParametersChange}/>
 
                         <div className={'field margin-t'}>
                             <input

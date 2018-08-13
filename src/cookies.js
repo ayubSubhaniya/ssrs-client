@@ -23,7 +23,7 @@ export function getCookie(cname) {
 }
 
 export function checkCookie() {
-    var user=getCookie("daiictId");
+    var user=getCookie("jwt");
     if (user != "") {
         return true;
     } else {

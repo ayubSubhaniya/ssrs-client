@@ -4,10 +4,17 @@ import _ from "lodash";
 
 class CheckboxOption extends Component {
     render() {
-        const {name, onClick} = this.props
+        const {name,baseCharge, onClick} = this.props
         return (
-            <Checkbox onClick={onClick} data-name={name}>
+            <Checkbox onClick={onClick} data-name={name} >
+                <div className={'checkbox-option'}>
+                    <div>
                 {name}
+                    </div>
+                    <div style={{"paddingRight":"12px"}}>
+                        { "₹ "+ baseCharge}
+                    </div>
+                </div>
             </Checkbox>
         )
     }
@@ -23,27 +30,6 @@ export default class CheckboxMultiSelect extends Component {
 
     }
 
-    getToggledList = (value) => {
-        const index = _.indexOf(this.state.currentValues,value);
-        if(index>-1){
-            return _.difference(this.state.currentValues,[value]);
-        }
-        return _.concat(this.state.currentValues,[value]);
-    }
-
-    handleChange = ({target}) => {
-
-        if (target.checked) {
-            target.parentNode.style.backgroundColor="#e7e7e7";
-        } else {
-            target.parentNode.style.backgroundColor="#ffffff";
-
-        }
-        this.setState({
-            currentValues: this.getToggledList(target.dataset.name)
-        })
-        console.log(this.getToggledList(target.dataset.name));
-    }
 
     componentDidMount(){
         this.input.querySelector('.dropdown-menu').classList.add('dropdown-menu_my')
@@ -52,8 +38,8 @@ export default class CheckboxMultiSelect extends Component {
 
 
     render() {
-        const {defaultValue, currentValues} = this.state
-        const {collectionType,label} = this.props
+        const {defaultValue} = this.state
+        const {collectionType,label,currentValues} = this.props
         return (
 
             <div
@@ -75,8 +61,9 @@ export default class CheckboxMultiSelect extends Component {
                                 <CheckboxOption
                                     key={ele._id}
                                     id={ele._id}
-                                    onClick={this.handleChange}
-                                    name={ele.name}/>
+                                    onClick={this.props.handleChange}
+                                    name={ele.name}
+                                    baseCharge={ele.baseCharge}/>
                             )
                         })
                     }

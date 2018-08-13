@@ -25,12 +25,11 @@ class ServiceList extends Component {
         request.open('GET', url, true);
         request.withCredentials = true;
         request.onload = function () {
-            if (this.status == 200) {
+            if (this.status == 202) {
                 try{
-                    const obj = JSON.parse(request.response);
-                    console.log(obj)
+                    const obj = JSON.parse(request.responseText);
                     that.setState({
-                        services: obj.service
+                        services: obj
                     })
                 }catch(e) {
                     console.error(e);
@@ -56,8 +55,8 @@ class ServiceList extends Component {
 
                     {
                         _.map(this.state.services,(service,i) => {
-                           return(
-                               <Panel eventKey={i+1}>
+                            return(
+                                <Panel eventKey={i+1}>
                                     <Panel.Heading>
                                         <div className={'service-panel'}>
                                             <Panel.Title toggle>{service.name}</Panel.Title>
@@ -65,18 +64,18 @@ class ServiceList extends Component {
                                                 pathname: '/service/edit',
                                                 state: {service}
                                             }}>
-                                            <div className="btn btn-default btn-sm"
-                                                    data-index={i} >
-                                                <span className="glyphicon glyphicon-pencil"></span>
-                                            </div>
+                                                <div className="btn btn-default btn-sm"
+                                                     data-index={i} >
+                                                    <span className="glyphicon glyphicon-pencil"></span>
+                                                </div>
                                             </Link>
                                         </div>
                                     </Panel.Heading>
                                     <Panel.Body collapsible>
                                         <ServiceDetails service={service}/>
                                     </Panel.Body>
-                               </Panel>
-                           )
+                                </Panel>
+                            )
                         })
                     }
                 </PanelGroup>

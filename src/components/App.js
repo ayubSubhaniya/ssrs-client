@@ -18,12 +18,13 @@ import {getCookie,setCookie,checkCookie} from "../cookies";
 
 
 
-export const authentication = {
+export var authentication = {
     isAuthenticated:checkCookie(),
     authenticate() {
         this.isAuthenticated = true;
     },
     signout() {
+        console.log('s');
         this.isAuthenticated = false;
     }
 }
@@ -34,7 +35,7 @@ class App extends Component {
             <Router>
                 <div>
                     <Main />
-                    <PrivateRoute path="/" component={HomePage}/>
+                    <PrivateRoute exact path="/home" component={HomePage}/>
                     <PrivateRoute exact path="/service" component={ManageService}/>
                     <PrivateRoute exact path="/service/add" component={() => <ServiceForm title={'Add Service'} />}/>
                     <PrivateRoute exact path="/service/edit" component={() => <ServiceForm title={'Edit Service'} />}/>

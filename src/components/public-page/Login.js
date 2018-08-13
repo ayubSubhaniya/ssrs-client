@@ -43,9 +43,9 @@ class Login extends Component {
             password: this.state.password
         };
 
-        that.setState({redirectToReferrer: true});
-        authentication.authenticate();
-        setCookie("daiictId",userObj.daiictId, 1);
+        // that.setState({redirectToReferrer: true});
+        // authentication.authenticate();
+        // setCookie("daiictId",userObj.daiictId, 1);
 
         var request = new XMLHttpRequest();
         request.open('POST', url, true);
@@ -55,7 +55,7 @@ class Login extends Component {
             if (this.status == 202) {
                 var res = JSON.parse(request.response)
                 var user = res.user;
-                authentication.authenticate();
+                authentication.isAuthenticated = true;
                 that.setState({redirectToReferrer: true})
             }
             ;

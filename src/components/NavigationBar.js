@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import Header from './Header';
 import Tab from './home/Tab'
 import { Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap'
+import {Link} from 'react-router-dom'
+import {authentication} from "./App";
+import {domainUrl} from "../config/configuration";
 
 class NavigationBar extends Component {
   render() {
@@ -9,7 +12,7 @@ class NavigationBar extends Component {
         <Navbar inverse collapseOnSelect className={'navbar'}>
         <Navbar.Header>
             <Navbar.Brand>
-            <a href="/home">Home</a>
+            <a href="/">Home</a>
             </Navbar.Brand>
         </Navbar.Header>
         <Nav>
@@ -21,11 +24,8 @@ class NavigationBar extends Component {
             <MenuItem eventKey={1.4}>Separated link</MenuItem>
             </NavDropdown>
             <NavDropdown eventKey={1} title="Service Mangement" id="basic-nav-dropdown">
-            <MenuItem eventKey={1.1} href='/service'>Add Service</MenuItem>
-            <MenuItem eventKey={1.2}>Another action</MenuItem>
-            <MenuItem eventKey={1.3}>Something else here</MenuItem>
-            <MenuItem divider />
-            <MenuItem eventKey={1.4}>Separated link</MenuItem>
+            <MenuItem eventKey={1.1} href='/service'>All Services</MenuItem>
+            <MenuItem eventKey={1.2} href='/service/add'>Add New Service</MenuItem>
             </NavDropdown>
             <NavDropdown eventKey={3} title="User Mangement" id="basic-nav-dropdown">
             <MenuItem eventKey={3.1}>Action</MenuItem>
@@ -40,7 +40,19 @@ class NavigationBar extends Component {
             <NavItem eventKey={2} href="/">
                 My Profile
             </NavItem>
-            <NavItem eventKey={3} href="/">
+            <NavItem eventKey={3} onClick={() => {
+                const url = domainUrl + '/account/signout'
+                var request = new XMLHttpRequest();
+                request.open('GET', url, true);
+                request.withCredentials = true;
+                request.onload = function () {
+                    if (this.status == 200) {
+                        authentication.isAuthenticated = false;
+                        window.location.reload();
+                    };
+                };
+                request.send();
+            }} >
                 Logout
             </NavItem>
         </Nav>

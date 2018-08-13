@@ -112,6 +112,7 @@
     background-repeat: no-repeat;
     background-position: calc(100% - 5px) center;
     width: 50%;
+    height: 3em;
     word-break: break-word;
 }
 
@@ -183,3 +184,11 @@
     align-items: center;
 }
 
+.bold{
+    font-weight: bold;
+}
+
+.checkbox-option{
+    display: flex;
+    justify-content: space-between;
+}

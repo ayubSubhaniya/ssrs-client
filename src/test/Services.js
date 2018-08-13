@@ -1,4 +1,5 @@
 import {COD, DEBITCARD, NETBANKING, PAYTM} from "../constants/PaymentMode";
+import {collectionType,parameter} from "./CollectionType";
 
 export const Service = [
     {
@@ -14,13 +15,15 @@ export const Service = [
         "isActive": true,
         "maxUnits": 1,
         "baseCharge": 50,
-        "availableParameters": [],
+        "availableParameters": parameter,
         "specialServiceUsers": [],
+        "collectionType": collectionType,
+        "parameter": parameter,
         "paymentModes": {
-            "debitCard": false,
-            "netBanking": false,
-            "paytm": false,
-            "cashOnDelivery": false
+            "debitCard": true,
+            "netBanking": true,
+            "paytm": true,
+            "cashOnDelivery": true
         }
     },
     {

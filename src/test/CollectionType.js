@@ -1,66 +1,39 @@
-const collectionType = [
+export const collectionType = [
     {
+        '_id': '1',
         'name': 'aasdsddadasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdadasdasfafsdasdasfaasdasdasasda',
         'baseCharge': ''
     },
     {
+        '_id': '2',
         'name': 'b'
     },
     {
+        '_id': '3',
         'name': 'c'
     },
     {
+        '_id': '4',
         'name': 'd'
-    },
-    {
-        'name': 'e'
-    },
-    {
-        'name': 'aasdsddadasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdadasdasfafsdasdasfaasdasdasasda',
-        'baseCharge': ''
-    },
-    {
-        'name': 'bf'
-    },
-    {
-        'name': 'cf'
-    },
-    {
-        'name': 'df'
-    },
-    {
-        'name': 'ef'
-    }, {
-        'name': 'aasdsddadasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdadasdasfafsdasdasfaasdasdasasda',
-        'baseCharge': ''
-    },
-    {
-        'name': 'bg'
-    },
-    {
-        'name': 'cg'
-    },
-    {
-        'name': 'dg'
-    },
-    {
-        'name': 'eg'
-    }, {
-        'name': 'aasdsddadasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdadasdasfafsdasdasfaasdasdasasda',
-        'baseCharge': ''
-    },
-    {
-        'name': 'bg'
-    },
-    {
-        'name': 'c'
-    },
-    {
-        'name': 'd'
-    },
-    {
-        'name': 'e'
     }
 ]
 
-export default collectionType
+export const parameter = [
+    {
+        '_id': '1',
+        'name': 'aasdsddadasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdadasdasfafsdasdasfaasdasdasasda',
+        'baseCharge': ''
+    },
+    {
+        '_id': '2',
+        'name': 'b'
+    },
+    {
+        '_id': '3',
+        'name': 'c'
+    },
+    {
+        '_id': '4',
+        'name': 'd'
+    }
+]
