@@ -59,7 +59,7 @@
     margin-top: 20px;
 }
 
-.width-half{
+.width-half {
     width: 50%;
 }
 
@@ -90,7 +90,7 @@
     background-color: #2b2b7b;
 }
 
-.btn_my{
+.btn_my {
     height: 3.24em;
     width: 8.9em;
     display: flex;
@@ -102,8 +102,7 @@
     background-color: #d1e6b0;
 }
 
-
-.checkbox input[type=checkbox]{
+.checkbox input[type=checkbox] {
     top: 12px;
 }
 
@@ -154,19 +153,18 @@
 }
 
 /*li:last-child {*/
-    /*border-bottom: none;*/
+/*border-bottom: none;*/
 /*}*/
 /*li:nth-child(even) {*/
-    /*background: #f8f8f8;*/
+/*background: #f8f8f8;*/
 /*}*/
 
 .dropdown-btn > .caret {
     display: none;
 }
 
-
 /* Styles For Service List */
-.service-list-container{
+.service-list-container {
     border-radius: 1em;
     background-color: #f2f2f2;
     padding-left: 30px;
@@ -178,17 +176,17 @@
     margin-bottom: 2em;
 }
 
-.service-panel{
+.service-panel {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.bold{
+.bold {
     font-weight: bold;
 }
 
-.checkbox-option{
+.checkbox-option {
     display: flex;
     justify-content: space-between;
 }

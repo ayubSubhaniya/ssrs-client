@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import {PanelGroup,Panel} from 'react-bootstrap'
+import React, {Component} from 'react';
+import {PanelGroup, Panel} from 'react-bootstrap'
 import {Service} from "../../test/Services";
 import {domainUrl} from "../../config/configuration";
 import {Link} from "react-router-dom"
@@ -21,29 +21,30 @@ class ServiceList extends Component {
 
     fetchServices = () => {
         console.log("fetching services");
-        const that  = this;
+        const that = this;
         const url = domainUrl + '/service'
         var request = new XMLHttpRequest();
         request.open('GET', url, true);
         request.withCredentials = true;
         request.onload = function () {
             if (this.status == HttpStatus.OK) {
-                try{
+                try {
                     const obj = JSON.parse(request.response);
                     console.log(obj)
                     that.setState({
                         services: obj.service
                     })
-                }catch(e) {
+                } catch (e) {
                     console.error(e);
                 }
-            };
+            }
+            ;
         };
         request.send();
     }
 
     handleSelect(activeKey) {
-        this.setState({ activeKey });
+        this.setState({activeKey});
     }
 
     deleterService = (service) => {
@@ -54,9 +55,11 @@ class ServiceList extends Component {
         request.withCredentials = true;
         request.onload = function () {
             if (this.status == HttpStatus.ACCEPTED) {
-                console.log("Deleted: ",request.response,service);
+                console.log("Deleted: ", request.response, service);
                 that.setState({
-                    services: _.filter(that.state.services,(o) => {return(o._id!==service._id)})
+                    services: _.filter(that.state.services, (o) => {
+                        return (o._id !== service._id)
+                    })
                 })
             }
         };
@@ -74,9 +77,9 @@ class ServiceList extends Component {
                 >
 
                     {
-                        _.map(this.state.services,(service,i) => {
-                           return(
-                               <Panel key={service._id} eventKey={i+1}>
+                        _.map(this.state.services, (service, i) => {
+                            return (
+                                <Panel key={service._id} eventKey={i + 1}>
                                     <Panel.Heading>
                                         <div className={'service-panel'}>
                                             <Panel.Title toggle>{service.name}</Panel.Title>
@@ -90,7 +93,8 @@ class ServiceList extends Component {
                                                         <span className="glyphicon glyphicon-pencil"></span>
                                                     </div>
                                                 </Link>
-                                                <div type="button" className="btn btn-default btn-sm margin-l" onClick={() => this.deleterService(service)}>
+                                                <div type="button" className="btn btn-default btn-sm margin-l"
+                                                     onClick={() => this.deleterService(service)}>
                                                     <span className="glyphicon glyphicon-trash"></span>
                                                 </div>
                                             </div>
@@ -100,12 +104,12 @@ class ServiceList extends Component {
                                     <Panel.Body collapsible>
                                         <ServiceDetails service={service}/>
                                     </Panel.Body>
-                               </Panel>
-                           )
+                                </Panel>
+                            )
                         })
                     }
                 </PanelGroup>
-                <Link to={'/service/add'} style={{ textDecoration: 'none' }}>
+                <Link to={'/service/add'} style={{textDecoration: 'none'}}>
                     <input
                         className='submit'
                         type="submit"

@@ -2,8 +2,8 @@ import React, {Component} from 'react'
 import {ButtonToolbar, ToggleButton, ToggleButtonGroup} from "react-bootstrap";
 import {COD, DEBITCARD, NETBANKING, PAYTM} from "../../constants/PaymentMode";
 
-function PaymentModes(props){
-    return(
+function PaymentModes(props) {
+    return (
         <div
             className={'field margin-b'}>
             <label>
