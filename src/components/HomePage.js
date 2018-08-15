@@ -4,6 +4,7 @@ import {domainUrl} from '../config/configuration'
 import Header from "./Header";
 import Tab from "./home/Tab";
 import * as HttpStatus from 'http-status-codes'
+import NavigationBar from "./NavigationBar";
 
 
 
@@ -62,6 +63,7 @@ class HomePage extends Component {
 
         return (
             <React.Fragment>
+                <NavigationBar/>
                 <Header title={'Welcome to Student Service Request System'}/>
                 <Tab news={this.state.news} notification={this.state.notification}/>
             </React.Fragment>

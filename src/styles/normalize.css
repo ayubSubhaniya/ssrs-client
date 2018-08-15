@@ -1,0 +1,28 @@
+
+/*! Simple HttpErrorPages | MIT X11 License | https://github.com/AndiDittrich/HttpErrorPages */
+
+
+.error {
+    background-color: #21232a;
+    color: #fff;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, .5);
+    padding: 0;
+    -webkit-box-shadow: inset 0 0 100px rgba(0, 0, 0, .8);
+    box-shadow: inset 0 0 100px rgba(0, 0, 0, .8);
+    display: flex;
+    font-family: "Open Sans", Arial, sans-serif
+}
+
+.error h1 small{
+    display: block;
+    margin: 6px
+}
+.lead {
+    color: silver;
+    font-size: 21px;
+    line-height: 1.4
+}
