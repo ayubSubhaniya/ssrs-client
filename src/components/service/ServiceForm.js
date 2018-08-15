@@ -29,7 +29,7 @@ class ServiceForm extends Component {
     constructor(props) {
         super(props);
         const service = props.location.state ? props.location.state.service : undefined;
-        this.serviceId = service?service._id:undefined;
+        this.serviceId = service ? service._id : undefined;
         console.log(props.location)
         if (!service && props.location.pathname == ('/service/edit')) {
             props.history.push('/service');
@@ -144,7 +144,8 @@ class ServiceForm extends Component {
         service.collectionTypes = _.map(this.filterObjectWithNameInArray(this.state.collectionType, this.state.other.currentCollectionType), '_id');
         service.availableParameters = _.map(this.filterObjectWithNameInArray(this.state.parameter, this.state.other.currentAvailableParameters), '_id');
         delete service.parameter;
-        delete service.collectionType;``
+        delete service.collectionType;
+        ``
         console.log(service);
         return service;
     }
@@ -187,9 +188,9 @@ class ServiceForm extends Component {
 
     handleSubmit = (event) => {
         event.preventDefault();
-        if(this.serviceId){
+        if (this.serviceId) {
             this.updateService()
-        }else{
+        } else {
             this.addService()
         }
     }

@@ -28,31 +28,31 @@ class Login extends Component {
     render() {
         return (
             <Context.Consumer>
-            {
-                value => {
-                    return (<form>
-                        <p>DA-IICT ID</p>
-                        <input
-                            type="text"
-                            name=""
-                            placeholder="Enter Student ID"
-                            id="username"
-                            value={this.state.daiictId}
-                            onChange={this.handleDaiictIdChange}/>
-                        <p>Password</p>
-                        <input
-                            type="password"
-                            name=""
-                            placeholder="Enter Password"
-                            id="passwd"
-                               value={this.state.password} onChange={this.handlePasswordChange}/>
-                        <input type="button" name="" value="Login" id="log" onClick={() => value.logIn({
-                            daiictId: this.state.daiictId,
-                            password: this.state.password
-                        })}/><br/>
-                    </form>)
+                {
+                    value => {
+                        return (<form>
+                            <p>DA-IICT ID</p>
+                            <input
+                                type="text"
+                                name=""
+                                placeholder="Enter Student ID"
+                                id="username"
+                                value={this.state.daiictId}
+                                onChange={this.handleDaiictIdChange}/>
+                            <p>Password</p>
+                            <input
+                                type="password"
+                                name=""
+                                placeholder="Enter Password"
+                                id="passwd"
+                                value={this.state.password} onChange={this.handlePasswordChange}/>
+                            <input type="button" name="" value="Login" id="log" onClick={() => value.logIn({
+                                daiictId: this.state.daiictId,
+                                password: this.state.password
+                            })}/><br/>
+                        </form>)
+                    }
                 }
-            }
             </Context.Consumer>
         )
     }

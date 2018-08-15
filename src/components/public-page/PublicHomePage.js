@@ -29,8 +29,8 @@ class PublicHomePage extends Component {
     }
 
     render() {
-       return ( <div className="App">
-                <canvas id="canvas" />
+        return (<div className="App">
+                <canvas id="canvas"/>
                 <div className="loginbox">
                     <Image src={logo} className={'dalogo'}/>
                     {
@@ -45,7 +45,7 @@ class PublicHomePage extends Component {
                 </div>
                 <ForgotPopUp/>
             </div>
-       )
+        )
     }
 }
 

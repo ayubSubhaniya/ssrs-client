@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import {PanelGroup,Panel} from 'react-bootstrap'
+import React, {Component} from 'react';
+import {PanelGroup, Panel} from 'react-bootstrap'
 import {domainUrl} from "../../config/configuration";
 import {Link} from "react-router-dom"
 import _ from "lodash"
@@ -19,28 +19,29 @@ class OrderList extends Component {
 
     fetchOrders = () => {
         console.log("fetching orders");
-        const that  = this;
+        const that = this;
         const url = domainUrl + '/order'
         var request = new XMLHttpRequest();
         request.open('GET', url, true);
         request.withCredentials = true;
         request.onload = function () {
             if (this.status == HttpStatus.ACCEPTED) {
-                try{
+                try {
                     const obj = JSON.parse(request.responseText);
                     that.setState({
                         orders: obj
                     })
-                }catch(e) {
+                } catch (e) {
                     console.error(e);
                 }
-            };
+            }
+            ;
         };
         request.send();
     }
 
     handleSelect(activeKey) {
-        this.setState({ activeKey });
+        this.setState({activeKey});
     }
 
     render() {
@@ -54,9 +55,9 @@ class OrderList extends Component {
                 >
 
                     {
-                        _.map(this.state.orders,(order,i) => {
-                            return(
-                                <Panel eventKey={i+1}>
+                        _.map(this.state.orders, (order, i) => {
+                            return (
+                                <Panel eventKey={i + 1}>
                                     <Panel.Heading>
                                         <div className={'service-panel'}>
                                             <Panel.Title toggle>{order.name}</Panel.Title>
@@ -65,7 +66,7 @@ class OrderList extends Component {
                                                 state: {order}
                                             }}>
                                                 <div className="btn btn-default btn-sm"
-                                                     data-index={i} >
+                                                     data-index={i}>
                                                     <span className="glyphicon glyphicon-pencil"></span>
                                                 </div>
                                             </Link>
@@ -80,10 +81,10 @@ class OrderList extends Component {
                     }
                 </PanelGroup>
                 {/*<Link to={'/order/add'} style={{ textDecoration: 'none' }}>*/}
-                    {/*<input*/}
-                        {/*className='submit'*/}
-                        {/*type="submit"*/}
-                        {/*value="Add New Order"/>*/}
+                {/*<input*/}
+                {/*className='submit'*/}
+                {/*type="submit"*/}
+                {/*value="Add New Order"/>*/}
                 {/*</Link>*/}
             </div>
         );

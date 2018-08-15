@@ -1,5 +1,5 @@
 import {COD, DEBITCARD, NETBANKING, PAYTM} from "../constants/PaymentMode";
-import {collectionType,parameter} from "./CollectionType";
+import {collectionType, parameter} from "./CollectionType";
 
 export const Service = [
     {

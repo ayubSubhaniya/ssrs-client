@@ -1,11 +1,10 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {domainUrl} from '../config/configuration'
 
 import Header from "./Header";
 import Tab from "./home/Tab";
 import * as HttpStatus from 'http-status-codes'
 import NavigationBar from "./NavigationBar";
-
 
 
 class HomePage extends Component {
@@ -18,47 +17,51 @@ class HomePage extends Component {
             notification: []
         }
     }
+
     fetchNews = () => {
-        const that  = this;
+        const that = this;
         const url = domainUrl + '/news'
         var request = new XMLHttpRequest();
         request.open('GET', url, true);
         request.withCredentials = true;
         request.onload = function () {
             if (this.status == HttpStatus.ACCEPTED) {
-                try{
+                try {
                     const obj = JSON.parse(request.responseText);
                     that.setState({
                         news: obj.news
                     })
-                }catch(e) {
+                } catch (e) {
                     console.error(e);
                 }
-            };
+            }
+            ;
         };
         request.send();
     }
 
     fetchNotification = () => {
-        const that  = this;
+        const that = this;
         const url = domainUrl + '/notification'
         var request = new XMLHttpRequest();
         request.open('GET', url, true);
         request.withCredentials = true;
         request.onload = function () {
             if (this.status == HttpStatus.ACCEPTED) {
-                try{
+                try {
                     const obj = JSON.parse(request.responseText);
                     that.setState({
                         notification: obj.notification
                     })
-                }catch(e) {
+                } catch (e) {
                     console.error(e);
                 }
-            };
+            }
+            ;
         };
         request.send();
     }
+
     render() {
 
         return (

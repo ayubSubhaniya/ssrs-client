@@ -1,6 +1,4 @@
-
 /*! Simple HttpErrorPages | MIT X11 License | https://github.com/AndiDittrich/HttpErrorPages */
-
 
 .error {
     background-color: #21232a;
@@ -17,10 +15,11 @@
     font-family: "Open Sans", Arial, sans-serif
 }
 
-.error h1 small{
+.error h1 small {
     display: block;
     margin: 6px
 }
+
 .lead {
     color: silver;
     font-size: 21px;

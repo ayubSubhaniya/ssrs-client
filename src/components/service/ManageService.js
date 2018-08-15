@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import Header from "../Header";
 import ServiceList from "./ServiceList";
 import NavigationBar from "../NavigationBar";
