@@ -1,14 +1,13 @@
 import React, {Component} from 'react';
 import '../styles/App.css';
 import {BrowserRouter as Router, Route} from "react-router-dom";
-import PublicHomePage from './public-page/PublicHomePage';
-import HomePage from './HomePage';
+import Home from './home/Home';
 import ManageService from "./service/ManageService";
 import ServiceForm from "./service/ServiceForm";
-import ManageOrders from './orders/ManageOrders'
 import AuthorizedRoute from './AuthorizedRoute'
 import {domainUrl} from "../config/configuration";
 import * as HttpStatus from "http-status-codes";
+import PublicPage from "./public-page/PublicPage";
 
 export const Context = React.createContext();
 
@@ -16,7 +15,8 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isAuthenticated: false
+            isAuthenticated: false,
+            loginMessage: ''
         }
         this.getUserData();
     }
@@ -38,7 +38,11 @@ class App extends Component {
                 }
             }
         }
-        request.send();
+        try {
+            request.send();
+        } catch (e) {
+            console.log(e);
+        }
     }
 
     logIn = (logInDetails) => {
@@ -59,6 +63,10 @@ class App extends Component {
                     isAuthenticated: true,
                     user
                 })
+            } else if (this.status == HttpStatus.UNAUTHORIZED) {
+                that.setState({
+                    loginMessage: 'Incorrect username/password'
+                })
             }
         }
         request.send(JSON.stringify(logInDetails));
@@ -75,6 +83,7 @@ class App extends Component {
                 that.setState({
                     isAuthenticated: false,
                     user: {},
+                    loginMessage: ''
                 })
             }
         };
@@ -82,18 +91,19 @@ class App extends Component {
     }
 
     render() {
-        const {isAuthenticated} = this.state
+        const {isAuthenticated, loginMessage} = this.state
         return (
             <Context.Provider value={
                 {
                     logIn: this.logIn,
-                    logOut: this.logOut
+                    logOut: this.logOut,
+                    loginMessage
                 }}>
                 <Router>
                     <React.Fragment>
                         <Route
                             exact path="/"
-                            component={isAuthenticated ? HomePage : PublicHomePage}/>
+                            component={isAuthenticated ? Home : PublicPage}/>
                         <AuthorizedRoute
                             exact path="/service"
                             component={ManageService}

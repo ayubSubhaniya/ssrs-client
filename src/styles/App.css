@@ -3,6 +3,10 @@
     --main-color-light: rgba(32, 45, 65, 0.09);
 }
 
+body {
+    background: white;
+}
+
 .App {
     background: #000;
     padding-top: 4em;
@@ -14,10 +18,6 @@
     position: absolute;
     width: 100%;
     z-index: -2;
-}
-
-.loginbox {
-    background: white;
 }
 
 #canvas, #text {
@@ -45,19 +45,12 @@
     opacity: 0.9
 }
 
-.loginbox {
-    max-width: 320px;
-    background: lightgrey;
-    box-sizing: border-box;
-    padding: 1em;
-    margin-left: auto;
-    margin-right: auto;
-    background-color: transparent;
-}
-
 .dalogo {
-    width: 80%;
-    height: 80%;
+    position: absolute;
+    width: 384px;
+    height: 384px;
+    top: 15%;
+    left: 10%;
     display: block;
     margin: auto;
     margin-bottom: 20px;
@@ -66,58 +59,6 @@
 .logo {
     width: 50em;
     height: 8em;
-}
-
-.loginbox p {
-    margin: 0;
-    padding-bottom: 5px;
-    font-weight: bold;
-    color: #fff;
-}
-
-.loginbox input {
-    width: 100%;
-    margin-bottom: 20px;
-}
-
-.loginbox input[type="text"], input[type="password"] {
-    border: 1px solid #000;
-    border-radius: 9px;
-    background: #fff;
-    outline: none;
-    height: 40px;
-    color: #000;
-    font-size: 16;
-    padding-left: 5px;
-}
-
-.loginbox input[type="button"] {
-    border: none;
-    outline: none;
-    height: 40px;
-    background: #fb2525;
-    color: #fff;
-    font-size: 18px;
-    border-radius: 20px;
-}
-
-.loginbox input[type="button"]:hover {
-    cursor: pointer;
-    background: green;
-    color: #000;
-}
-
-.loginbox a {
-    text-decoration: none;
-    font-size: 12px;
-    line-height: 20px;
-    color: #fff;
-    text-align: center;
-    display: block
-}
-
-.loginbox a:hover {
-    color: red;
 }
 
 .forgotInput input[type="text"] {
@@ -149,17 +90,6 @@
 .genPassBtn:hover {
     cursor: pointer;
     background: rgb(3, 151, 3);
-}
-
-.signUpEle {
-    border: 1px solid #000;
-    border-radius: 2px;
-    background: #fff;
-    outline: none;
-    height: 40px;
-    color: #000;
-    font-size: 16;
-    padding-left: 5px;
 }
 
 .warper {
@@ -292,7 +222,7 @@ card
     font-size: 1.3em;
     text-align: center;
     justify-content: center;
-    background-color: var(--main-color-light);
+    background-color: white;
     border: 2px solid black;
     color: #000000;
     cursor: pointer;
@@ -302,10 +232,15 @@ card
     border-right: 0px;
 }
 
+.news {
+    border-left: 0px;
+}
+
 .focus {
-    background-color: var(--main-color);
-    font-size: 1.48em;
-    color: white;
+    background-color: var(--main-color-light);
+    font-weight: bold;
+    box-shadow: inset -3px 2px 5px rgba(0, 0, 0, 0.25);
+    border: 3px solid black;
 }
 
 /* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
