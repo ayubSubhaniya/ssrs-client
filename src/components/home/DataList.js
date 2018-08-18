@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {ListGroup, ListGroupItem} from 'react-bootstrap'
-import {timeSince} from "../../js/Time";
+import {timeSince} from "../../helper/Time";
 
 class DataList extends Component {
     render() {
