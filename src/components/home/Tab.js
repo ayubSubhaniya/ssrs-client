@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
-import News from './News';
-import Notification from './Notification';
+import DataList from "./DataList";
 
 class Tab extends Component {
     constructor() {
@@ -33,11 +32,7 @@ class Tab extends Component {
                         News
                     </div>
                 </div>
-                {
-                    (this.state.currentTab == 'notification' ?
-                        <Notification notification={this.props.notification}/> :
-                        <News news={this.props.news}/>)
-                }
+                <DataList data={this.props[this.state.currentTab]}/>
             </div>
         );
     }

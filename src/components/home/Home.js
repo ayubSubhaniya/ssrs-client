@@ -1,13 +1,13 @@
 import React, {Component} from 'react';
-import {domainUrl} from '../config/configuration'
+import {domainUrl} from '../../config/configuration'
 
-import Header from "./Header";
-import Tab from "./home/Tab";
+import Header from "../Header";
+import Tab from "./Tab";
 import * as HttpStatus from 'http-status-codes'
-import NavigationBar from "./NavigationBar";
+import NavigationBar from "../NavigationBar";
 
 
-class HomePage extends Component {
+class Home extends Component {
     constructor() {
         super();
         this.fetchNews();
@@ -74,4 +74,4 @@ class HomePage extends Component {
     }
 }
 
-export default HomePage;
+export default Home;
