@@ -31,7 +31,6 @@ class ServiceForm extends Component {
         super(props);
         const service = props.location.state ? props.location.state.service : undefined;
         this.serviceId = service ? service._id : undefined;
-        console.log(props.location)
         if (!service && props.location.pathname == ('/service/edit')) {
             props.history.push('/service');
         }
@@ -68,24 +67,9 @@ class ServiceForm extends Component {
         this.fetch("parameter");
     }
 
-    handleNameChange = (event) => {
+    handleChange = ({target}) => {
         this.setState({
-            name: event.target.value
-        })
-    }
-    handleDescriptionChange = (event) => {
-        this.setState({
-            description: event.target.value
-        })
-    }
-    handlemaxUnitsChange = (event) => {
-        this.setState({
-            maxUnits: event.target.value
-        })
-    }
-    handlebaseChargeChange = (event) => {
-        this.setState({
-            baseCharge: event.target.value
+            [target.name]: target.value
         })
     }
     handlePaymentModeChange = (event) => {
@@ -123,7 +107,6 @@ class ServiceForm extends Component {
         service.availableParameters = _.map(this.filterObjectWithNameInArray(this.state.parameter, this.state.other.currentAvailableParameters), '_id');
         delete service.parameter;
         delete service.collectionType;
-        ``
         console.log(service);
         return service;
     }
@@ -215,10 +198,10 @@ class ServiceForm extends Component {
                                 <input
                                     className={'input'}
                                     type="text"
-                                    name="serviceName"
+                                    name="name"
                                     placeholder="Enter Service Name"
                                     value={this.state.name}
-                                    onChange={this.handleNameChange}/>
+                                    onChange={this.handleChange}/>
                             </div>
                             <div
                                 className={'field'}>
@@ -231,7 +214,7 @@ class ServiceForm extends Component {
                                     name="baseCharge"
                                     placeholder="Enter Amount (₹)"
                                     value={this.state.baseCharge}
-                                    onChange={this.handlebaseChargeChange}
+                                    onChange={this.handleChange}
                                 />
                             </div>
                         </div>
@@ -241,10 +224,10 @@ class ServiceForm extends Component {
                             </label>
                             <textarea
                                 className={'input'}
-                                name="subject"
+                                name="description"
                                 placeholder="Write Service Description"
                                 value={this.state.description}
-                                onChange={this.handleDescriptionChange}>
+                                onChange={this.handleChange}>
                             </textarea>
                         </div>
                         <div className={'field margin-b width-half'}>
@@ -252,10 +235,10 @@ class ServiceForm extends Component {
                             <input
                                 className={'input'}
                                 type="text"
-                                name="firstname"
+                                name="maxUnits"
                                 placeholder="Enter Maximum Allowed Unit"
                                 value={this.state.maxUnits}
-                                onChange={this.handlemaxUnitsChange}/>
+                                onChange={this.handleChange}/>
                         </div>
 
                         <PaymentModes

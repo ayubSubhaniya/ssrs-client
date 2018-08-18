@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
 import {PanelGroup, Panel} from 'react-bootstrap'
-import {Service} from "../../test/Services";
-import {domainUrl} from "../../config/configuration";
 import {Link} from "react-router-dom"
 import _ from "lodash"
 import ServiceDetails from "./ServiceDetails";
-import * as HttpStatus from 'http-status-codes'
+import * as HttpStatus from 'http-status-codes';
+import {fetch} from "../../helper/FetchData"
+import "./../../styles/bootstrap-toggle.css"
 
 
 class ServiceList extends Component {
@@ -14,56 +14,43 @@ class ServiceList extends Component {
         this.handleSelect = this.handleSelect.bind(this);
         this.state = {
             activeKey: '0',
-            services: []
+            service: []
         };
-        this.fetchServices();
-    }
-
-    fetchServices = () => {
-        console.log("fetching services");
-        const that = this;
-        const url = domainUrl + '/service'
-        var request = new XMLHttpRequest();
-        request.open('GET', url, true);
-        request.withCredentials = true;
-        request.onload = function () {
-            if (this.status == HttpStatus.OK) {
-                try {
-                    const obj = JSON.parse(request.response);
-                    console.log(obj)
-                    that.setState({
-                        services: obj.service
-                    })
-                } catch (e) {
-                    console.error(e);
-                }
-            }
-            ;
-        };
-        request.send();
+        this.fetch = fetch.bind(this);
+        this.fetch("service")
     }
 
     handleSelect(activeKey) {
         this.setState({activeKey});
     }
 
-    deleterService = (service) => {
+    toggleService = (service) => {
+        console.log(service)
         const that = this;
-        const url = domainUrl + '/service/' + service._id;
-        const request = new XMLHttpRequest();
-        request.open('DELETE', url, true);
-        request.withCredentials = true;
-        request.onload = function () {
-            if (this.status == HttpStatus.ACCEPTED) {
-                console.log("Deleted: ", request.response, service);
-                that.setState({
-                    services: _.filter(that.state.services, (o) => {
-                        return (o._id !== service._id)
-                    })
-                })
-            }
-        };
-        request.send();
+        // const url = domainUrl + '/service/' + service._id;
+        // const request = new XMLHttpRequest();
+        // request.open('PATCH', url, true);
+        // request.withCredentials = true;
+        // request.setRequestHeader("Content-type", "application/json");
+        // request.onload = function () {
+        //     if (this.status == HttpStatus.ACCEPTED) {
+        //
+        //         const response = JSON.parse(request.response)
+        //         console.log(response);
+        //         that.props.history.push('/service');
+        //     }
+        //     ;
+        // // };
+        this.setState({
+            service: _.map(this.state.service,(o) => {
+                if(o._id==service._id){
+                    o.isActive = !o.isActive;
+                }
+                return o;
+            }),
+        });
+
+
     }
 
     render() {
@@ -77,13 +64,13 @@ class ServiceList extends Component {
                 >
 
                     {
-                        _.map(this.state.services, (service, i) => {
+                        _.map(this.state.service, (service, i) => {
                             return (
                                 <Panel key={service._id} eventKey={i + 1}>
                                     <Panel.Heading>
                                         <div className={'service-panel'}>
                                             <Panel.Title toggle>{service.name}</Panel.Title>
-                                            <div>
+                                            <div style={{"display":"flex"}}>
                                                 <Link to={{
                                                     pathname: '/service/edit',
                                                     state: {service}
@@ -93,9 +80,15 @@ class ServiceList extends Component {
                                                         <span className="glyphicon glyphicon-pencil"></span>
                                                     </div>
                                                 </Link>
-                                                <div type="button" className="btn btn-default btn-sm margin-l"
-                                                     onClick={() => this.deleterService(service)}>
-                                                    <span className="glyphicon glyphicon-trash"></span>
+                                                <div type="button" className="margin-l">
+                                                    <div className={"toggle btn" + (service.isActive?" btn-primary":" btn-default off")} data-toggle="toggle" onClick={() => this.toggleService(service)}>
+                                                        <input type="checkbox" data-toggle="toggle" />
+                                                        <div className={'toggle-group'}>
+                                                            <label className={'btn btn-primary toggle-on'}>On</label>
+                                                            <label className={'btn btn-default active toggle-off'}>Off</label>
+                                                            <span className={'toggle-handle btn btn-default'}></span>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
 
