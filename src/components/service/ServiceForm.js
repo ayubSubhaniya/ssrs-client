@@ -11,6 +11,7 @@ import {
 } from "react-router-dom";
 import Header from "../Header";
 import * as HttpStatus from "http-status-codes";
+import {fetch} from '../../helper/FetchData'
 
 /*
 collectionType = [
@@ -62,6 +63,7 @@ class ServiceForm extends Component {
                 }
             }
             : defaultState;
+        this.fetch = fetch.bind(this);
         this.fetch("collectionType");
         this.fetch("parameter");
     }
@@ -90,30 +92,6 @@ class ServiceForm extends Component {
         this.setState({
             paymentModes: event
         });
-    }
-
-
-    fetch(dataName) {
-        const that = this;
-        const url = domainUrl + '/' + dataName
-        var request = new XMLHttpRequest();
-        request.open('GET', url, true);
-        request.withCredentials = true;
-        request.onload = function () {
-            if (this.status == HttpStatus.ACCEPTED) {
-                try {
-                    const obj = JSON.parse(request.responseText);
-                    console.log(obj);
-                    that.setState({
-                        [dataName]: obj[dataName]
-                    })
-                } catch (e) {
-                    console.error(e);
-                }
-            }
-            ;
-        };
-        request.send();
     }
 
     changePaymentModeArrayToObject = (paymentModesArray) => {
