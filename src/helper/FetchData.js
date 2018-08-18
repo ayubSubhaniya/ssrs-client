@@ -8,7 +8,7 @@ export function fetch(dataName) {
     request.open('GET', url, true);
     request.withCredentials = true;
     request.onload = function () {
-        if (this.status == HttpStatus.ACCEPTED) {
+        if (this.status == HttpStatus.ACCEPTED || this.status === HttpStatus.OK || this.status === HttpStatus.NOT_MODIFIED) {
             try {
                 const obj = JSON.parse(request.responseText);
                 console.log(obj);
