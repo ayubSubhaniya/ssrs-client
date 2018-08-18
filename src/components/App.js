@@ -46,22 +46,18 @@ class App extends Component {
     }
 
     logIn = (logInDetails) => {
-        console.log("Trying to Login");
         const that = this;
         var url = domainUrl + '/account/signin';
         var request = new XMLHttpRequest();
-
         request.open('POST', url, true);
         request.withCredentials = true;
         request.setRequestHeader("Content-type", "application/json");
         request.onload = function () {
             if (this.status == HttpStatus.ACCEPTED) {
                 var res = JSON.parse(request.response)
-                var user = res.user;
-                console.log(user);
                 that.setState({
                     isAuthenticated: true,
-                    user
+                    user: res.user
                 })
             } else if (this.status == HttpStatus.UNAUTHORIZED) {
                 that.setState({

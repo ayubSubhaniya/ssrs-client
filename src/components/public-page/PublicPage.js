@@ -144,7 +144,7 @@ class PublicPage extends Component {
                                                 </div>
                                                 <input className="text" type={showPassword ? "text" : "password"}
                                                        name="password" value={password}
-                                                       onChange={this.handleChange} style={{"padding-right": "32px"}}/>
+                                                       onChange={this.handleChange} style={{"paddingRight": "32px"}}/>
                                                 <i className="material-icons icon-eye"
                                                    onClick={this.changePassworVisibility}>
                                                     {showPassword ? "visibility_off" : "visibility"}
