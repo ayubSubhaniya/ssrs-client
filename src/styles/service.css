@@ -122,3 +122,7 @@
     display: flex;
     justify-content: space-between;
 }
+
+.dropdown-menu li:hover{
+    background: #f6f1fc;
+}

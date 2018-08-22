@@ -5,7 +5,7 @@ import _ from "lodash"
 
 class OrderForm extends Component {
 
-    constructor(){
+    constructor() {
         super();
         this.service = {
             "_id": "5b784c77022737551781ed8b",
@@ -22,6 +22,24 @@ class OrderForm extends Component {
                     "isActive": true,
                     "_id": "5b71d3939257504ec82ffd71",
                     "name": "Sealed Envelop",
+                    "description": "Get document in sealed envelop",
+                    "createdOn": "2018-08-13T18:53:07.010Z",
+                    "createdBy": "201501433"
+                },
+                {
+                    "baseCharge": 60,
+                    "isActive": true,
+                    "_id": "5b71d3939257504ec82ffd71",
+                    "name": "Sealed Envelop 1",
+                    "description": "Get document in sealed envelop",
+                    "createdOn": "2018-08-13T18:53:07.010Z",
+                    "createdBy": "201501433"
+                },
+                {
+                    "baseCharge": 70,
+                    "isActive": true,
+                    "_id": "5b71d3939257504ec82ffd71",
+                    "name": "Sealed Envelop 2",
                     "description": "Get document in sealed envelop",
                     "createdOn": "2018-08-13T18:53:07.010Z",
                     "createdBy": "201501433"
@@ -55,12 +73,11 @@ class OrderForm extends Component {
                 }
             ]
         }
-
         this.state = {
             units: 1,
             comments: '',
-            collectionType: '',
-            parameters: []
+            collectionTypeIndex: -1,
+            parameters: new Array(this.service.availableParameters.length).fill(false)
         }
     }
 
@@ -71,17 +88,26 @@ class OrderForm extends Component {
     }
     handleCollectionTypeChange = ({target}) => {
         this.setState({
-            collectionType: target.dataset.value
+            collectionTypeIndex: target.dataset.index
         })
     }
 
     handleParamenterChange = ({target}) => {
         this.setState({
-            paramenters: this.state.parameters
+            parameters: _.map(this.state.parameters,(o,i) => i==target.dataset.index?!o:o)
         })
     }
 
+    handleSubmit = (e) => {
+        e.preventDefault()
+        console.log(this.state);
+    }
+
     render() {
+        const SelectedCollectionTypeName = this.state.collectionTypeIndex!=-1
+            ? this.service.collectionTypes[this.state.collectionTypeIndex].name + " (₹"  +
+            this.service.collectionTypes[this.state.collectionTypeIndex].baseCharge + ")"
+            : 'Select'
         return (
             <div>
                 <NavigationBar/>
@@ -128,15 +154,18 @@ class OrderForm extends Component {
                                     <label>Collection Type</label>
                                     <div className="dropdown">
                                         <button className="btn dropdown-toggle form-control" type="button"
-                                                data-toggle="dropdown">{"Select "}
+                                                data-toggle="dropdown">
+                                            {SelectedCollectionTypeName + " "}
                                             <span className="caret"></span></button>
                                         <ul className="dropdown-menu col-sm-12">
                                             {
-                                                _.map(this.service.collectionTypes, (o) => {
-                                                    return ( <li data-id={o._id}
-                                                                 onChange={this.handleCollectionTypeChange}>
-                                                        <a>{o.name+ " (₹"+ o.baseCharge + ")"}</a>
-                                                    </li> )
+                                                _.map(this.service.collectionTypes, (o,index) => {
+                                                    return (<li className={'padding-x-sm'} style={{"cursor":"pointer"}} onClick={this.handleCollectionTypeChange}>
+                                                        <a data-index={index}
+                                                           data-toggle="tooltip"
+                                                           title={o.description}>
+                                                            {o.name + " (₹" + o.baseCharge + ")"} </a>
+                                                    </li>)
                                                 })
                                             }
                                         </ul>
@@ -150,16 +179,19 @@ class OrderForm extends Component {
                                             <span className="caret"></span></button>
                                         <ul className="dropdown-menu col-sm-12">
                                             <form>
-                                                <li className="checkbox col-xs-offset-1">
-                                                    <label style={{"width": '100%'}}><input type="checkbox" value=""/>
-                                                        {'Sealed Envelope  (₹ 20)'}</label>
-                                                </li>
-                                                <li className="checkbox col-xs-offset-1">
-                                                    <label><input type="checkbox" value=""/>Option 1</label>
-                                                </li>
-                                                <li className="checkbox col-xs-offset-1">
-                                                    <label><input type="checkbox" value=""/>Option 1</label>
-                                                </li>
+                                                {
+                                                    _.map(this.service.availableParameters, (o,index) => {
+                                                        return (<li
+                                                            className="checkbox padding-left-lg padding-x-sm"
+                                                            >
+                                                            <label data-toggle="tooltip"
+                                                                   title={o.description} style={{"width": '100%'}} >
+                                                                <input onClick={this.handleParamenterChange} data-index={index} type="checkbox" value=""/>
+                                                                {o.name + " (₹" + o.baseCharge +")"}
+                                                                </label>
+                                                        </li>)
+                                                    })
+                                                }
                                             </form>
                                         </ul>
                                     </div>
