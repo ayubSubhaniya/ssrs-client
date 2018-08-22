@@ -20,7 +20,7 @@ class NavigationBar extends Component {
                                 </Navbar.Header>
                                 <Nav>
                                     <NavDropdown eventKey={1} title="Order Mangement" id="basic-nav-dropdown">
-                                        <MenuItem eventKey={1.1} href='/order'>All Orders</MenuItem>
+                                        <MenuItem eventKey={1.1} href='/place-order'>All Orders</MenuItem>
                                         <MenuItem eventKey={1.2}>Another action</MenuItem>
                                         <MenuItem eventKey={1.3}>Something else here</MenuItem>
                                         <MenuItem divider/>
@@ -37,8 +37,8 @@ class NavigationBar extends Component {
                                         <MenuItem divider/>
                                         <MenuItem eventKey={3.4}>Separated link</MenuItem>
                                     </NavDropdown>
-                                    <NavItem eventKey={1} href="/help">
-                                        Help
+                                    <NavItem eventKey={1} href="/cart">
+                                        Cart
                                     </NavItem>
                                     <NavItem eventKey={2} href="/">
                                         My Profile

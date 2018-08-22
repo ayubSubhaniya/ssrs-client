@@ -5,7 +5,7 @@ import {COD, DEBITCARD, NETBANKING, PAYTM} from "../../constants/PaymentMode";
 function PaymentModes(props) {
     return (
         <div
-            className={'field margin-b'}>
+            className={'form-group col-sm-6'}>
             <label>
                 Payment Mode
             </label>

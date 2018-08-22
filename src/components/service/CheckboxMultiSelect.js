@@ -42,7 +42,7 @@ export default class CheckboxMultiSelect extends Component {
         return (
 
             <div
-                className={'field margin-b'} ref={(input) => {
+                className={'field form-group col-sm-6'} ref={(input) => {
                 this.input = input
             }}>
                 <label>{label}</label>

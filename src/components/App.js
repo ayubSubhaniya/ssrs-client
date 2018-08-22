@@ -8,6 +8,8 @@ import AuthorizedRoute from './AuthorizedRoute'
 import {domainUrl} from "../config/configuration";
 import * as HttpStatus from "http-status-codes";
 import PublicPage from "./public-page/PublicPage";
+import Cart from "./cart/Cart";
+import OrderForm from "./place-order/OrderForm";
 
 export const Context = React.createContext();
 
@@ -111,6 +113,14 @@ class App extends Component {
                         <AuthorizedRoute
                             exact path="/service/edit"
                             component={() => <ServiceForm title={'Edit Service'}/>}
+                            permission={isAuthenticated}/>
+                        <AuthorizedRoute
+                            exact path="/cart"
+                            component={Cart}
+                            permission={isAuthenticated}/>
+                        <AuthorizedRoute
+                            exact path="/place-order"
+                            component={OrderForm}
                             permission={isAuthenticated}/>
                     </React.Fragment>
                 </Router>

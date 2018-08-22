@@ -1,78 +1,14 @@
-.service-form-container {
+.container-custom {
     border-radius: 1em;
     background-color: #f2f2f2;
-    padding-left: 30px;
-    padding-right: 30px;
-    margin-left: 10em;
-    padding-top: 2.5em;
-    padding-bottom: 2.5em;
-    margin-right: 10em;
-    margin-bottom: 2em;
+    padding: 2.5%;
     color: #272761;
-}
-
-.service-form {
-    display: flex;
-    width: 100%;
-    flex-direction: column;
-}
-
-.dual {
-    display: flex;
 }
 
 .field {
     width: 100%;
     display: flex;
     flex-direction: column;
-}
-
-.input {
-    padding: 8px;
-    border-bottom: 2px solid #272761;
-    border-radius: 6px;
-    outline: none;
-    font-size: 1.3em;
-    flex-basis: 50%;
-
-}
-
-.input::placeholder {
-    font-style: italic;
-    font-size: 1em;
-    color: rgba(0, 0, 0, 0.38);
-}
-
-.margin-b {
-    margin-bottom: 20px;
-}
-
-.margin-l {
-    margin-left: 8px;
-}
-
-.margin-r {
-    margin-right: 20px;
-}
-
-.margin-t {
-    margin-top: 20px;
-}
-
-.width-half {
-    width: 50%;
-}
-
-.pad {
-    padding: 6px 6px 6px 6px;
-}
-
-.pad-r {
-    padding: 0px 10px 0px 0px;
-}
-
-.pad-b {
-    padding: 0px 10px 0px 0px;
 }
 
 .submit {
@@ -98,25 +34,28 @@
     align-items: center;
 }
 
-/*.btn-default.active {*/
-    /*background-color: #d1e6b0;*/
-/*}*/
+.form-group .btn-default.active {
+    background-color: #79d05f;
+}
+.form-group .btn-default.focus {
+    background-color: white;
+}
 
-.checkbox input[type=checkbox] {
-    top: 12px;
+.form-group .btn-default.active.focus {
+    background-color: #79d05f;
 }
 
 .dropdown-btn {
     background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="21px" height="21px" viewBox="0 0 21 21"><polygon points="10.5,12 7,8.5 14,8.5"/></svg>');
     background-repeat: no-repeat;
     background-position: calc(100% - 5px) center;
-    width: 50%;
+    width: 48.8%;
     height: 3em;
     word-break: break-word;
 }
 
 .dropdown-menu_my {
-    width: 50%;
+    width: 48.8%;
     padding: 0;
     margin: 0;
     list-style: none;
@@ -151,13 +90,6 @@
     border-bottom: 1px solid #ccc;
     width: 100%;
 }
-
-/*li:last-child {*/
-/*border-bottom: none;*/
-/*}*/
-/*li:nth-child(even) {*/
-/*background: #f8f8f8;*/
-/*}*/
 
 .dropdown-btn > .caret {
     display: none;

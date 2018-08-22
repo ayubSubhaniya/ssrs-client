@@ -1,30 +1,15 @@
 import React, {Component} from 'react';
 import {domainUrl} from '../../config/configuration'
-import {ButtonToolbar, ToggleButtonGroup, ToggleButton, DropdownButton, Checkbox} from 'react-bootstrap'
-import {COD, PAYTM, DEBITCARD, NETBANKING} from "../../constants/PaymentMode"
+import {COD, DEBITCARD, NETBANKING, PAYTM} from "../../constants/PaymentMode"
 import CheckboxMultiSelect from "./CheckboxMultiSelect"
 import _ from 'lodash'
 import '../../styles/service.css'
 import PaymentModes from './PaymentModes'
-import {
-    withRouter
-} from "react-router-dom";
+import {withRouter} from "react-router-dom";
 import Header from "../Header";
 import * as HttpStatus from "http-status-codes";
 import {fetch} from '../../helper/FetchData'
-
-/*
-collectionType = [
-            {
-                "_id": "5b680b0609940b21b0da28ff",
-                "baseCharge": 100,
-                "name": "Sealed Envelop",
-                "description": "Document in sealed envelop",
-                "createdOn": "2018-08-06T08:47:02.500+0000",
-                "createdBy": 201501433,
-            }
-        ]
- */
+import NavigationBar from "../NavigationBar";
 
 class ServiceForm extends Component {
     constructor(props) {
@@ -189,58 +174,55 @@ class ServiceForm extends Component {
         const {collectionType, parameter} = this.state
         return (
             <div>
+                <NavigationBar/>
                 <Header title={this.props.title}/>
-                <div className="service-form-container">
-                    <form autoComplete="on" className={'service-form'} onSubmit={this.handleSubmit}>
-                        <div className={'dual margin-b'}>
-                            <div className={'field margin-r'}>
-                                <label>Service Name</label>
-                                <input
-                                    className={'input'}
-                                    type="text"
-                                    name="name"
-                                    placeholder="Enter Service Name"
-                                    value={this.state.name}
-                                    onChange={this.handleChange}/>
-                            </div>
-                            <div
-                                className={'field'}>
-                                <label>
-                                    Base Charge
-                                </label>
-                                <input
-                                    className={'input'}
-                                    type="text"
-                                    name="baseCharge"
-                                    placeholder="Enter Amount (₹)"
-                                    value={this.state.baseCharge}
-                                    onChange={this.handleChange}
-                                />
-                            </div>
+                <div className="container container-custom">
+                    <form autoComplete="on" onSubmit={this.handleSubmit}>
+                        <div className="form-group col-sm-6">
+                            <label>Service Name</label>
+                            <input
+                                className={'form-control'}
+                                type="text"
+                                name="name"
+                                placeholder="Enter Service Name"
+                                value={this.state.name}
+                                onChange={this.handleChange}
+                                required/>
                         </div>
-                        <div className={'field margin-b'}>
-                            <label>
-                                Service Description
-                            </label>
+                        <div className="form-group col-sm-6">
+                            <label>Base Charge</label>
+                            <input
+                                className={'form-control'}
+                                type="text"
+                                name="baseCharge"
+                                placeholder="Enter Amount (₹)"
+                                value={this.state.baseCharge}
+                                onChange={this.handleChange}
+                                required/>
+                        </div>
+                        <div className="form-group col-sm-12">
+                            <label>Service Description</label>
                             <textarea
-                                className={'input'}
+                                className={'form-control'}
                                 name="description"
                                 placeholder="Write Service Description"
                                 value={this.state.description}
                                 onChange={this.handleChange}>
                             </textarea>
                         </div>
-                        <div className={'field margin-b width-half'}>
+                        <div className="form-group col-sm-6">
                             <label>Maximum Unit</label>
                             <input
-                                className={'input'}
-                                type="text"
+                                className={'form-control'}
+                                type="number"
+                                min={'0'}
+                                max={'1000'}
                                 name="maxUnits"
                                 placeholder="Enter Maximum Allowed Unit"
                                 value={this.state.maxUnits}
-                                onChange={this.handleChange}/>
+                                onChange={this.handleChange}
+                                required/>
                         </div>
-
                         <PaymentModes
                             paymentModes={this.state.paymentModes}
                             handleChange={this.handlePaymentModeChange}/>
@@ -255,13 +237,10 @@ class ServiceForm extends Component {
                             collectionType={parameter}
                             currentValues={this.state.other.currentAvailableParameters}
                             handleChange={this.handleAvailabelParametersChange}/>
-
-                        <div className={'field margin-t'}>
-                            <input
-                                className='submit'
-                                type="submit"
-                                value="Save"/>
-                        </div>
+                        <input
+                            className='submit'
+                            type="submit"
+                            value="Save"/>
                     </form>
                 </div>
             </div>

@@ -1,4 +1,6 @@
 
+/*login page*/
+
 .loginbox {
     margin-left: 61%;
     margin-right: 33%;
@@ -35,7 +37,7 @@
     min-width: 100%;
     padding: 20px 15px;
     padding-top: 0px;
-    background: linear-gradient(to left, #955dff, #6F13FB);
+    background: linear-gradient(to left, #bfcaca, #003366);
 }
 
 .pages .page:nth-of-type(1) .page-input {
@@ -50,10 +52,6 @@
     transition: all 1s;
     opacity: 0;
     transition-delay: 0s;
-}
-
-.pages .page.signup {
-    background: linear-gradient(to left, #6faaff, #955dff);
 }
 
 .pages .page .title {
@@ -112,7 +110,7 @@
     transition: all 0.2s;
 }
 
-.tab:hover{
+.tab:hover {
     background-color: white;
 }
 
@@ -219,11 +217,11 @@ input[type=radio]:nth-of-type(2):checked ~ .pages .page:nth-of-type(2) .page-inp
     text-align: center;
 }
 
-.hide{
+.hide {
     display: none;
 }
 
-.icon-eye{
+.icon-eye {
     color: black;
     position: relative;
     right: 29px;
@@ -231,7 +229,7 @@ input[type=radio]:nth-of-type(2):checked ~ .pages .page:nth-of-type(2) .page-inp
     cursor: pointer;
 }
 
-.modal-close-btn{
+.modal-close-btn {
     position: absolute;
     top: -3px;
     right: 0px;
