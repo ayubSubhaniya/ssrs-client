@@ -115,12 +115,24 @@ class PublicPage extends Component {
                                                 <div className="title"><i
                                                     className="material-icons">account_box</i> DA-IICT ID
                                                 </div>
-                                                <input className="text" type="text" name="daiictId" value={daiictId}
-                                                       onChange={this.handleChange}/></div>
+                                                <div className="input-group mb-3">
+                                                    <input type="text" className="form-control"
+                                                           placeholder="DA-IICT ID"
+                                                           aria-label="username"
+                                                           value={daiictId}
+                                                           onChange={this.handleChange}
+                                                           name="daiictId"
+                                                           aria-describedby="basic-addon"/>
+                                                        <div className="input-group-append">
+                                                            <span className="input-group-text"
+                                                                  id="basic-addon">@daiict.ac.in</span>
+                                                        </div>
+                                                </div>
+                                            </div>
                                             <div className="page-input">
                                                 <div className="title"><i className="material-icons">lock</i> PASSWORD
                                                 </div>
-                                                <input className="text" type="password" name="password" value={password}
+                                                <input className="form-control" type="password" name="password" value={password}
                                                        onChange={this.handleChange}/>
                                                 <div className="alert-danger page-input">{value.loginMessage}</div>
                                             </div>
@@ -129,7 +141,7 @@ class PublicPage extends Component {
                                                                                    daiictId: this.state.daiictId,
                                                                                    password: this.state.password
                                                                                })}/></div>
-                                            <input type="button" className={'page-link'} value="Forgot Password"
+                                            <input type="button" className={'page-link-cstm'} value="Forgot Password"
                                                    onClick={this.openModal}/>
                                         </div>
                                         <div className="page signup">
@@ -137,23 +149,45 @@ class PublicPage extends Component {
                                                 <div className="title"><i
                                                     className="material-icons">account_box</i> DA-IICT ID
                                                 </div>
-                                                <input className="text" type="text" name="daiictId" value={daiictId}
-                                                       onChange={this.handleChange}/></div>
+                                                <div className="input-group mb-3">
+                                                    <input type="text" className="form-control"
+                                                           placeholder="DA-IICT ID"
+                                                           aria-label="username"
+                                                           value={daiictId}
+                                                           onChange={this.handleChange}
+                                                           name="daiictId"
+                                                           aria-describedby="basic-addon"/>
+                                                    <div className="input-group-append">
+                                                            <span className="input-group-text"
+                                                                  id="basic-addon">@daiict.ac.in</span>
+                                                    </div>
+                                                </div>
+                                            </div>
                                             <div className="page-input">
                                                 <div className="title"><i className="material-icons">lock</i> PASSWORD
                                                 </div>
-                                                <input className="text" type={showPassword ? "text" : "password"}
-                                                       name="password" value={password}
-                                                       onChange={this.handleChange} style={{"paddingRight": "32px"}}/>
-                                                <i className="material-icons icon-eye"
-                                                   onClick={this.changePassworVisibility}>
+                                                <div className="input-group mb-3">
+                                                    <input type={showPassword ? "text" : "password"}
+                                                           className="form-control"
+                                                           aria-label="password"
+                                                           value={password}
+                                                           onChange={this.handleChange}
+                                                           name="password"
+                                                           aria-describedby="basic-addon"/>
+                                                    <div className="input-group-append">
+                                                            <span className="input-group-text"
+                                                                  id="basic-addon">
+                                                                <i className="material-icons" style={{"cursor":"pointer"}}
+                                                                                      onClick={this.changePassworVisibility}>
                                                     {showPassword ? "visibility_off" : "visibility"}
-                                                </i>
+                                                </i></span>
+                                                    </div>
+                                                </div>
                                                 <div className="alert-danger page-input">{signupMessage}</div>
                                             </div>
                                             <div className="page-input"><input type="submit" value="SIGN ME UP!"
                                                                                onClick={this.handleSignUp}/></div>
-                                            <input type="button" className={'page-link' + (isSignup ? '' : ' hide')}
+                                            <input type="button" className={'page-link-cstm' + (isSignup ? '' : ' hide')}
                                                    value="Resend Verification link"
                                                    onClick={this.handleResendVerificationLink}/>
                                         </div>

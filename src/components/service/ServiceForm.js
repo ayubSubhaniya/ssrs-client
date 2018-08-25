@@ -1,50 +1,51 @@
 import React, {Component} from 'react';
 import {domainUrl} from '../../config/configuration'
 import {COD, DEBITCARD, NETBANKING, PAYTM} from "../../constants/PaymentMode"
-import CheckboxMultiSelect from "./CheckboxMultiSelect"
 import _ from 'lodash'
-import '../../styles/service.css'
 import PaymentModes from './PaymentModes'
 import {withRouter} from "react-router-dom";
 import Header from "../Header";
 import * as HttpStatus from "http-status-codes";
 import {fetch} from '../../helper/FetchData'
 import NavigationBar from "../NavigationBar";
+import MultiSelectDropDown from "./MultiSelectDropDown";
+import {collectionType} from "../../test/CollectionType";
 
 class ServiceForm extends Component {
     constructor(props) {
         super(props);
-        const service = props.location.state ? props.location.state.service : undefined;
-        this.serviceId = service ? service._id : undefined;
-        if (!service && props.location.pathname == ('/service/edit')) {
-            props.history.push('/service');
+        this.service = props.location.state ? props.location.state.service : undefined;
+        if (!this.service && props.location.pathname == ('/service/edit')) {
+            props.history.replace('/service');
         }
 
+        console.log(this.service);
         const defaultState = {
             name: '',
             description: '',
             maxUnits: '',
             baseCharge: '',
-            paymentModes: [COD, DEBITCARD, NETBANKING, PAYTM],
-            collectionType: [],
+            paymentModes: {
+                [COD]: true,
+                [DEBITCARD]: true,
+                [NETBANKING]: true,
+                [PAYTM]: true
+            },
+            collectionType: this.service.collectionTypes,
             parameter: [],
             other: {
                 currentCollectionType: [],
                 currentAvailableParameters: []
             }
         }
-        this.state = service ? {
-                name: service.name,
-                description: service.description,
-                maxUnits: service.maxUnits,
-                baseCharge: service.baseCharge,
-                paymentModes: this.changePaymentModeObjectToArray(service.paymentModes),
-                collectionType: service.collectionType,
-                parameter: service.parameter,
-                other: {
-                    currentCollectionType: [],
-                    currentAvailableParameters: []
-                }
+        this.state = this.service ? {
+                name: this.service.name,
+                description: this.service.description,
+                maxUnits: this.service.maxUnits,
+                baseCharge: this.service.baseCharge,
+                paymentModes: this.service.paymentModes,
+                collectionType: this.service.collectionTypes,
+                parameter: this.service.parameter
             }
             : defaultState;
         this.fetch = fetch.bind(this);
@@ -57,39 +58,25 @@ class ServiceForm extends Component {
             [target.name]: target.value
         })
     }
-    handlePaymentModeChange = (event) => {
+    handlePaymentModeChange = ({target}) => {
+        const paymentModes = this.state.paymentModes
+        paymentModes[target.name] = !paymentModes[target.name]
         this.setState({
-            paymentModes: event
+            paymentModes
         });
     }
 
-    changePaymentModeArrayToObject = (paymentModesArray) => {
-        return Object.assign({}, {
-            [COD]: false,
-            [PAYTM]: false,
-            [DEBITCARD]: false,
-            [NETBANKING]: false
-        }, _.zipObject(paymentModesArray, _.map(paymentModesArray, () => true)));
-    }
-
-    changePaymentModeObjectToArray = (paymentModesObject) => {
-        return _.keys(_.pickBy(paymentModesObject));
-    }
-
-    filterObjectWithNameInArray = (object, array) => {
-        return _.pickBy(object, (value) => {
-            if (_.some(array, (o) => o === value.name)) {
-                return true;
-            }
-            return false;
+    handleArrayUpdate = ({target}) => {
+        const newArray = this.state[target.name];
+        newArray[target.dataset.index].isActive = !newArray[target.dataset.index].isActive
+        this.setState({
+            [target.name]: newArray
         })
     }
-
     getServiceFromState() {
         const {other, ...service} = this.state;
-        service.paymentModes = Object.assign({}, this.changePaymentModeArrayToObject(service.paymentModes));
-        service.collectionTypes = _.map(this.filterObjectWithNameInArray(this.state.collectionType, this.state.other.currentCollectionType), '_id');
-        service.availableParameters = _.map(this.filterObjectWithNameInArray(this.state.parameter, this.state.other.currentAvailableParameters), '_id');
+        service.collectionTypes = _.map(_.filter(this.state.collectionType, ({isActive}) => isActive), '_id');
+        service.availableParameters = _.map(_.filter(this.state.parameter, ({isActive}) => isActive), '_id');
         delete service.parameter;
         delete service.collectionType;
         console.log(service);
@@ -116,7 +103,7 @@ class ServiceForm extends Component {
 
     updateService = () => {
         const that = this;
-        const url = domainUrl + '/service/' + this.serviceId;
+        const url = domainUrl + '/service/' + this.service._id;
         const request = new XMLHttpRequest();
         request.open('PATCH', url, true);
         request.withCredentials = true;
@@ -134,39 +121,11 @@ class ServiceForm extends Component {
 
     handleSubmit = (event) => {
         event.preventDefault();
-        if (this.serviceId) {
+        if (this.service._id) {
             this.updateService()
         } else {
             this.addService()
         }
-    }
-
-    getCollectionTypeToggledList = (value) => {
-        const index = _.indexOf(this.state.other.currentCollectionType, value);
-        if (index > -1) {
-            return _.difference(this.state.other.currentCollectionType, [value]);
-        }
-        return _.concat(this.state.other.currentCollectionType, [value]);
-    }
-
-    handleCollectionTypeChange = ({target}) => {
-        this.setState({
-            other: Object.assign({}, this.state.other, {currentCollectionType: this.getCollectionTypeToggledList(target.dataset.name)})
-        })
-    }
-
-    getParamterToggledList = (value) => {
-        const index = _.indexOf(this.state.other.currentAvailableParameters, value);
-        if (index > -1) {
-            return _.difference(this.state.other.currentAvailableParameters, [value]);
-        }
-        return _.concat(this.state.other.currentAvailableParameters, [value]);
-    }
-
-    handleAvailabelParametersChange = ({target}) => {
-        this.setState({
-            other: Object.assign({}, this.state.other, {currentAvailableParameters: this.getParamterToggledList(target.dataset.name)})
-        })
     }
 
 
@@ -176,31 +135,33 @@ class ServiceForm extends Component {
             <div>
                 <NavigationBar/>
                 <Header title={this.props.title}/>
-                <div className="container container-custom">
-                    <form autoComplete="on" onSubmit={this.handleSubmit}>
-                        <div className="form-group col-sm-6">
-                            <label>Service Name</label>
-                            <input
-                                className={'form-control'}
-                                type="text"
-                                name="name"
-                                placeholder="Enter Service Name"
-                                value={this.state.name}
-                                onChange={this.handleChange}
-                                required/>
+                <div className="container bg-light p-5">
+                    <form autoComplete="off" onSubmit={this.handleSubmit}>
+                        <div className="form-row">
+                            <div className="form-group col-md-6">
+                                <label>Service Name</label>
+                                <input
+                                    className={'form-control'}
+                                    type="text"
+                                    name="name"
+                                    placeholder="Enter Service Name"
+                                    value={this.state.name}
+                                    onChange={this.handleChange}
+                                    required/>
+                            </div>
+                            <div className="form-group col-md-6">
+                                <label>Base Charge</label>
+                                <input
+                                    className={'form-control'}
+                                    type="text"
+                                    name="baseCharge"
+                                    placeholder="Enter Amount (₹)"
+                                    value={this.state.baseCharge}
+                                    onChange={this.handleChange}
+                                    required/>
+                            </div>
                         </div>
-                        <div className="form-group col-sm-6">
-                            <label>Base Charge</label>
-                            <input
-                                className={'form-control'}
-                                type="text"
-                                name="baseCharge"
-                                placeholder="Enter Amount (₹)"
-                                value={this.state.baseCharge}
-                                onChange={this.handleChange}
-                                required/>
-                        </div>
-                        <div className="form-group col-sm-12">
+                        <div className="form-group">
                             <label>Service Description</label>
                             <textarea
                                 className={'form-control'}
@@ -210,12 +171,12 @@ class ServiceForm extends Component {
                                 onChange={this.handleChange}>
                             </textarea>
                         </div>
-                        <div className="form-group col-sm-6">
+                        <div className="form-group">
                             <label>Maximum Unit</label>
                             <input
                                 className={'form-control'}
                                 type="number"
-                                min={'0'}
+                                min={'1'}
                                 max={'1000'}
                                 name="maxUnits"
                                 placeholder="Enter Maximum Allowed Unit"
@@ -226,21 +187,24 @@ class ServiceForm extends Component {
                         <PaymentModes
                             paymentModes={this.state.paymentModes}
                             handleChange={this.handlePaymentModeChange}/>
+                        <div className="col-sm-6">
+                            <MultiSelectDropDown label={'Collection Type'}
+                                                 btnLabel={"Select"}
+                                                 options={collectionType}
+                                                 name={'collectionType'}
+                                                 handleOptionChange={this.handleArrayUpdate}/>
 
-                        <CheckboxMultiSelect
-                            label={'Collection Type'}
-                            collectionType={collectionType}
-                            currentValues={this.state.other.currentCollectionType}
-                            handleChange={this.handleCollectionTypeChange}/>
-                        <CheckboxMultiSelect
-                            label={'Parameters'}
-                            collectionType={parameter}
-                            currentValues={this.state.other.currentAvailableParameters}
-                            handleChange={this.handleAvailabelParametersChange}/>
+                            <MultiSelectDropDown label={'Parameters'}
+                                                 btnLabel={"Select"}
+                                                 options={parameter}
+                                                 name={'parameter'}
+                                                 handleOptionChange={this.handleArrayUpdate}/>
+                        </div>
                         <input
                             className='submit'
                             type="submit"
-                            value="Save"/>
+                            value="Save"
+                            onSubmit={this.handleSubmit}/>
                     </form>
                 </div>
             </div>

@@ -3,6 +3,10 @@
     --main-color-light: rgba(32, 45, 65, 0.09);
 }
 
+html {
+    font-size: 15px;
+}
+
 body {
     background: white;
 }
@@ -42,32 +46,116 @@ body {
     font-weight: 600;
 }
 
+.container {
+    padding-bottom: 3em;
+}
+
+.container-custom {
+    border-radius: 1em;
+    background-color: #f2f2f2;
+    padding: 2.5%;
+    color: #272761;
+    margin-bottom: 2em;
+}
+
 /*naviagatin bar*/
 
-.nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover, .li-grp-bg {
-    background-color: rgba(231, 231, 231, 0.46);
+.nav-bg {
+    background-color: #203447;
 }
 
-.navbar {
-    background-color: var(--main-color);
+/*service list*/
+
+.submit {
+    background-color: #272761;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 0 auto;
 }
 
-.navbar-inverse .navbar-nav > li > a {
-    color: #fffefe;
-    opacity: 0.85;
+.submit:hover {
+    background-color: #2b2b7b;
 }
 
-.navbar-inverse .navbar-brand {
-    color: #fffefe;
-    opacity: 0.85;
+/*order form*/
+
+.checkbox-cstm {
+    min-height: 26px;
+    display: flex;
+    align-items: center;
+    margin: 0px;
 }
 
-.navbar-inverse .navbar-nav > li > a:hover {
-    color: #fffefe;
-    opacity: 1;
+input[type=checkbox] {
+    margin: 0px;
+    position: relative;
+    left: -10px;
 }
 
-.navbar-inverse .navbar-brand:hover {
-    opacity: 1;
+input[type=submit] {
+    cursor: pointer;
+}
+
+/*All Orders*/
+
+/*Toggle Switch*/
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+.switch input {display:none;}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+input:checked + .slider {
+    background-color: #2196F3;
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+    border-radius: 2rem;
+}
+
+.slider.round:before {
+    border-radius: 50%;
 }
 

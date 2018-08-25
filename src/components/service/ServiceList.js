@@ -1,9 +1,7 @@
 import React, {Component} from 'react';
-import {PanelGroup, Panel} from 'react-bootstrap'
 import {Link} from "react-router-dom"
 import _ from "lodash"
 import ServiceDetails from "./ServiceDetails";
-import * as HttpStatus from 'http-status-codes';
 import {fetch} from "../../helper/FetchData"
 import "./../../styles/bootstrap-toggle.css"
 
@@ -42,8 +40,8 @@ class ServiceList extends Component {
         //     ;
         // // };
         this.setState({
-            service: _.map(this.state.service,(o) => {
-                if(o._id==service._id){
+            service: _.map(this.state.service, (o) => {
+                if (o._id == service._id) {
                     o.isActive = !o.isActive;
                 }
                 return o;
@@ -55,59 +53,51 @@ class ServiceList extends Component {
 
     render() {
         return (
-            <div className={'service-list-container'}>
-                <PanelGroup
-                    accordion
-                    id="accordion-controlled-example"
-                    activeKey={this.state.activeKey}
-                    onSelect={this.handleSelect}
-                >
-
+            <div className={'container container-custom'}>
+                <div id="accordion">
                     {
                         _.map(this.state.service, (service, i) => {
                             return (
-                                <Panel key={service._id} eventKey={i + 1}>
-                                    <Panel.Heading>
-                                        <div className={'service-panel'}>
-                                            <Panel.Title toggle>{service.name}</Panel.Title>
-                                            <div style={{"display":"flex"}}>
-                                                <Link to={{
-                                                    pathname: '/service/edit',
-                                                    state: {service}
-                                                }}>
-                                                    <div className="btn btn-default btn-sm"
-                                                         data-index={i}>
-                                                        <span className="glyphicon glyphicon-pencil"></span>
-                                                    </div>
-                                                </Link>
-                                                <div type="button" className="margin-l">
-                                                    <div className={"toggle btn" + (service.isActive?" btn-primary":" btn-default off")} data-toggle="toggle" onClick={() => this.toggleService(service)}>
-                                                        <input type="checkbox" data-toggle="toggle" />
-                                                        <div className={'toggle-group'}>
-                                                            <label className={'btn btn-primary toggle-on'}>On</label>
-                                                            <label className={'btn btn-default active toggle-off'}>Off</label>
-                                                            <span className={'toggle-handle btn btn-default'}></span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
+                                <div key={service._id} className="card">
+                                    <div className="card-header d-flex justify-content-between">
+                                        <a className="collapsed card-link" data-toggle="collapse"
+                                           href={"#collapse" + i}>
+                                            {service.name}
+                                        </a>
+                                        <div className='d-flex'>
+                                            <Link to={{
+                                                pathname: '/service/edit',
+                                                state: {service}
+                                            }}>
+                                                <div className="btn btn-default btn-sm"
+                                                     data-index={i}>
+                                                    <i className="fa fa-pencil"
+                                                       style={{"fontSize":"24px","color":"black"}}></i>                                               </div>
+                                            </Link>
+                                            <label className="switch">
+                                                <input type="checkbox"/>
+                                                    <span className="slider round"></span>
+                                            </label>
                                         </div>
-                                    </Panel.Heading>
-                                    <Panel.Body collapsible>
-                                        <ServiceDetails service={service}/>
-                                    </Panel.Body>
-                                </Panel>
+                                    </div>
+                                    <div id={'collapse' + i} className="collapse" data-parent="#accordion">
+                                        <div className="card-body">
+                                            <ServiceDetails service={service}/>
+                                        </div>
+                                    </div>
+                                </div>
                             )
                         })
                     }
-                </PanelGroup>
-                <Link to={'/service/add'} style={{textDecoration: 'none'}}>
-                    <input
-                        className='submit'
-                        type="submit"
-                        value="Add New Service"/>
-                </Link>
+                </div>
+                <div className={'d-flex justify-content-center margin-top-md'}>
+                    <Link to={'/service/add'} style={{textDecoration: 'none'}}>
+                        <input
+                            className='submit'
+                            type="submit"
+                            value="Add New Service"/>
+                    </Link>
+                </div>
             </div>
         );
     }

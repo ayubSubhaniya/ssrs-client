@@ -209,12 +209,13 @@ input[type=radio]:nth-of-type(2):checked ~ .pages .page:nth-of-type(2) .page-inp
     }
 }
 
-.page-link {
+.page-link-cstm {
     background: transparent;
     border: none;
     color: white;
     margin-top: 3px;
     text-align: center;
+    cursor: pointer;
 }
 
 .hide {
@@ -235,4 +236,6 @@ input[type=radio]:nth-of-type(2):checked ~ .pages .page:nth-of-type(2) .page-inp
     right: 0px;
     cursor: pointer;
 }
+
+
 

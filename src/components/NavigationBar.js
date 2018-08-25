@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {MenuItem, Nav, Navbar, NavDropdown, NavItem} from 'react-bootstrap'
 import {Context} from "./App";
 import Image from "./Image";
 import logo from "../images/daiict.png";
@@ -12,42 +11,66 @@ class NavigationBar extends Component {
                     return (
                         <div>
                             <Image src={logo} className={'logo'}/>
-                            <Navbar inverse collapseOnSelect className={'navbar'}>
-                                <Navbar.Header>
-                                    <Navbar.Brand>
-                                        <a href="/">Home</a>
-                                    </Navbar.Brand>
-                                </Navbar.Header>
-                                <Nav>
-                                    <NavDropdown eventKey={1} title="Order Mangement" id="basic-nav-dropdown">
-                                        <MenuItem eventKey={1.1} href='/place-order'>All Orders</MenuItem>
-                                        <MenuItem eventKey={1.2}>Another action</MenuItem>
-                                        <MenuItem eventKey={1.3}>Something else here</MenuItem>
-                                        <MenuItem divider/>
-                                        <MenuItem eventKey={1.4}>Separated link</MenuItem>
-                                    </NavDropdown>
-                                    <NavDropdown eventKey={1} title="Service Mangement" id="basic-nav-dropdown">
-                                        <MenuItem eventKey={1.1} href='/service'>All Services</MenuItem>
-                                        <MenuItem eventKey={1.2} href='/service/add'>Add New Service</MenuItem>
-                                    </NavDropdown>
-                                    <NavDropdown eventKey={3} title="User Mangement" id="basic-nav-dropdown">
-                                        <MenuItem eventKey={3.1}>Action</MenuItem>
-                                        <MenuItem eventKey={3.2}>Another action</MenuItem>
-                                        <MenuItem eventKey={3.3}>Something else here</MenuItem>
-                                        <MenuItem divider/>
-                                        <MenuItem eventKey={3.4}>Separated link</MenuItem>
-                                    </NavDropdown>
-                                    <NavItem eventKey={1} href="/cart">
-                                        Cart
-                                    </NavItem>
-                                    <NavItem eventKey={2} href="/">
-                                        My Profile
-                                    </NavItem>
-                                    <NavItem eventKey={3} onClick={value.logOut}>
-                                        Logout
-                                    </NavItem>
-                                </Nav>
-                            </Navbar>
+                            <nav className="navbar navbar-expand-lg navbar-dark nav-bg">
+                                <button className="navbar-toggler" type="button" data-toggle="collapse"
+                                        data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown"
+                                        aria-expanded="false" aria-label="Toggle navigation">
+                                    <span className="navbar-toggler-icon"></span>
+                                </button>
+                                <div className="collapse navbar-collapse" id="navbarNavDropdown">
+                                    <ul className="navbar-nav">
+                                        <li className="nav-item active">
+                                            <a className="nav-link" href="/">Home <span
+                                                className="sr-only">(current)</span></a>
+                                        </li>
+                                        <li className="nav-item dropdown">
+                                            <a className="nav-link dropdown-toggle" href="/" id="navbarDropdownMenuLink"
+                                               role="button" data-toggle="dropdown" aria-haspopup="true"
+                                               aria-expanded="false">
+                                                Order Mangement
+                                            </a>
+                                            <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                                <a className="dropdown-item" href='/orders'>All Orders</a>
+                                                <a className="dropdown-item" href="/place-order">Place Order</a>
+                                                <a className="dropdown-item" href="/">Something else here</a>
+                                            </div>
+                                        </li>
+                                        <li className="nav-item dropdown">
+                                            <a className="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink"
+                                               role="button" data-toggle="dropdown" aria-haspopup="true"
+                                               aria-expanded="false">
+                                                Service Managment
+                                            </a>
+                                            <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                                <a className="dropdown-item" href="/service">All Services</a>
+                                                <a className="dropdown-item" href="/service/add">Add New Service</a>
+                                                <a className="dropdown-item" href="/">Something else here</a>
+                                            </div>
+                                        </li>
+                                        <li className="nav-item dropdown">
+                                            <a className="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink"
+                                               role="button" data-toggle="dropdown" aria-haspopup="true"
+                                               aria-expanded="false">
+                                                User Mangement
+                                            </a>
+                                            <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                                <a className="dropdown-item" href="/service">All Services</a>
+                                                <a className="dropdown-item" href="/service/add">Add New Service</a>
+                                                <a className="dropdown-item" href="/">Something else here</a>
+                                            </div>
+                                        </li>
+                                        <li className="nav-item">
+                                            <a className="nav-link" href="/cart">Cart</a>
+                                        </li>
+                                        <li className="nav-item">
+                                            <a className="nav-link" href="/">My Profile</a>
+                                        </li>
+                                        <li className="nav-item">
+                                            <a className="nav-link" onClick={value.logOut} style={{"cursor":"pointer"}}>Logout</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </nav>
                         </div>)
                 }}
             </Context.Consumer>

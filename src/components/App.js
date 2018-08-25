@@ -9,7 +9,8 @@ import {domainUrl} from "../config/configuration";
 import * as HttpStatus from "http-status-codes";
 import PublicPage from "./public-page/PublicPage";
 import Cart from "./cart/Cart";
-import OrderForm from "./place-order/OrderForm";
+import OrderForm from "./order/OrderForm";
+import Services from "./order/Services"
 
 export const Context = React.createContext();
 
@@ -78,11 +79,7 @@ class App extends Component {
         request.withCredentials = true;
         request.onload = function () {
             if (this.status == HttpStatus.OK) {
-                that.setState({
-                    isAuthenticated: false,
-                    user: {},
-                    loginMessage: ''
-                })
+                window.location.href = "/"
             }
         };
         request.send();
@@ -117,6 +114,10 @@ class App extends Component {
                         <AuthorizedRoute
                             exact path="/cart"
                             component={Cart}
+                            permission={isAuthenticated}/>
+                        <AuthorizedRoute
+                            exact path="/orders"
+                            component={Services}
                             permission={isAuthenticated}/>
                         <AuthorizedRoute
                             exact path="/place-order"

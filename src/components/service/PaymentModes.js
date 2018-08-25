@@ -1,5 +1,4 @@
-import React, {Component} from 'react'
-import {ButtonToolbar, ToggleButton, ToggleButtonGroup} from "react-bootstrap";
+import React from 'react'
 import {COD, DEBITCARD, NETBANKING, PAYTM} from "../../constants/PaymentMode";
 
 function PaymentModes(props) {
@@ -7,31 +6,52 @@ function PaymentModes(props) {
         <div
             className={'form-group col-sm-6'}>
             <label>
-                Payment Mode
+                Payment Modes
             </label>
-            <ButtonToolbar>
-                <ToggleButtonGroup
-                    type="checkbox"
-                    defaultValue={props.paymentModes}
-                    onChange={props.handleChange}>
-                    <ToggleButton
-                        value={COD}>
+            <div className={'bg-white'}>
+                <div className={'form-check'}>
+                    <label>
+                        <input className="form-check-input"
+                               type="checkbox"
+                               name={COD}
+                               checked={props.paymentModes[COD]}
+                               onChange={props.handleChange}/>
                         Cash(Offline)
-                    </ToggleButton>
-                    <ToggleButton
-                        value={DEBITCARD}>
+                    </label>
+                </div>
+                <div className={'form-check'}>
+                    <label>
+                        <input className="form-check-input"
+                               type="checkbox"
+                               name={DEBITCARD}
+                               onChange={props.handleChange}
+                               checked={props.paymentModes[DEBITCARD]}
+                        />
                         Debit Card
-                    </ToggleButton>
-                    <ToggleButton
-                        value={NETBANKING}>
+                    </label>
+                </div>
+                <div className={'form-check'}>
+                    <label>
+                        <input
+                            className="form-check-input"
+                            type="checkbox"
+                            name={NETBANKING}
+                            checked={props.paymentModes[NETBANKING]}
+                            onChange={props.handleChange}/>
                         Netbanking
-                    </ToggleButton>
-                    <ToggleButton
-                        value={PAYTM}>
+                    </label>
+                </div>
+                <div className={'form-check'}>
+                    <label>
+                        <input className="form-check-input"
+                               type="checkbox"
+                               name={PAYTM}
+                               checked={props.paymentModes[PAYTM]}
+                               onChange={props.handleChange}/>
                         Paytm
-                    </ToggleButton>
-                </ToggleButtonGroup>
-            </ButtonToolbar>
+                    </label>
+                </div>
+            </div>
         </div>
     )
 }

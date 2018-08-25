@@ -1,23 +1,25 @@
 import React, {Component} from 'react';
-import {ListGroup, ListGroupItem} from 'react-bootstrap'
 import {timeSince} from "../../helper/Time";
 
 class DataList extends Component {
     render() {
         const {data} = this.props
         return (
-            <ListGroup >
+            <div className={'list-group'}>
+
                 {
+
                     data.length
                         ? data.map(
                         (data) => (
-                            <ListGroupItem className={'li-grp-bg'} key={data._id} header={data.message} href={"/" + data._id}>
-                                {timeSince(new Date(data.createdOn)) + ' ago'}
-                            </ListGroupItem>
+                            <a href={data._id} key={data._id} className="list-group-item list-group-item-action flex-column align-items-start">
+                                <h5 className="mb-1">{data.message}</h5>
+                                <small className="text-muted"> {timeSince(new Date(data.createdOn)) + ' ago'}</small>
+                            </a>
                         ))
-                        : <ListGroupItem className={'li-grp-bg'}> Nothing to show </ListGroupItem>
+                        : <li className="list-group-item list-group-item-action flex-column align-items-start"> Nothing to show </li>
                 }
-            </ListGroup>
+            </div>
         );
     }
 }
