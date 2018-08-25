@@ -3,8 +3,6 @@ import {Link} from "react-router-dom"
 import _ from "lodash"
 import ServiceDetails from "./ServiceDetails";
 import {fetch} from "../../helper/FetchData"
-import "./../../styles/bootstrap-toggle.css"
-
 
 class ServiceList extends Component {
     constructor(props, context) {

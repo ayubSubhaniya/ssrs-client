@@ -222,14 +222,6 @@ input[type=radio]:nth-of-type(2):checked ~ .pages .page:nth-of-type(2) .page-inp
     display: none;
 }
 
-.icon-eye {
-    color: black;
-    position: relative;
-    right: 29px;
-    top: 7px;
-    cursor: pointer;
-}
-
 .modal-close-btn {
     position: absolute;
     top: -3px;

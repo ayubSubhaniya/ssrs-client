@@ -31,12 +31,8 @@ class ServiceForm extends Component {
                 [NETBANKING]: true,
                 [PAYTM]: true
             },
-            collectionType: this.service.collectionTypes,
-            parameter: [],
-            other: {
-                currentCollectionType: [],
-                currentAvailableParameters: []
-            }
+            collectionType: [],
+            parameter: []
         }
         this.state = this.service ? {
                 name: this.service.name,
@@ -96,8 +92,7 @@ class ServiceForm extends Component {
                 console.log(response);
                 that.props.history.push('/service');
             }
-            ;
-        };
+        }
         request.send(JSON.stringify(this.getServiceFromState()));
     }
 
@@ -121,7 +116,7 @@ class ServiceForm extends Component {
 
     handleSubmit = (event) => {
         event.preventDefault();
-        if (this.service._id) {
+        if (this.service) {
             this.updateService()
         } else {
             this.addService()
