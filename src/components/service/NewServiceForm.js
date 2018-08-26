@@ -1,16 +1,14 @@
 import React, {Component} from 'react';
 import {domainUrl} from '../../config/configuration'
 import {COD, DEBITCARD, NETBANKING, PAYTM} from "../../constants/PaymentMode"
-import _ from 'lodash'
-import PaymentModes from './PaymentModes'
 import {withRouter} from "react-router-dom";
 import Header from "../Header";
 import * as HttpStatus from "http-status-codes";
 import {fetch} from '../../helper/FetchData'
 import NavigationBar from "../NavigationBar";
-import MultiSelectDropDownControled from "./MultiSelectDropDownControled";
 import {collectionType} from "../../test/CollectionType";
 import {handleChange, handleArrayUpdate, handlePaymentModeChange, getServiceFromState} from "../../helper/StateUpdate"
+import Form from "./Form";
 
 class NewServiceForm extends Component {
     constructor(props) {
@@ -62,84 +60,17 @@ class NewServiceForm extends Component {
 
 
     render() {
-        const {collectionType, parameter} = this.state
         return (
             <div>
                 <NavigationBar/>
                 <Header title={"Add New Service"}/>
                 <div className="container container-custom">
-                    <form autoComplete="off" onSubmit={this.handleSubmit}>
-                        <div className="form-row">
-                            <div className="form-group col-md-6">
-                                <label>Service Name</label>
-                                <input
-                                    className={'form-control'}
-                                    type="text"
-                                    name="name"
-                                    placeholder="Enter Service Name"
-                                    value={this.state.name}
-                                    onChange={this.handleChange}
-                                    required/>
-                            </div>
-                            <div className="form-group col-md-6">
-                                <label>Base Charge</label>
-                                <input
-                                    className={'form-control'}
-                                    type="text"
-                                    name="baseCharge"
-                                    placeholder="Enter Amount (₹)"
-                                    value={this.state.baseCharge}
-                                    onChange={this.handleChange}
-                                    required/>
-                            </div>
-                        </div>
-                        <div className="form-group">
-                            <label>Service Description</label>
-                            <textarea
-                                className={'form-control'}
-                                name="description"
-                                placeholder="Write Service Description"
-                                value={this.state.description}
-                                onChange={this.handleChange}>
-                            </textarea>
-                        </div>
-                        <div className="form-group">
-                            <label>Maximum Unit</label>
-                            <input
-                                className={'form-control'}
-                                type="number"
-                                min={'1'}
-                                max={'1000'}
-                                name="maxUnits"
-                                placeholder="Enter Maximum Allowed Unit"
-                                value={this.state.maxUnits}
-                                onChange={this.handleChange}
-                                required/>
-                        </div>
-                        <PaymentModes
-                            paymentModes={this.state.paymentModes}
-                            handleChange={this.handlePaymentModeChange}/>
-                        <div className="col-sm-6">
-                            <MultiSelectDropDownControled label={'Collection Type'}
-                                                          btnLabel={"Select"}
-                                                          options={collectionType}
-                                                          name={'collectionType'}
-                                                          handleOptionChange={this.handleArrayUpdate}/>
-
-                            <MultiSelectDropDownControled label={'Parameters'}
-                                                          btnLabel={"Select"}
-                                                          options={parameter}
-                                                          name={'parameter'}
-                                                          handleOptionChange={this.handleArrayUpdate}/>
-                        </div>
-                        <div className={'d-flex justify-content-center mt-4'}>
-                            <input
-                                className='submit'
-                                type="submit"
-                                value="Save"
-                                onSubmit={this.handleSubmit}/>
-                        </div>
-                    </form>
+                    <Form state={this.state}
+                          handleChange={this.handleChange}
+                          handleArrayUpdate={this.handleArrayUpdate}
+                          handleSubmit={this.handleSubmit}
+                          handleSubmit={this.handleSubmit}
+                          handlePaymentModeChange={this.handlePaymentModeChange} />
                 </div>
             </div>
         );
