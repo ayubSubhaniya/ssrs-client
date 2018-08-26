@@ -88,7 +88,7 @@ class ServiceList extends Component {
                         })
                     }
                 </div>
-                <div className={'d-flex justify-content-center margin-top-md'}>
+                <div className={'d-flex justify-content-center mt-3'}>
                     <Link to={'/service/add'} style={{textDecoration: 'none'}}>
                         <input
                             className='submit'

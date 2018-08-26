@@ -186,7 +186,7 @@ class OrderForm extends Component {
                                     />
                                 </div>
                             </div>
-                            <div className={'w-100 d-flex justify-content-center margin-top-md'}>
+                            <div className={'w-100 d-flex justify-content-center mt-3'}>
                                 <input
                                     className='submit'
                                     type="submit"
