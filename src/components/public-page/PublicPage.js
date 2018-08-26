@@ -187,7 +187,7 @@ class PublicPage extends Component {
                                             </div>
                                             <div className="page-input"><input type="submit" value="SIGN ME UP!"
                                                                                onClick={this.handleSignUp}/></div>
-                                            <input type="button" className={'page-link-cstm' + (isSignup ? '' : ' hide')}
+                                            <input type="button" className={'page-link-cstm' + (isSignup ? '' : ' d-none')}
                                                    value="Resend Verification link"
                                                    onClick={this.handleResendVerificationLink}/>
                                         </div>
@@ -205,7 +205,7 @@ class PublicPage extends Component {
                                     style={customStyles}
                                     contentLabel="Forgot Password Modal"
                                 >
-                                    <div className={"modal-close-btn" + (this.state.modalIsOpen ? '' : " hide")}
+                                    <div className={"modal-close-btn"}
                                          onClick={this.closeModal}>
                                         <i className="material-icons">close</i>
                                     </div>
