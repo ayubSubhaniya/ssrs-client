@@ -4,17 +4,17 @@ import ServiceList from "./ServiceList";
 import NavigationBar from "../NavigationBar";
 
 
-class ManageService extends Component {
+class Services extends Component {
     render() {
         return (
             <div>
                 <NavigationBar/>
                 <Header title={'Manage Services'}/>
-                <ServiceList/>
+                <ServiceList {...this.props}/>
             </div>
         );
     }
 }
 
-export default ManageService;
+export default Services;
 

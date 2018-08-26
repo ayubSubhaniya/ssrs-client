@@ -7,7 +7,7 @@ const NotFound = () =>
             <h1>Unauthorized
                 <small>Error 401</small>
             </h1>
-            <p class="lead">The requested resource requires an authentication.</p>
+            <p className="lead">The requested resource requires an authentication.</p>
         </div>
     </div>
 

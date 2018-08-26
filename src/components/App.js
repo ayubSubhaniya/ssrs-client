@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import '../styles/App.css';
 import {BrowserRouter as Router, Route} from "react-router-dom";
 import Home from './home/Home';
-import ManageService from "./service/ManageService";
+import Services from "./service/Services";
 import NewServiceForm from "./service/NewServiceForm";
 import EditForm from "./service/EditForm";
 import AuthorizedRoute from './AuthorizedRoute'
@@ -11,7 +11,6 @@ import * as HttpStatus from "http-status-codes";
 import PublicPage from "./public-page/PublicPage";
 import Cart from "./cart/Cart";
 import OrderForm from "./service/OrderForm";
-
 export const Context = React.createContext();
 
 class App extends Component {
@@ -101,8 +100,9 @@ class App extends Component {
                             component={isAuthenticated ? Home : PublicPage}/>
                         <AuthorizedRoute
                             exact path="/service"
-                            component={ManageService}
-                            permission={isAuthenticated}/>
+                            component={Services}
+                            permission={isAuthenticated}
+                            user={this.state.user}/>
                         <AuthorizedRoute
                             exact path="/service/add"
                             component={NewServiceForm}

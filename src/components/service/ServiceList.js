@@ -1,11 +1,14 @@
 import React, {Component} from 'react';
-import {Link} from "react-router-dom"
+import {BrowserRouter as Router, Link} from "react-router-dom"
 import _ from "lodash"
 import ServiceDetails from "./ServiceDetails";
 import {fetch} from "../../helper/FetchData"
 import EditButton from "./EditButton";
 import Switch from "./Switch";
 import ApplyButton from "./ApplyButton";
+import AuthorizedRoute from "../AuthorizedRoute";
+import NewServiceForm from "./NewServiceForm";
+import AuthorizedComponent from "../AuthorizedComponent";
 
 class ServiceList extends Component {
     constructor(props, context) {
@@ -47,6 +50,7 @@ class ServiceList extends Component {
     }
 
     render() {
+        console.log(this.props);
         return (
             <div className={'container container-custom'}>
                 <div id="accordion">
@@ -60,8 +64,16 @@ class ServiceList extends Component {
                                             <h4 className={'m-0'}> {service.name}</h4>
                                         </a>
                                         <div className='d-flex p-2 align-items-center justify-content-center'>
-                                            <ApplyButton service={service}/>
-                                            <EditButton service={service}/>
+                                            <AuthorizedComponent
+                                                exact path={`${this.props.match.path}`}
+                                                component={ApplyButton}
+                                                permission={this.props.user.userType==='superAdmin'}
+                                                service={service}/>
+                                            <AuthorizedComponent
+                                                exact path={`${this.props.match.path}`}
+                                                component={EditButton}
+                                                permission={this.props.user.userType==='superAdmin'}
+                                                service={service}/>
                                             <Switch/>
                                         </div>
                                     </div>

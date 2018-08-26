@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import NavigationBar from "../NavigationBar";
 import Header from "../Header";
 import _ from "lodash"
-import DropDown from "../DropDown";
+import DropDown from "./DropDown";
 import MultiSelectDropDown from "./MultiSelectDropDown";
 import {Redirect} from "react-router-dom";
 

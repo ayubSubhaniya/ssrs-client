@@ -7,7 +7,7 @@ const AuthorizedRoute = ({component: Component, ...rest, permission}) => (
         {...rest}
         render={props =>
             permission ? (
-                <Component {...props} />
+                <Component {...props} {...rest}/>
             ) : (
                 <NotFound/>
             )
