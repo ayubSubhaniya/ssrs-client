@@ -7,74 +7,9 @@ import MultiSelectDropDown from "./MultiSelectDropDown";
 
 class OrderForm extends Component {
 
-    constructor() {
-        super();
-        this.service = {
-            "_id": "5b784c77022737551781ed8b",
-            "name": "Transcript",
-            "description": "Get Full Transcript",
-            "createdOn": "2018-08-18T16:42:31.881Z",
-            "createdBy": "201501433",
-            "isActive": true,
-            "maxUnits": 10,
-            "baseCharge": 30,
-            "availableParameters": [
-                {
-                    "baseCharge": 50,
-                    "isActive": true,
-                    "_id": "5b71d3939257504ec82ffd71",
-                    "name": "Sealed Envelop",
-                    "description": "Get document in sealed envelop",
-                    "createdOn": "2018-08-13T18:53:07.010Z",
-                    "createdBy": "201501433"
-                },
-                {
-                    "baseCharge": 60,
-                    "isActive": true,
-                    "_id": "5b71d3939257504c82ffd71",
-                    "name": "Sealed Envelop 1",
-                    "description": "Get document in sealed envelop",
-                    "createdOn": "2018-08-13T18:53:07.010Z",
-                    "createdBy": "201501433"
-                },
-                {
-                    "baseCharge": 70,
-                    "isActive": true,
-                    "_id": "5b71d393925754ec82ffd71",
-                    "name": "Sealed Envelop 2",
-                    "description": "Get document in sealed envelop",
-                    "createdOn": "2018-08-13T18:53:07.010Z",
-                    "createdBy": "201501433"
-                }
-            ],
-            "specialServiceUsers": [],
-            "paymentModes": {
-                "debitCard": true,
-                "netBanking": false,
-                "paytm": true,
-                "cashOnDelivery": true
-            },
-            "collectionTypes": [
-                {
-                    "baseCharge": 100,
-                    "isActive": true,
-                    "_id": "5b71d3d3957504ec82ffd73",
-                    "name": "Courier",
-                    "description": "Courier is sent through speed post",
-                    "createdOn": "2018-08-13T18:54:11.046Z",
-                    "createdBy": "201501433"
-                },
-                {
-                    "baseCharge": 300,
-                    "isActive": true,
-                    "_id": "5b71d3d39257504ec82fd73",
-                    "name": "On Campus",
-                    "description": "Courier is sent through speed post",
-                    "createdOn": "2018-08-13T18:54:11.046Z",
-                    "createdBy": "201501433"
-                }
-            ]
-        }
+    constructor(props) {
+        super(props);
+        this.service = props.location.state.service
         this.state = {
             units: 1,
             comments: '',
@@ -116,7 +51,6 @@ class OrderForm extends Component {
             this.service.collectionTypes[this.state.collectionTypeIndex].baseCharge + ")"
             : 'Select'
         const parameterBtnLabel = _.filter(this.state.parameters);
-        console.log(parameterBtnLabel)
         return (
             <div>
                 <NavigationBar/>
@@ -142,7 +76,7 @@ class OrderForm extends Component {
                                             type="text"
                                             name="baseCharge"
                                             disabled={true}
-                                            value={this.service.baseCharge + " ₹"}
+                                            value={" ₹ " + this.service.baseCharge }
                                         />
                                     </div>
                                     <div className="form-group form-inline">
@@ -151,7 +85,7 @@ class OrderForm extends Component {
                                         <input
                                             className={'form-control text-center ml-2'}
                                             type="number"
-                                            min={0}
+                                            min={1}
                                             max={this.service.maxUnits}
                                             name="units"
                                             value={this.state.units}
@@ -176,9 +110,6 @@ class OrderForm extends Component {
                                     <label>Comments</label>
                                     <textarea
                                         className={'form-control'}
-                                        type="number"
-                                        min={0}
-                                        max={10}
                                         rows="5"
                                         name="comments"
                                         placeholder="Write Comments"

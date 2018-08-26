@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import _ from "lodash";
 
-class MultiSelectDropDown extends Component {
+class MultiSelectDropDownControled extends Component {
     render() {
         return (
             <div className="form-group">
@@ -23,7 +23,9 @@ class MultiSelectDropDown extends Component {
                                                    style={{"width": '100%', "minHeight": '26px'}}>
                                                 <input onClick={this.props.handleOptionChange}
                                                        data-index={index}
-                                                       type="checkbox"/>
+                                                       type="checkbox"
+                                                       name={this.props.name}
+                                                       checked={o.isActive}/>
                                                 {o.name + " (₹" + o.baseCharge + ")"}
                                             </label>
                                         </li>)
@@ -37,4 +39,4 @@ class MultiSelectDropDown extends Component {
     }
 }
 
-export default MultiSelectDropDown;
+export default MultiSelectDropDownControled;

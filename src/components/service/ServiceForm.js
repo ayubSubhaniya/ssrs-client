@@ -8,7 +8,7 @@ import Header from "../Header";
 import * as HttpStatus from "http-status-codes";
 import {fetch} from '../../helper/FetchData'
 import NavigationBar from "../NavigationBar";
-import MultiSelectDropDown from "./MultiSelectDropDown";
+import MultiSelectDropDownControled from "./MultiSelectDropDownControled";
 import {collectionType} from "../../test/CollectionType";
 
 class ServiceForm extends Component {
@@ -184,17 +184,17 @@ class ServiceForm extends Component {
                             paymentModes={this.state.paymentModes}
                             handleChange={this.handlePaymentModeChange}/>
                         <div className="col-sm-6">
-                            <MultiSelectDropDown label={'Collection Type'}
-                                                 btnLabel={"Select"}
-                                                 options={collectionType}
-                                                 name={'collectionType'}
-                                                 handleOptionChange={this.handleArrayUpdate}/>
+                            <MultiSelectDropDownControled label={'Collection Type'}
+                                                          btnLabel={"Select"}
+                                                          options={collectionType}
+                                                          name={'collectionType'}
+                                                          handleOptionChange={this.handleArrayUpdate}/>
 
-                            <MultiSelectDropDown label={'Parameters'}
-                                                 btnLabel={"Select"}
-                                                 options={parameter}
-                                                 name={'parameter'}
-                                                 handleOptionChange={this.handleArrayUpdate}/>
+                            <MultiSelectDropDownControled label={'Parameters'}
+                                                          btnLabel={"Select"}
+                                                          options={parameter}
+                                                          name={'parameter'}
+                                                          handleOptionChange={this.handleArrayUpdate}/>
                         </div>
                         <div className={'d-flex justify-content-center mt-4'}>
                             <input

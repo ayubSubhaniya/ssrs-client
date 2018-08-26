@@ -9,8 +9,7 @@ import {domainUrl} from "../config/configuration";
 import * as HttpStatus from "http-status-codes";
 import PublicPage from "./public-page/PublicPage";
 import Cart from "./cart/Cart";
-import OrderForm from "./order/OrderForm";
-import Services from "./order/Services"
+import OrderForm from "./service/OrderForm";
 
 export const Context = React.createContext();
 
@@ -116,11 +115,7 @@ class App extends Component {
                             component={Cart}
                             permission={isAuthenticated}/>
                         <AuthorizedRoute
-                            exact path="/orders"
-                            component={Services}
-                            permission={isAuthenticated}/>
-                        <AuthorizedRoute
-                            exact path="/place-order"
+                            exact path="/service/order"
                             component={OrderForm}
                             permission={isAuthenticated}/>
                     </React.Fragment>

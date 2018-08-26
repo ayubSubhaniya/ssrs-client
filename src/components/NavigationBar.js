@@ -44,7 +44,6 @@ class NavigationBar extends Component {
                                             <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                                 <a className="dropdown-item" href="/service">All Services</a>
                                                 <a className="dropdown-item" href="/service/add">Add New Service</a>
-                                                <a className="dropdown-item" href="/">Something else here</a>
                                             </div>
                                         </li>
                                         <li className="nav-item dropdown">

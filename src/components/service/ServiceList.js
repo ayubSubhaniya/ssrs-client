@@ -3,21 +3,18 @@ import {Link} from "react-router-dom"
 import _ from "lodash"
 import ServiceDetails from "./ServiceDetails";
 import {fetch} from "../../helper/FetchData"
+import EditButton from "./EditButton";
+import Switch from "./Switch";
+import ApplyButton from "./ApplyButton";
 
 class ServiceList extends Component {
     constructor(props, context) {
         super(props, context);
-        this.handleSelect = this.handleSelect.bind(this);
         this.state = {
-            activeKey: '0',
             service: []
         };
         this.fetch = fetch.bind(this);
         this.fetch("service")
-    }
-
-    handleSelect(activeKey) {
-        this.setState({activeKey});
     }
 
     toggleService = (service) => {
@@ -57,25 +54,15 @@ class ServiceList extends Component {
                         _.map(this.state.service, (service, i) => {
                             return (
                                 <div key={service._id} className="card">
-                                    <div className="card-header d-flex justify-content-between align-items-center">
-                                        <a className="collapsed card-link text-dark" data-toggle="collapse"
+                                    <div className="card-header d-flex justify-content-between align-items-center p-0">
+                                        <a className="collapsed card-link text-dark w-100 h-100 p-3 ml-2" data-toggle="collapse"
                                            href={"#collapse" + i}>
-                                            <h4> {service.name}</h4>
+                                            <h4 className={'m-0'}> {service.name}</h4>
                                         </a>
-                                        <div className='d-flex'>
-                                            <Link to={{
-                                                pathname: '/service/edit',
-                                                state: {service}
-                                            }}>
-                                                <div className="btn btn-default btn-sm"
-                                                     data-index={i}>
-                                                    <i className="fa fa-pencil"
-                                                       style={{"fontSize":"24px","color":"black"}}></i>                                               </div>
-                                            </Link>
-                                            <label className="switch">
-                                                <input type="checkbox"/>
-                                                    <span className="slider round"></span>
-                                            </label>
+                                        <div className='d-flex p-2 align-items-center justify-content-center'>
+                                            <ApplyButton service={service}/>
+                                            <EditButton service={service}/>
+                                            <Switch/>
                                         </div>
                                     </div>
                                     <div id={'collapse' + i} className="collapse" data-parent="#accordion">
