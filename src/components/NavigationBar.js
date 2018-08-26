@@ -11,7 +11,7 @@ class NavigationBar extends Component {
                     return (
                         <div>
                             <Image src={logo} className={'logo'}/>
-                            <nav className="navbar navbar-expand-lg navbar-dark nav-bg">
+                            <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
                                 <button className="navbar-toggler" type="button" data-toggle="collapse"
                                         data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown"
                                         aria-expanded="false" aria-label="Toggle navigation">
