@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-// import "./order.css"
 import NavigationBar from "../NavigationBar";
 import List from "./List";
 
@@ -9,7 +8,6 @@ class Services extends Component {
         this.state = {
             isFilterVisible: false
         }
-        // console.log(styles.container);
     }
 
     triggerFilter = (e) => {

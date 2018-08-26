@@ -57,10 +57,10 @@ class ServiceList extends Component {
                         _.map(this.state.service, (service, i) => {
                             return (
                                 <div key={service._id} className="card">
-                                    <div className="card-header d-flex justify-content-between">
-                                        <a className="collapsed card-link" data-toggle="collapse"
+                                    <div className="card-header d-flex justify-content-between align-items-center">
+                                        <a className="collapsed card-link text-dark" data-toggle="collapse"
                                            href={"#collapse" + i}>
-                                            {service.name}
+                                            <h4> {service.name}</h4>
                                         </a>
                                         <div className='d-flex'>
                                             <Link to={{

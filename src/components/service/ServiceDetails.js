@@ -1,9 +1,12 @@
-import {Component} from "react";
-import React from "react";
+import React, {Component} from "react";
 import _ from 'lodash'
 
 function capitalize(x) {
     return x.charAt(0).toUpperCase() + x.slice(1);
+}
+
+function filterName(x) {
+    return _.map(_.filter(x,o => o.isActive), o => capitalize(o.name)).join(", ")
 }
 
 class ServiceDetails extends Component {
@@ -11,12 +14,18 @@ class ServiceDetails extends Component {
         const {service} = this.props;
         return (
             <div>
-                <h5><span className={'bold'}>Description: </span> {service.description}</h5>
-                <h5><span className={'bold'}>Base Charge: </span>{service.baseCharge}</h5>
-                <h5><span className={'bold'}>Maximum Units: </span>{service.maxUnits}</h5>
-                <h5><span
-                    className={'bold'}>Payment Modes: </span>{_.map(_.keys(_.pickBy(service.paymentModes)), (x) => capitalize(x)).join(", ")}
-                </h5>
+                <h5><strong>Description: </strong>
+                    {service.description}</h5>
+                <h5><strong>Base Charge: </strong>
+                    {"₹ " + service.baseCharge}</h5>
+                <h5><strong>Maximum Units: </strong>
+                    {service.maxUnits}</h5>
+                <h5><strong>Payment Modes: </strong>
+                    {_.map(_.keys(_.pickBy(service.paymentModes)), (x) => capitalize(x)).join(", ")} </h5>
+                <h5><strong>Collection Type: </strong>
+                    {filterName(service.collectionTypes)} </h5>
+                <h5><strong>Available Parameters: </strong>
+                    {filterName(service.availableParameters)} </h5>
             </div>
         )
     }

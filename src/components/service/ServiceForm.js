@@ -41,7 +41,7 @@ class ServiceForm extends Component {
                 baseCharge: this.service.baseCharge,
                 paymentModes: this.service.paymentModes,
                 collectionType: this.service.collectionTypes,
-                parameter: this.service.parameter
+                parameter: this.service.availableParameters
             }
             : defaultState;
         this.fetch = fetch.bind(this);
@@ -69,6 +69,7 @@ class ServiceForm extends Component {
             [target.name]: newArray
         })
     }
+
     getServiceFromState() {
         const {other, ...service} = this.state;
         service.collectionTypes = _.map(_.filter(this.state.collectionType, ({isActive}) => isActive), '_id');
@@ -130,7 +131,7 @@ class ServiceForm extends Component {
             <div>
                 <NavigationBar/>
                 <Header title={this.props.title}/>
-                <div className="container bg-light p-5">
+                <div className="container container-custom">
                     <form autoComplete="off" onSubmit={this.handleSubmit}>
                         <div className="form-row">
                             <div className="form-group col-md-6">
@@ -195,11 +196,13 @@ class ServiceForm extends Component {
                                                  name={'parameter'}
                                                  handleOptionChange={this.handleArrayUpdate}/>
                         </div>
-                        <input
-                            className='submit'
-                            type="submit"
-                            value="Save"
-                            onSubmit={this.handleSubmit}/>
+                        <div className={'d-flex justify-content-center mt-4'}>
+                            <input
+                                className='submit'
+                                type="submit"
+                                value="Save"
+                                onSubmit={this.handleSubmit}/>
+                        </div>
                     </form>
                 </div>
             </div>
