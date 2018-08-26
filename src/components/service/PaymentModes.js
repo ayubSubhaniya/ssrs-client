@@ -1,5 +1,6 @@
 import React from 'react'
 import {COD, DEBITCARD, NETBANKING, PAYTM} from "../../constants/PaymentMode";
+import Mode from "./Mode";
 
 function PaymentModes(props) {
     return (
@@ -9,48 +10,22 @@ function PaymentModes(props) {
                 Payment Modes
             </label>
             <div className={'bg-white'}>
-                <div className={'form-check'}>
-                    <label>
-                        <input className="form-check-input"
-                               type="checkbox"
-                               name={COD}
-                               checked={props.paymentModes[COD]}
-                               onChange={props.handleChange}/>
-                        Cash(Offline)
-                    </label>
-                </div>
-                <div className={'form-check'}>
-                    <label>
-                        <input className="form-check-input"
-                               type="checkbox"
-                               name={DEBITCARD}
-                               onChange={props.handleChange}
-                               checked={props.paymentModes[DEBITCARD]}
-                        />
-                        Debit Card
-                    </label>
-                </div>
-                <div className={'form-check'}>
-                    <label>
-                        <input
-                            className="form-check-input"
-                            type="checkbox"
-                            name={NETBANKING}
-                            checked={props.paymentModes[NETBANKING]}
-                            onChange={props.handleChange}/>
-                        Netbanking
-                    </label>
-                </div>
-                <div className={'form-check'}>
-                    <label>
-                        <input className="form-check-input"
-                               type="checkbox"
-                               name={PAYTM}
-                               checked={props.paymentModes[PAYTM]}
-                               onChange={props.handleChange}/>
-                        Paytm
-                    </label>
-                </div>
+                <Mode onChange={props.handleChange}
+                      mode={COD}
+                      text={'Cash(Offline)'}
+                      isChecked={props.paymentModes[COD]}/>
+                <Mode onChange={props.handleChange}
+                      mode={DEBITCARD}
+                      text={'Debit Card'}
+                      isChecked={props.paymentModes[DEBITCARD]}/>
+                <Mode onChange={props.handleChange}
+                      mode={NETBANKING}
+                      text={'Netbanking'}
+                      isChecked={props.paymentModes[NETBANKING]}/>
+                <Mode onChange={props.handleChange}
+                      mode={PAYTM}
+                      text={'Paytm'}
+                      isChecked={props.paymentModes[PAYTM]}/>
             </div>
         </div>
     )

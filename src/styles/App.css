@@ -3,14 +3,6 @@
     --main-color-light: rgba(32, 45, 65, 0.09);
 }
 
-html {
-    font-size: 15px;
-}
-
-body {
-    background: white;
-}
-
 .App {
     background: #000;
     padding-top: 4em;

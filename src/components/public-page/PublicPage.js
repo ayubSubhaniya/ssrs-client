@@ -179,7 +179,7 @@ class PublicPage extends Component {
                                                                   id="basic-addon">
                                                                 <i className="material-icons" style={{"cursor":"pointer"}}
                                                                                       onClick={this.changePassworVisibility}>
-                                                    {showPassword ? "visibility_off" : "visibility"}
+                                                    {!showPassword ? "visibility_off" : "visibility"}
                                                 </i></span>
                                                     </div>
                                                 </div>
