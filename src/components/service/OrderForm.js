@@ -4,17 +4,21 @@ import Header from "../Header";
 import _ from "lodash"
 import DropDown from "../DropDown";
 import MultiSelectDropDown from "./MultiSelectDropDown";
+import {Redirect} from "react-router-dom";
+
 
 class OrderForm extends Component {
 
     constructor(props) {
         super(props);
-        this.service = props.location.state.service
-        this.state = {
-            units: 1,
-            comments: '',
-            collectionTypeIndex: -1,
-            parameters: new Array(this.service.availableParameters.length).fill(false)
+        if(props.location.state) {
+            this.service = props.location.state.service
+            this.state = {
+                units: 1,
+                comments: '',
+                collectionTypeIndex: -1,
+                parameters: new Array(this.service.availableParameters.length).fill(false)
+            }
         }
     }
 
@@ -46,88 +50,94 @@ class OrderForm extends Component {
     }
 
     render() {
-        const SelectedCollectionTypeName = this.state.collectionTypeIndex != -1
-            ? this.service.collectionTypes[this.state.collectionTypeIndex].name + " (₹" +
-            this.service.collectionTypes[this.state.collectionTypeIndex].baseCharge + ")"
-            : 'Select'
-        const parameterBtnLabel = _.filter(this.state.parameters);
-        return (
-            <div>
-                <NavigationBar/>
-                <Header title={"Apply For Service"}/>
-                <div className={'container'}>
-                    <form autoComplete="on" onSubmit={this.handleSubmit}>
-                        <div className={'row'}>
-                            <div className="col-sm-12">
-                                <div className="card bg-light mb-3 p-2">
-                                    <div className="text-center">
-                                        <h1>{this.service.name}</h1>
-                                        <p>{this.service.description}</p>
+        if(this.props.location.state) {
+            const SelectedCollectionTypeName = this.state.collectionTypeIndex != -1
+                ? this.service.collectionTypes[this.state.collectionTypeIndex].name + " (₹" +
+                this.service.collectionTypes[this.state.collectionTypeIndex].baseCharge + ")"
+                : 'Select'
+            const parameterBtnLabel = _.filter(this.state.parameters);
+            return (
+                <div>
+                    <NavigationBar/>
+                    <Header title={"Apply For Service"}/>
+                    <div className={'container'}>
+                        <form autoComplete="on" onSubmit={this.handleSubmit}>
+                            <div className={'row'}>
+                                <div className="col-sm-12">
+                                    <div className="card bg-light mb-3 p-2">
+                                        <div className="text-center">
+                                            <h1>{this.service.name}</h1>
+                                            <p>{this.service.description}</p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div className="col-sm-6">
-                                <div className="card bg-light mb-3 p-4">
-                                    <div className="form-group form-inline">
-                                        <label>Base Charge</label>
-                                        {": "}
-                                        <input
-                                            className={'form-control ml-2'}
-                                            type="text"
-                                            name="baseCharge"
-                                            disabled={true}
-                                            value={" ₹ " + this.service.baseCharge }
-                                        />
+                                <div className="col-sm-6">
+                                    <div className="card bg-light mb-3 p-4">
+                                        <div className="form-group form-inline">
+                                            <label>Base Charge</label>
+                                            {": "}
+                                            <input
+                                                className={'form-control ml-2'}
+                                                type="text"
+                                                name="baseCharge"
+                                                disabled={true}
+                                                value={" ₹ " + this.service.baseCharge}
+                                            />
+                                        </div>
+                                        <div className="form-group form-inline">
+                                            <label>Select No. Of Units</label>
+                                            {": "}
+                                            <input
+                                                className={'form-control text-center ml-2'}
+                                                type="number"
+                                                min={1}
+                                                max={this.service.maxUnits}
+                                                name="units"
+                                                value={this.state.units}
+                                                placeholder="Enter Maximum Allowed Unit"
+                                                onChange={this.handleChange}
+                                                required
+                                            />
+                                        </div>
+                                        <DropDown label={'Collection Type'}
+                                                  btnLabel={SelectedCollectionTypeName}
+                                                  options={this.service.collectionTypes}
+                                                  handleOptionChange={this.handleCollectionTypeChange}/>
+                                        <MultiSelectDropDown label={'Parameters'}
+                                                             btnLabel={"Select"}
+                                                             options={this.service.availableParameters}
+                                                             handleOptionChange={this.handleParamenterChange}/>
                                     </div>
-                                    <div className="form-group form-inline">
-                                        <label>Select No. Of Units</label>
-                                        {": "}
-                                        <input
-                                            className={'form-control text-center ml-2'}
-                                            type="number"
-                                            min={1}
-                                            max={this.service.maxUnits}
-                                            name="units"
-                                            value={this.state.units}
-                                            placeholder="Enter Maximum Allowed Unit"
-                                            onChange={this.handleChange}
-                                            required
-                                        />
-                                    </div>
-                                    <DropDown label={'Collection Type'}
-                                              btnLabel={SelectedCollectionTypeName}
-                                              options={this.service.collectionTypes}
-                                              handleOptionChange={this.handleCollectionTypeChange}/>
-                                    <MultiSelectDropDown label={'Parameters'}
-                                                         btnLabel={"Select"}
-                                                         options={this.service.availableParameters}
-                                                         handleOptionChange={this.handleParamenterChange}/>
                                 </div>
-                            </div>
 
-                            <div className="col-sm-6">
-                                <div className="card bg-light mb-3 p-4">
-                                    <label>Comments</label>
-                                    <textarea
-                                        className={'form-control'}
-                                        rows="5"
-                                        name="comments"
-                                        placeholder="Write Comments"
-                                        onChange={this.handleChange}
-                                    />
+                                <div className="col-sm-6">
+                                    <div className="card bg-light mb-3 p-4">
+                                        <label>Comments</label>
+                                        <textarea
+                                            className={'form-control'}
+                                            rows="5"
+                                            name="comments"
+                                            placeholder="Write Comments"
+                                            onChange={this.handleChange}
+                                        />
+                                    </div>
+                                </div>
+                                <div className={'w-100 d-flex justify-content-center mt-3'}>
+                                    <input
+                                        className='submit'
+                                        type="submit"
+                                        value="Proceed"/>
                                 </div>
                             </div>
-                            <div className={'w-100 d-flex justify-content-center mt-3'}>
-                                <input
-                                    className='submit'
-                                    type="submit"
-                                    value="Proceed"/>
-                            </div>
-                        </div>
-                    </form>
+                        </form>
+                    </div>
                 </div>
-            </div>
-        )
+            )
+        }else{
+           return <Redirect to={{
+                pathname: "/service"
+            }}/>
+        }
     }
 }
 

@@ -10,17 +10,12 @@ import {fetch} from '../../helper/FetchData'
 import NavigationBar from "../NavigationBar";
 import MultiSelectDropDownControled from "./MultiSelectDropDownControled";
 import {collectionType} from "../../test/CollectionType";
+import {handleChange, handleArrayUpdate, handlePaymentModeChange, getServiceFromState} from "../../helper/StateUpdate"
 
-class ServiceForm extends Component {
+class NewServiceForm extends Component {
     constructor(props) {
         super(props);
-        this.service = props.location.state ? props.location.state.service : undefined;
-        if (!this.service && props.location.pathname == ('/service/edit')) {
-            props.history.replace('/service');
-        }
-
-        console.log(this.service);
-        const defaultState = {
+        this.state = {
             name: '',
             description: '',
             maxUnits: '',
@@ -34,50 +29,13 @@ class ServiceForm extends Component {
             collectionType: [],
             parameter: []
         }
-        this.state = this.service ? {
-                name: this.service.name,
-                description: this.service.description,
-                maxUnits: this.service.maxUnits,
-                baseCharge: this.service.baseCharge,
-                paymentModes: this.service.paymentModes,
-                collectionType: this.service.collectionTypes,
-                parameter: this.service.availableParameters
-            }
-            : defaultState;
         this.fetch = fetch.bind(this);
+        this.handleChange = handleChange.bind(this)
+        this.handleArrayUpdate = handleArrayUpdate.bind(this)
+        this.handlePaymentModeChange = handlePaymentModeChange.bind(this);
+        this.getServiceFromState = getServiceFromState.bind(this);
         this.fetch("collectionType");
         this.fetch("parameter");
-    }
-
-    handleChange = ({target}) => {
-        this.setState({
-            [target.name]: target.value
-        })
-    }
-    handlePaymentModeChange = ({target}) => {
-        const paymentModes = this.state.paymentModes
-        paymentModes[target.name] = !paymentModes[target.name]
-        this.setState({
-            paymentModes
-        });
-    }
-
-    handleArrayUpdate = ({target}) => {
-        const newArray = this.state[target.name];
-        newArray[target.dataset.index].isActive = !newArray[target.dataset.index].isActive
-        this.setState({
-            [target.name]: newArray
-        })
-    }
-
-    getServiceFromState() {
-        const {other, ...service} = this.state;
-        service.collectionTypes = _.map(_.filter(this.state.collectionType, ({isActive}) => isActive), '_id');
-        service.availableParameters = _.map(_.filter(this.state.parameter, ({isActive}) => isActive), '_id');
-        delete service.parameter;
-        delete service.collectionType;
-        console.log(service);
-        return service;
     }
 
     addService = () => {
@@ -97,31 +55,9 @@ class ServiceForm extends Component {
         request.send(JSON.stringify(this.getServiceFromState()));
     }
 
-    updateService = () => {
-        const that = this;
-        const url = domainUrl + '/service/' + this.service._id;
-        const request = new XMLHttpRequest();
-        request.open('PATCH', url, true);
-        request.withCredentials = true;
-        request.setRequestHeader("Content-type", "application/json");
-        request.onload = function () {
-            if (this.status == HttpStatus.ACCEPTED) {
-                const response = JSON.parse(request.response)
-                console.log(response);
-                that.props.history.push('/service');
-            }
-            ;
-        };
-        request.send(JSON.stringify(this.getServiceFromState()));
-    }
-
     handleSubmit = (event) => {
         event.preventDefault();
-        if (this.service) {
-            this.updateService()
-        } else {
-            this.addService()
-        }
+        this.addService()
     }
 
 
@@ -130,7 +66,7 @@ class ServiceForm extends Component {
         return (
             <div>
                 <NavigationBar/>
-                <Header title={this.props.title}/>
+                <Header title={"Add New Service"}/>
                 <div className="container container-custom">
                     <form autoComplete="off" onSubmit={this.handleSubmit}>
                         <div className="form-row">
@@ -210,5 +146,5 @@ class ServiceForm extends Component {
     }
 }
 
-export default withRouter(ServiceForm);
+export default withRouter(NewServiceForm);
 

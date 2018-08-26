@@ -4,7 +4,7 @@ import {Link} from "react-router-dom";
 function EditButton({service}) {
     return (
         <Link to={{
-            pathname: '/service/edit',
+            pathname: '/service/edit/' + service._id,
             state: {service}
         }}>
             <div className="btn btn-default btn-sm">

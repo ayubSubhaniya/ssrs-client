@@ -3,7 +3,8 @@ import '../styles/App.css';
 import {BrowserRouter as Router, Route} from "react-router-dom";
 import Home from './home/Home';
 import ManageService from "./service/ManageService";
-import ServiceForm from "./service/ServiceForm";
+import NewServiceForm from "./service/NewServiceForm";
+import EditForm from "./service/EditForm";
 import AuthorizedRoute from './AuthorizedRoute'
 import {domainUrl} from "../config/configuration";
 import * as HttpStatus from "http-status-codes";
@@ -104,18 +105,18 @@ class App extends Component {
                             permission={isAuthenticated}/>
                         <AuthorizedRoute
                             exact path="/service/add"
-                            component={() => <ServiceForm title={'Add Service'}/>}
+                            component={NewServiceForm}
                             permission={isAuthenticated}/>
                         <AuthorizedRoute
-                            exact path="/service/edit"
-                            component={() => <ServiceForm title={'Edit Service'}/>}
+                            path="/service/edit"
+                            component={EditForm}
                             permission={isAuthenticated}/>
                         <AuthorizedRoute
                             exact path="/cart"
                             component={Cart}
                             permission={isAuthenticated}/>
                         <AuthorizedRoute
-                            exact path="/service/order"
+                            path="/service/order"
                             component={OrderForm}
                             permission={isAuthenticated}/>
                     </React.Fragment>
