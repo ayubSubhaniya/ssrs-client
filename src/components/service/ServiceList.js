@@ -9,6 +9,7 @@ import ApplyButton from "./ApplyButton";
 import AuthorizedComponent from "../AuthorizedComponent";
 import {domainUrl} from '../../config/configuration'
 import * as HttpStatus from "http-status-codes";
+import ConfirmModal from "../ConfirmModal";
 
 class ServiceList extends Component {
     constructor(props, context) {
@@ -99,6 +100,7 @@ class ServiceList extends Component {
                             value="Add New Service"/>
                     </Link>
                 </div>
+                <ConfirmModal/>
             </div>
         );
     }
