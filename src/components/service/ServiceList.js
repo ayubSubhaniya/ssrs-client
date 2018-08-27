@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {BrowserRouter as Router, Link} from "react-router-dom"
+import {Link} from "react-router-dom"
 import _ from "lodash"
 import ServiceDetails from "./ServiceDetails";
 import {fetch} from "../../helper/FetchData"
@@ -57,20 +57,19 @@ class ServiceList extends Component {
                             return (
                                 <div key={service._id} className="card">
                                     <div className="card-header d-flex justify-content-between align-items-center p-0">
-                                        <a className="collapsed card-link text-dark w-100 h-100 p-3 ml-2" data-toggle="collapse"
+                                        <a className="collapsed card-link text-dark w-100 h-100 p-3 ml-2"
+                                           data-toggle="collapse"
                                            href={"#collapse" + i}>
                                             <h4 className={'m-0'}> {service.name}</h4>
                                         </a>
                                         <div className='d-flex p-2 align-items-center justify-content-center'>
                                             <AuthorizedComponent
-                                                exact path={`${this.props.match.path}`}
                                                 component={ApplyButton}
-                                                permission={this.props.user.userType==='superAdmin'}
+                                                permission={this.props.user.userType === 'superAdmin'}
                                                 service={service}/>
                                             <AuthorizedComponent
-                                                exact path={`${this.props.match.path}`}
                                                 component={EditButton}
-                                                permission={this.props.user.userType==='superAdmin'}
+                                                permission={this.props.user.userType === 'superAdmin'}
                                                 service={service}/>
                                             <Switch/>
                                         </div>
