@@ -7,44 +7,44 @@ import EditButton from "./EditButton";
 import Switch from "./Switch";
 import ApplyButton from "./ApplyButton";
 import AuthorizedComponent from "../AuthorizedComponent";
+import {domainUrl} from '../../config/configuration'
+import * as HttpStatus from "http-status-codes";
 
 class ServiceList extends Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
-            service: []
+            service: [],
+            isSwitchDisabled: false
         };
         this.fetch = fetch.bind(this);
         this.fetch("service")
     }
 
-    toggleService = (service) => {
-        console.log(service)
-        const that = this;
-        // const url = domainUrl + '/service/' + service._id;
-        // const request = new XMLHttpRequest();
-        // request.open('PATCH', url, true);
-        // request.withCredentials = true;
-        // request.setRequestHeader("Content-type", "application/json");
-        // request.onload = function () {
-        //     if (this.status == HttpStatus.ACCEPTED) {
-        //
-        //         const response = JSON.parse(request.response)
-        //         console.log(response);
-        //         that.props.history.push('/service');
-        //     }
-        //     ;
-        // // };
+    toggleService = (index) => {
         this.setState({
-            service: _.map(this.state.service, (o) => {
-                if (o._id == service._id) {
-                    o.isActive = !o.isActive;
-                }
-                return o;
-            }),
-        });
+            isSwitchDisabled: true
+        })
+        const service = this.state.service[index];
+        const that = this;
+        const url = domainUrl + '/service/' + service._id;
+        const request = new XMLHttpRequest();
+        request.open('PATCH', url, true);
+        request.withCredentials = true;
+        request.setRequestHeader("Content-type", "application/json");
+        request.onload = function () {
+            if (this.status == HttpStatus.ACCEPTED) {
+                const response = JSON.parse(request.response)
+                const serviceList = that.state.service;
+                serviceList[index] = response.service;
+                that.setState({
+                    service: serviceList,
+                    isSwitchDisabled: false
 
-
+                });
+            }
+        }
+        request.send(JSON.stringify({isActive:!service.isActive}));
     }
 
     render() {
@@ -74,6 +74,10 @@ class ServiceList extends Component {
                                                 index={i}/>
                                             <AuthorizedComponent
                                                 component={Switch}
+                                                handleClick={this.toggleService}
+                                                index={i}
+                                                isDisabled={this.state.isSwitchDisabled}
+                                                isChecked={service.isActive?true:false}
                                                 permission={this.props.user.userType === 'superAdmin'}/>
                                         </div>
                                     </div>

@@ -3,7 +3,9 @@ import {Link} from "react-router-dom";
 
 function EditButton({service,index}) {
     return (
-        <Link to={{
+        <Link
+            className={'ml-2 mr-2'}
+            to={{
             pathname: '/service/edit/' + index,
             state: {service}
         }}>

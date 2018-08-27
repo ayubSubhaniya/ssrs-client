@@ -5,11 +5,13 @@ class ApplyButton extends React.Component {
     render() {
         const {service,index} = this.props;
         return (
-            <Link to={{
+            <Link
+                className={'ml-2 mr-2'}
+                to={{
                 pathname: '/service/order/' + index,
                 state: {service}
             }}>
-                <div className={'btn btn-info btn-large'}>
+                <div className={'btn btn-success btn-large'}>
                     Apply
                 </div>
             </Link>
