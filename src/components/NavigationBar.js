@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Context} from "./App";
 import Image from "./Image";
 import logo from "../images/daiict.png";
+import {Link} from "react-router-dom";
 
 class NavigationBar extends Component {
     render() {
@@ -20,8 +21,10 @@ class NavigationBar extends Component {
                                 <div className="collapse navbar-collapse" id="navbarNavDropdown">
                                     <ul className="navbar-nav ml-5">
                                         <li className="nav-item active">
-                                            <a className="nav-link" href="/">Home <span
-                                                className="sr-only">(current)</span></a>
+                                            <Link className="nav-link" to={{
+                                                pathname: '/',
+                                            }}>Home <span
+                                                className="sr-only">(current)</span></Link>
                                         </li>
                                         <li className="nav-item dropdown">
                                             <a className="nav-link dropdown-toggle" href="/" id="navbarDropdownMenuLink"
@@ -30,20 +33,30 @@ class NavigationBar extends Component {
                                                 Order Mangement
                                             </a>
                                             <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                                <a className="dropdown-item" href='/orders'>All Orders</a>
-                                                <a className="dropdown-item" href="/place-order">Place Order</a>
-                                                <a className="dropdown-item" href="/">Something else here</a>
+                                                <Link className="dropdown-item" to={{
+                                                    pathname: '/service/',
+                                                }}>All Orders</Link>
+                                                <Link className="dropdown-item" to={{
+                                                    pathname: '/service/',
+                                                }}>Place Order</Link>
+                                                <Link className="dropdown-item" to={{
+                                                    pathname: '/service/',
+                                                }}>Something else here</Link>
                                             </div>
                                         </li>
                                         <li className="nav-item dropdown">
-                                            <a className="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink"
+                                            <a className="nav-link dropdown-toggle" href="/" id="navbarDropdownMenuLink"
                                                role="button" data-toggle="dropdown" aria-haspopup="true"
                                                aria-expanded="false">
                                                 Service Managment
                                             </a>
                                             <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                                <a className="dropdown-item" href="/service">All Services</a>
-                                                <a className="dropdown-item" href="/service/add">Add New Service</a>
+                                                <Link className="dropdown-item" to={{
+                                                    pathname: '/service/',
+                                                }}>All Services</Link>
+                                                <Link className="dropdown-item" to={{
+                                                    pathname: '/service/add',
+                                                }}>Add New Service</Link>
                                             </div>
                                         </li>
                                         <li className="nav-item dropdown">
@@ -53,19 +66,34 @@ class NavigationBar extends Component {
                                                 User Mangement
                                             </a>
                                             <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                                <a className="dropdown-item" href="/service">All Services</a>
-                                                <a className="dropdown-item" href="/service/add">Add New Service</a>
-                                                <a className="dropdown-item" href="/">Something else here</a>
+                                                <Link className="dropdown-item" to={{
+                                                    pathname: '/service/',
+                                                }}>
+                                                    All Services
+                                                </Link>
+                                                <Link className="dropdown-item" to={{
+                                                    pathname: '/service/',
+                                                }}>Add New Service</Link>
+                                                <Link className="dropdown-item" to={{
+                                                    pathname: '/service/',
+                                                }}>Something else here</Link>
                                             </div>
                                         </li>
                                         <li className="nav-item">
-                                            <a className="nav-link" href="/cart">Cart</a>
+                                            <Link className="nav-link" to={{
+                                                pathname: '/cart/',
+                                            }}>Cart</Link>
                                         </li>
                                         <li className="nav-item">
-                                            <a className="nav-link" href="/">My Profile</a>
+                                            <Link className="nav-link" to={{
+                                                pathname: '/',
+                                            }}>My Profile</Link>
                                         </li>
                                         <li className="nav-item">
-                                            <a className="nav-link" onClick={value.logOut} style={{"cursor":"pointer"}}>Logout</a>
+                                            <Link className="nav-link" onClick={value.logOut}
+                                               style={{"cursor": "pointer"}} to={{
+                                                pathname: '/',
+                                            }}>Logout</Link>
                                         </li>
                                     </ul>
                                 </div>

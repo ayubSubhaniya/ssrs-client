@@ -18,7 +18,8 @@ class App extends Component {
         super(props);
         this.state = {
             isAuthenticated: false,
-            loginMessage: ''
+            loginMessage: '',
+            user: {}
         }
         this.getUserData();
     }
@@ -32,11 +33,10 @@ class App extends Component {
         request.onload = function () {
             if (this.status == HttpStatus.ACCEPTED) {
                 var res = JSON.parse(request.response)
-                var user = res.user;
-                console.log(user);
+                console.log(res.user);
                 that.state = {
                     isAuthenticated: true,
-                    user
+                    user: res.user
                 }
             }
         }
@@ -78,7 +78,10 @@ class App extends Component {
         request.withCredentials = true;
         request.onload = function () {
             if (this.status == HttpStatus.OK) {
-                window.location.href = "/"
+                that.setState({
+                    isAuthenticated: false,
+                    user: {}
+                })
             }
         };
         request.send();

@@ -6,8 +6,6 @@ import {fetch} from "../../helper/FetchData"
 import EditButton from "./EditButton";
 import Switch from "./Switch";
 import ApplyButton from "./ApplyButton";
-import AuthorizedRoute from "../AuthorizedRoute";
-import NewServiceForm from "./NewServiceForm";
 import AuthorizedComponent from "../AuthorizedComponent";
 
 class ServiceList extends Component {
