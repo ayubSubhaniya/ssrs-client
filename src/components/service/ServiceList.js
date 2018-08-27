@@ -65,11 +65,13 @@ class ServiceList extends Component {
                                             <AuthorizedComponent
                                                 component={ApplyButton}
                                                 permission={this.props.user.userType === 'superAdmin'}
-                                                service={service}/>
+                                                service={service}
+                                                index={i}/>
                                             <AuthorizedComponent
                                                 component={EditButton}
                                                 permission={this.props.user.userType === 'superAdmin'}
-                                                service={service}/>
+                                                service={service}
+                                                index={i}/>
                                             <AuthorizedComponent
                                                 component={Switch}
                                                 permission={this.props.user.userType === 'superAdmin'}/>

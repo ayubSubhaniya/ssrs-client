@@ -3,10 +3,10 @@ import {Link} from "react-router-dom";
 
 class ApplyButton extends React.Component {
     render() {
-        const {service} = this.props;
+        const {service,index} = this.props;
         return (
             <Link to={{
-                pathname: '/service/order/' + service._id,
+                pathname: '/service/order/' + index,
                 state: {service}
             }}>
                 <div className={'btn btn-info btn-large'}>
