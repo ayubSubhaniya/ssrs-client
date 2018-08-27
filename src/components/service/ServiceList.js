@@ -48,7 +48,6 @@ class ServiceList extends Component {
     }
 
     render() {
-        console.log(this.props);
         return (
             <div className={'container container-custom'}>
                 <div id="accordion">
@@ -71,7 +70,9 @@ class ServiceList extends Component {
                                                 component={EditButton}
                                                 permission={this.props.user.userType === 'superAdmin'}
                                                 service={service}/>
-                                            <Switch/>
+                                            <AuthorizedComponent
+                                                component={Switch}
+                                                permission={this.props.user.userType === 'superAdmin'}/>
                                         </div>
                                     </div>
                                     <div id={'collapse' + i} className="collapse" data-parent="#accordion">
