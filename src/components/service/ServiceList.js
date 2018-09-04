@@ -41,7 +41,6 @@ class ServiceList extends Component {
                 that.setState({
                     service: serviceList,
                     isSwitchDisabled: false
-
                 });
             }
         }
@@ -65,7 +64,7 @@ class ServiceList extends Component {
                                         <div className='d-flex p-2 align-items-center justify-content-center'>
                                             <AuthorizedComponent
                                                 component={ApplyButton}
-                                                permission={this.props.user.userType === 'superAdmin'}
+                                                permission={this.props.user.userType === 'student'}
                                                 service={service}
                                                 index={i}/>
                                             <AuthorizedComponent
@@ -100,7 +99,6 @@ class ServiceList extends Component {
                             value="Add New Service"/>
                     </Link>
                 </div>
-                <ConfirmModal/>
             </div>
         );
     }

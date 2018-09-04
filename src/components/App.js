@@ -26,12 +26,12 @@ class App extends Component {
 
     getUserData = () => {
         const that = this;
-        var url = domainUrl + '/user/201501433';
+        var url = domainUrl + '/user';
         var request = new XMLHttpRequest();
         request.open('GET', url, false);
         request.withCredentials = true;
         request.onload = function () {
-            if (this.status == HttpStatus.ACCEPTED) {
+            if (this.status === HttpStatus.OK) {
                 var res = JSON.parse(request.response)
                 console.log(res.user);
                 that.state = {
@@ -61,7 +61,7 @@ class App extends Component {
                     isAuthenticated: true,
                     user: res.user
                 })
-            } else if (this.status == HttpStatus.UNAUTHORIZED) {
+            } else {
                 that.setState({
                     loginMessage: 'Incorrect username/password'
                 })

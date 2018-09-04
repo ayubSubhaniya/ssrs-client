@@ -63,12 +63,18 @@ class PublicPage extends Component {
         request.onload = function () {
             if (this.status == HttpStatus.CREATED) {
                 that.setState({isSignup: true});
-            } else {
+            }else if(this.status===HttpStatus.FORBIDDEN){
+                that.setState({
+                    signupMessage: "User already exist"
+                })
+            }
+            else  {
                 that.setState({
                     signupMessage: "Please enter valid details"
                 })
             }
         };
+        console.log(userObj);
         request.send(JSON.stringify(userObj));
     }
 
@@ -134,7 +140,7 @@ class PublicPage extends Component {
                                                 </div>
                                                 <input className="form-control" type="password" name="password" value={password}
                                                        onChange={this.handleChange}/>
-                                                <div className="alert-danger page-input">{value.loginMessage}</div>
+                                                <div className="alert-danger page-input pl-1 pr-1 radius">{value.loginMessage}</div>
                                             </div>
                                             <div className="page-input"><input type="submit" value="ENTER"
                                                                                onClick={() => value.logIn({
@@ -183,7 +189,7 @@ class PublicPage extends Component {
                                                 </i></span>
                                                     </div>
                                                 </div>
-                                                <div className="alert-danger page-input">{signupMessage}</div>
+                                                <div className="alert-danger page-input pl-1 pr-1 radius">{signupMessage}</div>
                                             </div>
                                             <div className="page-input"><input type="submit" value="SIGN ME UP!"
                                                                                onClick={this.handleSignUp}/></div>

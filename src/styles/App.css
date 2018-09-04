@@ -151,3 +151,7 @@ input:checked + .slider:before {
     border-radius: 50%;
 }
 
+/* Error message */
+.radius{
+    border-radius: 5px;
+}

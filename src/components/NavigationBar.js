@@ -2,10 +2,11 @@ import React, {Component} from 'react';
 import {Context} from "./App";
 import Image from "./Image";
 import logo from "../images/daiict.png";
-import {Link} from "react-router-dom";
+import {Link, withRouter} from "react-router-dom";
 
 class NavigationBar extends Component {
     render() {
+        console.log(this.props);
         return (
             <Context.Consumer>{
                 value => {
@@ -92,7 +93,7 @@ class NavigationBar extends Component {
                                         <li className="nav-item">
                                             <Link className="nav-link" onClick={value.logOut}
                                                style={{"cursor": "pointer"}} to={{
-                                                pathname: '/',
+                                                pathname: '/'
                                             }}>Logout</Link>
                                         </li>
                                     </ul>
@@ -105,4 +106,4 @@ class NavigationBar extends Component {
     }
 }
 
-export default NavigationBar;
+export default withRouter(NavigationBar);

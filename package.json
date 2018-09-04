@@ -11,6 +11,7 @@
     "lodash": "^4.17.10",
     "react-router-dom": "4.3.1",
     "react-scripts": "1.1.4",
+    "react-bootstrap4-modal": "^1.4.0"
   },
   "scripts": {
     "start": "react-scripts start",
