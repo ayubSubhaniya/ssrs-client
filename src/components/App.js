@@ -109,11 +109,11 @@ class App extends Component {
                         <AuthorizedRoute
                             exact path="/service/add"
                             component={NewServiceForm}
-                            permission={isAuthenticated}/>
+                            permission={this.state.user.userType==='superAdmin'}/>
                         <AuthorizedRoute
                             path="/service/edit"
                             component={EditForm}
-                            permission={isAuthenticated}/>
+                            permission={this.state.user.userType==='superAdmin'}/>
                         <AuthorizedRoute
                             exact path="/cart"
                             component={Cart}
@@ -121,7 +121,7 @@ class App extends Component {
                         <AuthorizedRoute
                             path="/service/order"
                             component={OrderForm}
-                            permission={isAuthenticated}/>
+                            permission={this.state.user.userType==='student'}/>
                     </React.Fragment>
                 </Router>
             </Context.Provider>

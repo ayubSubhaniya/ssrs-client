@@ -10,6 +10,7 @@ import AuthorizedComponent from "../AuthorizedComponent";
 import {domainUrl} from '../../config/configuration'
 import * as HttpStatus from "http-status-codes";
 import ConfirmModal from "../ConfirmModal";
+import ButtonLink from "./ButtonLink";
 
 class ServiceList extends Component {
     constructor(props, context) {
@@ -91,14 +92,9 @@ class ServiceList extends Component {
                         })
                     }
                 </div>
-                <div className={'d-flex justify-content-center mt-3'}>
-                    <Link to={'/service/add'} style={{textDecoration: 'none'}}>
-                        <input
-                            className='submit'
-                            type="submit"
-                            value="Add New Service"/>
-                    </Link>
-                </div>
+                <AuthorizedComponent
+                    component={ButtonLink}
+                />
             </div>
         );
     }

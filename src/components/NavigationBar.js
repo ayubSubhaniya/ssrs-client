@@ -27,59 +27,69 @@ class NavigationBar extends Component {
                                             }}>Home <span
                                                 className="sr-only">(current)</span></Link>
                                         </li>
-                                        <li className="nav-item dropdown">
-                                            <a className="nav-link dropdown-toggle" href="/" id="navbarDropdownMenuLink"
-                                               role="button" data-toggle="dropdown" aria-haspopup="true"
-                                               aria-expanded="false">
-                                                Order Mangement
-                                            </a>
-                                            <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                                <Link className="dropdown-item" to={{
-                                                    pathname: '/service/',
-                                                }}>All Orders</Link>
-                                                <Link className="dropdown-item" to={{
-                                                    pathname: '/service/',
-                                                }}>Place Order</Link>
-                                                <Link className="dropdown-item" to={{
-                                                    pathname: '/service/',
-                                                }}>Something else here</Link>
-                                            </div>
+                                        <li className="nav-item">
+                                            <Link className="nav-link" to={{
+                                                pathname: '/service',
+                                            }}>Services</Link>
                                         </li>
-                                        <li className="nav-item dropdown">
-                                            <a className="nav-link dropdown-toggle" href="/" id="navbarDropdownMenuLink"
-                                               role="button" data-toggle="dropdown" aria-haspopup="true"
-                                               aria-expanded="false">
-                                                Service Managment
-                                            </a>
-                                            <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                                <Link className="dropdown-item" to={{
-                                                    pathname: '/service/',
-                                                }}>All Services</Link>
-                                                <Link className="dropdown-item" to={{
-                                                    pathname: '/service/add',
-                                                }}>Add New Service</Link>
-                                            </div>
+                                        <li className="nav-item">
+                                            <Link className="nav-link" to={{
+                                                pathname: '/order',
+                                            }}>My Orders</Link>
                                         </li>
-                                        <li className="nav-item dropdown">
-                                            <a className="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink"
-                                               role="button" data-toggle="dropdown" aria-haspopup="true"
-                                               aria-expanded="false">
-                                                User Mangement
-                                            </a>
-                                            <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                                <Link className="dropdown-item" to={{
-                                                    pathname: '/service/',
-                                                }}>
-                                                    All Services
-                                                </Link>
-                                                <Link className="dropdown-item" to={{
-                                                    pathname: '/service/',
-                                                }}>Add New Service</Link>
-                                                <Link className="dropdown-item" to={{
-                                                    pathname: '/service/',
-                                                }}>Something else here</Link>
-                                            </div>
-                                        </li>
+                                        {/*<li className="nav-item dropdown">*/}
+                                            {/*<a className="nav-link dropdown-toggle" href="/" id="navbarDropdownMenuLink"*/}
+                                               {/*role="button" data-toggle="dropdown" aria-haspopup="true"*/}
+                                               {/*aria-expanded="false">*/}
+                                                {/*Order Mangement*/}
+                                            {/*</a>*/}
+                                            {/*<div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">*/}
+                                                {/*<Link className="dropdown-item" to={{*/}
+                                                    {/*pathname: '/service/',*/}
+                                                {/*}}>All Orders</Link>*/}
+                                                {/*<Link className="dropdown-item" to={{*/}
+                                                    {/*pathname: '/service/',*/}
+                                                {/*}}>Place Order</Link>*/}
+                                                {/*<Link className="dropdown-item" to={{*/}
+                                                    {/*pathname: '/service/',*/}
+                                                {/*}}>Something else here</Link>*/}
+                                            {/*</div>*/}
+                                        {/*</li>*/}
+                                        {/*<li className="nav-item dropdown">*/}
+                                            {/*<a className="nav-link dropdown-toggle" href="/" id="navbarDropdownMenuLink"*/}
+                                               {/*role="button" data-toggle="dropdown" aria-haspopup="true"*/}
+                                               {/*aria-expanded="false">*/}
+                                                {/*Service Managment*/}
+                                            {/*</a>*/}
+                                            {/*<div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">*/}
+                                                {/*<Link className="dropdown-item" to={{*/}
+                                                    {/*pathname: '/service/',*/}
+                                                {/*}}>All Services</Link>*/}
+                                                {/*<Link className="dropdown-item" to={{*/}
+                                                    {/*pathname: '/service/add',*/}
+                                                {/*}}>Add New Service</Link>*/}
+                                            {/*</div>*/}
+                                        {/*</li>*/}
+                                        {/*<li className="nav-item dropdown">*/}
+                                            {/*<a className="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink"*/}
+                                               {/*role="button" data-toggle="dropdown" aria-haspopup="true"*/}
+                                               {/*aria-expanded="false">*/}
+                                                {/*User Mangement*/}
+                                            {/*</a>*/}
+                                            {/*<div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">*/}
+                                                {/*<Link className="dropdown-item" to={{*/}
+                                                    {/*pathname: '/service/',*/}
+                                                {/*}}>*/}
+                                                    {/*All Services*/}
+                                                {/*</Link>*/}
+                                                {/*<Link className="dropdown-item" to={{*/}
+                                                    {/*pathname: '/service/',*/}
+                                                {/*}}>Add New Service</Link>*/}
+                                                {/*<Link className="dropdown-item" to={{*/}
+                                                    {/*pathname: '/service/',*/}
+                                                {/*}}>Something else here</Link>*/}
+                                            {/*</div>*/}
+                                        {/*</li>*/}
                                         <li className="nav-item">
                                             <Link className="nav-link" to={{
                                                 pathname: '/cart/',
