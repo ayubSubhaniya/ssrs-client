@@ -5,7 +5,7 @@ class DropDown extends Component {
     render() {
         return (
             <div className="form-group">
-                <label>{this.props.label}</label>
+                <label >{this.props.label}</label>
                 <div className="dropdown">
                     <button className="btn dropdown-toggle form-control"
                             type="button"

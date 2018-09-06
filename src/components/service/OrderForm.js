@@ -5,6 +5,8 @@ import _ from "lodash"
 import DropDown from "./DropDown";
 import MultiSelectDropDown from "./MultiSelectDropDown";
 import {Redirect} from "react-router-dom";
+import {domainUrl} from "../../config/configuration";
+import * as HttpStatus from "http-status-codes";
 
 
 class OrderForm extends Component {
@@ -44,9 +46,37 @@ class OrderForm extends Component {
         })
     }
 
+    getOrderDetails = (state) => {
+        const order = {
+            serviceId: this.service._id,
+            serviceName: this.service.name,
+            parameters: _.filter(_.map(state.parameters,(o,i) => o?this.service.availableParameters[i]._id:-1),(o) => o!=-1),
+            payment: {
+                "paymentType":"offline",
+                "isPaymentDone":false,
+                "paymentId":""
+            }
+        }
+        return order;
+    }
+
     handleSubmit = (e) => {
         e.preventDefault()
-        console.log(this.state);
+        // console.log(this.getOrderDetails(this.state));
+
+        const that = this;
+        const url = domainUrl + '/order/'
+        const request = new XMLHttpRequest();
+        request.open('POST', url, true);
+        request.withCredentials = true;
+        request.setRequestHeader("Content-type", "application/json");
+        request.onload = function () {
+            if (this.status == HttpStatus.CREATED) {
+                const response = JSON.parse(request.response)
+                console.log(response);
+            }
+        }
+        request.send(JSON.stringify(this.getOrderDetails(this.state)));
     }
 
     render() {
