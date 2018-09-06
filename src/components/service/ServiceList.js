@@ -9,7 +9,6 @@ import ApplyButton from "./ApplyButton";
 import AuthorizedComponent from "../AuthorizedComponent";
 import {domainUrl} from '../../config/configuration'
 import * as HttpStatus from "http-status-codes";
-import ConfirmModal from "../ConfirmModal";
 import ButtonLink from "./ButtonLink";
 
 class ServiceList extends Component {

@@ -6,7 +6,7 @@ function capitalize(x) {
 }
 
 function filterName(x) {
-    return _.map(_.filter(x,o => o.isActive), o => capitalize(o.name)).join(", ")
+    return _.map(x, o => capitalize(o.name)).join(", ")
 }
 
 class ServiceDetails extends Component {

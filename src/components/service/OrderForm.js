@@ -48,13 +48,23 @@ class OrderForm extends Component {
 
     getOrderDetails = (state) => {
         const order = {
-            serviceId: this.service._id,
-            serviceName: this.service.name,
-            parameters: _.filter(_.map(state.parameters,(o,i) => o?this.service.availableParameters[i]._id:-1),(o) => o!=-1),
-            payment: {
-                "paymentType":"offline",
-                "isPaymentDone":false,
-                "paymentId":""
+            "order":{
+                "serviceId":"5b7131db5f01323c885831e5",
+                "serviceName":"Transcript",
+                "parameters":[
+                    "5b6ddea185738f4fa80ff9c5"
+                ],
+                "payment":{
+                    "paymentType":"CashOnDelivery",
+                    "isPaymentDone":false,
+                    "paymentId":""
+                }
+            },
+            "pickup":{
+                "name":"Sagar Savaliya",
+                "daiictId":201501407,
+                "contactNo":9429795959,
+                "email":"201501407@daiict.ac.in"
             }
         }
         return order;
@@ -62,7 +72,7 @@ class OrderForm extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault()
-        // console.log(this.getOrderDetails(this.state));
+        console.log(this.getOrderDetails(this.state));
 
         const that = this;
         const url = domainUrl + '/order/'
