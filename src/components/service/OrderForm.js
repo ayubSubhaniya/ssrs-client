@@ -4,7 +4,7 @@ import Header from "../Header";
 import _ from "lodash"
 import DropDown from "./DropDown";
 import MultiSelectDropDown from "./MultiSelectDropDown";
-import {Redirect} from "react-router-dom";
+import {Redirect, withRouter} from "react-router-dom";
 import {domainUrl} from "../../config/configuration";
 import * as HttpStatus from "http-status-codes";
 
@@ -48,26 +48,22 @@ class OrderForm extends Component {
 
     getOrderDetails = (state) => {
         const order = {
-            "order":{
-                "serviceId":"5b7131db5f01323c885831e5",
-                "serviceName":"Transcript",
-                "parameters":[
-                    "5b6ddea185738f4fa80ff9c5"
-                ],
-                "payment":{
-                    "paymentType":"CashOnDelivery",
-                    "isPaymentDone":false,
-                    "paymentId":""
-                }
-            },
-            "pickup":{
-                "name":"Sagar Savaliya",
+            serviceId: this.service._id,
+            serviceName: this.service.name,
+            parameters: _.filter(_.map(state.parameters,(o,i) => o?this.service.availableParameters[i]._id:-1),(o) => o!=-1),
+            payment: {
+                "paymentType":"offline",
+                "isPaymentDone":false,
+                "paymentId":""
+            }
+        }
+        const pickup = {
+            "name":"Sagar Savaliya",
                 "daiictId":201501407,
                 "contactNo":9429795959,
                 "email":"201501407@daiict.ac.in"
-            }
         }
-        return order;
+        return {order,pickup};
     }
 
     handleSubmit = (e) => {
@@ -84,6 +80,7 @@ class OrderForm extends Component {
             if (this.status == HttpStatus.CREATED) {
                 const response = JSON.parse(request.response)
                 console.log(response);
+                that.props.history.push('/order')
             }
         }
         request.send(JSON.stringify(this.getOrderDetails(this.state)));
@@ -181,4 +178,4 @@ class OrderForm extends Component {
     }
 }
 
-export default OrderForm
+export default withRouter(OrderForm)

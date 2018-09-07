@@ -9,7 +9,7 @@ class Services extends Component {
         return (
             <div>
                 <NavigationBar/>
-                <Header title={'Manage Services'}/>
+                <Header title={'Services'}/>
                 <ServiceList {...this.props}/>
             </div>
         );

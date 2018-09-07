@@ -90,11 +90,11 @@ class NavigationBar extends Component {
                                                 {/*}}>Something else here</Link>*/}
                                             {/*</div>*/}
                                         {/*</li>*/}
-                                        <li className="nav-item">
-                                            <Link className="nav-link" to={{
-                                                pathname: '/cart/',
-                                            }}>Cart</Link>
-                                        </li>
+                                        {/*<li className="nav-item">*/}
+                                            {/*<Link className="nav-link" to={{*/}
+                                                {/*pathname: '/cart/',*/}
+                                            {/*}}>Cart</Link>*/}
+                                        {/*</li>*/}
                                         <li className="nav-item">
                                             <Link className="nav-link" to={{
                                                 pathname: '/',

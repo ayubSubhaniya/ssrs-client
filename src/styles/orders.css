@@ -3,7 +3,7 @@
 }
 
 @media screen and (max-width: 600px) {
-    table#cart tbody td .form-control {
+    table#orders tbody td .form-control {
         width: 20%;
         display: inline !important;
     }
@@ -21,33 +21,33 @@
         float: right;
     }
 
-    table#cart thead {
+    table#orders thead {
         display: none;
     }
 
-    table#cart tbody td {
+    table#orders tbody td {
         display: block;
         padding: .6rem;
         min-width: 320px;
     }
 
-    table#cart tbody tr td:first-child {
+    table#orders tbody tr td:first-child {
         background: #333;
         color: #fff;
     }
 
-    table#cart tbody td:before {
+    table#orders tbody td:before {
         content: attr(data-th);
         font-weight: bold;
         display: inline-block;
         width: 8rem;
     }
 
-    table#cart tfoot td {
+    table#orders tfoot td {
         display: block;
     }
 
-    table#cart tfoot td .btn {
+    table#orders tfoot td .btn {
         display: block;
     }
 

@@ -9,8 +9,9 @@ import AuthorizedRoute from './AuthorizedRoute'
 import {domainUrl} from "../config/configuration";
 import * as HttpStatus from "http-status-codes";
 import PublicPage from "./public-page/PublicPage";
-import Cart from "./cart/Cart";
 import OrderForm from "./service/OrderForm";
+import Orders from "./order/Orders";
+
 export const Context = React.createContext();
 
 class App extends Component {
@@ -107,21 +108,21 @@ class App extends Component {
                             permission={isAuthenticated}
                             user={this.state.user}/>
                         <AuthorizedRoute
+                            exact path="/order"
+                            component={Orders}
+                            permission={true}/>
+                        <AuthorizedRoute
                             exact path="/service/add"
                             component={NewServiceForm}
-                            permission={this.state.user.userType==='superAdmin'}/>
+                            permission={this.state.user.userType === 'superAdmin'}/>
                         <AuthorizedRoute
                             path="/service/edit"
                             component={EditForm}
-                            permission={this.state.user.userType==='superAdmin'}/>
-                        <AuthorizedRoute
-                            exact path="/cart"
-                            component={Cart}
-                            permission={isAuthenticated}/>
+                            permission={this.state.user.userType === 'superAdmin'}/>
                         <AuthorizedRoute
                             path="/service/order"
                             component={OrderForm}
-                            permission={this.state.user.userType==='student'}/>
+                            permission={this.state.user.userType === 'student'}/>
                     </React.Fragment>
                 </Router>
             </Context.Provider>

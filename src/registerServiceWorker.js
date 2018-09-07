@@ -97,7 +97,7 @@ function checkValidServiceWorker(swUrl) {
                     });
                 });
             } else {
-                // Service worker found. Proceed as normal.
+                // OrderDetails worker found. Proceed as normal.
                 registerValidSW(swUrl);
             }
         })
