@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Link} from "react-router-dom"
 import _ from "lodash"
 import ServiceDetails from "./ServiceDetails";
-import {fetch} from "../../helper/FetchData"
+import {syncFetch} from "../../helper/FetchData"
 import EditButton from "./EditButton";
 import Switch from "./Switch";
 import ApplyButton from "./ApplyButton";
@@ -15,11 +15,9 @@ class ServiceList extends Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
-            service: [],
+            service: syncFetch("service"),
             isSwitchDisabled: false
         };
-        this.fetch = fetch.bind(this);
-        this.fetch("service")
     }
 
     toggleService = (index) => {

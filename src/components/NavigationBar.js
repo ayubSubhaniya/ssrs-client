@@ -6,7 +6,6 @@ import {Link, withRouter} from "react-router-dom";
 
 class NavigationBar extends Component {
     render() {
-        console.log(this.props);
         return (
             <Context.Consumer>{
                 value => {
@@ -35,7 +34,7 @@ class NavigationBar extends Component {
                                         <li className="nav-item">
                                             <Link className="nav-link" to={{
                                                 pathname: '/order',
-                                            }}>My Orders</Link>
+                                            }}>Orders</Link>
                                         </li>
                                         {/*<li className="nav-item dropdown">*/}
                                             {/*<a className="nav-link dropdown-toggle" href="/" id="navbarDropdownMenuLink"*/}

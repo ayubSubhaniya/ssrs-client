@@ -1,11 +1,11 @@
 import {domainUrl} from "../config/configuration";
 import * as HttpStatus from "http-status-codes";
 
-export function fetch(dataName,async=true) {
+export function asyncFetch(dataName) {
     const that = this;
     const url = domainUrl + '/' + dataName
     var request = new XMLHttpRequest();
-    request.open('GET', url, async);
+    request.open('GET', url, true);
     request.withCredentials = true;
     request.onload = function () {
         if (this.status == HttpStatus.ACCEPTED || this.status === HttpStatus.OK || this.status === HttpStatus.NOT_MODIFIED) {
@@ -22,4 +22,25 @@ export function fetch(dataName,async=true) {
         ;
     };
     request.send();
+}
+
+export function syncFetch(dataName) {
+    const url = domainUrl + '/' + dataName
+    let fetchedData;
+    var request = new XMLHttpRequest();
+    request.open('GET', url, false);
+    request.withCredentials = true;
+    request.onload = function () {
+        if (this.status == HttpStatus.ACCEPTED || this.status === HttpStatus.OK || this.status === HttpStatus.NOT_MODIFIED) {
+            try {
+                const obj = JSON.parse(request.responseText);
+                fetchedData = obj[dataName];
+            } catch (e) {
+                console.error(e);
+            }
+        }
+        ;
+    };
+    request.send();
+    return fetchedData;
 }

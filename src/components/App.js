@@ -110,7 +110,8 @@ class App extends Component {
                         <AuthorizedRoute
                             exact path="/order"
                             component={Orders}
-                            permission={true}/>
+                            permission={true}
+                            user={this.state.user}/>
                         <AuthorizedRoute
                             exact path="/service/add"
                             component={NewServiceForm}

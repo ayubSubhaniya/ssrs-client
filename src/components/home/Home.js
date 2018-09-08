@@ -3,17 +3,14 @@ import React, {Component} from 'react';
 import Header from "../Header";
 import Tab from "./Tab";
 import NavigationBar from "../NavigationBar";
-import {fetch} from '../../helper/FetchData'
+import {syncFetch} from '../../helper/FetchData'
 
 class Home extends Component {
     constructor() {
         super();
-        this.fetch = fetch.bind(this);
-        this.fetch("news");
-        this.fetch("notification");
         this.state = {
-            news: [],
-            notification: []
+            news: syncFetch('news'),
+            notification: syncFetch('notification')
         }
     }
 

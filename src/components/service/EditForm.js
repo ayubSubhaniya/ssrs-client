@@ -3,7 +3,7 @@ import {domainUrl} from '../../config/configuration'
 import {Redirect, withRouter} from "react-router-dom";
 import Header from "../Header";
 import * as HttpStatus from "http-status-codes";
-import {fetch} from '../../helper/FetchData'
+import {asyncFetch} from '../../helper/FetchData'
 import NavigationBar from "../NavigationBar";
 import {collectionType} from "../../test/CollectionType";
 import {getServiceFromState, handleArrayUpdate, handleChange, handlePaymentModeChange} from "../../helper/StateUpdate"
@@ -24,13 +24,13 @@ class EditForm extends Component {
                 parameter: this.service.availableParameters
             }
         }
-        this.fetch = fetch.bind(this);
+        this.asyncFetch = asyncFetch.bind(this);
         this.handleChange = handleChange.bind(this)
         this.handleArrayUpdate = handleArrayUpdate.bind(this)
         this.handlePaymentModeChange = handlePaymentModeChange.bind(this);
         this.getServiceFromState = getServiceFromState.bind(this);
-        this.fetch("collectionType");
-        this.fetch("parameter");
+        this.asyncFetch("collectionType");
+        this.asyncFetch("parameter");
     }
 
 
