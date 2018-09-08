@@ -79,10 +79,7 @@ class App extends Component {
         request.withCredentials = true;
         request.onload = function () {
             if (this.status == HttpStatus.OK) {
-                that.setState({
-                    isAuthenticated: false,
-                    user: {}
-                })
+                window.location = '/'
             }
         };
         request.send();
@@ -95,7 +92,8 @@ class App extends Component {
                 {
                     logIn: this.logIn,
                     logOut: this.logOut,
-                    loginMessage
+                    loginMessage,
+                    user: this.state.user
                 }}>
                 <Router>
                     <React.Fragment>
@@ -110,7 +108,7 @@ class App extends Component {
                         <AuthorizedRoute
                             exact path="/order"
                             component={Orders}
-                            permission={true}
+                            permission={isAuthenticated}
                             user={this.state.user}/>
                         <AuthorizedRoute
                             exact path="/service/add"

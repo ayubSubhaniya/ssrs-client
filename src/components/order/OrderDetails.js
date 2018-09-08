@@ -35,7 +35,7 @@ class OrderDetails extends Component {
                     {order.status}</h5>
                 <h5><strong>Units Ordered: </strong>
                     {order.units}</h5>
-                <h5><strong>PaymentType: </strong>
+                <h5><strong>Payment Type: </strong>
                     {capitalize(order.payment.paymentType)} </h5>
                 <h5><strong>Collection Type: </strong>
                     {capitalize(Object.keys(order.collectionType).join(', '))} </h5>

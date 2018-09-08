@@ -4,6 +4,10 @@ import Image from "./Image";
 import logo from "../images/daiict.png";
 import {Link, withRouter} from "react-router-dom";
 
+function isSuperAdmin(user) {
+    return user.userType==='superAdmin'
+}
+
 class NavigationBar extends Component {
     render() {
         return (
@@ -34,7 +38,7 @@ class NavigationBar extends Component {
                                         <li className="nav-item">
                                             <Link className="nav-link" to={{
                                                 pathname: '/order',
-                                            }}>Orders</Link>
+                                            }}>{isSuperAdmin(value.user)?"All Orders":"My Orders"}</Link>
                                         </li>
                                         {/*<li className="nav-item dropdown">*/}
                                             {/*<a className="nav-link dropdown-toggle" href="/" id="navbarDropdownMenuLink"*/}
@@ -102,7 +106,7 @@ class NavigationBar extends Component {
                                         <li className="nav-item">
                                             <Link className="nav-link" onClick={value.logOut}
                                                style={{"cursor": "pointer"}} to={{
-                                                pathname: '/'
+                                                pathname: this.props.location.pathname
                                             }}>Logout</Link>
                                         </li>
                                     </ul>

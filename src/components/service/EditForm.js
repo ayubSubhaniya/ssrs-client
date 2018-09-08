@@ -3,34 +3,46 @@ import {domainUrl} from '../../config/configuration'
 import {Redirect, withRouter} from "react-router-dom";
 import Header from "../Header";
 import * as HttpStatus from "http-status-codes";
-import {asyncFetch} from '../../helper/FetchData'
+import {syncFetch} from '../../helper/FetchData'
 import NavigationBar from "../NavigationBar";
 import {collectionType} from "../../test/CollectionType";
 import {getServiceFromState, handleArrayUpdate, handleChange, handlePaymentModeChange} from "../../helper/StateUpdate"
 import Form from "./Form";
+import _ from "lodash"
+
+function setSelecteProperty(arr1, arr2) {
+    return _.map(arr1, (x) => {
+        if (_.some(arr2, (o) => o._id === x._id))
+            x.isSelected = true
+        return x;
+    })
+}
+
 
 class EditForm extends Component {
     constructor(props) {
         super(props);
-        if (props.location.state) {
-            this.service = props.location.state.service;
-            this.state = {
-                name: this.service.name,
-                description: this.service.description,
-                maxUnits: this.service.maxUnits,
-                baseCharge: this.service.baseCharge,
-                paymentModes: this.service.paymentModes,
-                collectionType: this.service.collectionTypes,
-                parameter: this.service.availableParameters
-            }
+        if (!props.location.state) {
+            return;
         }
-        this.asyncFetch = asyncFetch.bind(this);
+        const allCollectionTypes = syncFetch('collectionType');
+        const allParameters = syncFetch("parameter");
+
+        this.service = props.location.state.service;
+        this.state = {
+            name: this.service.name,
+            description: this.service.description,
+            maxUnits: this.service.maxUnits,
+            baseCharge: this.service.baseCharge,
+            paymentModes: this.service.paymentModes,
+            collectionType: setSelecteProperty(allCollectionTypes, this.service.collectionTypes),
+            parameter: setSelecteProperty(allParameters,this.service.availableParameters)
+        }
+        console.log(this.state.collectionType)
         this.handleChange = handleChange.bind(this)
         this.handleArrayUpdate = handleArrayUpdate.bind(this)
         this.handlePaymentModeChange = handlePaymentModeChange.bind(this);
         this.getServiceFromState = getServiceFromState.bind(this);
-        this.asyncFetch("collectionType");
-        this.asyncFetch("parameter");
     }
 
 

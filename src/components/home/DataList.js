@@ -4,7 +4,6 @@ import {timeSince} from "../../helper/Time";
 class DataList extends Component {
     render() {
         const {data} = this.props
-        console.log(data);
         return (
             <div className={'list-group'}>
 

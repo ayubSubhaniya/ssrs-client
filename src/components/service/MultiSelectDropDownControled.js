@@ -25,7 +25,7 @@ class MultiSelectDropDownControled extends Component {
                                                        data-index={index}
                                                        type="checkbox"
                                                        name={this.props.name}
-                                                       checked={o.isActive}/>
+                                                       checked={o.isSelected}/>
                                                 {o.name + " (₹" + o.baseCharge + ")"}
                                             </label>
                                         </li>)
