@@ -22,11 +22,15 @@ export function handleArrayUpdate({target}){
 }
 
 export function getServiceFromState(){
-    const {other, ...service} = this.state;
-    service.collectionTypes = _.map(_.filter(this.state.collectionType, ({isSelected}) => isSelected), '_id');
-    service.availableParameters = _.map(_.filter(this.state.parameter, ({isSelected}) => isSelected), '_id');
-    delete service.parameter;
-    delete service.collectionType;
-    console.log(service);
-    return service;
+    const updatedService = {
+        name: this.state.name,
+        description: this.state.description,
+        maxUnits: this.state.maxUnits,
+        baseCharge: this.state.baseCharge,
+        paymentModes: this.state.paymentModes,
+        collectionTypes: _.map(_.filter(this.state.collectionType, ({isSelected}) => isSelected), '_id'),
+        availableParameters: _.map(_.filter(this.state.parameter, ({isSelected}) => isSelected), '_id')
+    }
+    console.log(updatedService);
+    return updatedService;
 }

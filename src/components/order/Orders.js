@@ -2,16 +2,23 @@ import React, {Component} from 'react';
 import NavigationBar from "../NavigationBar";
 import Header from "../Header";
 import OrderList from "./OrderList";
-import {syncFetch} from "../../helper/FetchData";
+import {asyncFetch, syncFetch} from "../../helper/FetchData";
+import Spinner from "../Spinner";
 
 
 class Orders extends Component {
     constructor(props) {
         super(props);
         this.state={
-            order: syncFetch("order"),
-            service: syncFetch("service")
+            showSpinner: false,
+            order: [],
+            service: syncFetch('service')
         }
+        this.asyncFetch = asyncFetch.bind(this);
+    }
+
+    componentDidMount(){
+        this.asyncFetch('order');
     }
 
     render() {
@@ -22,6 +29,7 @@ class Orders extends Component {
                 <OrderList orders={this.state.order}
                            services={this.state.service}
                            user={this.props.user}/>
+                <Spinner open={this.state.showSpinner}/>
             </div>
 
         );

@@ -1,8 +1,14 @@
 import {domainUrl} from "../config/configuration";
 import * as HttpStatus from "http-status-codes";
+import ReactDOM from "react-dom";
+import Spinner from "../components/Spinner";
+import React from "react";
 
 export function asyncFetch(dataName) {
     const that = this;
+    that.setState({
+        showSpinner: true
+    })
     const url = domainUrl + '/' + dataName
     var request = new XMLHttpRequest();
     request.open('GET', url, true);
@@ -13,7 +19,8 @@ export function asyncFetch(dataName) {
                 const obj = JSON.parse(request.responseText);
                 console.log(obj);
                 that.setState({
-                    [dataName]: obj[dataName]
+                    [dataName]: obj[dataName],
+                    showSpinner: false
                 })
             } catch (e) {
                 console.error(e);
@@ -39,7 +46,6 @@ export function syncFetch(dataName) {
                 console.error(e);
             }
         }
-        ;
     };
     request.send();
     return fetchedData;

@@ -9,6 +9,7 @@ import {collectionType} from "../../test/CollectionType";
 import {getServiceFromState, handleArrayUpdate, handleChange, handlePaymentModeChange} from "../../helper/StateUpdate"
 import Form from "./Form";
 import _ from "lodash"
+import Spinner from "../Spinner";
 
 function setSelecteProperty(arr1, arr2) {
     return _.map(arr1, (x) => {
@@ -30,6 +31,7 @@ class EditForm extends Component {
 
         this.service = props.location.state.service;
         this.state = {
+            showSpinner: false,
             name: this.service.name,
             description: this.service.description,
             maxUnits: this.service.maxUnits,
@@ -38,7 +40,6 @@ class EditForm extends Component {
             collectionType: setSelecteProperty(allCollectionTypes, this.service.collectionTypes),
             parameter: setSelecteProperty(allParameters,this.service.availableParameters)
         }
-        console.log(this.state.collectionType)
         this.handleChange = handleChange.bind(this)
         this.handleArrayUpdate = handleArrayUpdate.bind(this)
         this.handlePaymentModeChange = handlePaymentModeChange.bind(this);
@@ -47,6 +48,9 @@ class EditForm extends Component {
 
 
     updateService = () => {
+        this.setState({
+            showSpinner: true
+        })
         const that = this;
         const url = domainUrl + '/service/' + this.service._id;
         const request = new XMLHttpRequest();
@@ -59,7 +63,9 @@ class EditForm extends Component {
                 console.log(response);
                 that.props.history.push('/service');
             }
-            ;
+            that.setState({
+                showSpinner: false
+            })
         };
         request.send(JSON.stringify(this.getServiceFromState()));
     }
@@ -72,7 +78,6 @@ class EditForm extends Component {
 
     render() {
         if (this.props.location.state) {
-            const {collectionType, parameter} = this.state
             return (
                 <div>
                     <NavigationBar/>
@@ -85,6 +90,7 @@ class EditForm extends Component {
                               handleSubmit={this.handleSubmit}
                               handlePaymentModeChange={this.handlePaymentModeChange}/>
                     </div>
+                    <Spinner open={this.state.showSpinner}/>
                 </div>
             );
         } else {

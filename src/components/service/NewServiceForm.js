@@ -9,11 +9,13 @@ import NavigationBar from "../NavigationBar";
 import {collectionType} from "../../test/CollectionType";
 import {handleChange, handleArrayUpdate, handlePaymentModeChange, getServiceFromState} from "../../helper/StateUpdate"
 import Form from "./Form";
+import Spinner from "../Spinner";
 
 class NewServiceForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            showSpinner: false,
             name: '',
             description: '',
             maxUnits: '',
@@ -35,6 +37,9 @@ class NewServiceForm extends Component {
 
     addService = () => {
         const that = this;
+        this.setState({
+            showSpinner: true
+        })
         const url = domainUrl + '/service/'
         const request = new XMLHttpRequest();
         request.open('POST', url, true);
@@ -46,6 +51,9 @@ class NewServiceForm extends Component {
                 console.log(response);
                 that.props.history.push('/service');
             }
+            that.setState({
+                showSpinner: true
+            })
         }
         request.send(JSON.stringify(this.getServiceFromState()));
     }
@@ -69,6 +77,7 @@ class NewServiceForm extends Component {
                           handleSubmit={this.handleSubmit}
                           handlePaymentModeChange={this.handlePaymentModeChange} />
                 </div>
+                <Spinner open={this.state.showSpinner}/>
             </div>
         );
     }

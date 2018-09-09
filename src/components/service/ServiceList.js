@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Link} from "react-router-dom"
 import _ from "lodash"
 import ServiceDetails from "./ServiceDetails";
-import {syncFetch} from "../../helper/FetchData"
+import {asyncFetch} from "../../helper/FetchData"
 import EditButton from "./EditButton";
 import Switch from "./Switch";
 import ApplyButton from "./ApplyButton";
@@ -10,19 +10,25 @@ import AuthorizedComponent from "../AuthorizedComponent";
 import {domainUrl} from '../../config/configuration'
 import * as HttpStatus from "http-status-codes";
 import ButtonLink from "./ButtonLink";
+import Spinner from "../Spinner";
 
 class ServiceList extends Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
-            service: syncFetch("service"),
-            isSwitchDisabled: false
+            service:[],
+            showSpinner: false
         };
+        this.asyncFetch = asyncFetch.bind(this);
+    }
+
+    componentDidMount(){
+        this.asyncFetch('service');
     }
 
     toggleService = (index) => {
         this.setState({
-            isSwitchDisabled: true
+            showSpinner: true
         })
         const service = this.state.service[index];
         const that = this;
@@ -38,7 +44,7 @@ class ServiceList extends Component {
                 serviceList[index] = response.service;
                 that.setState({
                     service: serviceList,
-                    isSwitchDisabled: false
+                    showSpinner: false
                 });
             }
         }
@@ -74,7 +80,6 @@ class ServiceList extends Component {
                                                 component={Switch}
                                                 handleClick={this.toggleService}
                                                 index={i}
-                                                isDisabled={this.state.isSwitchDisabled}
                                                 isChecked={service.isActive?true:false}
                                                 permission={this.props.user.userType === 'superAdmin'}/>
                                         </div>
@@ -91,7 +96,9 @@ class ServiceList extends Component {
                 </div>
                 <AuthorizedComponent
                     component={ButtonLink}
+                    permission={this.props.user.userType === 'superAdmin'}
                 />
+                <Spinner open={this.state.showSpinner}/>
             </div>
         );
     }

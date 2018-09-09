@@ -11,6 +11,7 @@ import * as HttpStatus from "http-status-codes";
 import PublicPage from "./public-page/PublicPage";
 import OrderForm from "./service/OrderForm";
 import Orders from "./order/Orders";
+import Spinner from "./Spinner";
 
 export const Context = React.createContext();
 
@@ -18,6 +19,7 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            showSpinner: false,
             isAuthenticated: false,
             loginMessage: '',
             user: {}
@@ -35,10 +37,10 @@ class App extends Component {
             if (this.status === HttpStatus.OK) {
                 var res = JSON.parse(request.response)
                 console.log(res.user);
-                that.state = {
+                that.state = Object.assign({},that.state,{
                     isAuthenticated: true,
                     user: res.user
-                }
+                })
             }
         }
         try {
@@ -50,6 +52,9 @@ class App extends Component {
 
     logIn = (logInDetails) => {
         const that = this;
+        this.setState({
+            showSpinner: true
+        })
         var url = domainUrl + '/account/signin';
         var request = new XMLHttpRequest();
         request.open('POST', url, true);
@@ -67,12 +72,18 @@ class App extends Component {
                     loginMessage: 'Incorrect username/password'
                 })
             }
+            that.setState({
+                showSpinner: false
+            })
         }
         request.send(JSON.stringify(logInDetails));
     }
 
     logOut = () => {
         const that = this;
+        this.setState({
+            showSpinner: true
+        })
         const url = domainUrl + '/account/signout'
         var request = new XMLHttpRequest();
         request.open('GET', url, true);
@@ -97,6 +108,7 @@ class App extends Component {
                 }}>
                 <Router>
                     <React.Fragment>
+                        <Spinner open={this.state.showSpinner}/>
                         <Route
                             exact path="/"
                             component={isAuthenticated ? Home : PublicPage}/>
