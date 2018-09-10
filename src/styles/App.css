@@ -56,6 +56,10 @@
     background-color: #203447;
 }
 
+.navbar-dark .navbar-nav .nav-link {
+    color: white;
+}
+
 /*service list*/
 
 .submit {
@@ -152,20 +156,8 @@ input:checked + .slider:before {
 }
 
 /* Error message */
-.radius{
+.radius {
     border-radius: 5px;
-}
-
-.bd-example-modal-lg .modal-dialog{
-    display: table;
-    position: relative;
-    margin: 0 auto;
-    top: calc(50% - 24px);
-}
-
-.bd-example-modal-lg .modal-dialog .modal-content{
-    background-color: transparent;
-    border: none;
 }
 
 .spinner > div{
