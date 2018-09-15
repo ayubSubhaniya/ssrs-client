@@ -18,7 +18,6 @@ class OrderDetails extends Component {
 
     render() {
         const {order,service} = this.props
-        console.log(order);
         return (
             <div>
                 <h5><strong>Description: </strong>
@@ -37,9 +36,9 @@ class OrderDetails extends Component {
                     {order.units}</h5>
                 <h5><strong>Payment Type: </strong>
                     {capitalize(order.payment.paymentType)} </h5>
-                <h5><strong>Collection Type: </strong>
+                <h5><strong>{capitalize(Object.keys(order.collectionType).join(', ')) + " Details:"} </strong>
                     {capitalize(Object.keys(order.collectionType).join(', '))} </h5>
-                <h5><strong>Available Parameters: </strong>
+                <h5><strong>Parameters: </strong>
                     {filterName(_.map(order.parameters,(parameterId) => findById(service.availableParameters,parameterId)))} </h5>
             </div>
         );
