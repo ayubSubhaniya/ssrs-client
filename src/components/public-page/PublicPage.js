@@ -4,7 +4,8 @@ import {Context} from "../App";
 import {domainUrl} from "../../config/configuration";
 import * as HttpStatus from "http-status-codes";
 import logo from "../../images/dalogo.jpg";
-import Modal from "react-modal";
+import Modal from 'react-bootstrap4-modal';
+import ForgotPassword from "./ForgotPassword";
 
 
 const customStyles = {
@@ -33,7 +34,6 @@ class PublicPage extends Component {
     }
 
     handleChange = ({target}) => {
-        console.log(target.name);
         this.setState({
             [target.name]: target.value,
             isSignup: false
@@ -98,6 +98,11 @@ class PublicPage extends Component {
 
     closeModal = () => {
         this.setState({modalIsOpen: false});
+    }
+
+    onForgetPassword = () => {
+        this.setState({modalIsOpen: false});
+        console.log(this.state.daiictId);
     }
 
 
@@ -204,22 +209,11 @@ class PublicPage extends Component {
                                         <div className="text">Register</div>
                                     </label></div>
                                 </div>
-
-                                <Modal
-                                    isOpen={this.state.modalIsOpen}
-                                    onRequestClose={this.closeModal}
-                                    style={customStyles}
-                                    contentLabel="Forgot Password Modal"
-                                >
-                                    <div className={"modal-close-btn"}
-                                         onClick={this.closeModal}>
-                                        <i className="material-icons">close</i>
-                                    </div>
-                                    <form>
-                                        <input type="text" placeholder={"Enter DA-IICT ID"}/>
-                                        <input type="submit"/>
-                                    </form>
-                                </Modal>
+                                <ForgotPassword visible={this.state.modalIsOpen}
+                                                closeModal={this.closeModal}
+                                                value={this.state.daiictId}
+                                                handleChange={this.handleChange}
+                                                onSubmit={this.onForgetPassword}/>
                             </React.Fragment>)
                     }}
             </Context.Consumer>
