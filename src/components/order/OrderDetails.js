@@ -27,7 +27,6 @@ class OrderDetails extends Component {
                         {order.requestedBy}</h5>}
                     permission={this.props.user.userType=='superAdmin'}
                 />
-
                 <h5><strong>Total Cost: </strong>
                     {"₹ " + order.totalCost}</h5>
                 <h5><strong>Status: </strong>

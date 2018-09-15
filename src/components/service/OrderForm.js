@@ -7,13 +7,14 @@ import MultiSelectDropDown from "./MultiSelectDropDown";
 import {Redirect, withRouter} from "react-router-dom";
 import {domainUrl} from "../../config/configuration";
 import * as HttpStatus from "http-status-codes";
+import CourierDetailsForm from "./CourierDetailsForm";
 
 
 class OrderForm extends Component {
 
     constructor(props) {
         super(props);
-        if(props.location.state) {
+        if (props.location.state) {
             this.service = props.location.state.service
             this.state = {
                 units: 1,
@@ -50,20 +51,20 @@ class OrderForm extends Component {
         const order = {
             serviceId: this.service._id,
             serviceName: this.service.name,
-            parameters: _.filter(_.map(state.parameters,(o,i) => o?this.service.availableParameters[i]._id:-1),(o) => o!=-1),
+            parameters: _.filter(_.map(state.parameters, (o, i) => o ? this.service.availableParameters[i]._id : -1), (o) => o != -1),
             payment: {
-                "paymentType":"offline",
-                "isPaymentDone":false,
-                "paymentId":""
+                "paymentType": "offline",
+                "isPaymentDone": false,
+                "paymentId": ""
             }
         }
         const pickup = {
-            "name":"Sagar Savaliya",
-                "daiictId":201501407,
-                "contactNo":9429795959,
-                "email":"201501407@daiict.ac.in"
+            "name": "Sagar Savaliya",
+            "daiictId": 201501407,
+            "contactNo": 9429795959,
+            "email": "201501407@daiict.ac.in"
         }
-        return {order,pickup};
+        return {order, pickup};
     }
 
     handleSubmit = (e) => {
@@ -87,7 +88,7 @@ class OrderForm extends Component {
     }
 
     render() {
-        if(this.props.location.state) {
+        if (this.props.location.state) {
             const SelectedCollectionTypeName = this.state.collectionTypeIndex != -1
                 ? this.service.collectionTypes[this.state.collectionTypeIndex].name + " (₹" +
                 this.service.collectionTypes[this.state.collectionTypeIndex].baseCharge + ")"
@@ -140,6 +141,7 @@ class OrderForm extends Component {
                                                   btnLabel={SelectedCollectionTypeName}
                                                   options={this.service.collectionTypes}
                                                   handleOptionChange={this.handleCollectionTypeChange}/>
+                                        <CourierDetailsForm visible={SelectedCollectionTypeName.toString().split(' ')[0]==='Courier'}/>
                                         <MultiSelectDropDown label={'Parameters'}
                                                              btnLabel={"Select"}
                                                              options={this.service.availableParameters}
@@ -170,8 +172,8 @@ class OrderForm extends Component {
                     </div>
                 </div>
             )
-        }else{
-           return <Redirect to={{
+        } else {
+            return <Redirect to={{
                 pathname: "/service"
             }}/>
         }
