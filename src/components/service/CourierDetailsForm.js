@@ -5,18 +5,6 @@ function CourierDetailsForm(props) {
     return (
         <div className={props.visible?'':'d-none'}>
             <div className={'form-group'}>
-                <label>Name: </label>
-                <input className={'form-control'} type={'text'}/>
-            </div>
-            <div className={'form-group'}>
-                <label>Email: </label>
-                <input className={'form-control'} type={'email'}/>
-            </div>
-            <div className={'form-group'}>
-                <label>Contact No: </label>
-                <input className={'form-control'} type={'tel'}/>
-            </div>
-            <div className={'form-group'}>
                 <label>Address: </label>
                 <input className={'form-control'}/>
             </div>

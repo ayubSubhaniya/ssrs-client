@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
 import _ from "lodash";
+import {camelCaseToWords} from "../../helper/String";
 
-class DropDown extends Component {
+class PaymentModesDropDown extends Component {
     render() {
         return (
             <div className="form-group">
-                <label>{this.props.label}</label>
+                <label>{"Payment Mode"}</label>
                 <div className="dropdown">
                     <button className="btn dropdown-toggle form-control"
                             type="button"
@@ -14,22 +15,19 @@ class DropDown extends Component {
                         <span className="caret"></span></button>
                     <ul className="dropdown-menu col-sm-12">
                         {
-                            _.map(this.props.options, (o, index) => {
+                            _.map(this.props.options, (o,index) => {
                                 return (
-                                    <li key={o._id}
-                                        data-index={index}
+                                    <li key={index}
+                                        data-value={o}
                                         className='dropdown-item pl-4 pt-2 pb-2'
                                         style={{"cursor": "pointer"}}
                                         onClick={this.props.handleOptionChange}>
-                                        <a
-                                            data-toggle="tooltip"
-                                            title={o.description}>
-                                            {o.name + " (₹" + o.baseCharge + ")"}
-                                        </a>
+                                        {camelCaseToWords(o)}
                                     </li>)
 
                             })
                         }
+
                     </ul>
                 </div>
             </div>
@@ -37,4 +35,4 @@ class DropDown extends Component {
     }
 }
 
-export default DropDown;
+export default PaymentModesDropDown;

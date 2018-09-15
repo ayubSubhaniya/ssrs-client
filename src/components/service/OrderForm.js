@@ -2,13 +2,14 @@ import React, {Component} from 'react'
 import NavigationBar from "../NavigationBar";
 import Header from "../Header";
 import _ from "lodash"
-import DropDown from "./DropDown";
+import CollectionTypesDropDown from "./CollectionTypesDropDown";
 import MultiSelectDropDown from "./MultiSelectDropDown";
 import {Redirect, withRouter} from "react-router-dom";
-import {domainUrl} from "../../config/configuration";
-import * as HttpStatus from "http-status-codes";
-import CourierDetailsForm from "./CourierDetailsForm";
-
+import PaymentModesDropDown from "./PaymentModesDropDown";
+import {COD} from "../../constants/PaymentMode";
+import {camelCaseToWords} from "../../helper/String";
+import {domainUrl} from '../../config/configuration'
+import HttpStatus from 'http-status-codes'
 
 class OrderForm extends Component {
 
@@ -20,7 +21,17 @@ class OrderForm extends Component {
                 units: 1,
                 comments: '',
                 collectionTypeIndex: -1,
-                parameters: new Array(this.service.availableParameters.length).fill(false)
+                parameters: new Array(this.service.availableParameters.length).fill(false),
+                paymentMode: COD,
+                name: '',
+                email: '',
+                contactNo: '',
+                daiictId: '',
+                address: '',
+                state: '',
+                city: '',
+                pincode: '',
+                country: ''
             }
         }
     }
@@ -47,22 +58,40 @@ class OrderForm extends Component {
         })
     }
 
+
+    handlePaymentModeChange = ({target}) => {
+        this.setState({
+            paymentMode: target.dataset.value
+        })
+    }
+
     getOrderDetails = (state) => {
         const order = {
             serviceId: this.service._id,
             serviceName: this.service.name,
             parameters: _.filter(_.map(state.parameters, (o, i) => o ? this.service.availableParameters[i]._id : -1), (o) => o != -1),
             payment: {
-                "paymentType": "offline",
+                "paymentType": this.state.paymentMode,
                 "isPaymentDone": false,
                 "paymentId": ""
             }
         }
         const pickup = {
-            "name": "Sagar Savaliya",
-            "daiictId": 201501407,
-            "contactNo": 9429795959,
-            "email": "201501407@daiict.ac.in"
+            "name": this.state.name,
+            "daiictId": this.state.daiictId,
+            "contactNo": this.state.contactNo,
+            "email": this.state.email
+        }
+        const courier = {
+            "name": this.state.name,
+            "daiictId": this.state.daiictId,
+            "contactNo": this.state.contactNo,
+            "email": this.state.email,
+            'address': this.state.address,
+            'pincode': this.state.pincode,
+            'state': this.state.state,
+            'city': this.state.city,
+            'country': this.state.country
         }
         return {order, pickup};
     }
@@ -112,8 +141,7 @@ class OrderForm extends Component {
                                 <div className="col-sm-6">
                                     <div className="card bg-light mb-3 p-4">
                                         <div className="form-group form-inline">
-                                            <label>Base Charge</label>
-                                            {": "}
+                                            <label>Base Charge:</label>
                                             <input
                                                 className={'form-control ml-2'}
                                                 type="text"
@@ -123,8 +151,7 @@ class OrderForm extends Component {
                                             />
                                         </div>
                                         <div className="form-group form-inline">
-                                            <label>Select No. Of Units</label>
-                                            {": "}
+                                            <label>Select No. Of Units:</label>
                                             <input
                                                 className={'form-control text-center ml-2'}
                                                 type="number"
@@ -137,11 +164,76 @@ class OrderForm extends Component {
                                                 required
                                             />
                                         </div>
-                                        <DropDown label={'Collection Type'}
-                                                  btnLabel={SelectedCollectionTypeName}
-                                                  options={this.service.collectionTypes}
-                                                  handleOptionChange={this.handleCollectionTypeChange}/>
-                                        <CourierDetailsForm visible={SelectedCollectionTypeName.toString().split(' ')[0]==='Courier'}/>
+                                        <div className={'form-group form-inline'}>
+                                            <label>Name:</label>
+                                            <input name="name"
+                                                   value={this.state.name}
+                                                   onChange={this.handleChange}
+                                                   className={'form-control w-75 ml-2'} type={'text'}/>
+                                        </div>
+                                        <div className={'form-group form-inline'}>
+                                            <label>DA-IICT ID:</label>
+                                            <input name="daiictId"
+                                                   value={this.state.daiictId}
+                                                   onChange={this.handleChange}
+                                                   className={'form-control w-75 ml-2'} type={'text'}/>
+                                        </div>
+                                        <div className={'form-group form-inline'}>
+                                            <label>Email: </label>
+                                            <input name='email'
+                                                   value={this.state.email}
+                                                   onChange={this.handleChange}
+                                                   className={'form-control w-75 ml-2'} type={'email'}/>
+                                        </div>
+                                        <div className={'form-group form-inline'}>
+                                            <label>Contact No: </label>
+                                            <input name='contactNo'
+                                                   value={this.state.contactNo}
+                                                   onChange={this.handleChange}
+                                                   className={'form-control w-50 ml-2'} type={'tel'}/>
+                                        </div>
+                                        <CollectionTypesDropDown label={'Collection Type'}
+                                                                 btnLabel={SelectedCollectionTypeName}
+                                                                 options={this.service.collectionTypes}
+                                                                 handleOptionChange={this.handleCollectionTypeChange}/>
+
+                                        <div
+                                            className={SelectedCollectionTypeName.toString().split(' ')[0] === 'Courier' ? '' : 'd-none'}>
+                                            <div className={'form-group'}>
+                                                <label>Address: </label>
+                                                <input name='address'
+                                                       className={'form-control'}
+                                                       onChange={this.handleChange}/>
+                                            </div>
+                                            <div className={'form-group'}>
+                                                <label>City:</label>
+                                                <input name='city'
+                                                       className={'form-control'}
+                                                       type={'text'}
+                                                       onChange={this.handleChange} />
+                                            </div>
+                                            <div className={'form-group'}>
+                                                <label>Pincode:</label>
+                                                <input name='pincode'
+                                                       className={'form-control'}
+                                                       type={'text'}
+                                                       onChange={this.handleChange}/>
+                                            </div>
+                                            <div className={'form-group'}>
+                                                <label>State:</label>
+                                                <input name='state'
+                                                       className={'form-control'}
+                                                       type={'text'}
+                                                       onChange={this.handleChange}/>
+                                            </div>
+                                            <div className={'form-group'}>
+                                                <label>Country:</label>
+                                                <input name='country'
+                                                       className={'form-control'}
+                                                       type={'text'}
+                                                       onChange={this.handleChange}/>
+                                            </div>
+                                        </div>
                                         <MultiSelectDropDown label={'Parameters'}
                                                              btnLabel={"Select"}
                                                              options={this.service.availableParameters}
@@ -151,14 +243,19 @@ class OrderForm extends Component {
 
                                 <div className="col-sm-6">
                                     <div className="card bg-light mb-3 p-4">
-                                        <label>Comments</label>
-                                        <textarea
-                                            className={'form-control'}
-                                            rows="5"
-                                            name="comments"
-                                            placeholder="Write Comments"
-                                            onChange={this.handleChange}
-                                        />
+                                        <PaymentModesDropDown btnLabel={camelCaseToWords(this.state.paymentMode)}
+                                                              options={Object.keys(_.pickBy(this.service.paymentModes))}
+                                                              handleOptionChange={this.handlePaymentModeChange}/>
+                                        <div className={'form-group'}>
+                                            <label>Comments</label>
+                                            <textarea
+                                                className={'form-control'}
+                                                rows="5"
+                                                name="comments"
+                                                placeholder="Write Comments"
+                                                onChange={this.handleChange}
+                                            />
+                                        </div>
                                     </div>
                                 </div>
                                 <div className={'w-100 d-flex justify-content-center mt-3'}>
