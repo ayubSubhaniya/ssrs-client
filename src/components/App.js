@@ -50,11 +50,21 @@ class App extends Component {
         }
     }
 
-    logIn = (logInDetails) => {
-        const that = this;
+    showSpinner = () => {
         this.setState({
             showSpinner: true
         })
+    }
+
+    hideSpinner = () => {
+        this.setState({
+            showSpinner: false
+        })
+    }
+
+    logIn = (logInDetails) => {
+        const that = this;
+        this.showSpinner();
         var url = domainUrl + '/account/signin';
         var request = new XMLHttpRequest();
         request.open('POST', url, true);
@@ -69,12 +79,10 @@ class App extends Component {
                 })
             } else {
                 that.setState({
-                    loginMessage: 'Incorrect username/password'
+                    loginMessage: 'Incorrect Username/Password. Try Again!'
                 })
             }
-            that.setState({
-                showSpinner: false
-            })
+            that.hideSpinner();
         }
         request.send(JSON.stringify(logInDetails));
     }
@@ -109,8 +117,11 @@ class App extends Component {
                 <Router>
                     <React.Fragment>
                         <Spinner open={this.state.showSpinner}/>
-                        <Route
+                        <AuthorizedRoute
+                            permission={true}
                             exact path="/"
+                            hideSpinner={this.hideSpinner}
+                            showSpinner={this.showSpinner}
                             component={isAuthenticated ? Home : PublicPage}/>
                         <AuthorizedRoute
                             exact path="/service"

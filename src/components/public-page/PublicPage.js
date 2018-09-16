@@ -4,20 +4,7 @@ import {Context} from "../App";
 import {domainUrl} from "../../config/configuration";
 import * as HttpStatus from "http-status-codes";
 import logo from "../../images/dalogo.jpg";
-import Modal from 'react-bootstrap4-modal';
 import ForgotPassword from "./ForgotPassword";
-
-
-const customStyles = {
-    content: {
-        top: '50%',
-        left: '50%',
-        right: 'auto',
-        bottom: 'auto',
-        marginRight: '-50%',
-        transform: 'translate(-50%, -50%)'
-    }
-};
 
 class PublicPage extends Component {
     constructor() {
@@ -26,7 +13,7 @@ class PublicPage extends Component {
             daiictId: '',
             password: '',
             login: true,
-            isSignup: false,
+            isSignedup: false,
             signupMessage: '',
             showPassword: false,
             modalIsOpen: false
@@ -36,7 +23,7 @@ class PublicPage extends Component {
     handleChange = ({target}) => {
         this.setState({
             [target.name]: target.value,
-            isSignup: false
+            isSignedup: false
         })
     }
 
@@ -45,11 +32,16 @@ class PublicPage extends Component {
             login: !this.state.login,
             daiictId: '',
             password: '',
-            isSignup: false
+            isSignedup: false
         })
     }
 
     handleSignUp = () => {
+        this.setState({
+            isSignedup: false,
+            signupMessage: ''
+        })
+        this.props.showSpinner();
         var url = domainUrl + '/account/signup';
         var userObj = {
             daiictId: this.state.daiictId,
@@ -62,23 +54,25 @@ class PublicPage extends Component {
         const that = this;
         request.onload = function () {
             if (this.status == HttpStatus.CREATED) {
-                that.setState({isSignup: true});
+                that.setState({isSignedup: true});
             }else if(this.status===HttpStatus.FORBIDDEN){
                 that.setState({
-                    signupMessage: "User already exist"
+                    signupMessage: "User Already Exist!"
                 })
             }
             else  {
                 that.setState({
-                    signupMessage: "Please enter valid details"
+                    signupMessage: "Please Enter Valid Details"
                 })
             }
+            that.props.hideSpinner();
         };
         console.log(userObj);
         request.send(JSON.stringify(userObj));
     }
 
     handleResendVerificationLink = () => {
+        console.log("Verification Link Sent")
         var url = domainUrl + '/account/resendVerificationLink/' + this.state.daiictId;
         var request = new XMLHttpRequest();
         request.open('GET', url, true);
@@ -93,7 +87,7 @@ class PublicPage extends Component {
     }
 
     openModal = () => {
-        this.setState({modalIsOpen: true});
+        this.setState({modalIsOpen: true, isSignedup: false});
     }
 
     closeModal = () => {
@@ -107,7 +101,7 @@ class PublicPage extends Component {
 
 
     render() {
-        const {daiictId, password, login, isSignup, signupMessage, showPassword} = this.state
+        const {daiictId, password, login, isSignedup, signupMessage, showPassword} = this.state
         return (
             <Context.Consumer>
                 {
@@ -145,7 +139,7 @@ class PublicPage extends Component {
                                                 </div>
                                                 <input className="form-control" type="password" name="password" value={password}
                                                        onChange={this.handleChange}/>
-                                                <div className="alert-danger page-input pl-1 pr-1 radius">{value.loginMessage}</div>
+                                                <div className={"alert alert-danger p-2 mt-2 mb-2" + (value.loginMessage?'':" d-none") }><strong>{value.loginMessage}</strong></div>
                                             </div>
                                             <div className="page-input"><input type="submit" value="ENTER"
                                                                                onClick={() => value.logIn({
@@ -194,13 +188,19 @@ class PublicPage extends Component {
                                                 </i></span>
                                                     </div>
                                                 </div>
-                                                <div className="alert-danger page-input pl-1 pr-1 radius">{signupMessage}</div>
+                                                <div className={"alert alert-danger p-2 mt-2 mb-2" + (signupMessage?'':' d-none')}><strong>{signupMessage}</strong></div>
                                             </div>
                                             <div className="page-input"><input type="submit" value="SIGN ME UP!"
                                                                                onClick={this.handleSignUp}/></div>
-                                            <input type="button" className={'page-link-cstm' + (isSignup ? '' : ' d-none')}
-                                                   value="Resend Verification link"
-                                                   onClick={this.handleResendVerificationLink}/>
+                                            <div className={'alert alert-success alert-dismissible p-2 mt-2 mb-2' + (isSignedup ? '' : ' d-none')}>
+                                                <button type="button" className="close"
+                                                        data-dismiss="alert">&times;</button>
+                                                <strong>Verification Link Sent!</strong>
+                                                <span className={"alert-link"}
+                                                     style={{"cursor": "pointer"}}
+                                                     onClick={this.handleResendVerificationLink}> Resend
+                                                </span>
+                                        </div>
                                         </div>
                                     </div>
                                     <div className="tabs"><label className="tab" htmlFor="signin">

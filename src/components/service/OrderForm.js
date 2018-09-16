@@ -16,11 +16,12 @@ class OrderForm extends Component {
     constructor(props) {
         super(props);
         if (props.location.state) {
-            this.service = props.location.state.service
+            this.service = props.location.state.service,
+                this.pickupIndex = _.findIndex(this.service.collectionTypes,(x) => x.name==='Pickup')
             this.state = {
                 units: 1,
                 comments: '',
-                collectionTypeIndex: -1,
+                collectionTypeIndex: this.pickupIndex,
                 parameters: new Array(this.service.availableParameters.length).fill(false),
                 paymentMode: COD,
                 name: '',
@@ -84,16 +85,21 @@ class OrderForm extends Component {
         }
         const courier = {
             "name": this.state.name,
-            "daiictId": this.state.daiictId,
             "contactNo": this.state.contactNo,
             "email": this.state.email,
-            'address': this.state.address,
-            'pincode': this.state.pincode,
+            'address': {
+                line1:this.state.address,
+                line2: "ads",
+                line3: "asdas"
+            },
+            'pinCode': this.state.pincode,
             'state': this.state.state,
             'city': this.state.city,
             'country': this.state.country
         }
-        return {order, pickup};
+        return this.pickupIndex==this.state.collectionTypeIndex
+            ? {order,pickup}
+            : {order,courier};
     }
 
     handleSubmit = (e) => {
@@ -196,6 +202,18 @@ class OrderForm extends Component {
                                                                  btnLabel={SelectedCollectionTypeName}
                                                                  options={this.service.collectionTypes}
                                                                  handleOptionChange={this.handleCollectionTypeChange}/>
+                                        <MultiSelectDropDown label={'Parameters'}
+                                                             btnLabel={"Select"}
+                                                             options={this.service.availableParameters}
+                                                             handleOptionChange={this.handleParamenterChange}/>
+                                    </div>
+                                </div>
+
+                                <div className="col-sm-6">
+                                    <div className="card bg-light mb-3 p-4">
+                                        <PaymentModesDropDown btnLabel={camelCaseToWords(this.state.paymentMode)}
+                                                              options={Object.keys(_.pickBy(this.service.paymentModes))}
+                                                              handleOptionChange={this.handlePaymentModeChange}/>
 
                                         <div
                                             className={SelectedCollectionTypeName.toString().split(' ')[0] === 'Courier' ? '' : 'd-none'}>
@@ -210,7 +228,7 @@ class OrderForm extends Component {
                                                 <input name='city'
                                                        className={'form-control'}
                                                        type={'text'}
-                                                       onChange={this.handleChange} />
+                                                       onChange={this.handleChange}/>
                                             </div>
                                             <div className={'form-group'}>
                                                 <label>Pincode:</label>
@@ -234,18 +252,7 @@ class OrderForm extends Component {
                                                        onChange={this.handleChange}/>
                                             </div>
                                         </div>
-                                        <MultiSelectDropDown label={'Parameters'}
-                                                             btnLabel={"Select"}
-                                                             options={this.service.availableParameters}
-                                                             handleOptionChange={this.handleParamenterChange}/>
-                                    </div>
-                                </div>
 
-                                <div className="col-sm-6">
-                                    <div className="card bg-light mb-3 p-4">
-                                        <PaymentModesDropDown btnLabel={camelCaseToWords(this.state.paymentMode)}
-                                                              options={Object.keys(_.pickBy(this.service.paymentModes))}
-                                                              handleOptionChange={this.handlePaymentModeChange}/>
                                         <div className={'form-group'}>
                                             <label>Comments</label>
                                             <textarea
