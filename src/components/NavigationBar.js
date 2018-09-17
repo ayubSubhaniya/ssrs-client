@@ -9,6 +9,14 @@ function isSuperAdmin(user) {
     return user.userType === 'superAdmin'
 }
 
+function NavLink({path, text, onClick}) {
+    return (<li className="nav-item">
+        <Link className="nav-link" onClick={onClick} to={{
+            pathname: path,
+        }}>{text}</Link>
+    </li>)
+}
+
 class NavigationBar extends Component {
     render() {
         return (
@@ -25,107 +33,29 @@ class NavigationBar extends Component {
                                 </button>
                                 <div className="collapse navbar-collapse" id="navbarNavDropdown">
                                     <ul className="navbar-nav ml-5">
-                                        <li className="nav-item active">
-                                            <Link className="nav-link" to={{
-                                                pathname: '/',
-                                            }}>Home <span
-                                                className="sr-only">(current)</span></Link>
-                                        </li>
-                                        <li className="nav-item">
-                                            <Link className="nav-link" to={{
-                                                pathname: '/service',
-                                            }}>Services</Link>
-                                        </li>
-                                        <li className="nav-item">
-                                            <Link className="nav-link" to={{
-                                                pathname: '/order',
-                                            }}>{isSuperAdmin(value.user) ? "All Orders" : "My Orders"}</Link>
-                                        </li>
-                                        {/*<li className="nav-item dropdown">*/}
-                                        {/*<a className="nav-link dropdown-toggle" href="/" id="navbarDropdownMenuLink"*/}
-                                        {/*role="button" data-toggle="dropdown" aria-haspopup="true"*/}
-                                        {/*aria-expanded="false">*/}
-                                        {/*Order Mangement*/}
-                                        {/*</a>*/}
-                                        {/*<div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">*/}
-                                        {/*<Link className="dropdown-item" to={{*/}
-                                        {/*pathname: '/service/',*/}
-                                        {/*}}>All Orders</Link>*/}
-                                        {/*<Link className="dropdown-item" to={{*/}
-                                        {/*pathname: '/service/',*/}
-                                        {/*}}>Place Order</Link>*/}
-                                        {/*<Link className="dropdown-item" to={{*/}
-                                        {/*pathname: '/service/',*/}
-                                        {/*}}>Something else here</Link>*/}
-                                        {/*</div>*/}
-                                        {/*</li>*/}
-                                        {/*<li className="nav-item dropdown">*/}
-                                        {/*<a className="nav-link dropdown-toggle" href="/" id="navbarDropdownMenuLink"*/}
-                                        {/*role="button" data-toggle="dropdown" aria-haspopup="true"*/}
-                                        {/*aria-expanded="false">*/}
-                                        {/*Service Managment*/}
-                                        {/*</a>*/}
-                                        {/*<div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">*/}
-                                        {/*<Link className="dropdown-item" to={{*/}
-                                        {/*pathname: '/service/',*/}
-                                        {/*}}>All Services</Link>*/}
-                                        {/*<Link className="dropdown-item" to={{*/}
-                                        {/*pathname: '/service/add',*/}
-                                        {/*}}>Add New Service</Link>*/}
-                                        {/*</div>*/}
-                                        {/*</li>*/}
-                                        {/*<li className="nav-item dropdown">*/}
-                                        {/*<a className="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink"*/}
-                                        {/*role="button" data-toggle="dropdown" aria-haspopup="true"*/}
-                                        {/*aria-expanded="false">*/}
-                                        {/*User Mangement*/}
-                                        {/*</a>*/}
-                                        {/*<div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">*/}
-                                        {/*<Link className="dropdown-item" to={{*/}
-                                        {/*pathname: '/service/',*/}
-                                        {/*}}>*/}
-                                        {/*All Services*/}
-                                        {/*</Link>*/}
-                                        {/*<Link className="dropdown-item" to={{*/}
-                                        {/*pathname: '/service/',*/}
-                                        {/*}}>Add New Service</Link>*/}
-                                        {/*<Link className="dropdown-item" to={{*/}
-                                        {/*pathname: '/service/',*/}
-                                        {/*}}>Something else here</Link>*/}
-                                        {/*</div>*/}
-                                        {/*</li>*/}
-                                        {/*<li className="nav-item">*/}
-                                        {/*<Link className="nav-link" to={{*/}
-                                        {/*pathname: '/cart/',*/}
-                                        {/*}}>Cart</Link>*/}
-                                        {/*</li>*/}
-                                        <li className="nav-item">
-                                            <Link className="nav-link" to={{
-                                                pathname: '/',
-                                            }}>My Profile</Link>
-                                        </li>
-                                        <AuthorizedComponent
-                                            permission={isSuperAdmin(value.user)}
-                                            component={() => (<li className="nav-item">
-                                                <Link className="nav-link" to={{
-                                                    pathname: '/parameter',
-                                                }}>Parameter Management</Link>
-                                            </li>)}
-                                        />
-                                        <AuthorizedComponent
-                                            permission={isSuperAdmin(value.user)}
-                                            component={() =>
-                                                <li className="nav-item">
-                                                    <Link className="nav-link" to={{
-                                                        pathname: '/collectionType',
-                                                    }}>CollectionType Management</Link>
-                                                </li>}/>
-                                        <li className="nav-item">
-                                            <Link className="nav-link" onClick={value.logOut}
-                                                  style={{"cursor": "pointer"}} to={{
-                                                pathname: this.props.location.pathname
-                                            }}>Logout</Link>
-                                        </li>
+                                        <NavLink path={'/'}
+                                                 text={"Home"}/>
+                                        <NavLink path={'/service'}
+                                                 text={'Services'}/>
+                                        <NavLink text={isSuperAdmin(value.user) ? "All Orders" : "My Orders"}
+                                                 path={'/order'}/>
+                                        <AuthorizedComponent permission={!isSuperAdmin(value.user)}
+                                                             path={'/cart'}
+                                                             component={NavLink}
+                                                             text={"My Cart"}/>
+                                        <NavLink path={'/'}
+                                                 text={'My Profile'}/>
+                                        <AuthorizedComponent permission={isSuperAdmin(value.user)}
+                                                             path={'parameter'}
+                                                             text={'Parameter Management'}
+                                                             component={NavLink}/>
+                                        <AuthorizedComponent permission={isSuperAdmin(value.user)}
+                                                             path='/collectionType'
+                                                             text={'CollectionType Management'}
+                                                             component={NavLink}/>
+                                        <NavLink text={'Logout'}
+                                                 path={this.props.location.pathname}
+                                                 onClick={value.logOut}/>
                                     </ul>
                                 </div>
                             </nav>

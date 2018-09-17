@@ -17,6 +17,7 @@ import ParameterEditForm from "./parameter/ParameterEditForm";
 import NewParameterForm from "./parameter/NewParameterForm";
 import CollectionType from "./CollectionType/CollectionType";
 import CollectionTypeEditForm from "./CollectionType/CollectionTypeEditForm";
+import Cart from '../components/cart/Cart'
 
 export const Context = React.createContext();
 
@@ -174,6 +175,11 @@ class App extends Component {
                             path="/collectionType/edit"
                             component={CollectionTypeEditForm}
                             permission={this.state.user.userType === 'superAdmin'}/>
+                        <AuthorizedRoute
+                            exact path="/cart"
+                            component={Cart}
+                            permission={isAuthenticated}/>
+
                     </React.Fragment>
                 </Router>
             </Context.Provider>
