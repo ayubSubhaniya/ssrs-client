@@ -28,7 +28,7 @@ class ParameterList extends Component {
                                                 path={'/parameter/edit'}
                                                 index={i}/>
                                             <Switch
-                                                handleClick={this.props.toggleCollectionType}
+                                                handleClick={this.props.toggleParameter}
                                                 index={i}
                                                 isChecked={parameter.isActive ? true : false}/>
                                         </div>
