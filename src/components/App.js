@@ -12,6 +12,11 @@ import PublicPage from "./public-page/PublicPage";
 import OrderForm from "./service/OrderForm";
 import Orders from "./order/Orders";
 import Spinner from "./Spinner";
+import Parameters from "./parameter/Parameters";
+import ParameterEditForm from "./parameter/ParameterEditForm";
+import NewParameterForm from "./parameter/NewParameterForm";
+import CollectionType from "./CollectionType/CollectionType";
+import CollectionTypeEditForm from "./CollectionType/CollectionTypeEditForm";
 
 export const Context = React.createContext();
 
@@ -147,6 +152,28 @@ class App extends Component {
                             path="/service/order"
                             component={OrderForm}
                             permission={this.state.user.userType === 'student'}/>
+                        <AuthorizedRoute
+                            exact path="/parameter"
+                            component={Parameters}
+                            permission={this.state.user.userType === 'superAdmin'}
+                            user={this.state.user}/>
+                        <AuthorizedRoute
+                            path="/parameter/edit"
+                            component={ParameterEditForm}
+                            permission={this.state.user.userType === 'superAdmin'}/>
+                        <AuthorizedRoute
+                            exact path="/parameter/add"
+                            component={NewParameterForm}
+                            permission={this.state.user.userType === 'superAdmin'}/>
+                        <AuthorizedRoute
+                            exact path="/collectionType"
+                            component={CollectionType}
+                            permission={this.state.user.userType === 'superAdmin'}
+                            user={this.state.user}/>
+                        <AuthorizedRoute
+                            path="/collectionType/edit"
+                            component={CollectionTypeEditForm}
+                            permission={this.state.user.userType === 'superAdmin'}/>
                     </React.Fragment>
                 </Router>
             </Context.Provider>
