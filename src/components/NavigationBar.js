@@ -104,6 +104,16 @@ class NavigationBar extends Component {
                                             }}>My Profile</Link>
                                         </li>
                                         <li className="nav-item">
+                                            <Link className="nav-link" to={{
+                                                pathname: '/parameter',
+                                            }}>Parameter Management</Link>
+                                        </li>
+                                        <li className="nav-item">
+                                            <Link className="nav-link" to={{
+                                                pathname: '/collectionType',
+                                            }}>CollectionType Management</Link>
+                                        </li>
+                                        <li className="nav-item">
                                             <Link className="nav-link" onClick={value.logOut}
                                                style={{"cursor": "pointer"}} to={{
                                                 pathname: this.props.location.pathname
