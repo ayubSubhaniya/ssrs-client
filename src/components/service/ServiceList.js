@@ -27,26 +27,24 @@ class ServiceList extends Component {
     }
 
     toggleService = (index) => {
-        this.setState({
-            showSpinner: true
-        })
+        this.props.showSpinner();
         const service = this.state.service[index];
         const that = this;
-        const url = domainUrl + '/service/' + service._id;
+        const url = domainUrl + '/service/changeStatus/' + service._id;
         const request = new XMLHttpRequest();
         request.open('PATCH', url, true);
         request.withCredentials = true;
         request.setRequestHeader("Content-type", "application/json");
         request.onload = function () {
-            if (this.status == HttpStatus.ACCEPTED) {
+            if (this.status == HttpStatus.OK) {
                 const response = JSON.parse(request.response)
                 const serviceList = that.state.service;
                 serviceList[index] = response.service;
                 that.setState({
                     service: serviceList,
-                    showSpinner: false
                 });
             }
+            that.props.hideSpinner();
         }
         request.send(JSON.stringify({isActive:!service.isActive}));
     }

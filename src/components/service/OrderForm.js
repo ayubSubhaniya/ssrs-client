@@ -17,7 +17,7 @@ class OrderForm extends Component {
         super(props);
         if (props.location.state) {
             this.service = props.location.state.service,
-                this.pickupIndex = _.findIndex(this.service.collectionTypes,(x) => x.name==='Pickup')
+                this.pickupIndex = _.findIndex(this.service.collectionTypes, (x) => x.name === 'Pickup')
             this.state = {
                 units: 1,
                 comments: '',
@@ -69,37 +69,35 @@ class OrderForm extends Component {
     getOrderDetails = (state) => {
         const order = {
             serviceId: this.service._id,
-            serviceName: this.service.name,
             parameters: _.filter(_.map(state.parameters, (o, i) => o ? this.service.availableParameters[i]._id : -1), (o) => o != -1),
-            payment: {
-                "paymentType": this.state.paymentMode,
-                "isPaymentDone": false,
-                "paymentId": ""
-            }
+            paymentType: 0,
+            isPaymentDone: false,
+            unitsRequested: this.state.units,
+            comment: this.state.comments
         }
         const pickup = {
-            "name": this.state.name,
-            "daiictId": this.state.daiictId,
-            "contactNo": this.state.contactNo,
-            "email": this.state.email
+            name: this.state.name,
+            daiictId: this.state.daiictId,
+            contactNo: this.state.contactNo,
+            email: this.state.email
         }
         const courier = {
-            "name": this.state.name,
-            "contactNo": this.state.contactNo,
-            "email": this.state.email,
-            'address': {
-                line1:this.state.address,
+            name: this.state.name,
+            contactNo: this.state.contactNo,
+            email: this.state.email,
+            address: {
+                line1: this.state.address,
                 line2: "ads",
                 line3: "asdas"
             },
-            'pinCode': this.state.pincode,
-            'state': this.state.state,
-            'city': this.state.city,
-            'country': this.state.country
+            pinCode: this.state.pincode,
+            state: this.state.state,
+            city: this.state.city,
+            country: this.state.country
         }
-        return this.pickupIndex==this.state.collectionTypeIndex
-            ? {order,pickup}
-            : {order,courier};
+        return this.pickupIndex == this.state.collectionTypeIndex
+            ? {order, pickup}
+            : {order, courier};
     }
 
     handleSubmit = (e) => {
@@ -170,34 +168,6 @@ class OrderForm extends Component {
                                                 required
                                             />
                                         </div>
-                                        <div className={'form-group form-inline'}>
-                                            <label>Name:</label>
-                                            <input name="name"
-                                                   value={this.state.name}
-                                                   onChange={this.handleChange}
-                                                   className={'form-control w-75 ml-2'} type={'text'}/>
-                                        </div>
-                                        <div className={'form-group form-inline'}>
-                                            <label>DA-IICT ID:</label>
-                                            <input name="daiictId"
-                                                   value={this.state.daiictId}
-                                                   onChange={this.handleChange}
-                                                   className={'form-control w-75 ml-2'} type={'text'}/>
-                                        </div>
-                                        <div className={'form-group form-inline'}>
-                                            <label>Email: </label>
-                                            <input name='email'
-                                                   value={this.state.email}
-                                                   onChange={this.handleChange}
-                                                   className={'form-control w-75 ml-2'} type={'email'}/>
-                                        </div>
-                                        <div className={'form-group form-inline'}>
-                                            <label>Contact No: </label>
-                                            <input name='contactNo'
-                                                   value={this.state.contactNo}
-                                                   onChange={this.handleChange}
-                                                   className={'form-control w-50 ml-2'} type={'tel'}/>
-                                        </div>
                                         <CollectionTypesDropDown label={'Collection Type'}
                                                                  btnLabel={SelectedCollectionTypeName}
                                                                  options={this.service.collectionTypes}
@@ -206,17 +176,60 @@ class OrderForm extends Component {
                                                              btnLabel={"Select"}
                                                              options={this.service.availableParameters}
                                                              handleOptionChange={this.handleParamenterChange}/>
+                                        <PaymentModesDropDown btnLabel={camelCaseToWords(this.state.paymentMode)}
+                                                              options={Object.keys(_.pickBy(this.service.paymentModes))}
+                                                              handleOptionChange={this.handlePaymentModeChange}/>
+                                        <div className={'form-group'}>
+                                            <label>Comments</label>
+                                            <textarea
+                                                className={'form-control'}
+                                                rows="5"
+                                                name="comments"
+                                                placeholder="Write Comments"
+                                                onChange={this.handleChange}
+                                            />
+                                        </div>
                                     </div>
                                 </div>
 
                                 <div className="col-sm-6">
                                     <div className="card bg-light mb-3 p-4">
-                                        <PaymentModesDropDown btnLabel={camelCaseToWords(this.state.paymentMode)}
-                                                              options={Object.keys(_.pickBy(this.service.paymentModes))}
-                                                              handleOptionChange={this.handlePaymentModeChange}/>
+                                        <h5 className={'text-center'}><strong>Collection Info</strong></h5>
+                                        <div className={'form-group'}>
+                                            <label>Name:</label>
+                                            <input name="name"
+                                                   value={this.state.name}
+                                                   onChange={this.handleChange}
+                                                   className={'form-control'} type={'text'}/>
+                                        </div>
+                                        <div className={'form-group'}>
+                                            <label>Email: </label>
+                                            <input name='email'
+                                                   value={this.state.email}
+                                                   onChange={this.handleChange}
+                                                   className={'form-control'} type={'email'}/>
+                                        </div>
+                                        <div className={'form-group'}>
+                                            <label>Contact No: </label>
+                                            <input name='contactNo'
+                                                   value={this.state.contactNo}
+                                                   onChange={this.handleChange}
+                                                   className={'form-control'} type={'tel'}/>
+                                        </div>
+                                        <div
+                                            className={SelectedCollectionTypeName.toString().split(' ')[0] !== 'Courier' ? '' : 'd-none'}>
+                                            <div className={'form-group'}>
+                                                <label>DA-IICT ID:</label>
+                                                <input name="daiictId"
+                                                       value={this.state.daiictId}
+                                                       onChange={this.handleChange}
+                                                       className={'form-control'} type={'text'}/>
+                                            </div>
+                                        </div>
 
                                         <div
                                             className={SelectedCollectionTypeName.toString().split(' ')[0] === 'Courier' ? '' : 'd-none'}>
+
                                             <div className={'form-group'}>
                                                 <label>Address: </label>
                                                 <input name='address'
@@ -251,17 +264,6 @@ class OrderForm extends Component {
                                                        type={'text'}
                                                        onChange={this.handleChange}/>
                                             </div>
-                                        </div>
-
-                                        <div className={'form-group'}>
-                                            <label>Comments</label>
-                                            <textarea
-                                                className={'form-control'}
-                                                rows="5"
-                                                name="comments"
-                                                placeholder="Write Comments"
-                                                onChange={this.handleChange}
-                                            />
                                         </div>
                                     </div>
                                 </div>

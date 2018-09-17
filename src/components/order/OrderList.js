@@ -10,20 +10,18 @@ class OrderList extends Component {
                 <div id="accordion">
                     {
                         _.map(this.props.orders, (order, i) => {
-                            const service = findById(this.props.services,order.serviceId)
                             return (
                                 <div key={order._id} className="card">
                                     <div className="card-header d-flex justify-content-between align-items-center p-0">
                                         <a className="collapsed card-link text-dark w-100 h-100 p-3 ml-2"
                                            data-toggle="collapse"
                                            href={"#collapse" + i}>
-                                            <h4 className={'m-0'}> {service.name}</h4>
+                                            <h4 className={'m-0'}> {order.serviceName}</h4>
                                         </a>
                                     </div>
                                     <div id={'collapse' + i} className="collapse" data-parent="#accordion">
                                         <div className="card-body">
                                             <OrderDetails order={order}
-                                                          service={service}
                                                           user={this.props.user}/>
                                         </div>
                                     </div>

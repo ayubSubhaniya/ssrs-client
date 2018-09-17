@@ -126,6 +126,8 @@ class App extends Component {
                         <AuthorizedRoute
                             exact path="/service"
                             component={Services}
+                            hideSpinner={this.hideSpinner}
+                            showSpinner={this.showSpinner}
                             permission={isAuthenticated}
                             user={this.state.user}/>
                         <AuthorizedRoute

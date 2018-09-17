@@ -6,12 +6,13 @@ function capitalize(x) {
 }
 
 function filterName(x) {
-    return _.map(x, o => capitalize(o.name)).join(", ")
+    return _.map(x, o => o.name).join(", ")
 }
 
 class ServiceDetails extends Component {
     render() {
         const {service} = this.props;
+        console.log(service);
         return (
             <div>
                 <h5><strong>Description: </strong>

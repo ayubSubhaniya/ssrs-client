@@ -58,7 +58,7 @@ class EditForm extends Component {
         request.withCredentials = true;
         request.setRequestHeader("Content-type", "application/json");
         request.onload = function () {
-            if (this.status == HttpStatus.ACCEPTED) {
+            if (this.status == HttpStatus.OK) {
                 const response = JSON.parse(request.response)
                 console.log(response);
                 that.props.history.push('/service');
