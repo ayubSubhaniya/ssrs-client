@@ -3,9 +3,10 @@ import {Context} from "./App";
 import Image from "./Image";
 import logo from "../images/daiict.png";
 import {Link, withRouter} from "react-router-dom";
+import AuthorizedComponent from "./AuthorizedComponent";
 
 function isSuperAdmin(user) {
-    return user.userType==='superAdmin'
+    return user.userType === 'superAdmin'
 }
 
 class NavigationBar extends Component {
@@ -38,84 +39,90 @@ class NavigationBar extends Component {
                                         <li className="nav-item">
                                             <Link className="nav-link" to={{
                                                 pathname: '/order',
-                                            }}>{isSuperAdmin(value.user)?"All Orders":"My Orders"}</Link>
+                                            }}>{isSuperAdmin(value.user) ? "All Orders" : "My Orders"}</Link>
                                         </li>
                                         {/*<li className="nav-item dropdown">*/}
-                                            {/*<a className="nav-link dropdown-toggle" href="/" id="navbarDropdownMenuLink"*/}
-                                               {/*role="button" data-toggle="dropdown" aria-haspopup="true"*/}
-                                               {/*aria-expanded="false">*/}
-                                                {/*Order Mangement*/}
-                                            {/*</a>*/}
-                                            {/*<div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">*/}
-                                                {/*<Link className="dropdown-item" to={{*/}
-                                                    {/*pathname: '/service/',*/}
-                                                {/*}}>All Orders</Link>*/}
-                                                {/*<Link className="dropdown-item" to={{*/}
-                                                    {/*pathname: '/service/',*/}
-                                                {/*}}>Place Order</Link>*/}
-                                                {/*<Link className="dropdown-item" to={{*/}
-                                                    {/*pathname: '/service/',*/}
-                                                {/*}}>Something else here</Link>*/}
-                                            {/*</div>*/}
+                                        {/*<a className="nav-link dropdown-toggle" href="/" id="navbarDropdownMenuLink"*/}
+                                        {/*role="button" data-toggle="dropdown" aria-haspopup="true"*/}
+                                        {/*aria-expanded="false">*/}
+                                        {/*Order Mangement*/}
+                                        {/*</a>*/}
+                                        {/*<div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">*/}
+                                        {/*<Link className="dropdown-item" to={{*/}
+                                        {/*pathname: '/service/',*/}
+                                        {/*}}>All Orders</Link>*/}
+                                        {/*<Link className="dropdown-item" to={{*/}
+                                        {/*pathname: '/service/',*/}
+                                        {/*}}>Place Order</Link>*/}
+                                        {/*<Link className="dropdown-item" to={{*/}
+                                        {/*pathname: '/service/',*/}
+                                        {/*}}>Something else here</Link>*/}
+                                        {/*</div>*/}
                                         {/*</li>*/}
                                         {/*<li className="nav-item dropdown">*/}
-                                            {/*<a className="nav-link dropdown-toggle" href="/" id="navbarDropdownMenuLink"*/}
-                                               {/*role="button" data-toggle="dropdown" aria-haspopup="true"*/}
-                                               {/*aria-expanded="false">*/}
-                                                {/*Service Managment*/}
-                                            {/*</a>*/}
-                                            {/*<div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">*/}
-                                                {/*<Link className="dropdown-item" to={{*/}
-                                                    {/*pathname: '/service/',*/}
-                                                {/*}}>All Services</Link>*/}
-                                                {/*<Link className="dropdown-item" to={{*/}
-                                                    {/*pathname: '/service/add',*/}
-                                                {/*}}>Add New Service</Link>*/}
-                                            {/*</div>*/}
+                                        {/*<a className="nav-link dropdown-toggle" href="/" id="navbarDropdownMenuLink"*/}
+                                        {/*role="button" data-toggle="dropdown" aria-haspopup="true"*/}
+                                        {/*aria-expanded="false">*/}
+                                        {/*Service Managment*/}
+                                        {/*</a>*/}
+                                        {/*<div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">*/}
+                                        {/*<Link className="dropdown-item" to={{*/}
+                                        {/*pathname: '/service/',*/}
+                                        {/*}}>All Services</Link>*/}
+                                        {/*<Link className="dropdown-item" to={{*/}
+                                        {/*pathname: '/service/add',*/}
+                                        {/*}}>Add New Service</Link>*/}
+                                        {/*</div>*/}
                                         {/*</li>*/}
                                         {/*<li className="nav-item dropdown">*/}
-                                            {/*<a className="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink"*/}
-                                               {/*role="button" data-toggle="dropdown" aria-haspopup="true"*/}
-                                               {/*aria-expanded="false">*/}
-                                                {/*User Mangement*/}
-                                            {/*</a>*/}
-                                            {/*<div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">*/}
-                                                {/*<Link className="dropdown-item" to={{*/}
-                                                    {/*pathname: '/service/',*/}
-                                                {/*}}>*/}
-                                                    {/*All Services*/}
-                                                {/*</Link>*/}
-                                                {/*<Link className="dropdown-item" to={{*/}
-                                                    {/*pathname: '/service/',*/}
-                                                {/*}}>Add New Service</Link>*/}
-                                                {/*<Link className="dropdown-item" to={{*/}
-                                                    {/*pathname: '/service/',*/}
-                                                {/*}}>Something else here</Link>*/}
-                                            {/*</div>*/}
+                                        {/*<a className="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink"*/}
+                                        {/*role="button" data-toggle="dropdown" aria-haspopup="true"*/}
+                                        {/*aria-expanded="false">*/}
+                                        {/*User Mangement*/}
+                                        {/*</a>*/}
+                                        {/*<div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">*/}
+                                        {/*<Link className="dropdown-item" to={{*/}
+                                        {/*pathname: '/service/',*/}
+                                        {/*}}>*/}
+                                        {/*All Services*/}
+                                        {/*</Link>*/}
+                                        {/*<Link className="dropdown-item" to={{*/}
+                                        {/*pathname: '/service/',*/}
+                                        {/*}}>Add New Service</Link>*/}
+                                        {/*<Link className="dropdown-item" to={{*/}
+                                        {/*pathname: '/service/',*/}
+                                        {/*}}>Something else here</Link>*/}
+                                        {/*</div>*/}
                                         {/*</li>*/}
                                         {/*<li className="nav-item">*/}
-                                            {/*<Link className="nav-link" to={{*/}
-                                                {/*pathname: '/cart/',*/}
-                                            {/*}}>Cart</Link>*/}
+                                        {/*<Link className="nav-link" to={{*/}
+                                        {/*pathname: '/cart/',*/}
+                                        {/*}}>Cart</Link>*/}
                                         {/*</li>*/}
                                         <li className="nav-item">
                                             <Link className="nav-link" to={{
                                                 pathname: '/',
                                             }}>My Profile</Link>
                                         </li>
-                                        <li className="nav-item">
-                                            <Link className="nav-link" to={{
-                                                pathname: '/parameter',
-                                            }}>Parameter Management</Link>
-                                        </li>
-                                        <li className="nav-item">
-                                            <Link className="nav-link" to={{
-                                                pathname: '/collectionType',
-                                            }}>CollectionType Management</Link>
-                                        </li>
+                                        <AuthorizedComponent
+                                            permission={isSuperAdmin(value.user)}
+                                            component={() => (<li className="nav-item">
+                                                <Link className="nav-link" to={{
+                                                    pathname: '/parameter',
+                                                }}>Parameter Management</Link>
+                                            </li>)}
+                                        />
+                                        <AuthorizedComponent
+                                            permission={isSuperAdmin(value.user)}
+                                            component={() =>
+                                                <li className="nav-item">
+                                                    <Link className="nav-link" to={{
+                                                        pathname: '/collectionType',
+                                                    }}>CollectionType Management</Link>
+                                                </li>}/>
                                         <li className="nav-item">
                                             <Link className="nav-link" onClick={value.logOut}
-                                               style={{"cursor": "pointer"}} to={{
+                                                  style={{"cursor": "pointer"}} to={{
                                                 pathname: this.props.location.pathname
                                             }}>Logout</Link>
                                         </li>
