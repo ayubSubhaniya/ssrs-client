@@ -12,6 +12,7 @@ class PublicPage extends Component {
         this.state = {
             daiictId: '',
             password: '',
+            forgotPasswordOfID: '',
             login: true,
             isSignedup: false,
             signupMessage: '',
@@ -96,7 +97,7 @@ class PublicPage extends Component {
 
     onForgetPassword = () => {
         this.setState({modalIsOpen: false});
-        console.log(this.state.daiictId);
+        console.log(this.state.forgotPasswordOfID);
     }
 
 
@@ -211,7 +212,7 @@ class PublicPage extends Component {
                                 </div>
                                 <ForgotPassword visible={this.state.modalIsOpen}
                                                 closeModal={this.closeModal}
-                                                value={this.state.daiictId}
+                                                value={this.state.forgotPasswordOfID}
                                                 handleChange={this.handleChange}
                                                 onSubmit={this.onForgetPassword}/>
                             </React.Fragment>)

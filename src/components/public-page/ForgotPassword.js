@@ -16,7 +16,7 @@ function ForgotPassword(props) {
                 <form>
                     <div className="input-group">
                         <input className={'form-control'}
-                               name="daiictId"
+                               name="forgotPasswordOfID"
                                type="text"
                                value={props.value}
                                onChange={props.handleChange}
