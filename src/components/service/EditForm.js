@@ -29,7 +29,7 @@ class EditForm extends Component {
         const allCollectionTypes = syncFetch('collectionType');
         const allParameters = syncFetch("parameter");
 
-        this.service = props.location.state.service;
+        this.service = props.location.state;
         this.state = {
             showSpinner: false,
             name: this.service.name,
@@ -86,7 +86,6 @@ class EditForm extends Component {
                         <Form state={this.state}
                               handleChange={this.handleChange}
                               handleArrayUpdate={this.handleArrayUpdate}
-                              handleSubmit={this.handleSubmit}
                               handleSubmit={this.handleSubmit}
                               handlePaymentModeChange={this.handlePaymentModeChange}/>
                     </div>

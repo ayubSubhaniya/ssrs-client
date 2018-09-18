@@ -3,7 +3,7 @@ import {Link} from "react-router-dom"
 import _ from "lodash"
 import ServiceDetails from "./ServiceDetails";
 import {asyncFetch} from "../../helper/FetchData"
-import EditButton from "./EditButton";
+import EditButton from "../EditButton";
 import Switch from "./Switch";
 import ApplyButton from "./ApplyButton";
 import AuthorizedComponent from "../AuthorizedComponent";
@@ -72,8 +72,8 @@ class ServiceList extends Component {
                                             <AuthorizedComponent
                                                 component={EditButton}
                                                 permission={this.props.user.userType === 'superAdmin'}
-                                                service={service}
-                                                index={i}/>
+                                                data={service}
+                                                path={'/service/edit/' + i} />
                                             <AuthorizedComponent
                                                 component={Switch}
                                                 handleClick={this.toggleService}

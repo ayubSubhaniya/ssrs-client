@@ -15,7 +15,7 @@ class CollectionTypeEditForm extends Component {
             return;
         }
 
-        this.collectionType = props.location.state.collectionType;
+        this.collectionType = props.location.state;
         this.state = {
             showSpinner: false,
             name: this.collectionType.name,

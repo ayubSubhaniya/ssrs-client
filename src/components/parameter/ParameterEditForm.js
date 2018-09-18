@@ -15,7 +15,7 @@ class ParameterEditForm extends Component {
             return;
         }
 
-        this.parameter = props.location.state.parameter;
+        this.parameter = props.location.state;
         this.state = {
             showSpinner: false,
             name: this.parameter.name,

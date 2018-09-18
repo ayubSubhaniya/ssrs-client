@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import _ from "lodash"
-import EditButton from "../parameter/EditButton";
+import EditButton from "../EditButton";
 import Switch from "../service/Switch";
 import {Link} from "react-router-dom";
 
@@ -18,9 +18,8 @@ class ParameterList extends Component {
                                         <h5 className="m-0">{parameter.name + " ( ₹ " + parameter.baseCharge + " )"}</h5>
                                         <div className={'d-flex flex-direction-col'}>
                                             <EditButton
-                                                parameter={parameter}
-                                                path={'/parameter/edit'}
-                                                index={i}/>
+                                                data={parameter}
+                                                path={'/parameter/edit/' + i} />
                                             <Switch
                                                 handleClick={this.props.toggleParameter}
                                                 index={i}
