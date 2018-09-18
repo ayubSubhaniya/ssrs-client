@@ -20,13 +20,14 @@ export function asyncFetch(dataName) {
                 console.log(obj);
                 that.setState({
                     [dataName]: obj[dataName],
-                    showSpinner: false
                 })
             } catch (e) {
                 console.error(e);
             }
         }
-        ;
+        that.setState({
+            showSpinner: false
+        })
     };
     request.send();
 }

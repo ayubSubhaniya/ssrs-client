@@ -15,8 +15,8 @@ import Spinner from "./Spinner";
 import Parameters from "./parameter/Parameters";
 import ParameterEditForm from "./parameter/ParameterEditForm";
 import NewParameterForm from "./parameter/NewParameterForm";
-import CollectionType from "./CollectionType/CollectionType";
-import CollectionTypeEditForm from "./CollectionType/CollectionTypeEditForm";
+import CollectionType from "./collectionType/CollectionType";
+import CollectionTypeEditForm from "./collectionType/CollectionTypeEditForm";
 import Cart from '../components/cart/Cart'
 
 export const Context = React.createContext();
