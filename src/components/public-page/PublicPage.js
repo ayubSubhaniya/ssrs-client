@@ -30,6 +30,7 @@ class PublicPage extends Component {
     }
 
     switchTab = () => {
+        this.props.clearLoginMessage();
         this.setState({
             login: !this.state.login,
             daiictId: '',
@@ -102,6 +103,12 @@ class PublicPage extends Component {
         console.log(this.state.forgotPasswordOfID);
     }
 
+    clearSignupMessage = () => {
+        this.setState({
+            signupMessage: ''
+        })
+    }
+
 
     render() {
         const {daiictId, password, login, isSignedup, signupMessage, showPassword} = this.state
@@ -126,7 +133,10 @@ class PublicPage extends Component {
                                                 </div>
                                                 <input className="form-control" type="password" name="password" value={password}
                                                        onChange={this.handleChange}/>
-                                                <div className={"alert alert-danger p-2 mt-2 mb-2" + (value.loginMessage?'':" d-none") }><strong>{value.loginMessage}</strong></div>
+                                                <div className={"alert alert-danger p-2 mt-2 mb-2" + (value.loginMessage?'':" d-none") }>
+                                                    <button type="button" className="close" onClick={this.props.clearLoginMessage}>
+                                                        &times;</button>
+                                                    <strong>{value.loginMessage}</strong></div>
                                             </div>
                                             <div className="page-input"><input type="submit" value="ENTER"
                                                                                onClick={() => value.logIn({
@@ -159,13 +169,14 @@ class PublicPage extends Component {
                                                 </i></span>
                                                     </div>
                                                 </div>
-                                                <div className={"alert alert-danger p-2 mt-2 mb-2" + (signupMessage?'':' d-none')}><strong>{signupMessage}</strong></div>
+                                                <div className={"alert alert-danger p-2 mt-2 mb-2" + (signupMessage?'':' d-none')}>
+                                                    <button type="button" className="close" onClick={this.clearSignupMessage}>
+                                                        &times;</button>
+                                                    <strong>{signupMessage}</strong></div>
                                             </div>
                                             <div className="page-input"><input type="submit" value="SIGN ME UP!"
                                                                                onClick={this.handleSignUp}/></div>
                                             <div className={'alert alert-success p-2 mt-2 mb-2' + (isSignedup ? '' : ' d-none')}>
-                                                <button type="button" className="close"
-                                                        data-dismiss="alert">&times;</button>
                                                 <strong>Verification Link Sent!</strong>
                                                 <span className={"alert-link"}
                                                      style={{"cursor": "pointer"}}

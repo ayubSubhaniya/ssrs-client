@@ -87,7 +87,7 @@ class App extends Component {
                 })
             } else {
                 that.setState({
-                    loginMessage: 'Incorrect Username/Password. Try Again!'
+                    loginMessage: 'Incorrect Username/Password'
                 })
             }
             that.hideSpinner();
@@ -108,7 +108,11 @@ class App extends Component {
         };
         request.send();
     }
-
+    clearLoginMessage = () => {
+        this.setState({
+            loginMessage: ''
+        })
+    }
     render() {
         const {isAuthenticated, loginMessage} = this.state
         return (
@@ -127,6 +131,7 @@ class App extends Component {
                             exact path="/"
                             hideSpinner={this.hideSpinner}
                             showSpinner={this.showSpinner}
+                            clearLoginMessage={this.clearLoginMessage}
                             component={isAuthenticated ? Home : PublicPage}/>
                         <AuthorizedRoute
                             exact path="/service"
