@@ -19,6 +19,7 @@ import NewParameterForm from "./parameter/NewParameterForm";
 import CollectionType from "./collectionType/CollectionType";
 import CollectionTypeEditForm from "./collectionType/CollectionTypeEditForm";
 import Cart from '../components/cart/Cart'
+import {isStudent, isSuperAdmin} from "../helper/userType";
 
 export const Context = React.createContext();
 
@@ -145,41 +146,41 @@ class App extends Component {
                         <AuthorizedRoute
                             exact path="/service/add"
                             component={NewServiceForm}
-                            permission={this.state.user.userType === 'superAdmin'}/>
+                            permission={isSuperAdmin(this.state.user)}/>
                         <AuthorizedRoute
                             path="/service/edit"
                             component={EditForm}
-                            permission={this.state.user.userType === 'superAdmin'}/>
+                            permission={isSuperAdmin(this.state.user)}/>
                         <AuthorizedRoute
                             path="/service/order"
                             component={OrderForm}
-                            permission={this.state.user.userType === 'student'}/>
+                            permission={isStudent(this.state.user)}/>
                         <AuthorizedRoute
                             exact path="/parameter"
                             component={Parameters}
-                            permission={this.state.user.userType === 'superAdmin'}
+                            permission={isSuperAdmin(this.state.user)}
                             user={this.state.user}/>
                         <AuthorizedRoute
                             path="/parameter/edit"
                             component={ParameterEditForm}
-                            permission={this.state.user.userType === 'superAdmin'}/>
+                            permission={isSuperAdmin(this.state.user)}/>
                         <AuthorizedRoute
                             exact path="/parameter/add"
                             component={NewParameterForm}
-                            permission={this.state.user.userType === 'superAdmin'}/>
+                            permission={isSuperAdmin(this.state.user)}/>
                         <AuthorizedRoute
                             exact path="/collectionType"
                             component={CollectionType}
-                            permission={this.state.user.userType === 'superAdmin'}
+                            permission={isSuperAdmin(this.state.user)}
                             user={this.state.user}/>
                         <AuthorizedRoute
                             path="/collectionType/edit"
                             component={CollectionTypeEditForm}
-                            permission={this.state.user.userType === 'superAdmin'}/>
+                            permission={isSuperAdmin(this.state.user)}/>
                         <AuthorizedRoute
                             exact path="/cart"
                             component={Cart}
-                            permission={isAuthenticated}/>
+                            permission={isStudent(this.state.user)}/>
 
                     </React.Fragment>
                 </Router>

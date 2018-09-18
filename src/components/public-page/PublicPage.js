@@ -33,6 +33,7 @@ class PublicPage extends Component {
             login: !this.state.login,
             daiictId: '',
             password: '',
+            signupMessage: '',
             isSignedup: false
         })
     }
