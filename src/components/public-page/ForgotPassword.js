@@ -3,15 +3,16 @@ import Modal from "react-bootstrap4-modal";
 
 function ForgotPassword(props) {
     return (
-        <Modal visible={props.visible}>
+        <Modal visible={props.visible}
+               className={'animated ' + (props.visible?'rotateIn':'rotateOut')}
+               onClickBackdrop={props.closeModal}>
+
             <div className="modal-header">
                 <h5 className="modal-title">Forgot Password!</h5>
+                <button type="button" className="close" onClick={props.closeModal}><span
+                    aria-hidden="true">&times;</span></button>
             </div>
 
-            <div className={"modal-close-btn"}
-                 onClick={props.closeModal}>
-                <i className="material-icons">close</i>
-            </div>
             <div className="modal-body">
                 <form>
                     <div className="input-group">

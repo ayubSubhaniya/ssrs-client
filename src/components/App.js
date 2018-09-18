@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import '../styles/App.css';
+import 'animate.css'
 import {BrowserRouter as Router, Route} from "react-router-dom";
 import Home from './home/Home';
 import Services from "./service/Services";
