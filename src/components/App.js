@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import '../styles/App.css';
 import 'animate.css'
-import {BrowserRouter as Router, Route} from "react-router-dom";
+import {BrowserRouter as Router} from "react-router-dom";
 import Home from './home/Home';
 import Services from "./service/Services";
 import NewServiceForm from "./service/NewServiceForm";
@@ -96,10 +96,7 @@ class App extends Component {
     }
 
     logOut = () => {
-        const that = this;
-        this.setState({
-            showSpinner: true
-        })
+        this.showSpinner();
         const url = domainUrl + '/account/signout'
         var request = new XMLHttpRequest();
         request.open('GET', url, true);

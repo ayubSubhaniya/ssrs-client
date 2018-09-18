@@ -5,6 +5,7 @@ import {domainUrl} from "../../config/configuration";
 import * as HttpStatus from "http-status-codes";
 import logo from "../../images/dalogo.jpg";
 import ForgotPassword from "./ForgotPassword";
+import TextInputUserName from "./TextInputUserName";
 
 class PublicPage extends Component {
     constructor() {
@@ -118,24 +119,8 @@ class PublicPage extends Component {
                                            checked={!login}/>
                                     <div className="pages">
                                         <div className="page">
-                                            <div className="page-input">
-                                                <div className="title"><i
-                                                    className="material-icons">account_box</i> DA-IICT ID
-                                                </div>
-                                                <div className="input-group mb-3">
-                                                    <input type="text" className="form-control"
-                                                           placeholder="DA-IICT ID"
-                                                           aria-label="username"
-                                                           value={daiictId}
-                                                           onChange={this.handleChange}
-                                                           name="daiictId"
-                                                           aria-describedby="basic-addon"/>
-                                                        <div className="input-group-append">
-                                                            <span className="input-group-text"
-                                                                  id="basic-addon">@daiict.ac.in</span>
-                                                        </div>
-                                                </div>
-                                            </div>
+                                            <TextInputUserName daiictId={daiictId}
+                                                               handleChange={this.handleChange}/>
                                             <div className="page-input">
                                                 <div className="title"><i className="material-icons">lock</i> PASSWORD
                                                 </div>
@@ -152,24 +137,8 @@ class PublicPage extends Component {
                                                    onClick={this.openModal}/>
                                         </div>
                                         <div className="page signup">
-                                            <div className="page-input">
-                                                <div className="title"><i
-                                                    className="material-icons">account_box</i> DA-IICT ID
-                                                </div>
-                                                <div className="input-group mb-3">
-                                                    <input type="text" className="form-control"
-                                                           placeholder="DA-IICT ID"
-                                                           aria-label="username"
-                                                           value={daiictId}
-                                                           onChange={this.handleChange}
-                                                           name="daiictId"
-                                                           aria-describedby="basic-addon"/>
-                                                    <div className="input-group-append">
-                                                            <span className="input-group-text"
-                                                                  id="basic-addon">@daiict.ac.in</span>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            <TextInputUserName daiictId={daiictId}
+                                                               handleChange={this.handleChange}/>
                                             <div className="page-input">
                                                 <div className="title"><i className="material-icons">lock</i> PASSWORD
                                                 </div>
@@ -194,7 +163,7 @@ class PublicPage extends Component {
                                             </div>
                                             <div className="page-input"><input type="submit" value="SIGN ME UP!"
                                                                                onClick={this.handleSignUp}/></div>
-                                            <div className={'alert alert-success alert-dismissible p-2 mt-2 mb-2' + (isSignedup ? '' : ' d-none')}>
+                                            <div className={'alert alert-success p-2 mt-2 mb-2' + (isSignedup ? '' : ' d-none')}>
                                                 <button type="button" className="close"
                                                         data-dismiss="alert">&times;</button>
                                                 <strong>Verification Link Sent!</strong>
