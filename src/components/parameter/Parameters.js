@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import NavigationBar from "../NavigationBar";
 import Header from "../Header";
 import ParameterList from "./ParameterList";
-import {syncFetch} from "../../helper/FetchData";
+import {asyncFetch} from "../../helper/FetchData";
 import Spinner from "../Spinner";
 import {domainUrl} from "../../config/configuration";
 import * as HttpStatus from "http-status-codes";
@@ -12,9 +12,13 @@ class Parameters extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            showSpinner: false,
-            parameter: syncFetch('parameter')
+            showSpinner: false
         }
+        this.asyncFetch = asyncFetch.bind(this);
+    }
+
+    componentDidMount() {
+        this.asyncFetch('parameter');
     }
 
     toggleParameter = (index) => {

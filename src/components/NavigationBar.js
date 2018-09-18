@@ -4,10 +4,7 @@ import Image from "./Image";
 import logo from "../images/daiict.png";
 import {Link, withRouter} from "react-router-dom";
 import AuthorizedComponent from "./AuthorizedComponent";
-
-function isSuperAdmin(user) {
-    return user.userType === 'superAdmin'
-}
+import {isSuperAdmin} from "../helper/userType";
 
 function NavLink({path, text, onClick}) {
     return (<li className="nav-item">

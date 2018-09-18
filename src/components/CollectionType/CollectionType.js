@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import NavigationBar from "../NavigationBar";
 import Header from "../Header";
 import CollectionTypeList from "./CollectionTypeList";
-import {syncFetch} from "../../helper/FetchData";
+import {asyncFetch} from "../../helper/FetchData";
 import Spinner from "../Spinner";
 import {domainUrl} from "../../config/configuration";
 import * as HttpStatus from "http-status-codes";
@@ -12,8 +12,12 @@ class CollectionType extends Component {
         super(props);
         this.state = {
             showSpinner: false,
-            collectionType: syncFetch('collectionType')
         }
+        this.asyncFetch = asyncFetch.bind(this);
+    }
+
+    componentDidMount(){
+        this.asyncFetch('collectionType');
     }
 
     toggleCollectionType = (index) => {

@@ -29,7 +29,8 @@ class Cart extends Component {
                             <td className="text-center"><strong>{"Total 1.99"}</strong></td>
                         </tr>
                         <tr>
-                            <td><a href="#" className="btn btn-warning"><i className="fa fa-angle-left"></i> Add More Services</a></td>
+                            <td><a href="#" className="btn btn-warning"><i className="fa fa-angle-left"></i> Add More
+                                Services</a></td>
                             <td colSpan="2" className="hidden-xs"></td>
                             <td className="hidden-xs text-center"><strong>Total $1.99</strong></td>
                             <td><a href="#" className="btn btn-success btn-block">Checkout <i
@@ -42,4 +43,5 @@ class Cart extends Component {
         );
     }
 }
+
 export default Cart;
