@@ -20,6 +20,7 @@ import CollectionType from "./collectionType/CollectionType";
 import CollectionTypeEditForm from "./collectionType/CollectionTypeEditForm";
 import Cart from '../components/cart/Cart'
 import {isStudent, isSuperAdmin} from "../helper/userType";
+import UserList from './UserList';
 
 export const Context = React.createContext();
 
@@ -183,6 +184,10 @@ class App extends Component {
                             exact path="/cart"
                             component={Cart}
                             permission={isStudent(this.state.user)}/>
+                        <AuthorizedRoute
+                            exact path='/users'
+                            component={UserList}
+                            permission={isSuperAdmin(this.state.user)} />
 
                     </React.Fragment>
                 </Router>

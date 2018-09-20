@@ -5,6 +5,7 @@ import Tab from "./Tab";
 import NavigationBar from "../NavigationBar";
 import {asyncFetch} from '../../helper/FetchData'
 import Spinner from "../Spinner";
+import UserList from '../UserList';
 
 class Home extends Component {
     constructor() {
@@ -27,7 +28,8 @@ class Home extends Component {
             <React.Fragment>
                 <NavigationBar/>
                 <Header title={'Welcome to Student Service Request System'}/>
-                <Tab news={this.state.news} notification={this.state.notification}/>
+               {/* <Tab news={this.state.news} notification={this.state.notification}/>*/}
+                <UserList/>
                 <Spinner open={this.state.showSpinner}/>
             </React.Fragment>
         );
