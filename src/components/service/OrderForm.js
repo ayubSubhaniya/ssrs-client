@@ -10,6 +10,7 @@ import {COD} from "../../constants/PaymentMode";
 import {camelCaseToWords} from "../../helper/String";
 import {domainUrl} from '../../config/configuration'
 import HttpStatus from 'http-status-codes'
+import Stapes from "./Stapes";
 
 class OrderForm extends Component {
 
@@ -130,7 +131,7 @@ class OrderForm extends Component {
             return (
                 <div>
                     <NavigationBar/>
-                    <Header title={"Apply For Service"}/>
+                    <Stapes/>
                     <div className={'container'}>
                         <form autoComplete="on" onSubmit={this.handleSubmit}>
                             <div className={'row'}>
