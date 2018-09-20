@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import '../styles/App.css';
-import 'animate.css'
+import 'animate.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap'
 import {BrowserRouter as Router} from "react-router-dom";
 import Home from './home/Home';
 import Services from "./service/Services";
