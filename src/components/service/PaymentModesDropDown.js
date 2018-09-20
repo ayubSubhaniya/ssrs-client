@@ -8,11 +8,11 @@ class PaymentModesDropDown extends Component {
             <div className="form-group">
                 <label>{"Payment Mode"}</label>
                 <div className="dropdown">
-                    <button className="btn dropdown-toggle form-control"
+                    <div className="btn dropdown-toggle form-control"
                             type="button"
                             data-toggle="dropdown">
                         {this.props.btnLabel + " "}
-                        <span className="caret"></span></button>
+                        <span className="caret"></span></div>
                     <ul className="dropdown-menu col-sm-12">
                         {
                             _.map(this.props.options, (o,index) => {

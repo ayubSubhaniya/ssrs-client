@@ -20,8 +20,10 @@ import ParameterEditForm from "./parameter/ParameterEditForm";
 import NewParameterForm from "./parameter/NewParameterForm";
 import CollectionType from "./collectionType/CollectionType";
 import CollectionTypeEditForm from "./collectionType/CollectionTypeEditForm";
-import Cart from '../components/cart/Cart'
+import Cart from './order/cart/Cart'
 import {isStudent, isSuperAdmin} from "../helper/userType";
+import Payment from "./order/payment/Payment";
+import Info from "./order/info/Info";
 
 export const Context = React.createContext();
 
@@ -185,7 +187,14 @@ class App extends Component {
                             exact path="/cart"
                             component={Cart}
                             permission={isStudent(this.state.user)}/>
-
+                        <AuthorizedRoute
+                            exact path="/info"
+                            component={Info}
+                            permission={isStudent(this.state.user)}/>
+                        <AuthorizedRoute
+                            exact path='/payment'
+                            component={Payment}
+                            permission={isStudent(this.state.user)}/>
                     </React.Fragment>
                 </Router>
             </Context.Provider>

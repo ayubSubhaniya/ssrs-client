@@ -10,7 +10,6 @@ import {COD} from "../../constants/PaymentMode";
 import {camelCaseToWords} from "../../helper/String";
 import {domainUrl} from '../../config/configuration'
 import HttpStatus from 'http-status-codes'
-import Stapes from "./Stapes";
 
 class OrderForm extends Component {
 
@@ -67,10 +66,14 @@ class OrderForm extends Component {
         })
     }
 
+    getSelectedPrameters = (parameters) => {
+        return _.filter(_.map(parameters, (o, i) => o ? this.service.availableParameters[i] : -1), (o) => o != -1)
+    }
+
     getOrderDetails = (state) => {
         const order = {
             serviceId: this.service._id,
-            parameters: _.filter(_.map(state.parameters, (o, i) => o ? this.service.availableParameters[i]._id : -1), (o) => o != -1),
+            parameters: _.map(this.getSelectedPrameters(state.parameters), '_id'),
             paymentType: 0,
             isPaymentDone: false,
             unitsRequested: this.state.units,
@@ -104,7 +107,7 @@ class OrderForm extends Component {
     handleSubmit = (e) => {
         e.preventDefault()
         console.log(this.getOrderDetails(this.state));
-
+        this.props.history.push('/cart')
         const that = this;
         const url = domainUrl + '/order/'
         const request = new XMLHttpRequest();
@@ -115,7 +118,7 @@ class OrderForm extends Component {
             if (this.status == HttpStatus.CREATED) {
                 const response = JSON.parse(request.response)
                 console.log(response);
-                that.props.history.push('/order')
+                that.props.history.push('/cart')
             }
         }
         request.send(JSON.stringify(this.getOrderDetails(this.state)));
@@ -127,11 +130,14 @@ class OrderForm extends Component {
                 ? this.service.collectionTypes[this.state.collectionTypeIndex].name + " (₹" +
                 this.service.collectionTypes[this.state.collectionTypeIndex].baseCharge + ")"
                 : 'Select'
-            const parameterBtnLabel = _.filter(this.state.parameters);
+            const selectedParamters = this.getSelectedPrameters(this.state.parameters)
+            var parameterBtnLabel = _.map(selectedParamters, 'name').join(', ')
+            parameterBtnLabel = parameterBtnLabel === '' ? 'Select' : parameterBtnLabel
+            parameterBtnLabel = parameterBtnLabel.length > 45 ? `Selected(${selectedParamters.length})` : parameterBtnLabel
             return (
                 <div>
                     <NavigationBar/>
-                    <Stapes/>
+                    <Header title={"Apply For Service"}/>
                     <div className={'container'}>
                         <form autoComplete="on" onSubmit={this.handleSubmit}>
                             <div className={'row'}>
@@ -174,7 +180,7 @@ class OrderForm extends Component {
                                                                  options={this.service.collectionTypes}
                                                                  handleOptionChange={this.handleCollectionTypeChange}/>
                                         <MultiSelectDropDown label={'Parameters'}
-                                                             btnLabel={"Select"}
+                                                             btnLabel={parameterBtnLabel}
                                                              options={this.service.availableParameters}
                                                              handleOptionChange={this.handleParamenterChange}/>
                                         <PaymentModesDropDown btnLabel={camelCaseToWords(this.state.paymentMode)}
