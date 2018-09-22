@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import '../styles/table.css';
+import '../../styles/table.css';
 import EditUserModalBody from './EditUserModalBody';
 
 class EditUser extends Component {

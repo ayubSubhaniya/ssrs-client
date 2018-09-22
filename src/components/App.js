@@ -23,7 +23,7 @@ import Cart from './order/cart/Cart'
 import {isStudent, isSuperAdmin} from "../helper/userType";
 import Payment from "./order/payment/Payment";
 import Info from "./order/info/Info";
-import UserList from './UserList';
+import UserList from './user/UserList';
 
 export const Context = React.createContext();
 

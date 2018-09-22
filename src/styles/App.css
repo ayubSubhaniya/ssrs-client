@@ -400,3 +400,11 @@ input:checked + .slider:before {
     flex-basis: 90%;
     margin-left: 0px;
 }
+
+
+/* order filter*/
+
+.filter-col{
+    padding-left:10px;
+    padding-right:10px;
+}

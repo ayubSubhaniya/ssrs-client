@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import '../styles/table.css';
+import '../../styles/table.css';
 import EditUser from './EditUserModal';
 //import {asyncFetch} from "../helper/FetchData"
 import _ from "lodash"
@@ -66,14 +66,14 @@ class UserList extends Component {
                 </tr>
                 {
                     _.map(this.state.user, (user, i) => {
-                        
+
                         return (
                             <tr>
                                 <td>{user.daiictId}</td>
                                 <td>{user.name.firstName + ' ' + user.name.lastName}</td>
                                 <td>{user.userType}</td>
                                 <td><EditUser detail={user}/></td>
-                            </tr>                            
+                            </tr>
                         )
                     })
                 }
