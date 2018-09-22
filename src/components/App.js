@@ -12,7 +12,6 @@ import AuthorizedRoute from './AuthorizedRoute'
 import {domainUrl} from "../config/configuration";
 import * as HttpStatus from "http-status-codes";
 import PublicPage from "./public-page/PublicPage";
-import OrderForm from "./service/OrderForm";
 import Orders from "./order/Orders";
 import Spinner from "./Spinner";
 import Parameters from "./parameter/Parameters";
@@ -24,6 +23,7 @@ import Cart from './order/cart/Cart'
 import {isStudent, isSuperAdmin} from "../helper/userType";
 import Payment from "./order/payment/Payment";
 import Info from "./order/info/Info";
+import UserList from './UserList';
 
 export const Context = React.createContext();
 
@@ -49,7 +49,7 @@ class App extends Component {
             if (this.status === HttpStatus.OK) {
                 var res = JSON.parse(request.response)
                 console.log(res.user);
-                that.state = Object.assign({},that.state,{
+                that.state = Object.assign({}, that.state, {
                     isAuthenticated: true,
                     user: res.user
                 })
@@ -191,6 +191,9 @@ class App extends Component {
                             exact path='/payment'
                             component={Payment}
                             permission={isStudent(this.state.user)}/>
+                        <AuthorizedRoute exact path='/users'
+                                         component={UserList}
+                                         permission={isSuperAdmin(this.state.user)}/>
                     </React.Fragment>
                 </Router>
             </Context.Provider>

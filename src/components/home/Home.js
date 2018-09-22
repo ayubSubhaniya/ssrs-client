@@ -5,6 +5,7 @@ import Tab from "./Tab";
 import NavigationBar from "../NavigationBar";
 import {asyncFetch} from '../../helper/FetchData'
 import Spinner from "../Spinner";
+import UserList from '../UserList';
 
 class Home extends Component {
     constructor() {
