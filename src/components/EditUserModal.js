@@ -1,32 +1,22 @@
 import React, {Component} from 'react';
 import '../styles/table.css';
+import EditUserModalBody from './EditUserModalBody';
 
 class EditUser extends Component {
+
+    constructor(props, context){
+        super(props, context);
+    }
+
     render(){
+        console.log(this.props.detail);
         return(
             <div>
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-                    Open modal
+
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target={"#myModal" + this.props.detail.daiictId}>
+                    Edit User
                 </button>
-                <div class="modal" id="myModal">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                            <h4 class="modal-title">Edit User</h4>
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            </div>
-                            
-                            <div class="modal-body">
-                            Modal body..
-                            </div>
-                            
-                            <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                            </div>
-                            
-                        </div>
-                    </div>
-                </div>
+                <EditUserModalBody detail={this.props.detail}/>
            </div>
         );
     }

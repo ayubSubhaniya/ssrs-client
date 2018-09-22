@@ -7,6 +7,7 @@ import Spinner from "./Spinner";
 import {domainUrl} from "../config/configuration";
 import * as HttpStatus from "http-status-codes";
 import NavigationBar from './NavigationBar';
+import Header from './Header';
 class UserList extends Component {
 
     asyncFetch = (dataName) => {
@@ -55,6 +56,7 @@ class UserList extends Component {
         return(
             <React.Fragment>
                 <NavigationBar />
+                <Header title={'User Management'}/>
                 <table id="table">
                 <tr>
                     <th>User ID</th>
@@ -63,7 +65,6 @@ class UserList extends Component {
                     <th>Actions</th>
                 </tr>
                 {
-
                     _.map(this.state.user, (user, i) => {
                         
                         return (
@@ -71,13 +72,14 @@ class UserList extends Component {
                                 <td>{user.daiictId}</td>
                                 <td>{user.name.firstName + ' ' + user.name.lastName}</td>
                                 <td>{user.userType}</td>
-                                <td><EditUser/></td>
+                                <td><EditUser detail={user}/></td>
                             </tr>                            
                         )
                     })
                 }
 
                 </table>
+                <Spinner open={this.state.showSpinner}/>
             </React.Fragment>
         );
     }

@@ -28,8 +28,7 @@ class Home extends Component {
             <React.Fragment>
                 <NavigationBar/>
                 <Header title={'Welcome to Student Service Request System'}/>
-               {/* <Tab news={this.state.news} notification={this.state.notification}/>*/}
-                <UserList/>
+                <Tab news={this.state.news} notification={this.state.notification}/>
                 <Spinner open={this.state.showSpinner}/>
             </React.Fragment>
         );
