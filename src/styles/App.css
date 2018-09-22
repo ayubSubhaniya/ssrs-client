@@ -303,7 +303,6 @@ input:checked + .slider:before {
     border: 1px solid gray;
     width: 250px;
     height: 220px;
-    cursor: pointer;
     color: gray;
     margin: 5px;
     padding: 20px;
@@ -333,10 +332,71 @@ input:checked + .slider:before {
 
 .address-edit-btn{
     position: relative;
+    cursor: pointer;
     float: right;
     bottom: 0px;
 }
 
 .address-edit-btn:hover{
     color: #000000;
+}
+
+.total-price {
+    float: right;
+    color: blue;
+}
+
+.price{
+    font-size: 3rem;
+}
+
+.place-order{
+    clear: both;
+    float: right;
+}
+
+/*Payment*/
+.payment-operation{
+    background-color: #e7e7e7;
+    margin-top: 14px;
+    font-weight: 300;
+    padding: 10px 10px 10px;
+}
+
+.title-wrap{
+    padding: 1em 0;
+    background: url(//i01.appmifile.com/webfile/globalimg/en/2014/pay/secure-verified.jpg) no-repeat 100% 0;
+}
+
+.payment{
+    display: flex;
+}
+
+.payment-method-tabs{
+    flex-basis: 20%;
+    display: flex;
+    flex-direction: column;
+}
+
+
+.tab-payment{
+    cursor: pointer;
+    background: white;
+    padding: 20px;
+    margin-right: 0px;
+    border-bottom: 2px solid #e7e7e7;
+    border-right: 2px solid blue;
+}
+
+.tab-payment-active{
+    background-color: #e7e7e7;
+    border: 2px solid blue;
+    border-right-width: 0px;
+}
+
+.payment-method-body{
+    border: 2px solid blue;
+    border-left-width: 0px;
+    flex-basis: 90%;
+    margin-left: 0px;
 }

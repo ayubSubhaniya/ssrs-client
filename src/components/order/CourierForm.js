@@ -45,7 +45,7 @@ class CourierForm extends React.Component {
     handleSubmit = (e) => {
         e.preventDefault()
         console.log(this.getCourierDetails(this.state));
-        this.props.history.push('/cart')
+        this.props.close();
         const that = this;
         const url = domainUrl + '/order/'
         const request = new XMLHttpRequest();
@@ -56,7 +56,7 @@ class CourierForm extends React.Component {
             if (this.status == HttpStatus.CREATED) {
                 const response = JSON.parse(request.response)
                 console.log(response);
-                that.props.history.push('/cart')
+                that.props.close();
             }
         }
         // request.send(JSON.stringify(this.getOrderDetails(this.state)));
@@ -64,7 +64,7 @@ class CourierForm extends React.Component {
 
     render() {
         return (
-            <Modal visible={true}>
+            <Modal visible={this.props.open}>
                 <div className={'modal-body'}>
                     <form autoComplete="on">
                         <div className={'form-group'}>
@@ -125,11 +125,10 @@ class CourierForm extends React.Component {
                         </div>
                     </form>
                 </div>
-                <input
-                    className='submit mb-2'
-                    onClick={this.handleSubmit}
-                    type="submit"
-                    value="Add To Cart"/>
+                <div className="modal-footer">
+                    <button type="button" className="btn btn-danger" onClick={this.props.close}>Close</button>
+                    <button type="submit" className="btn btn-primary" onClick={this.handleSubmit}>Save</button>
+                </div>
             </Modal>
         );
     }
