@@ -138,7 +138,7 @@ class App extends Component {
                             clearLoginMessage={this.clearLoginMessage}
                             component={isAuthenticated ? Home : PublicPage}/>
                         <AuthorizedRoute
-                            exact path="/service"
+                            path="/service"
                             component={Services}
                             hideSpinner={this.hideSpinner}
                             showSpinner={this.showSpinner}
@@ -157,10 +157,6 @@ class App extends Component {
                             path="/service/edit"
                             component={EditForm}
                             permission={isSuperAdmin(this.state.user)}/>
-                        <AuthorizedRoute
-                            path="/service/order"
-                            component={OrderForm}
-                            permission={isStudent(this.state.user)}/>
                         <AuthorizedRoute
                             exact path="/parameter"
                             component={Parameters}
@@ -184,7 +180,7 @@ class App extends Component {
                             component={CollectionTypeEditForm}
                             permission={isSuperAdmin(this.state.user)}/>
                         <AuthorizedRoute
-                            exact path="/cart"
+                            path="/cart"
                             component={Cart}
                             permission={isStudent(this.state.user)}/>
                         <AuthorizedRoute

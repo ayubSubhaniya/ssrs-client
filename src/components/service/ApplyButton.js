@@ -1,20 +1,12 @@
 import React from 'react'
-import {Link} from "react-router-dom";
 
 class ApplyButton extends React.Component {
     render() {
-        const {service,index} = this.props;
+        const {service, index, handleClick} = this.props;
         return (
-            <Link
-                className={'ml-2 mr-2'}
-                to={{
-                pathname: '/service/order/' + index,
-                state: {service}
-            }}>
-                <div className={'btn btn-success btn-large'}>
-                    Apply
-                </div>
-            </Link>
+            <div className={'btn btn-success btn-large ml-2 mr-2'} onClick={() => handleClick(service)}>
+                Apply
+            </div>
         )
     }
 }

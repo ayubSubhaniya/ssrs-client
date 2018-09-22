@@ -229,7 +229,7 @@ input:checked + .slider:before {
 
 .steps-box {
     position: relative;
-    width: 100%;
+    /*width: 100%;*/
     margin-right: auto;
     margin-left: auto;
 }
@@ -269,4 +269,74 @@ input:checked + .slider:before {
 
 .current .steps-detail {
     color: #472bff;
+}
+
+@media screen and (max-width: 600px) {
+    .steps-list{
+        flex-direction: column;
+    }
+}
+
+
+/*Order Info*/
+.address-box {
+    width: 100%;
+    margin-top: 2%;
+    background: #fff;
+}
+
+.empty-box {
+    border: 1px solid gray;
+    width: 250px;
+    height: 220px;
+    display: flex;
+    cursor: pointer;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: gray;
+    margin: 5px;
+    padding: 20px;
+}
+
+.address {
+    border: 1px solid gray;
+    width: 250px;
+    height: 220px;
+    cursor: pointer;
+    color: gray;
+    margin: 5px;
+    padding: 20px;
+}
+
+
+.address:hover, .empty-box:hover{
+    border: 1px solid #472bff;
+}
+
+.icon-add{
+    font-size: 2rem;
+    margin: 0px;
+    padding: 0px;
+}
+
+.address-title {
+    position: relative;
+}
+
+.item-address{
+    align-items: flex-start;
+    text-overflow: ellipsis;
+    margin: 0px;
+    margin-bottom: 5px;
+}
+
+.address-edit-btn{
+    position: relative;
+    float: right;
+    bottom: 0px;
+}
+
+.address-edit-btn:hover{
+    color: #000000;
 }

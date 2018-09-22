@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {Link} from "react-router-dom"
 import _ from "lodash"
 import ServiceDetails from "./ServiceDetails";
 import {asyncFetch} from "../../helper/FetchData"
@@ -11,18 +10,21 @@ import {domainUrl} from '../../config/configuration'
 import * as HttpStatus from "http-status-codes";
 import ButtonLink from "./ButtonLink";
 import Spinner from "../Spinner";
+import OrderForm from "./OrderForm";
 
 class ServiceList extends Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
-            service:[],
+            service: [],
+            orderFormVisible: false,
+            currentServiceToOrder: undefined,
             showSpinner: false
         };
         this.asyncFetch = asyncFetch.bind(this);
     }
 
-    componentDidMount(){
+    componentDidMount() {
         this.asyncFetch('service');
     }
 
@@ -46,7 +48,21 @@ class ServiceList extends Component {
             }
             that.props.hideSpinner();
         }
-        request.send(JSON.stringify({isActive:!service.isActive}));
+        request.send(JSON.stringify({isActive: !service.isActive}));
+    }
+
+    openOrderForm = (service) => {
+        this.setState({
+            orderFormVisible: true,
+            currentServiceToOrder: service
+        })
+    }
+
+    closeOrderForm = () => {
+        this.setState({
+            orderFormVisible: false,
+            currentServiceToOrder: undefined
+        })
     }
 
     render() {
@@ -66,6 +82,7 @@ class ServiceList extends Component {
                                         <div className='d-flex p-2 align-items-center justify-content-center'>
                                             <AuthorizedComponent
                                                 component={ApplyButton}
+                                                handleClick={this.openOrderForm}
                                                 permission={this.props.user.userType === 'student'}
                                                 service={service}
                                                 index={i}/>
@@ -73,12 +90,12 @@ class ServiceList extends Component {
                                                 component={EditButton}
                                                 permission={this.props.user.userType === 'superAdmin'}
                                                 data={service}
-                                                path={'/service/edit/' + i} />
+                                                path={'/service/edit/' + i}/>
                                             <AuthorizedComponent
                                                 component={Switch}
                                                 handleClick={this.toggleService}
                                                 index={i}
-                                                isChecked={service.isActive?true:false}
+                                                isChecked={service.isActive ? true : false}
                                                 permission={this.props.user.userType === 'superAdmin'}/>
                                         </div>
                                     </div>
@@ -92,6 +109,12 @@ class ServiceList extends Component {
                         })
                     }
                 </div>
+                {
+                    this.state.orderFormVisible
+                        ? <OrderForm service={this.state.currentServiceToOrder}
+                                     closeModal={this.closeOrderForm}/>
+                        : ''
+                }
                 <AuthorizedComponent
                     component={ButtonLink}
                     permission={this.props.user.userType === 'superAdmin'}
