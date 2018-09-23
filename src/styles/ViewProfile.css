@@ -1,0 +1,13 @@
+.parent{
+    width: 100%;
+    display: inline-flex;
+}
+.quick-view{
+    flex-basis: 30%;
+}
+.info-table{
+    flex-basis: 70%;
+}
+.style-btn{
+    margin-left: 50%;
+}
