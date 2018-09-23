@@ -1,148 +1,182 @@
 import React, {Component} from 'react';
+import {handleChange} from "../../helper/StateUpdate";
+
+function TextField({value, handleChange, name, label}) {
+    return (
+        <div className="form-group row">
+            <label className="col-3 col-form-label">{label}</label>
+            <div className="col-9">
+                <input type="text"
+                       className="form-control"
+                       name={name}
+                       value={value}
+                       onChange={handleChange}/>
+            </div>
+        </div>
+    )
+}
 
 class EditUserModalBody extends Component {
     constructor(props, context) {
         super(props, context);
-        this.handleChange = this.handleChange.bind(this);
-        this.state = { programme: props.detail.programme};
+        this.handleChange = handleChange.bind(this);
+        this.state = {
+            daiictId: props.detail.daiictId,
+            firstName: props.detail.name.firstName,
+            lastName: props.detail.name.lastName,
+            primaryEmail: props.detail.primaryEmail,
+            contactNo: props.detail.contactNo,
+            gender: props.detail.gender == "Female" ? 2 : 1,
+            userType: props.detail.userType == "student" ? 1 : 2,
+            programme: props.detail.programme,
+        }
     }
 
-    handleChange(event) {
-        this.state.fruit = event.target.value;
-        console.log(this.state.fruit);
+    changeGender = ({target}) => {
+        this.setState({
+            gender: target.value
+        })
+    }
+
+    changeUserType = ({target}) => {
+        this.setState({
+            userType: target.value
+        })
+    }
+
+    changeProgramme = (e) => {
+        this.setState({
+            programme: e.target.options[e.target.selectedIndex].text
+        })
+    }
+
+    onSubmit = () => {
+        const user = {
+            name: {
+                firstName: this.state.firstName,
+                lastName: this.state.lastName
+            },
+            contactNo: this.state.contactNo,
+            gender: this.state.gender == 1 ? "Male" : "Female",
+            userType: this.state.userType == 1 ? "student" : "superAdmin",
+            programme: this.state.programme,
+        }
+        this.props.updateUser(user, this.props.index, this.state.daiictId, this.modal);
     }
 
     render() {
-        return(
-            <div class="modal" id={"myModal" + this.props.detail.daiictId}>
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">Edit User</h4>
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    </div>
-                    
-                    <div class="modal-body">                                
-                            <form action="/html/tags/html_form_tag_action.cfm">
-                                <div class="form-group row">
-                                    <label for="first_name" class="col-3 col-form-label">User ID</label>
-                                    <div class="col-9">
-                                        <input type="text" class="form-control" id="first_name" name="user_id" placeholder={this.props.detail.daiictId}/>
-                                    </div>
-                                </div>
-                                <div class="form-group row" >
-                                    <label for="first_name" class="col-3 col-form-label">First Name</label>
-                                    <div class="col-9">
-                                        <input type="text" class="form-control" id="first_name" name="first_name" value={this.props.detail.name.firstName}/>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="last_name" class="col-3 col-form-label">Last Name</label>
-                                    <div class="col-9">
-                                        <input type="text" class="form-control" id="last_name" name="last_name" value={this.props.detail.name.lastName}/>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="last_name" class="col-3 col-form-label">Primary Email</label>
-                                    <div class="col-9">
-                                        <input type="email" class="form-control" id="primary_email" name="primary_email" value={this.props.detail.primaryEmail}/>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="last_name" class="col-3 col-form-label">Contact No</label>
-                                    <div class="col-9">
-                                        <input type="text" class="form-control" id="contact_no" name="contact_no" value={""+this.props.detail.contactNo}/>
-                                    </div>
-                                </div>
-                                <fieldset class="form-group">
-                                    <div class="row">
-                                        <legend class="col-form-label col-3">Gender</legend>
-                                        <div class="col-9" style={{display:'flex'}}>
-                                            <div class="form-check form-check-inline">
-                                                <label class="form-check-label">
-                                                    <input class="form-check-input" style={{ display: "inline" }} type="radio" name="legendRadio" id="legendRadio1" value="1" />
+        return (
+            <div class="modal" ref={modal => this.modal = modal} id={"myModal" + this.props.detail.daiictId}>
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Edit User</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+
+                        <div class="modal-body">
+                            <form>
+                                <TextField value={this.state.daiictId}
+                                           name="daiictId"
+                                           label={"User ID"}/>
+                                <TextField handleChange={this.handleChange}
+                                           value={this.state.firstName}
+                                           name="firstName"
+                                           label={"First Name"}/>
+                                <TextField handleChange={this.handleChange}
+                                           value={this.state.lastName}
+                                           name="lastName"
+                                           label={"Last Name"}/>
+                                <TextField value={this.state.primaryEmail}
+                                           name="primaryEmail"
+                                           label={"Primary Email"}/>
+                                <TextField handleChange={this.handleChange}
+                                           value={this.state.contactNo}
+                                           name="contactNo"
+                                           label={"Contact No."}/>
+                                <fieldset className="form-group">
+                                    <div className="row">
+                                        <legend className="col-form-label col-3">Gender</legend>
+                                        <div className="col-9" style={{display: 'flex'}}>
+                                            <div className="form-check form-check-inline">
+                                                <label className="form-check-label">
+                                                    <input className="form-check-input"
+                                                           style={{display: "inline"}}
+                                                           type="radio"
+                                                           value="1"
+                                                           checked={this.state.gender == 1 ? true : false}
+                                                           onClick={this.changeGender}/>
                                                     Male
                                                 </label>
                                             </div>
-                                            <div class="form-check form-check-inline">
-                                                <label class="form-check-label">
-                                                    <input class="form-check-input" style={{ display: "inline" }} type="radio" name="legendRadio" id="legendRadio2" value="2" />
+                                            <div className="form-check form-check-inline">
+                                                <label className="form-check-label">
+                                                    <input className="form-check-input"
+                                                           style={{display: "inline"}}
+                                                           type="radio"
+                                                           value="2"
+                                                           checked={this.state.gender == 2 ? true : false}
+                                                           onClick={this.changeGender}/>
                                                     Female
                                                 </label>
                                             </div>
                                         </div>
                                     </div>
                                 </fieldset>
-                                <div class="form-group row">
-                                    <label for="last_name" class="col-3 col-form-label">Programme</label>
-                                    <div class = "col-9">
-                                        <select class="form-control" onChange={this.handleChange}>
-                                            <option hidden >{this.props.detail.programme}</option>
+                                <div className="form-group row">
+                                    <label for="last_name" className="col-3 col-form-label">Programme</label>
+                                    <div className="col-9">
+                                        <select className="form-control" onClick={this.changeProgramme}>
+                                            <option hidden>{this.state.programme}</option>
                                             <option value="B.Tech (ICT)">B.Tech (ICT)</option>
                                             <option value="B.Tech (ICT+CS)">B.Tech (ICT+CS)</option>
                                             <option value="M.Tech">M.Tech</option>
                                             <option value="M.Sc.IT">M.Sc.IT</option>
                                             <option value="M.Des">M.Des</option>
-                                            <option value="Ph.D">Ph.D</option>             
+                                            <option value="Ph.D">Ph.D</option>
                                         </select>
                                     </div>
-                                    {/* <div class="dropdown col-9">
-                                        <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            {this.props.detail.programme}
-                                        </button>
-                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            <a class="dropdown-item" href="#">B.Tech (ICT)</a>
-                                            <a class="dropdown-item" href="#">B.Tech (ICT+CS)</a>
-                                            <a class="dropdown-item" href="#">M.Tech</a>
-                                            <a class="dropdown-item" href="#">M.Sc.IT</a>
-                                            <a class="dropdown-item" href="#">M.Des</a>
-                                            <a class="dropdown-item" href="#">Phd</a>                                                                                                        
-                                        </div>
-                                    </div>                                             */}
                                 </div>
-                                <fieldset class="form-group">
-                                    <div class="row">
-                                        <legend class="col-form-label col-3">User Type</legend>
-                                        <div class="col-9" style={{display:'flex'}}>
-                                            <div class="form-check form-check-inline">
-                                                <label class="form-check-label">
-                                                    <input class="form-check-input" style={{ display: "inline" }} type="radio" name="legendRadio" id="legendRadio1" value="1" />
+                                <fieldset className="form-group">
+                                    <div className="row">
+                                        <legend className="col-form-label col-3">User Type</legend>
+                                        <div className="col-9" style={{display: 'flex'}}>
+                                            <div className="form-check form-check-inline">
+                                                <label className="form-check-label">
+                                                    <input className="form-check-input"
+                                                           style={{display: "inline"}}
+                                                           type="radio"
+                                                           value="1"
+                                                           checked={this.state.userType == 1 ? true : false}
+                                                           onClick={this.changeUserType}/>
                                                     Student
                                                 </label>
                                             </div>
-                                            <div class="form-check form-check-inline">
-                                                <label class="form-check-label">
-                                                    <input class="form-check-input" style={{ display: "inline" }} type="radio" name="legendRadio" id="legendRadio2" value="2" />
+                                            <div className="form-check form-check-inline">
+                                                <label className="form-check-label">
+                                                    <input className="form-check-input"
+                                                           style={{display: "inline"}}
+                                                           type="radio"
+                                                           value="2"
+                                                           checked={this.state.userType == 2 ? true : false}
+                                                           onClick={this.changeUserType}/>
                                                     Super Admin
                                                 </label>
                                             </div>
                                         </div>
                                     </div>
-                                </fieldset> 
-                                <fieldset class="form-group">
-                                    <div class="row">
-                                        <legend class="col-form-label col-3">Status</legend>
-                                        <div class="col-9" style={{display:'flex'}}>
-                                            <div class="form-check form-check-inline">
-                                                <label class="form-check-label">
-                                                    <input class="form-check-input" style={{ display: "inline" }} type="checkbox" id="inlineCheckBox1" value="1" />
-                                                    Active
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </fieldset> 
+                                </fieldset>
                             </form>
+                        </div>
+
+                        <div className="modal-footer">
+                            <button type="submit" className="btn btn-primary" onClick={this.onSubmit}>Save</button>
+                            <button type="button" className="btn btn-danger" data-dismiss="modal">Close</button>
+                        </div>
+
                     </div>
-                    
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Save</button>
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                    </div>
-                    
                 </div>
             </div>
-        </div>
         );
     }
 }

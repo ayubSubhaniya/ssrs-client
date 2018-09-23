@@ -2,24 +2,25 @@ import React, {Component} from 'react';
 import '../../styles/table.css';
 import EditUserModalBody from './EditUserModalBody';
 
-class EditUser extends Component {
+class EditUserModal extends Component {
 
-    constructor(props, context){
+    constructor(props, context) {
         super(props, context);
     }
 
-    render(){
+    render() {
         console.log(this.props.detail);
-        return(
+        return (
             <div>
-
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target={"#myModal" + this.props.detail.daiictId}>
-                    Edit User
+                <button type="button" class="btn btn-light" data-toggle="modal"
+                        data-target={"#myModal" + this.props.detail.daiictId}>
+                    <i className="fa fa-pencil"
+                       style={{"fontSize": "24px", "color": "black"}}></i>
                 </button>
-                <EditUserModalBody detail={this.props.detail}/>
-           </div>
+                <EditUserModalBody {...this.props}/>
+            </div>
         );
     }
 }
 
-export default EditUser;
+export default EditUserModal;

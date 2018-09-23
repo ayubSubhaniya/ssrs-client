@@ -43,7 +43,7 @@ class NavigationBar extends Component {
                                         <AuthorizedComponent permission={isSuperAdmin(value.user)}
                                                              path={'/users'}
                                                              component={NavLink}
-                                                             text={"User Management"}/>
+                                                             text={"All User"}/>
                                         <NavLink path={'/'}
                                                  text={'My Profile'}/>
                                         <AuthorizedComponent permission={isSuperAdmin(value.user)}
