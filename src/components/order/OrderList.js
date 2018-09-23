@@ -21,8 +21,8 @@ class OrderList extends Component {
                                     </div>
                                     <div id={'collapse' + i} className="collapse" data-parent="#accordion">
                                         <div className="card-body">
-                                            <OrderDetails order={order}
-                                                          user={this.props.user}/>
+                                            {/*<OrderDetails order={order}*/}
+                                                          {/*user={this.props.user}/>*/}
                                         </div>
                                     </div>
                                 </div>
