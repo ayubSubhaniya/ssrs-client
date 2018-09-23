@@ -84,7 +84,7 @@ class App extends Component {
         request.withCredentials = true;
         request.setRequestHeader("Content-type", "application/json");
         request.onload = function () {
-            if (this.status == HttpStatus.ACCEPTED) {
+            if (this.status == HttpStatus.OK) {
                 var res = JSON.parse(request.response)
                 that.setState({
                     isAuthenticated: true,

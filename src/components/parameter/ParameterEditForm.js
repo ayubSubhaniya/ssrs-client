@@ -45,7 +45,7 @@ class ParameterEditForm extends Component {
         request.withCredentials = true;
         request.setRequestHeader("Content-type", "application/json");
         request.onload = function () {
-            if (this.status == HttpStatus.ACCEPTED) {
+            if (this.status == HttpStatus.OK) {
                 const response = JSON.parse(request.response)
 
                 that.props.history.push('/parameter');

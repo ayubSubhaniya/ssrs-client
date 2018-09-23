@@ -34,6 +34,7 @@ export function asyncFetch(dataName) {
 
 export function syncFetch(dataName) {
     const url = domainUrl + '/' + dataName
+    console.log(url);
     let fetchedData;
     var request = new XMLHttpRequest();
     request.open('GET', url, false);

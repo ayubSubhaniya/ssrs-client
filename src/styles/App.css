@@ -167,6 +167,7 @@ input:checked + .slider:before {
 
 .spinner > div > div {
     position: absolute;
+    z-index: 30000;
     top:14em;
     background-color: transparent;
     color: white;
