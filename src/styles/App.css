@@ -3,11 +3,6 @@
     --main-color-light: rgba(32, 45, 65, 0.09);
 }
 
-a {
-    color: #41307c;
-    text-decoration: none;
-}
-
 .App {
     background: #000;
     padding-top: 4em;

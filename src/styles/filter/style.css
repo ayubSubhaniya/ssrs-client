@@ -74,6 +74,11 @@ Main Components
 .cd-main-content.is-fixed .cd-gallery {
   padding-top: 76px;
 }
+
+.cd-filter{
+  font-size: 50%;
+}
+
 .cd-main-content.is-fixed .cd-filter {
   position: fixed;
   height: 100vh;
@@ -294,7 +299,7 @@ xgallery
 }
 @media only screen and (min-width: 1170px) {
   .cd-gallery {
-    padding: 50px 2%;
+    padding: 0px 2%;
     float: right;
     -webkit-transition: width 0.3s;
     -moz-transition: width 0.3s;
@@ -397,7 +402,7 @@ xfilter
 
 .cd-filter-trigger {
   position: absolute;
-  top: 0;
+  top: -50px;
   left: 0;
   height: 50px;
   line-height: 50px;
@@ -408,7 +413,7 @@ xfilter
   color: transparent;
   white-space: nowrap;
   cursor: pointer;
-  /*background: transparent url("../img/cd-icon-filter.svg") no-repeat center center;*/
+  background: transparent url("../img/cd-icon-filter.svg") no-repeat center center;
   z-index: 3;
 }
 .cd-filter-trigger.filter-is-visible {
@@ -471,7 +476,7 @@ xcustom form elements
   top: 50%;
   width: 16px;
   height: 16px;
-  /*background: url("../img/cd-icon-arrow.svg") no-repeat center center;*/
+  background: url("../img/cd-icon-arrow.svg") no-repeat center center;
   -webkit-transform: translateY(-50%);
   -moz-transform: translateY(-50%);
   -ms-transform: translateY(-50%);
@@ -545,7 +550,7 @@ xcustom form elements
   display: block;
   width: 16px;
   height: 16px;
-  /*background: url("../img/cd-icon-arrow.svg") no-repeat center center;*/
+  background: url("../img/cd-icon-arrow.svg") no-repeat center center;
   pointer-events: none;
 }
 .cd-filter-block select {
@@ -611,7 +616,7 @@ xcustom form elements
   /* check mark style for check boxes */
   width: 16px;
   height: 16px;
-  /*background: url("../img/cd-icon-check.svg") no-repeat center center;*/
+  background: url("../img/cd-icon-check.svg") no-repeat center center;
 }
 .cd-filter-block .radio-label::before,
 .cd-filter-block .radio-label::after {
