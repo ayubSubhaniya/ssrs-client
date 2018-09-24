@@ -75,7 +75,6 @@ class UserList extends Component {
             }
         }
         request.send(JSON.stringify(user));
-        console.log(user);
     }
 
     toggleUserActiveStatus = (index) => {

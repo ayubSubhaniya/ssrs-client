@@ -4,6 +4,7 @@ import Header from "../Header";
 import OrderList from "./OrderList";
 import {asyncFetch} from "../../helper/FetchData";
 import Spinner from "../Spinner";
+import _ from "lodash"
 
 
 class Orders extends Component {
@@ -11,7 +12,8 @@ class Orders extends Component {
         super(props);
         this.state={
             showSpinner: false,
-            order: []
+            order: [],
+            filteredOrder: [],
         }
         this.asyncFetch = asyncFetch.bind(this);
     }
@@ -19,6 +21,7 @@ class Orders extends Component {
     componentDidMount(){
         this.asyncFetch('order');
     }
+
 
     render() {
         return (
@@ -87,7 +90,7 @@ class Orders extends Component {
                         <span className="glyphicon glyphicon-cog"></span> Filter Orders
                     </button>
                 </div>
-                <OrderList orders={this.state.order}
+                <OrderList orders={_.filter(this.state.order,(o) => o.status==40)}
                            user={this.props.user}/>
                 <Spinner open={this.state.showSpinner}/>
             </div>

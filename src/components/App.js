@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import '../styles/App.css';
+import '../styles/filter/reset.css'
+import '../styles/filter/style.css'
 import 'animate.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap'
@@ -25,6 +27,7 @@ import {isStudent, isSuperAdmin} from "../helper/userType";
 import Payment from "./order/payment/Payment";
 import Info from "./order/info/Info";
 import UserList from './user/UserList';
+import Filter from './order/filter/Filter'
 
 export const Context = React.createContext();
 
@@ -147,7 +150,7 @@ class App extends Component {
                             user={this.state.user}/>
                         <AuthorizedRoute
                             exact path="/order"
-                            component={Orders}
+                            component={Filter}
                             permission={isAuthenticated}
                             user={this.state.user}/>
                         <AuthorizedRoute

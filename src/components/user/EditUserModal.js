@@ -9,7 +9,6 @@ class EditUserModal extends Component {
     }
 
     render() {
-        console.log(this.props.detail);
         return (
             <div>
                 <button type="button" class="btn btn-light" data-toggle="modal"
