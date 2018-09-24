@@ -16,7 +16,7 @@ class Cart extends Component {
         this.state={
             showSpinner: false,
             cart: []
-        }
+        };
         this.asyncFetch = asyncFetch.bind(this);
     }
 
@@ -30,7 +30,7 @@ class Cart extends Component {
         });
         const oldOrder = this.state.cart.orders[index];
         const that = this;
-        const url = domainUrl + '/order/' + oldOrder._id
+        const url = domainUrl + '/order/' + oldOrder._id;
         const request = new XMLHttpRequest();
         request.open('PATCH', url, true);
         request.withCredentials = true;
@@ -40,9 +40,9 @@ class Cart extends Component {
                 $(modal).modal('hide');
                 that.asyncFetch('cart');
             }
-        }
+        };
         request.send(JSON.stringify(newOrder));
-    }
+    };
 
     deleteOrder = (index) => {
         this.setState({
@@ -105,7 +105,7 @@ class Cart extends Component {
                             </td>
                             <td colSpan="4" className="hidden-xs"></td>
                             <td>
-                                <Link to={'/info'}>
+                                <Link to={{pathname:'/info',state:this.state.cart}}>
                                     <div className="btn btn-success">
                                         {"Checkout "}
                                         <i className="fa fa-angle-right"></i>

@@ -2,20 +2,44 @@ import React from 'react'
 import NavigationBar from "../../NavigationBar";
 import Stapes from "../../service/Stapes";
 import {Link, Redirect} from "react-router-dom";
+import {domainUrl} from "../../../config/configuration";
+import HttpStatus from "http-status-codes";
 
 class Payment extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            paymentType: 0,
             isPaymentDone: false
         }
     }
 
+    getPaymentDetails = (state) => {
+        const paymentDetails = {
+            paymentType: state.paymentType,
+        };
+        return paymentDetails;
+    };
+
     pay = () => {
-        this.setState({
-            isPaymentDone: true
-        })
-    }
+        const that = this;
+        const url = domainUrl + '/cart/addPayment'
+        const request = new XMLHttpRequest();
+        request.open('PATCH', url, true);
+        request.withCredentials = true;
+        request.setRequestHeader("Content-type", "application/json");
+        request.onload = function () {
+            if (this.status === HttpStatus.OK) {
+                const response = JSON.parse(request.response)
+                console.log(response);
+                that.setState({
+                    isPaymentDone: true
+                });
+            }
+        };
+
+        request.send(JSON.stringify(this.getPaymentDetails(this.state)));
+    };
 
     render() {
         if (this.state.isPaymentDone) {
@@ -45,11 +69,10 @@ class Payment extends React.Component {
                                 <div className='tab-payment'>Paytm</div>
                             </div>
                             <div className='payment-method-body'>
-                                <Link to={'/order'}>
-                                    <div className="btn btn-success m-4 p-4">
-                                        {"Pay "}
-                                    </div>
-                                </Link>
+
+                                <div className="btn btn-success m-4 p-4" onClick={this.pay}>
+                                    {"Pay "}
+                                </div>
                             </div>
                         </div>
                     </div>
