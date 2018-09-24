@@ -6,11 +6,15 @@ import HttpStatus from 'http-status-codes'
 class PickupForm extends React.Component {
     constructor(props) {
         super(props);
+        let {data} = props;
+        if (data===undefined){
+            data={};
+        }
         this.state = {
-            name: '',
-            daiictId:'',
-            email: '',
-            contactNo: '',
+            name: data.name?data.name:'',
+            daiictId:data.daiictId?data.daiictId:'',
+            email: data.email?data.email:'',
+            contactNo: data.contactNo?data.contactNo:'',
         }
     }
 

@@ -14,7 +14,7 @@ class PickUpDetails extends Component {
                     <p className={'item-address'}>{data.daiictId}</p>
                     <p className={'item-address'}>{data.contactNo}</p>
                     <p className={'item-address'}>{" " + data.email}</p>
-                    <p className="item-address address-edit-btn" onClick={this.openAddressModal}>EDIT</p>
+                    <p className="item-address address-edit-btn" onClick={this.props.openAddressModal}>EDIT</p>
                 </div>
             )
         } else {

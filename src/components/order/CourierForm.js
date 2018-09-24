@@ -6,15 +6,19 @@ import HttpStatus from 'http-status-codes'
 class CourierForm extends React.Component {
     constructor(props) {
         super(props);
+        let {data} = props;
+        if (data===undefined){
+            data={};
+        }
         this.state = {
-            name: '',
-            email: '',
-            contactNo: '',
-            address: '',
-            city: '',
-            pinCode: '',
-            state: '',
-            country: ''
+            name: data.name?data.name:'',
+            email: data.email?data.email:'',
+            contactNo: data.contactNo?data.contactNo:'',
+            address: data.address?data.address:'',
+            city: data.city?data.city:'',
+            pinCode: data.pinCode?data.pinCode:'',
+            state: data.state?data.state:'',
+            country: data.country?data.country:''
         }
     }
 
@@ -32,35 +36,35 @@ class CourierForm extends React.Component {
             state: this.state.state,
             city: this.state.city,
             country: this.state.country
-        }
+        };
         return courier;
-    }
+    };
 
     handleChange = ({target}) => {
         this.setState({
             [target.name]: target.value
         })
-    }
+    };
 
     handleSubmit = (e) => {
-        e.preventDefault()
+        e.preventDefault();
         //console.log(this.getCourierDetails(this.state));
         this.props.close();
         const that = this;
-        const url = domainUrl + '/cart/courier'
+        const url = domainUrl + '/cart/courier';
         const request = new XMLHttpRequest();
         request.open('POST', url, true);
         request.withCredentials = true;
         request.setRequestHeader("Content-type", "application/json");
         request.onload = function () {
-            if (this.status == HttpStatus.CREATED) {
-                const response = JSON.parse(request.response)
+            if (this.status === HttpStatus.CREATED) {
+                const response = JSON.parse(request.response);
                 console.log(response);
                 that.props.close();
             }
-        }
+        };
         request.send(JSON.stringify(this.getCourierDetails(this.state)));
-    }
+    };
 
     render() {
         return (

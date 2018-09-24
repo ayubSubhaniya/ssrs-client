@@ -16,7 +16,7 @@ class CourierDetails extends Component {
                     <p className={'item-address'}>{" " + data.email}</p>
                     <p className={'item-address'}>{" " + data.address.line1 + ", " + data.address.line2 + ", " + data.address.line3 +
                         ", " + data.city + " - " + data.pinCode + ", " + data.state + ", " + data.country}</p>
-                    <p className="item-address address-edit-btn" onClick={this.openAddressModal}>EDIT</p>
+                    <p className="item-address address-edit-btn" onClick={this.props.openAddressModal}>EDIT</p>
                 </div>
             )
         } else {

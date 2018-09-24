@@ -78,18 +78,16 @@ class Info extends React.Component {
                                                                             openAddressModal={this.openAddressModal}/> :
                                 <PickUpDetails options={this.state.pickup} openAddressModal={this.openAddressModal}/>}
                             {this.state.isCourierSelected ?
-                                <CourierForm open={this.state.editAddress} close={this.closeAddressModal}/> :
-                                <PickupForm open={this.state.editAddress} close={this.closeAddressModal}/>}
+                                <CourierForm open={this.state.editAddress} close={this.closeAddressModal} data={this.state.courier}/> :
+                                <PickupForm open={this.state.editAddress} close={this.closeAddressModal} data={this.state.pickup}/>}
                         </div>
                         <hr/>
-                        <div className="total-price">Total: ₹ <span className='price'>{this.props.location.state.totalCost}</span>
                         </div>
                         <Link to={'/payment'}>
                             <div className='btn place-order submit mb-4'>PLACE ORDER</div>
                         </Link>
                     </div>
                 </div>
-            </div>
         );
     }
 }

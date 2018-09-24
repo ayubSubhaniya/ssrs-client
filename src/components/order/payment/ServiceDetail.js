@@ -4,6 +4,7 @@ import {domainUrl} from "../../../config/configuration";
 import * as HttpStatus from "http-status-codes";
 import EditCartForm from "./EditCartForm";
 import ConfirmModal from "../../ConfirmModal";
+import ServiceDetails from "../../service/ServiceDetails";
 
 class Service extends Component {
     constructor(){
@@ -33,7 +34,7 @@ class Service extends Component {
     render() {
         const order = this.props.order;
         const service = order.service;
-        const paramters = order.parameters;
+        const parameters = order.parameters;
         return (
             <tr>
                 <td data-th="Product">
@@ -44,37 +45,16 @@ class Service extends Component {
                         </div>
                     </div>
                 </td>
-                <td data-th="Parameters">{_.map(paramters, 'name').join(", ")}</td>
+                <td data-th="Parameters">{_.map(parameters, 'name').join(", ")}</td>
                 <td data-th="Price">{order.serviceCost}</td>
                 <td data-th="Quantity" className="text-center">{order.unitsRequested}</td>
                 <td data-th="Service Cost" className="text-center">{`₹ ${order.serviceCost}`}</td>
                 <td data-th="Parameter Cost" className="text-center">{`₹ ${order.parameterCost}`}</td>
                 <td data-th="Subtotal" className="text-center">{`₹ ${order.totalCost}`}</td>
-                <td className="actions" data-th="">
-                    <button type="button" className="btn btn-light" data-toggle="modal"
-                            data-target={"#myModal" + order._id}>
-                        <i className="fa fa-pencil"
-                           style={{"fontSize": "24px", "color": "black"}}></i>
-                    </button>
-                    <EditCartForm id={order._id}
-                                  service={service}
-                                  parameter={paramters}
-                                  units={order.unitsRequested}
-                                  comment={order.comment}
-                                  index={this.props.index}
-                                  updateOrder={this.props.updateOrder}/>
-                    <button className="btn btn-danger btn-sm ml-2"
-                            onClick={this.openConfirmationModal}
-                            style={{"fontSize": "20px", "color": "black"}}>
-                        <i className="fa fa-trash-o"></i>
-                    </button>
-                    <ConfirmModal open={this.state.isModalOpen}
-                                  onYes={() => this.onYes(this.props.index)}
-                                  close={this.closeConfirmationModal}/>
-                </td>
+                <td colSpan="1" className="hidden-xs"></td>
             </tr>
         );
     }
 }
 
-export default Service;
+export default ServiceDetails;
