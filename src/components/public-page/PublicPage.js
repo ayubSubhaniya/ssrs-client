@@ -5,7 +5,8 @@ import {domainUrl} from "../../config/configuration";
 import * as HttpStatus from "http-status-codes";
 import logo from "../../images/dalogo.jpg";
 import ForgotPassword from "./ForgotPassword";
-import TextInputUserName from "./TextInputUserName";
+import SignUpPage from "./SignUpPage"
+import SignInPage from "./SignInPage"
 
 class PublicPage extends Component {
     constructor() {
@@ -59,12 +60,12 @@ class PublicPage extends Component {
         request.onload = function () {
             if (this.status == HttpStatus.CREATED) {
                 that.setState({isSignedup: true});
-            }else if(this.status===HttpStatus.FORBIDDEN){
+            } else if (this.status === HttpStatus.FORBIDDEN) {
                 that.setState({
                     signupMessage: "User Already Exist!"
                 })
             }
-            else  {
+            else {
                 that.setState({
                     signupMessage: "Please Enter Valid Details"
                 })
@@ -125,65 +126,23 @@ class PublicPage extends Component {
                                     <input type="radio" name="tab" id="register" onChange={this.switchTab}
                                            checked={!login}/>
                                     <div className="pages">
-                                        <div className="page">
-                                            <TextInputUserName daiictId={daiictId}
-                                                               handleChange={this.handleChange}/>
-                                            <div className="page-input">
-                                                <div className="title"><i className="material-icons">lock</i> PASSWORD
-                                                </div>
-                                                <input className="form-control" type="password" name="password" value={password}
-                                                       onChange={this.handleChange}/>
-                                                <div className={"alert alert-danger p-2 mt-2 mb-2" + (value.loginMessage?'':" d-none") }>
-                                                    <button type="button" className="close" onClick={this.props.clearLoginMessage}>
-                                                        &times;</button>
-                                                    <strong>{value.loginMessage}</strong></div>
-                                            </div>
-                                            <div className="page-input"><input type="submit" value="ENTER"
-                                                                               onClick={() => value.logIn({
-                                                                                   daiictId: this.state.daiictId,
-                                                                                   password: this.state.password
-                                                                               })}/></div>
-                                            <input type="button" className={'page-link-cstm'} value="Forgot Password"
-                                                   onClick={this.openModal}/>
-                                        </div>
-                                        <div className="page signup">
-                                            <TextInputUserName daiictId={daiictId}
-                                                               handleChange={this.handleChange}/>
-                                            <div className="page-input">
-                                                <div className="title"><i className="material-icons">lock</i> PASSWORD
-                                                </div>
-                                                <div className="input-group mb-3">
-                                                    <input type={showPassword ? "text" : "password"}
-                                                           className="form-control"
-                                                           aria-label="password"
-                                                           value={password}
-                                                           onChange={this.handleChange}
-                                                           name="password"
-                                                           aria-describedby="basic-addon"/>
-                                                    <div className="input-group-append">
-                                                            <span className="input-group-text"
-                                                                  id="basic-addon">
-                                                                <i className="material-icons" style={{"cursor":"pointer"}}
-                                                                                      onClick={this.changePassworVisibility}>
-                                                    {!showPassword ? "visibility_off" : "visibility"}
-                                                </i></span>
-                                                    </div>
-                                                </div>
-                                                <div className={"alert alert-danger p-2 mt-2 mb-2" + (signupMessage?'':' d-none')}>
-                                                    <button type="button" className="close" onClick={this.clearSignupMessage}>
-                                                        &times;</button>
-                                                    <strong>{signupMessage}</strong></div>
-                                            </div>
-                                            <div className="page-input"><input type="submit" value="SIGN ME UP!"
-                                                                               onClick={this.handleSignUp}/></div>
-                                            <div className={'alert alert-success p-2 mt-2 mb-2' + (isSignedup ? '' : ' d-none')}>
-                                                <strong>Verification Link Sent!</strong>
-                                                <span className={"alert-link"}
-                                                     style={{"cursor": "pointer"}}
-                                                     onClick={this.handleResendVerificationLink}> Resend
-                                                </span>
-                                        </div>
-                                        </div>
+                                        <SignInPage daiictId={daiictId}
+                                                    loginMessage={value.loginMessage}
+                                                    logIn={value.logIn}
+                                                    openModal={this.openModal}
+                                                    clearLoginMessage={this.props.clearLoginMessage}
+                                                    handleChange={this.handleChange}
+                                                    password={password}/>
+                                        <SignUpPage daiictId={daiictId}
+                                                    password={password}
+                                                    showPassword={showPassword}
+                                                    isSignedup={isSignedup}
+                                                    handleResendVerificationLink={this.handleResendVerificationLink}
+                                                    changePassworVisibility={this.changePassworVisibility}
+                                                    signupMessage={signupMessage}
+                                                    clearSignupMessage={this.clearSignupMessage}
+                                                    handleSignUp={this.handleSignUp}
+                                                    handleChange={this.handleChange}/>
                                     </div>
                                     <div className="tabs"><label className="tab" htmlFor="signin">
                                         <div className="text">Sign In</div>

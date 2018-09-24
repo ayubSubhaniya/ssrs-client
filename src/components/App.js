@@ -1,8 +1,11 @@
 import React, {Component} from 'react';
 import '../styles/App.css';
+import '../styles/filter/reset.css'
+import '../styles/filter/style.css'
 import 'animate.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap'
+import 'font-awesome/css/font-awesome.min.css'
 import {BrowserRouter as Router} from "react-router-dom";
 import Home from './home/Home';
 import Services from "./service/Services";
@@ -23,8 +26,9 @@ import Cart from './order/cart/Cart'
 import {isStudent, isSuperAdmin} from "../helper/userType";
 import Payment from "./order/payment/Payment";
 import Info from "./order/info/Info";
-import UserList from './UserList';
 import Myprofile from './Myprofile/Myprofile'
+import UserList from './user/UserList';
+import Filter from './order/filter/Filter'
 
 export const Context = React.createContext();
 
@@ -84,7 +88,7 @@ class App extends Component {
         request.withCredentials = true;
         request.setRequestHeader("Content-type", "application/json");
         request.onload = function () {
-            if (this.status == HttpStatus.ACCEPTED) {
+            if (this.status == HttpStatus.OK) {
                 var res = JSON.parse(request.response)
                 that.setState({
                     isAuthenticated: true,
@@ -148,7 +152,7 @@ class App extends Component {
                             user={this.state.user}/>
                         <AuthorizedRoute
                             exact path="/order"
-                            component={Orders}
+                            component={Filter}
                             permission={isAuthenticated}
                             user={this.state.user}/>
                         <AuthorizedRoute
