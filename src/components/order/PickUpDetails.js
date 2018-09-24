@@ -6,23 +6,24 @@ class PickUpDetails extends Component {
     }
 
     render() {
-        const {data} = this.props
-        return (
-            <div className={'ml-4'}>
-                <h6>
-                    <strong>Collector's Name:</strong>{" " + data.name}
-                </h6>
-                <h6>
-                    <strong>Collector's DA-IICT ID:</strong>{" " + data.daiictId}
-                </h6>
-                <h6>
-                    <strong>Collector's Contact No.:</strong>{" " + data.contactNo}
-                </h6>
-                <h6>
-                    <strong>Collector's email: </strong><a href={"mailto:" + data.email}>{" " + data.email}</a>}
-                </h6>
-            </div>
-        )
+        const data = this.props.options;
+        if (data){
+            return (
+                <div className="address">
+                    <p className={'item-address'}><strong>{data.name}</strong></p>
+                    <p className={'item-address'}>{data.daiictId}</p>
+                    <p className={'item-address'}>{data.contactNo}</p>
+                    <p className={'item-address'}>{" " + data.email}</p>
+                    <p className="item-address address-edit-btn" onClick={this.props.openAddressModal}>EDIT</p>
+                </div>
+            )
+        } else {
+            return (
+                <div className="empty-box" onClick={this.props.openAddressModal}>
+                    <span className="icon-add">+</span> Add Address
+                </div>
+            )
+        }
     }
 }
 

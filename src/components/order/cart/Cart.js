@@ -16,7 +16,7 @@ class Cart extends Component {
         this.state={
             showSpinner: false,
             cart: []
-        }
+        };
         this.asyncFetch = asyncFetch.bind(this);
     }
 
@@ -30,7 +30,7 @@ class Cart extends Component {
         });
         const oldOrder = this.state.cart.orders[index];
         const that = this;
-        const url = domainUrl + '/order/' + oldOrder._id
+        const url = domainUrl + '/order/' + oldOrder._id;
         const request = new XMLHttpRequest();
         request.open('PATCH', url, true);
         request.withCredentials = true;
@@ -40,23 +40,23 @@ class Cart extends Component {
                 $(modal).modal('hide');
                 that.asyncFetch('cart');
             }
-        }
+        };
         request.send(JSON.stringify(newOrder));
-    }
+    };
 
     deleteOrder = (index) => {
         this.setState({
             showSpinner: true
         });
         const that = this;
-        const url = domainUrl + '/order/' + this.state.cart.orders[index]._id
+        const url = domainUrl + '/order/' + this.state.cart.orders[index]._id;
         console.log(url);
         const request = new XMLHttpRequest();
         request.open('DELETE', url, true);
         request.withCredentials = true;
         request.setRequestHeader("Content-type", "application/json");
         request.onload = function () {
-            if (this.status == HttpStatus.OK) {
+            if (this.status === HttpStatus.OK) {
                 that.asyncFetch('cart');
             }
         }
@@ -72,11 +72,13 @@ class Cart extends Component {
                     <table id="cart" className="table table-hover table-condensed">
                         <thead>
                         <tr>
-                            <th style={{"width": "40%"}}>Service</th>
+                            <th style={{"width": "30%"}}>Service</th>
                             <th style={{"width": "20%"}}>Parameters</th>
-                            <th style={{"width": "10%"}}>Price</th>
-                            <th style={{"width": "8%"}}>Quantity</th>
-                            <th style={{"width": "12%"}} className="text-center">Subtotal</th>
+                            <th style={{"width": "6%"}}>Price</th>
+                            <th style={{"width": "6%"}}>Quantity</th>
+                            <th style={{"width": "10%"}} className="text-center">Service Cost</th>
+                            <th style={{"width": "12%"}} className="text-center">Parameter Cost</th>
+                            <th style={{"width": "6%"}} className="text-center">Subtotal</th>
                             <th style={{"width": "10%"}}></th>
                         </tr>
                         </thead>
@@ -105,7 +107,7 @@ class Cart extends Component {
                             </td>
                             <td colSpan="4" className="hidden-xs"></td>
                             <td>
-                                <Link to={'/info'}>
+                                <Link to={{pathname:'/info',state:this.state.cart}}>
                                     <div className="btn btn-success">
                                         {"Checkout "}
                                         <i className="fa fa-angle-right"></i>

@@ -39,7 +39,7 @@ class OrderForm extends Component {
             service: this.props.service._id,
             parameters: _.map(this.getSelectedPrameters(state.parameters), '_id'),
             unitsRequested: this.state.units,
-            comment: this.state.comments
+            comment: this.state.comments===''?undefined:this.state.comments
         }
         return {order};
     }

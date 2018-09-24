@@ -50,7 +50,8 @@ class EditForm extends Component {
     updateService = () => {
         this.setState({
             showSpinner: true
-        })
+        });
+
         const that = this;
         const url = domainUrl + '/service/' + this.service._id;
         const request = new XMLHttpRequest();

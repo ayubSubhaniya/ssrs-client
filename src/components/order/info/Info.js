@@ -4,32 +4,57 @@ import NavigationBar from "../../NavigationBar";
 import CourierForm from "../CourierForm";
 import {Link} from "react-router-dom"
 import CollectionTypesDropDown from "../../service/CollectionTypesDropDown"
+import {asyncFetch} from "../../../helper/FetchData";
+import CourierDetails from "../CourierDetails";
+import PickUpDetails from "../PickUpDetails";
+import PickupForm from "../PickupForm";
 
 class Info extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             editAddress: false,
-            collectionTypeIndex: -1
-        }
+            collectionTypeIndex: -1,
+            courier: props.location.state ? props.location.state.courier : undefined,
+            pickup: props.location.state ? props.location.state.pickup : undefined,
+            isCourierSelected: props.location.state ? props.location.state.courier !== undefined : false
+        };
+
+        this.asyncFetch = asyncFetch.bind(this);
+    }
+
+    componentDidMount() {
+        this.asyncFetch('collectionType');
     }
 
     openAddressModal = () => {
         this.setState({
             editAddress: true
         })
-    }
+    };
     closeAddressModal = () => {
         this.setState({
             editAddress: false
         })
-    }
+    };
+
+    handleCollectionTypeChange = ({target}) => {
+
+        let index = target.dataset.index;
+        if (!index)
+            index = target.parentNode.dataset.index;
+        this.setState({
+            collectionTypeIndex: Number(index),
+            isCourierSelected:Number(index)===0
+        });
+    };
 
     render() {
-        const SelectedCollectionTypeName = this.state.collectionTypeIndex != -1
-            ? this.service.collectionTypes[this.state.collectionTypeIndex].name + " (₹" +
-            this.service.collectionTypes[this.state.collectionTypeIndex].baseCharge + ")"
-            : 'Select'
+        console.log(this.state);
+        const SelectedCollectionTypeName = this.state.collectionTypeIndex !== -1
+            ? this.state.collectionType[this.state.collectionTypeIndex].name + " (₹" +
+            this.state.collectionType[this.state.collectionTypeIndex].baseCharge + ")"
+            : 'Select';
         return (
             <div>
                 <NavigationBar/>
@@ -37,9 +62,9 @@ class Info extends React.Component {
                     <Stapes active={2}/>
                     <hr/>
                     <div className={'col-sm-6'}>
-                    <CollectionTypesDropDown label={'Collection Type'}
-                    btnLabel={SelectedCollectionTypeName}
-                    handleOptionChange={this.handleCollectionTypeChange}/>
+                        <CollectionTypesDropDown label={'Collection Type'} options={this.state.collectionType}
+                                                 btnLabel={SelectedCollectionTypeName}
+                                                 handleOptionChange={this.handleCollectionTypeChange}/>
                     </div>
                     <hr/>
                     <div className="page-main">
@@ -49,29 +74,20 @@ class Info extends React.Component {
                                     Recipient information
                                 </h3>
                             </div>
-                            <div className="address">
-                                <p className={'item-address'}><strong>Sagar Savaliya</strong></p>
-                                <p className={'item-address'}>7043515704</p>
-                                <p className={'item-address'}>{" " + "sagarsavaliya407@gmail.com"}</p>
-                                <p className={'item-address'}>H-301, DA-IICT, Near indroda circle, Gandhinagar, 382007 ,
-                                    Gujarat , 382007, GANDHI NAGAR, GUJARAT </p>
-                                <p className="item-address address-edit-btn" onClick={this.openAddressModal}>EDIT</p>
-                            </div>
-
-                            {/*<div className="empty-box" onClick={this.openAddressModal}>*/}
-                                {/*<span className="icon-add">+</span> Add Address*/}
-                            {/*</div>*/}
-                            <CourierForm open={this.state.editAddress} close={this.closeAddressModal}/>
+                            {this.state.isCourierSelected ? <CourierDetails options={this.state.courier}
+                                                                            openAddressModal={this.openAddressModal}/> :
+                                <PickUpDetails options={this.state.pickup} openAddressModal={this.openAddressModal}/>}
+                            {this.state.isCourierSelected ?
+                                <CourierForm open={this.state.editAddress} close={this.closeAddressModal} data={this.state.courier}/> :
+                                <PickupForm open={this.state.editAddress} close={this.closeAddressModal} data={this.state.pickup}/>}
                         </div>
                         <hr/>
-                        <div className="total-price">Total: ₹ <span className='price'>1,499</span>
                         </div>
                         <Link to={'/payment'}>
-                        <div className='btn place-order submit mb-4'>PLACE ORDER</div>
+                            <div className='btn place-order submit mb-4'>PLACE ORDER</div>
                         </Link>
                     </div>
                 </div>
-            </div>
         );
     }
 }

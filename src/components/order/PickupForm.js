@@ -3,7 +3,7 @@ import Modal from "react-bootstrap4-modal";
 import {domainUrl} from '../../config/configuration'
 import HttpStatus from 'http-status-codes'
 
-class CourierForm extends React.Component {
+class PickupForm extends React.Component {
     constructor(props) {
         super(props);
         let {data} = props;
@@ -12,59 +12,53 @@ class CourierForm extends React.Component {
         }
         this.state = {
             name: data.name?data.name:'',
+            daiictId:data.daiictId?data.daiictId:'',
             email: data.email?data.email:'',
             contactNo: data.contactNo?data.contactNo:'',
-            address: data.address?data.address:'',
-            city: data.city?data.city:'',
-            pinCode: data.pinCode?data.pinCode:'',
-            state: data.state?data.state:'',
-            country: data.country?data.country:''
         }
     }
 
-    getCourierDetails = () => {
-        const courier = {
+    getPickupDetails = () => {
+        const pickup = {
             name: this.state.name,
+            daiictId: this.state.daiictId,
             contactNo: this.state.contactNo,
             email: this.state.email,
-            address: {
-                line1: this.state.address,
-                line2: "ads",
-                line3: "asdas"
-            },
-            pinCode: this.state.pinCode,
-            state: this.state.state,
-            city: this.state.city,
-            country: this.state.country
-        };
-        return courier;
-    };
+        }
+        return pickup;
+    }
 
     handleChange = ({target}) => {
         this.setState({
             [target.name]: target.value
         })
-    };
+    }
 
     handleSubmit = (e) => {
-        e.preventDefault();
-        //console.log(this.getCourierDetails(this.state));
+        e.preventDefault()
+        //console.log(this.getPickupDetails(this.state));
+        if (this.state.daiictId===''){
+            this.setState({
+                daiictId:undefined
+            })
+
+        }
         this.props.close();
         const that = this;
-        const url = domainUrl + '/cart/courier';
+        const url = domainUrl + '/cart/pickup'
         const request = new XMLHttpRequest();
         request.open('POST', url, true);
         request.withCredentials = true;
         request.setRequestHeader("Content-type", "application/json");
         request.onload = function () {
-            if (this.status === HttpStatus.CREATED) {
-                const response = JSON.parse(request.response);
+            if (this.status == HttpStatus.CREATED) {
+                const response = JSON.parse(request.response)
                 console.log(response);
                 that.props.close();
             }
-        };
-        request.send(JSON.stringify(this.getCourierDetails(this.state)));
-    };
+        }
+        request.send(JSON.stringify(this.getPickupDetails(this.state)));
+    }
 
     render() {
         return (
@@ -77,6 +71,13 @@ class CourierForm extends React.Component {
                                    value={this.state.name}
                                    onChange={this.handleChange}
                                    className={'form-control'} type={'text'}/>
+                        </div>
+                        <div className={'form-group'}>
+                            <label>DA-IICT ID: </label>
+                            <input name='daiictId'
+                                   value={this.state.daiictId}
+                                   onChange={this.handleChange}
+                                   className={'form-control'} type={'tel'}/>
                         </div>
                         <div className={'form-group'}>
                             <label>Email: </label>
@@ -92,41 +93,6 @@ class CourierForm extends React.Component {
                                    onChange={this.handleChange}
                                    className={'form-control'} type={'tel'}/>
                         </div>
-
-                        <div className={'form-group'}>
-                            <label>Address: </label>
-                            <input name='address'
-                                   className={'form-control'}
-                                   onChange={this.handleChange}/>
-                        </div>
-                        <div className={'form-group'}>
-                            <label>City:</label>
-                            <input name='city'
-                                   className={'form-control'}
-                                   type={'text'}
-                                   onChange={this.handleChange}/>
-                        </div>
-                        <div className={'form-group'}>
-                            <label>Pincode:</label>
-                            <input name='pinCode'
-                                   className={'form-control'}
-                                   type={'text'}
-                                   onChange={this.handleChange}/>
-                        </div>
-                        <div className={'form-group'}>
-                            <label>State:</label>
-                            <input name='state'
-                                   className={'form-control'}
-                                   type={'text'}
-                                   onChange={this.handleChange}/>
-                        </div>
-                        <div className={'form-group'}>
-                            <label>Country:</label>
-                            <input name='country'
-                                   className={'form-control'}
-                                   type={'text'}
-                                   onChange={this.handleChange}/>
-                        </div>
                     </form>
                 </div>
                 <div className="modal-footer">
@@ -138,4 +104,4 @@ class CourierForm extends React.Component {
     }
 }
 
-export default CourierForm
+export default PickupForm;
