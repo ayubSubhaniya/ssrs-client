@@ -26,6 +26,7 @@ import Cart from './order/cart/Cart'
 import {isStudent, isSuperAdmin} from "../helper/userType";
 import Payment from "./order/payment/Payment";
 import Info from "./order/info/Info";
+import Myprofile from './Myprofile/Myprofile'
 import UserList from './user/UserList';
 import Filter from './order/filter/Filter'
 
@@ -121,6 +122,7 @@ class App extends Component {
             loginMessage: ''
         })
     }
+    
     render() {
         const {isAuthenticated, loginMessage} = this.state
         return (
@@ -195,9 +197,15 @@ class App extends Component {
                             exact path='/payment'
                             component={Payment}
                             permission={isStudent(this.state.user)}/>
-                        <AuthorizedRoute exact path='/users'
-                                         component={UserList}
-                                         permission={isSuperAdmin(this.state.user)}/>
+                        <AuthorizedRoute 
+                            exact path='/users'
+                            component={UserList}
+                            permission={isSuperAdmin(this.state.user)}/>
+                        <AuthorizedRoute 
+                            exact path="/Myprofile"
+                            component={Myprofile}
+                            permission={true}
+                            user={this.state.user}/>
                     </React.Fragment>
                 </Router>
             </Context.Provider>
