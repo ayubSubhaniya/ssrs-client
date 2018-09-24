@@ -4,6 +4,8 @@ import Header from "../../Header";
 import OrderList from "./../OrderList";
 import {asyncFetch} from "../../../helper/FetchData";
 import Spinner from "../../Spinner";
+import _ from "lodash"
+import orderStatus from "../../../constants/status"
 
 
 class Filter extends Component {
@@ -12,9 +14,14 @@ class Filter extends Component {
         this.state={
             showSpinner: false,
             isFilterVisible: false,
+            filterState: 20,
             order: []
         }
         this.asyncFetch = asyncFetch.bind(this);
+    }
+
+    filterOrder = (order) => {
+        return _.filter(order,(o)=>o.status==this.state.filterState);
     }
 
     componentDidMount(){
@@ -42,49 +49,22 @@ class Filter extends Component {
                         <div className="cd-tab-filter">
                             <ul className="cd-filters">
                                 <li className="placeholder">
-                                    <a data-type="all" href="#0">All</a>
+                                    <a data-type="placed" href="#0">Placed</a>
                                 </li>
-                                <li className="filter"><a className="selected" href="#0" data-type="all">All</a></li>
-                                <li className="filter" data-filter=".color-1"><a href="#0" data-type="color-1">Color
-                                    1</a></li>
-                                <li className="filter" data-filter=".color-2"><a href="#0" data-type="color-2">Color
-                                    2</a></li>
+                                <li className="filter"><a className="selected" href="#0" data-type="placed">Placed</a></li>
+                                <li className="filter" data-filter=".color-1"><a href="#0" data-type="processing">
+                                    Processing
+                                </a></li>
+                                <li className="filter" data-filter=".color-1"><a href="#0" data-type="ready">
+                                    Ready
+                                </a></li>
+                                <li className="filter" data-filter=".color-2"><a href="#0" data-type="completed">Completed</a></li>
                             </ul>
                         </div>
                     </div>
-
-                    <section className="cd-gallery">
-                        <ul>
-                            {/*<li className="mix color-1 check1 radio2 option3"><img src="img/img-1.jpg" alt="Image 1"/>*/}
-                            {/*</li>*/}
-                            {/*<li className="mix color-2 check2 radio2 option2"><img src="img/img-2.jpg" alt="Image 2"/>*/}
-                            {/*</li>*/}
-                            {/*<li className="mix color-1 check3 radio3 option1"><img src="img/img-3.jpg" alt="Image 3"/>*/}
-                            {/*</li>*/}
-                            {/*<li className="mix color-1 check3 radio2 option4"><img src="img/img-4.jpg" alt="Image 4"/>*/}
-                            {/*</li>*/}
-                            {/*<li className="mix color-1 check1 radio3 option2"><img src="img/img-5.jpg" alt="Image 5"/>*/}
-                            {/*</li>*/}
-                            {/*<li className="mix color-2 check2 radio3 option3"><img src="img/img-6.jpg" alt="Image 6">*/}
-                            {/*</li>*/}
-                            {/*<li className="mix color-2 check2 radio2 option1"><img src="img/img-7.jpg" alt="Image 7">*/}
-                            {/*</li>*/}
-                            {/*<li className="mix color-1 check1 radio3 option4"><img src="img/img-8.jpg" alt="Image 8">*/}
-                            {/*</li>*/}
-                            {/*<li className="mix color-2 check1 radio2 option3"><img src="img/img-9.jpg" alt="Image 9">*/}
-                            {/*</li>*/}
-                            {/*<li className="mix color-1 check3 radio2 option4"><img src="img/img-10.jpg" alt="Image 10">*/}
-                            {/*</li>*/}
-                            {/*<li className="mix color-1 check3 radio3 option2"><img src="img/img-11.jpg" alt="Image 11">*/}
-                            {/*</li>*/}
-                            {/*<li className="mix color-2 check1 radio3 option1"><img src="img/img-12.jpg" alt="Image 12">*/}
-                            {/*</li>*/}
-                            <li className="gap"></li>
-                            <li className="gap"></li>
-                            <li className="gap"></li>
-                        </ul>
-                        <div className="cd-fail-message">No results found</div>
-                    </section>
+                    <OrderList orders={this.filterOrder(this.state.order)}
+                               isFilterVisible={this.state.isFilterVisible}
+                               user={this.props.user}/>
 
                     <div className={`cd-filter ${this.state.isFilterVisible?'filter-is-visible':''}`}>
                         <form>
@@ -163,8 +143,8 @@ class Filter extends Component {
 
                     <div className="cd-filter-trigger" onClick={this.showFilter}>Filters</div>
                 </main>
-                <OrderList orders={this.state.order}
-                           user={this.props.user}/>
+                {/*<OrderList orders={this.state.order}*/}
+                           {/*user={this.props.user}/>*/}
                 <Spinner open={this.state.showSpinner}/>
             </div>
         );
