@@ -1,35 +1,13 @@
 import React, {Component} from 'react';
 import _ from "lodash"
-import {domainUrl} from "../../../config/configuration";
-import * as HttpStatus from "http-status-codes";
-import EditCartForm from "./EditCartForm";
-import ConfirmModal from "../../ConfirmModal";
-import ServiceDetails from "../../service/ServiceDetails";
 
-class Service extends Component {
-    constructor(){
+class ServiceDetails extends Component {
+    constructor() {
         super();
         this.state = {
             isModalOpen: false
         }
     }
-
-    openConfirmationModal = () => {
-        this.setState({
-            isModalOpen: true
-        })
-    };
-
-    closeConfirmationModal = () => {
-        this.setState({
-            isModalOpen: false
-        })
-    };
-
-    onYes = (index) => {
-        this.props.deleteOrder(index);
-        this.closeConfirmationModal();
-    };
 
     render() {
         const order = this.props.order;
@@ -51,7 +29,6 @@ class Service extends Component {
                 <td data-th="Service Cost" className="text-center">{`₹ ${order.serviceCost}`}</td>
                 <td data-th="Parameter Cost" className="text-center">{`₹ ${order.parameterCost}`}</td>
                 <td data-th="Subtotal" className="text-center">{`₹ ${order.totalCost}`}</td>
-                <td colSpan="1" className="hidden-xs"></td>
             </tr>
         );
     }

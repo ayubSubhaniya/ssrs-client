@@ -57,7 +57,7 @@ class Payment extends React.Component {
                 <div className={'container'}>
                     <Stapes active={3}/>
                     <CartDetails/>
-                    <hr className={'mt-0'}/>
+                    <hr/>
                     <div className={'payment-operation'}>
                         <div className="bank-title">
                             <div className="title-wrap">

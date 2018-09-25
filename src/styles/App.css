@@ -355,8 +355,10 @@ input:checked + .slider:before {
 }
 
 .total-price {
-    float: right;
+    display: flex;
+    width: 100%;
     color: blue;
+    flex-direction: row-reverse;
 }
 
 .price{

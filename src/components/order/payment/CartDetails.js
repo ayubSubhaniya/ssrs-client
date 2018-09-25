@@ -1,33 +1,27 @@
 import React, {Component} from 'react';
-import NavigationBar from "../../NavigationBar";
-import Service from "../cart/Service";
-import Stapes from "../../service/Stapes";
-import {Link} from "react-router-dom";
 import {asyncFetch} from "../../../helper/FetchData";
 import _ from "lodash"
 import Spinner from "../../Spinner";
-import {domainUrl} from "../../../config/configuration";
-import * as HttpStatus from "http-status-codes";
-import $ from "jquery";
+import ServiceDetails from "./ServiceDetails";
 
 class CartDetails extends Component {
     constructor(props) {
         super(props);
-        this.state={
+        this.state = {
             showSpinner: false,
             cart: []
         };
         this.asyncFetch = asyncFetch.bind(this);
     }
 
-    componentDidMount(){
+    componentDidMount() {
         this.asyncFetch('cart');
     };
 
     render() {
         return (
             <div>
-                <div className="container">
+                <div className="container pb-0">
                     <table id="cart" className="table table-hover table-condensed">
                         <thead>
                         <tr>
@@ -38,33 +32,18 @@ class CartDetails extends Component {
                             <th style={{"width": "10%"}} className="text-center">Service Cost</th>
                             <th style={{"width": "12%"}} className="text-center">Parameter Cost</th>
                             <th style={{"width": "12%"}} className="text-center">Subtotal</th>
-                            <th style={{"width": "10%"}}></th>
                         </tr>
                         </thead>
                         <tbody>
                         {
-                            _.map(this.state.cart.orders,(o,i) => <Service key={o._id}
-                                                                           order={o}
-                                                                           index={i}/>)
+                            _.map(this.state.cart.orders, (o, i) => <ServiceDetails key={o._id}
+                                                                                    order={o}
+                                                                                    index={i}/>)
                         }
                         </tbody>
-                        <tfoot>
-                        <tr className="visible-xs">
-                            <td colSpan="4" className="hidden-xs"></td>
-                            <td className="text-center"><strong>{`Total: ₹ ${this.state.cart.totalCost}`}</strong></td>
-                            <td className="hidden-xs"></td>
-                        </tr>
-                        <tr>
-                            <td>
-
-                            </td>
-                            <td colSpan="4" className="hidden-xs"></td>
-                            <td>
-
-                            </td>
-                        </tr>
-                        </tfoot>
                     </table>
+                    <div className="total-price"><div><span className={'total'}>Total: ₹ </span><span className='price'>{this.state.cart.totalCost}</span></div>
+                    </div>
                 </div>
                 <Spinner open={this.state.showSpinner}/>
             </div>
