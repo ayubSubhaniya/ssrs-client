@@ -93,7 +93,7 @@ class Cart extends Component {
                         </tbody>
                         <tfoot>
                         <tr className="visible-xs">
-                            <td colSpan="4" className="hidden-xs"></td>
+                            <td colSpan="6" className="hidden-xs"></td>
                             <td className="text-center"><strong>{`Total: ₹ ${this.state.cart.totalCost}`}</strong></td>
                             <td className="hidden-xs"></td>
                         </tr>
@@ -105,7 +105,7 @@ class Cart extends Component {
                                         {" Add More Services"} </div>
                                 </Link>
                             </td>
-                            <td colSpan="4" className="hidden-xs"></td>
+                            <td colSpan="6" className="hidden-xs"></td>
                             <td>
                                 <Link to={{pathname:'/info',state:this.state.cart}}>
                                     <div className="btn btn-success">
