@@ -5,8 +5,9 @@ import OrderList from "./../OrderList";
 import Spinner from "../../Spinner";
 import _ from "lodash"
 import {asyncFetch} from "../../../helper/FetchData";
-import orderStatus from "../../../constants/status"
+import {orderStatus} from "../../../constants/status"
 import {domainUrl} from "../../../config/configuration";
+import {camelCaseToWords} from "../../../helper/String";
 import * as HttpStatus from "http-status-codes";
 
 // function asyncFetch(dataName) {
@@ -101,24 +102,18 @@ class Filter extends Component {
                             <div className="cd-filter-block">
                                 <h4>Order Status</h4>
                                 <ul className="cd-filter-content cd-filters list">
-                                    <li>
-                                        <input className="filter" data-filter='30' type="checkbox" id="checkbox1"/>
-                                            <label className="checkbox-label" htmlFor="checkbox1">Placed</label>
-                                    </li>
-
-                                    <li>
-                                        <input className="filter" data-filter="40" type="checkbox" id="checkbox2"/>
-                                            <label className="checkbox-label" htmlFor="checkbox2">Processing</label>
-                                    </li>
-
-                                    <li>
-                                        <input className="filter" data-filter="50" type="checkbox" id="checkbox3"/>
-                                            <label className="checkbox-label" htmlFor="checkbox3">Ready</label>
-                                    </li>
-                                    <li>
-                                        <input className="filter" data-filter="60" type="checkbox" id="checkbox4"/>
-                                        <label className="checkbox-label" htmlFor="checkbox4">Completed</label>
-                                    </li>
+                                    {
+                                        _.map(Object.keys(orderStatus),(key) => {
+                                            return (
+                                                <li>
+                                                    <label className="radio-label">
+                                                        <input className="filter" type="radio" data-filter={key} checked/>
+                                                        {camelCaseToWords(orderStatus[key])}
+                                                    </label>
+                                                </li>
+                                            )
+                                        })
+                                    }
                                 </ul>
                             </div>
                         </form>

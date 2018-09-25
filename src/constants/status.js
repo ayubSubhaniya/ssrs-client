@@ -7,8 +7,6 @@ export const orderStatus = {
     50: "ready",
     60: "completed",
     70: "onHold",
-    80: "readyToPickup",
-    90: "onHold",
-    100: "cancelled",
-    110: "refunded"
+    80: "cancelled",
+    90: "refunded"
 }

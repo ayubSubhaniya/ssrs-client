@@ -122,7 +122,7 @@ class App extends Component {
             loginMessage: ''
         })
     }
-    
+
     render() {
         const {isAuthenticated, loginMessage} = this.state
         return (
@@ -144,7 +144,7 @@ class App extends Component {
                             clearLoginMessage={this.clearLoginMessage}
                             component={isAuthenticated ? Home : PublicPage}/>
                         <AuthorizedRoute
-                            path="/service"
+                            exact path="/service"
                             component={Services}
                             hideSpinner={this.hideSpinner}
                             showSpinner={this.showSpinner}
@@ -197,11 +197,11 @@ class App extends Component {
                             exact path='/payment'
                             component={Payment}
                             permission={isStudent(this.state.user)}/>
-                        <AuthorizedRoute 
+                        <AuthorizedRoute
                             exact path='/users'
                             component={UserList}
                             permission={isSuperAdmin(this.state.user)}/>
-                        <AuthorizedRoute 
+                        <AuthorizedRoute
                             exact path="/Myprofile"
                             component={Myprofile}
                             permission={true}
