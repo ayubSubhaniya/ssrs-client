@@ -25,6 +25,7 @@ class OrderDetails extends Component {
                     <p className="card-text"><strong>Order No: </strong>{order._id}</p>
                     <p className="card-text"><strong>Created: </strong>{`${new Date(Date.parse(order.createdOn))}`}</p>
                     <p className="card-text"><strong>Cost: </strong>{`₹ ${order.totalCost}`}</p>
+                    <p className="card-text"><strong>Status: </strong>{`₹ ${order.status}`}</p>
                     {
                         isStudent(this.props.user)
                         ? ''

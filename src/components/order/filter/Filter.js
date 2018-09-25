@@ -69,6 +69,11 @@ class Filter extends Component {
             isFilterVisible: false
         })
     }
+    updateFilter = ({target}) => {
+        this.setState({
+            filterState: target.dataset.filter
+        })
+    }
 
     render() {
         return (
@@ -101,13 +106,13 @@ class Filter extends Component {
                         <form>
                             <div className="cd-filter-block">
                                 <h4>Order Status</h4>
-                                <ul className="cd-filter-content cd-filters list">
+                                <ul className="cd-filter-content cd-filters list m-0 list-unstyled">
                                     {
                                         _.map(Object.keys(orderStatus),(key) => {
                                             return (
-                                                <li>
-                                                    <label className="radio-label">
-                                                        <input className="filter" type="radio" data-filter={key} checked/>
+                                                <li className={'mix'}>
+                                                    <input className="filter" type="radio" checked={key==this.state.filterState}/>
+                                                    <label className="radio-label"  data-filter={key} onClick={this.updateFilter}>
                                                         {camelCaseToWords(orderStatus[key])}
                                                     </label>
                                                 </li>
