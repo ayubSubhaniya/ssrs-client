@@ -50,7 +50,6 @@ class Cart extends Component {
         });
         const that = this;
         const url = domainUrl + '/order/' + this.state.cart.orders[index]._id;
-        console.log(url);
         const request = new XMLHttpRequest();
         request.open('DELETE', url, true);
         request.withCredentials = true;

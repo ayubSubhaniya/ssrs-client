@@ -10,19 +10,65 @@ import * as HttpStatus from "http-status-codes";
 import ButtonLink from "./ButtonLink";
 import Spinner from "../Spinner";
 import OrderForm from "../order/cart/OrderForm";
+import ConfirmModal from "../ConfirmModal";
+import DeleteButton from "../DeleteButton";
+import {isStudent, isSuperAdmin} from "../../helper/userType";
+import ApplyButton from "./ApplyButton";
 
 class ServiceList extends Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
             service: [],
-            showSpinner: false
+            showSpinner: false,
+            isModalOpen: false
         };
         this.asyncFetch = asyncFetch.bind(this);
     }
 
     componentDidMount() {
         this.asyncFetch('service');
+    }
+
+    openConfirmationModal = () => {
+        this.setState({
+            isModalOpen: true
+        })
+    };
+
+    closeConfirmationModal = () => {
+        this.setState({
+            isModalOpen: false
+        })
+    };
+
+    onYes = (index) => {
+        this.deleteService(index);
+        this.closeConfirmationModal();
+    };
+
+    deleteService = (index) => {
+        this.setState({
+            showSpinner: true
+        });
+        const that = this;
+        const url = domainUrl + '/service/' + this.state.service[index]._id;
+        const request = new XMLHttpRequest();
+        request.open('DELETE', url, true);
+        request.withCredentials = true;
+        request.setRequestHeader("Content-type", "application/json");
+        request.onload = function () {
+            if (this.status === HttpStatus.OK) {
+                const service = that.state.service;
+                that.setState({
+                    service: [...service.slice(0,index),...service.slice(index+1)]
+                })
+            }
+            that.setState({
+                showSpinner: false
+            })
+        }
+        request.send();
     }
 
     toggleService = (index) => {
@@ -63,23 +109,12 @@ class ServiceList extends Component {
                                             <h4 className={'m-0'}> {service.name}</h4>
                                         </a>
                                         <div className='d-flex p-2 align-items-center justify-content-center'>
-                                            {
-                                                this.props.user.userType === 'student' ?
-                                                    (
-                                                        <div>
-                                                            <button type="button"
-                                                                    className="btn btn-success btn-large ml-2 mr-2"
-                                                                    data-toggle="modal"
-                                                                    data-target={"#myModal" + service._id}>
-                                                                Apply
-                                                            </button>
-                                                            <OrderForm service={service} id={service._id}/>
-                                                        </div>)
-                                                    : ''
-                                            }
+                                            <AuthorizedComponent component={ApplyButton}
+                                                                 service={service}
+                                                                 permission={isStudent(this.props.user)}/>
                                             <AuthorizedComponent
                                                 component={EditButton}
-                                                permission={this.props.user.userType === 'superAdmin'}
+                                                permission={isSuperAdmin(this.props.user)}
                                                 data={service}
                                                 path={'/service/edit/' + i}/>
                                             <AuthorizedComponent
@@ -87,7 +122,14 @@ class ServiceList extends Component {
                                                 handleClick={this.toggleService}
                                                 index={i}
                                                 isChecked={service.isActive ? true : false}
-                                                permission={this.props.user.userType === 'superAdmin'}/>
+                                                permission={isSuperAdmin(this.props.user)}/>
+                                            <AuthorizedComponent permission={isSuperAdmin(this.props.user)}
+                                                                 openConfirmationModal={this.openConfirmationModal}
+                                                                 component={DeleteButton}/>
+                                            <ConfirmModal open={this.state.isModalOpen}
+                                                          onYes={() => this.onYes(i)}
+                                                          close={this.closeConfirmationModal}/>
+
                                         </div>
                                     </div>
                                     <div id={'collapse' + i} className="collapse" data-parent="#accordion">
@@ -102,7 +144,7 @@ class ServiceList extends Component {
                 </div>
                 <AuthorizedComponent
                     component={ButtonLink}
-                    permission={this.props.user.userType === 'superAdmin'}
+                    permission={isSuperAdmin(this.props.user)}
                 />
                 <Spinner open={this.state.showSpinner}/>
             </div>

@@ -12,7 +12,8 @@ class Parameters extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            showSpinner: false
+            showSpinner: false,
+            parameter: []
         }
         this.asyncFetch = asyncFetch.bind(this);
     }
@@ -46,6 +47,30 @@ class Parameters extends Component {
         request.send(JSON.stringify({isActive: !parameter.isActive}));
     };
 
+    deleteParameter = (index) => {
+        this.setState({
+            showSpinner: true
+        });
+        const that = this;
+        const url = domainUrl + '/parameter/' + this.state.parameter[index]._id;
+        const request = new XMLHttpRequest();
+        request.open('DELETE', url, true);
+        request.withCredentials = true;
+        request.setRequestHeader("Content-type", "application/json");
+        request.onload = function () {
+            if (this.status === HttpStatus.OK) {
+                const parameter = that.state.parameter;
+                that.setState({
+                    parameter: [...parameter.slice(0,index),...parameter.slice(index+1)]
+                })
+            }
+            that.setState({
+                showSpinner: false
+            })
+        }
+        request.send();
+    }
+
     render() {
         return (
             <div>
@@ -53,7 +78,8 @@ class Parameters extends Component {
                 <Header title={'Parameters'}/>
                 <ParameterList parameters={this.state.parameter}
                                user={this.props.user}
-                               toggleParameter={this.toggleParameter}/>
+                               toggleParameter={this.toggleParameter}
+                               deleteParameter={this.deleteParameter}/>
                 <Spinner open={this.state.showSpinner}/>
             </div>
 
