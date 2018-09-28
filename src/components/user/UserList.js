@@ -118,6 +118,8 @@ class UserList extends Component {
                     </tr>
                     {
                         _.map(this.state.user, (user, i) => {
+                            user.name.firstName = user.name.firstName?user.name.firstName:'';
+                            user.name.lastName = user.name.lastName?user.name.lastName:'';
                             return (
                                 <tr>
                                     <td>{user.daiictId}</td>

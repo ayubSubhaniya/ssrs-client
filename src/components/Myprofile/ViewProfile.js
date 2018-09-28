@@ -27,7 +27,7 @@ export default function ViewProfile(props) {
                                     First Name
                         </td>
                                 <td>
-                                    {props.user.name.firstName}
+                                    {props.user.name.firstName?props.user.name.firstName:''}
                                 </td>
                             </tr>
                             <tr>
@@ -35,7 +35,7 @@ export default function ViewProfile(props) {
                                     Last Name
                         </td>
                                 <td>
-                                    {props.user.name.lastName}
+                                    {props.user.name.lastName?props.user.name.lastName:''}
                                 </td>
                             </tr>
                             <tr>
