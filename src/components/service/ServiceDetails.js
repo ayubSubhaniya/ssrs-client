@@ -12,7 +12,6 @@ function filterName(x) {
 class ServiceDetails extends Component {
     render() {
         const {service} = this.props;
-        console.log(service);
         return (
             <div>
                 <h5><strong>Description: </strong>

@@ -3,6 +3,11 @@
     --main-color-light: rgba(32, 45, 65, 0.09);
 }
 
+a {
+    color: #41307c;
+    text-decoration: none;
+}
+
 .App {
     background: #000;
     padding-top: 4em;
@@ -98,6 +103,18 @@ input[type=submit] {
 
 /*All Orders*/
 
+.orders{
+    display: flex;
+    flex-direction: row;
+}
+
+.order-card{
+    width: 300px;
+    height: 300px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
 /*Toggle Switch*/
 
 .switch {
@@ -167,6 +184,7 @@ input:checked + .slider:before {
 
 .spinner > div > div {
     position: absolute;
+    z-index: 30000;
     top:14em;
     background-color: transparent;
     color: white;
@@ -399,4 +417,12 @@ input:checked + .slider:before {
     border-left-width: 0px;
     flex-basis: 90%;
     margin-left: 0px;
+}
+
+
+/* order filter*/
+
+.filter-col{
+    padding-left:10px;
+    padding-right:10px;
 }

@@ -6,39 +6,64 @@ import {Link} from "react-router-dom";
 import {asyncFetch} from "../../../helper/FetchData";
 import _ from "lodash"
 import Spinner from "../../Spinner";
-import OrderForm from "../../service/OrderForm";
+import {domainUrl} from "../../../config/configuration";
+import * as HttpStatus from "http-status-codes";
+import $ from "jquery";
 
 class Cart extends Component {
     constructor(props) {
         super(props);
         this.state={
             showSpinner: false,
-            orderFormVisible: false,
-            currentServiceToOrder: undefined,
-            order: []
+            cart: []
         }
         this.asyncFetch = asyncFetch.bind(this);
     }
 
-    openOrderForm = (service) => {
-        this.setState({
-            orderFormVisible: true,
-            currentServiceToOrder: service
-        })
-    }
-
-    closeOrderForm = () => {
-        this.setState({
-            orderFormVisible: false,
-            currentServiceToOrder: undefined
-        })
-    }
-
     componentDidMount(){
-        this.asyncFetch('order');
+        this.asyncFetch('cart');
     }
+
+    updateOrder = (newOrder,index,modal) => {
+        this.setState({
+            showSpinner: true
+        });
+        const oldOrder = this.state.cart.orders[index];
+        const that = this;
+        const url = domainUrl + '/order/' + oldOrder._id
+        const request = new XMLHttpRequest();
+        request.open('PATCH', url, true);
+        request.withCredentials = true;
+        request.setRequestHeader("Content-type", "application/json");
+        request.onload = function () {
+            if (this.status == HttpStatus.OK) {
+                $(modal).modal('hide');
+                that.asyncFetch('cart');
+            }
+        }
+        request.send(JSON.stringify(newOrder));
+    }
+
+    deleteOrder = (index) => {
+        this.setState({
+            showSpinner: true
+        });
+        const that = this;
+        const url = domainUrl + '/order/' + this.state.cart.orders[index]._id
+        console.log(url);
+        const request = new XMLHttpRequest();
+        request.open('DELETE', url, true);
+        request.withCredentials = true;
+        request.setRequestHeader("Content-type", "application/json");
+        request.onload = function () {
+            if (this.status == HttpStatus.OK) {
+                that.asyncFetch('cart');
+            }
+        }
+        request.send();
+    }
+
     render() {
-        console.log(this.props.location);
         return (
             <div>
                 <NavigationBar/>
@@ -48,22 +73,27 @@ class Cart extends Component {
                         <thead>
                         <tr>
                             <th style={{"width": "40%"}}>Service</th>
-                            <th style={{"width": "22%"}}>Parameters</th>
+                            <th style={{"width": "20%"}}>Parameters</th>
                             <th style={{"width": "10%"}}>Price</th>
                             <th style={{"width": "8%"}}>Quantity</th>
-                            <th style={{"width": "10%"}} className="text-center">Subtotal</th>
+                            <th style={{"width": "12%"}} className="text-center">Subtotal</th>
                             <th style={{"width": "10%"}}></th>
                         </tr>
                         </thead>
                         <tbody>
                         {
-                            _.map(this.state.order,(o) => <Service order={o}
-                                                                   openOrderForm={this.openOrderForm}/>)
+                            _.map(this.state.cart.orders,(o,i) => <Service key={o._id}
+                                                                           order={o}
+                                                                           index={i}
+                                                                           updateOrder={this.updateOrder}
+                                                                           deleteOrder={this.deleteOrder}/>)
                         }
                         </tbody>
                         <tfoot>
                         <tr className="visible-xs">
-                            <td className="text-center"><strong>{"Total 1.99"}</strong></td>
+                            <td colSpan="4" className="hidden-xs"></td>
+                            <td className="text-center"><strong>{`Total: ₹ ${this.state.cart.totalCost}`}</strong></td>
+                            <td className="hidden-xs"></td>
                         </tr>
                         <tr>
                             <td>
@@ -73,8 +103,7 @@ class Cart extends Component {
                                         {" Add More Services"} </div>
                                 </Link>
                             </td>
-                            <td colSpan="3" className="hidden-xs"></td>
-                            <td className="hidden-xs text-center"><strong>Total $1.99</strong></td>
+                            <td colSpan="4" className="hidden-xs"></td>
                             <td>
                                 <Link to={'/info'}>
                                     <div className="btn btn-success">
@@ -87,12 +116,6 @@ class Cart extends Component {
                         </tfoot>
                     </table>
                 </div>
-                {
-                    this.state.orderFormVisible==true
-                        ? <OrderForm service={this.state.currentServiceToOrder}
-                                     closeModal={this.closeOrderForm}/>
-                        : ''
-                }
                 <Spinner open={this.state.showSpinner}/>
             </div>
         );
@@ -100,3 +123,4 @@ class Cart extends Component {
 }
 
 export default Cart;
+

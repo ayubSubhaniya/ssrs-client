@@ -28,12 +28,16 @@ class Switch extends React.Component{
     }
 
     render() {
-        const {handleClick,index,isChecked,isDisabled} = this.props
+        const {index,isChecked} = this.props
         return (
             <label className="switch ml-2 mr-2 mb-0">
-                <input type="checkbox" checked={isChecked} onChange={this.openConfirmationModal}/>
+                <input type="checkbox"
+                       checked={isChecked}
+                       onChange={this.openConfirmationModal}/>
                 <span className="slider round"></span>
-                <ConfirmModal open={this.state.isModalOpen} index={index} onYes={(event) => this.onYes(this.props.index,event)} close={this.closeConfirmationModal}/>
+                <ConfirmModal open={this.state.isModalOpen}
+                              onYes={(event) => this.onYes(this.props.index,event)}
+                              close={this.closeConfirmationModal}/>
             </label>
         );
     }
