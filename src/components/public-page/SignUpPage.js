@@ -32,7 +32,7 @@ export default function SignUpPage({
                                                             <span className="input-group-text"
                                                                   id="basic-addon">
                                                                 <i className="material-icons"
-                                                                   style={{"cursor": "pointer"}}
+                                                                   style={{"cursor": "pointer","fontSize":"19px"}}
                                                                    onClick={changePassworVisibility}>
                                                     {!showPassword ? "visibility_off" : "visibility"}
                                                 </i></span>
