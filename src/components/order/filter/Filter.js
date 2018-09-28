@@ -9,35 +9,7 @@ import {orderStatus} from "../../../constants/status"
 import {domainUrl} from "../../../config/configuration";
 import {camelCaseToWords} from "../../../helper/String";
 import * as HttpStatus from "http-status-codes";
-
-// function asyncFetch(dataName) {
-//     const that = this;
-//     that.setState({
-//         showSpinner: true
-//     })
-//     const url = domainUrl + '/' + 'cart/all'
-//     var request = new XMLHttpRequest();
-//     request.open('GET', url, true);
-//     request.withCredentials = true;
-//     request.onload = function () {
-//         if (this.status == HttpStatus.ACCEPTED || this.status === HttpStatus.OK || this.status === HttpStatus.NOT_MODIFIED) {
-//             try {
-//                 const obj = JSON.parse(request.responseText);
-//                 console.log(obj);
-//                 that.setState({
-//                     order: obj['cart'],
-//                 })
-//             } catch (e) {
-//                 console.error(e);
-//             }
-//         }
-//         that.setState({
-//             showSpinner: false
-//         })
-//     };
-//     request.send();
-// }
-
+import CartList from "../CartList";
 
 class Filter extends Component {
     constructor(props) {
@@ -46,27 +18,84 @@ class Filter extends Component {
             showSpinner: false,
             isFilterVisible: false,
             filterState: 20,
-            order: []
+            order: [],
+            cart: [],
         }
         this.asyncFetch = asyncFetch.bind(this);
+    }
+
+    componentDidMount(){
+        this.asyncFetch('order');
+        this.fetchCart();
+    }
+
+    updateOrderStatus = (index,updatedStatus) => {
+        console.log(index,updatedStatus);
+        this.setState({
+            showSpinner: true
+        });
+
+        const that = this;
+        const order = this.state.order[index];
+        const url = domainUrl + '/order/changeStatus/' + order._id;
+        const request = new XMLHttpRequest();
+        request.open('PATCH', url, true);
+        request.withCredentials = true;
+        request.setRequestHeader("Content-type", "application/json");
+        request.onload = function () {
+            if (this.status == HttpStatus.OK) {
+                const response = JSON.parse(request.response)
+                console.log(response);
+            }
+            that.setState({
+                showSpinner: false
+            })
+        };
+        request.send(JSON.stringify({
+            status: updatedStatus
+        }));
+    }
+
+
+    fetchCart = () => {
+        const that = this;
+        that.setState({
+            showSpinner: true
+        })
+        const url = domainUrl + '/' + 'cart/all'
+        var request = new XMLHttpRequest();
+        request.open('GET', url, true);
+        request.withCredentials = true;
+        request.onload = function () {
+            if (this.status === HttpStatus.OK) {
+                try {
+                    const obj = JSON.parse(request.responseText);
+                    console.log(obj);
+                    that.setState({
+                        cart: obj['cart'],
+                    })
+                } catch (e) {
+                    console.error(e);
+                }
+            }
+            that.setState({
+                showSpinner: false
+            })
+        };
+        request.send();
     }
 
     filterOrder = (order) => {
         return _.filter(order,(o)=>o.status==this.state.filterState);
     }
 
-    componentDidMount(){
-        this.asyncFetch('order');
+    filterCart = (cart) => {
+        return _.filter(cart,(o)=>o.status==this.state.filterState);
     }
 
-    showFilter = () => {
+    toggleFilter = () => {
         this.setState({
-            isFilterVisible: true
-        })
-    }
-    hideFilter = () => {
-        this.setState({
-            isFilterVisible: false
+            isFilterVisible: !this.state.isFilterVisible
         })
     }
     updateFilter = ({target}) => {
@@ -81,26 +110,15 @@ class Filter extends Component {
                 <NavigationBar/>
                 <Header title={'Orders'}/>
                 <main className="cd-main-content">
-                    {/*<div className="cd-tab-filter-wrapper">*/}
-                        {/*<div className="cd-tab-filter">*/}
-                            {/*<ul className="cd-filters">*/}
-                                {/*<li className="placeholder">*/}
-                                    {/*<a data-type="all" href="#0">Placed</a>*/}
-                                {/*</li>*/}
-                                {/*<li className="filter"><a className="selected" href="#0" data-type="placed">Placed</a></li>*/}
-                                {/*<li className="filter" data-filter=".color-1"><a href="#0" data-type="processing">*/}
-                                    {/*Processing*/}
-                                {/*</a></li>*/}
-                                {/*<li className="filter" data-filter=".color-1"><a href="#0" data-type="ready">*/}
-                                    {/*Ready*/}
-                                {/*</a></li>*/}
-                                {/*<li className="filter" data-filter=".color-2"><a href="#0" data-type="completed">Completed</a></li>*/}
-                            {/*</ul>*/}
-                        {/*</div>*/}
-                    {/*</div>*/}
-                    <OrderList orders={this.filterOrder(this.state.order)}
-                               isFilterVisible={this.state.isFilterVisible}
-                               user={this.props.user}/>
+                    {/*<OrderList orders={this.filterOrder(this.state.order)}*/}
+                               {/*isFilterVisible={this.state.isFilterVisible}*/}
+                               {/*updateStatus={this.updateOrderStatus}*/}
+                               {/*user={this.props.user}/>*/}
+
+                    <CartList carts={this.filterCart(this.state.cart)}
+                              isFilterVisible={this.state.isFilterVisible}
+                              updateStatus={this.updateOrderStatus}
+                              user={this.props.user}/>
 
                     <div className={`cd-filter ${this.state.isFilterVisible?'filter-is-visible':''}`}>
                         <form>
@@ -110,7 +128,7 @@ class Filter extends Component {
                                     {
                                         _.map(Object.keys(orderStatus),(key) => {
                                             return (
-                                                <li className={'mix'}>
+                                                <li key={key}>
                                                     <input className="filter" type="radio" checked={key==this.state.filterState}/>
                                                     <label className="radio-label"  data-filter={key} onClick={this.updateFilter}>
                                                         {camelCaseToWords(orderStatus[key])}
@@ -123,10 +141,10 @@ class Filter extends Component {
                             </div>
                         </form>
 
-                        <div className="cd-close" onClick={this.hideFilter}>Close</div>
+                        <div className="cd-close" onClick={this.toggleFilter}>Close</div>
                     </div>
 
-                    <div className={`cd-filter-trigger ${this.state.isFilterVisible?'filter-is-visible':''}`} onClick={this.showFilter}>Filters</div>
+                    <div className={`cd-filter-trigger ${this.state.isFilterVisible?'filter-is-visible':''}`} onClick={this.toggleFilter}>Filters</div>
                 </main>
                 <Spinner open={this.state.showSpinner}/>
             </div>

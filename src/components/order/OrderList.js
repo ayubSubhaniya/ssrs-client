@@ -5,13 +5,15 @@ import OrderDetails from "./OrderDetails";
 class OrderList extends Component {
     render() {
         return (
-            <section className={`orders cd-gallery ${this.props.isFilterVisible?'filter-is-visible':''}`}>
+            <section className={`orders`}>
                     {
                         _.map(this.props.orders, (order, i) => {
                             return (
-                                <OrderDetails order={order}
+                                <OrderDetails key={order._id}
+                                              order={order}
                                               index={i}
-                                              user={this.props.user}/>
+                                              user={this.props.user}
+                                              updateStatus={this.props.updateStatus}/>
                             )
                         })
                     }

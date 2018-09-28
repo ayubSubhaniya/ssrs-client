@@ -13,23 +13,6 @@ html {
   font-size: 80%;
 }
 
-/*html * {*/
-  /*-webkit-font-smoothing: antialiased;*/
-  /*-moz-osx-font-smoothing: grayscale;*/
-/*}*/
-
-/*body {*/
-  /*font-size: 1.6rem;*/
-  /*font-family: "Open Sans", sans-serif;*/
-  /*color: #331d35;*/
-  /*background-color: #e7e7e7;*/
-/*}*/
-
-/*a {*/
-  /*color: #41307c;*/
-  /*text-decoration: none;*/
-/*}*/
-
 /* --------------------------------
 
 Main Components
@@ -58,7 +41,6 @@ Main Components
 
 .cd-main-content {
   position: relative;
-  min-height: 100vh;
 }
 .cd-main-content:after {
   content: "";
@@ -321,10 +303,9 @@ xfilter
 -------------------------------- */
 .cd-filter {
   position: absolute;
-  top: 0;
+  top: -46px;
   left: 0;
   width: 280px;
-  height: 100%;
   background: #ffffff;
   box-shadow: 4px 4px 20px transparent;
   z-index: 2;
@@ -415,9 +396,6 @@ xfilter
   cursor: pointer;
   background: transparent url("../img/cd-icon-filter.svg") no-repeat center center;
   z-index: 3;
-}
-.cd-filter-trigger.filter-is-visible {
-  pointer-events: none;
 }
 @media only screen and (min-width: 1170px) {
   .cd-filter-trigger {

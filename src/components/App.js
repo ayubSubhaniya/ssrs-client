@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
-import '../styles/App.css';
-import '../styles/filter/reset.css'
-import '../styles/filter/style.css'
-import 'animate.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'animate.css';
 import 'bootstrap'
 import 'font-awesome/css/font-awesome.min.css'
+import '../styles/filter/reset.css'
+import '../styles/filter/style.css'
+import '../styles/App.css';
 import {BrowserRouter as Router} from "react-router-dom";
 import Home from './home/Home';
 import Services from "./service/Services";

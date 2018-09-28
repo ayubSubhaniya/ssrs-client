@@ -26,7 +26,7 @@ class EditUserModalBody extends Component {
             lastName: props.detail.name.lastName,
             primaryEmail: props.detail.primaryEmail,
             contactNo: props.detail.contactNo,
-            gender: props.detail.gender == "Female" ? 2 : 1,
+            gender: props.detail.gender?props.detail.gender:'Male',
             userType: props.detail.userType == "student" ? 1 : 2,
             programme: props.detail.programme,
         }
@@ -57,7 +57,7 @@ class EditUserModalBody extends Component {
                 lastName: this.state.lastName
             },
             contactNo: this.state.contactNo,
-            gender: this.state.gender == 1 ? "Male" : "Female",
+            gender: this.state.gender,
             userType: this.state.userType == 1 ? "student" : "superAdmin",
             programme: this.state.programme,
         }
@@ -75,7 +75,7 @@ class EditUserModalBody extends Component {
                         </div>
 
                         <div class="modal-body">
-                            <form>
+                            <form  onSubmit={this.onSubmit}>
                                 <TextField value={this.state.daiictId}
                                            name="daiictId"
                                            label={"User ID"}/>
@@ -103,8 +103,8 @@ class EditUserModalBody extends Component {
                                                     <input className="form-check-input"
                                                            style={{display: "inline"}}
                                                            type="radio"
-                                                           value="1"
-                                                           checked={this.state.gender == 1 ? true : false}
+                                                           value="Male"
+                                                           checked={this.state.gender == 'Male' ? true : false}
                                                            onClick={this.changeGender}/>
                                                     Male
                                                 </label>
@@ -114,8 +114,8 @@ class EditUserModalBody extends Component {
                                                     <input className="form-check-input"
                                                            style={{display: "inline"}}
                                                            type="radio"
-                                                           value="2"
-                                                           checked={this.state.gender == 2 ? true : false}
+                                                           value="Female"
+                                                           checked={this.state.gender == 'Female' ? true : false}
                                                            onClick={this.changeGender}/>
                                                     Female
                                                 </label>

@@ -3,6 +3,10 @@
     --main-color-light: rgba(32, 45, 65, 0.09);
 }
 
+p {
+    margin-bottom: 0.3rem;
+}
+
 .App {
     background: #000;
     padding-top: 4em;
@@ -107,6 +111,13 @@ input[type=submit] {
 .order-card{
     width: 300px;
     height: 300px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
+.cart-card{
+    width: auto;
+    height: auto;
     margin-right: 10px;
     margin-bottom: 10px;
 }
