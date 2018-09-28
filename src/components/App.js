@@ -39,7 +39,31 @@ class App extends Component {
         }
         this.getUserData();
     }
+    updateUser = (updatedUser) => {
+        const that = this;
+        var url = domainUrl + '/user';
+        console.log(updatedUser);
+        var request = new XMLHttpRequest();
+        request.open('PATCH',url,false);
+        request.withCredentials = true;
+        request.setRequestHeader("Content-type", "application/json");
+        request.onload = function () {
+            if(this.status === HttpStatus.OK){
+                var res = JSON.parse(request.response)
+                console.log(res.user);
+                that.setState({
+                    user : res.user
+                });
+            }
+        }
+        try{
+            request.send(JSON.stringify(updatedUser));
+        }catch(e)
+        {
+            console.log(e);
+        }
 
+    }
     getUserData = () => {
         const that = this;
         var url = domainUrl + '/user';
@@ -201,7 +225,8 @@ class App extends Component {
                             exact path="/Myprofile"
                             component={Myprofile}
                             permission={true}
-                            user={this.state.user}/>
+                            user={this.state.user}
+                            updateUser={this.updateUser}/>
                     </React.Fragment>
                 </Router>
             </Context.Provider>
