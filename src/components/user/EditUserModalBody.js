@@ -46,7 +46,7 @@ class EditUserModalBody extends Component {
 
     changeProgramme = (e) => {
         this.setState({
-            programme: e.target.options[e.target.selectedIndex].text
+            programme: e.target.value
         })
     }
 
@@ -126,7 +126,7 @@ class EditUserModalBody extends Component {
                                 <div className="form-group row">
                                     <label for="last_name" className="col-3 col-form-label">Programme</label>
                                     <div className="col-9">
-                                        <select className="form-control" onClick={this.changeProgramme}>
+                                        <select className="form-control" onClick={this.changeProgramme} >
                                             <option hidden>{this.state.programme}</option>
                                             <option value="B.Tech (ICT)">B.Tech (ICT)</option>
                                             <option value="B.Tech (ICT+CS)">B.Tech (ICT+CS)</option>
