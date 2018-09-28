@@ -14,10 +14,6 @@ class Myprofile extends Component{
     constructor(props) {
         super();
         this.state = { 
-            firstName : props.user.name.firstName,
-            lastName : props.user.name.lastName,
-            gender : props.user.gender,
-            programme : props.user.programme,
             isEdit : false
         }
     }
@@ -27,9 +23,9 @@ class Myprofile extends Component{
             <div>
                 <NavigationBar/>
                 <div>
-                    {this.state.isEdit ? <EditProfile user={this.props.user}/> :<ViewProfile user={this.props.user}/>}
+                    {this.state.isEdit ? <EditProfile user={this.props.user} updateUser={this.props.updateUser} changeIsEdit={changeIsEdit.bind(this)}/> :<ViewProfile user={this.props.user}/>}
                 </div>
-                {this.state.isEdit ? <button type="button" class="btn btn-primary style-btn" onClick={changeIsEdit.bind(this)}>Save</button> :<button type="button" class="btn btn-primary style-btn" onClick={changeIsEdit.bind(this)}>Edit</button>}
+                {this.state.isEdit ? "" :<button type="button" class="btn btn-primary style-btn" onClick={changeIsEdit.bind(this)}>Edit</button>}
             </div>
         );
     }

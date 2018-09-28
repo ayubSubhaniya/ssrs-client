@@ -4,10 +4,18 @@
 }
 .quick-view{
     flex-basis: 30%;
+    padding: 2em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 .info-table{
     flex-basis: 70%;
 }
 .style-btn{
     margin-left: 50%;
+}
+.name-style {
+    text-align:center;
+    font-size: 1.5em; 
 }
