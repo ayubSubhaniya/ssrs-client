@@ -1,14 +1,15 @@
 import React, { Component } from "react";
 import "../../styles/ViewProfile.css";
+import Avatar from 'react-avatar';
 
-export function ViewProfile(props) {
-    console.log("Hello there this the viewProfile");
+export default function ViewProfile(props) {
     console.log(props.user);
     return (
         <div class="container">
             <div class="parent">
                 <div class="quick-view">
-                    this is the quick view
+                    <Avatar name={props.user.name.firstName} color={Avatar.getRandomColor('sitebase', ['red', 'green' , 'Yellow', 'Purple'])} size="150" textSizeRatio="1.75" round={true} />
+                    <div class="name-style">{props.user.name.firstName} {props.user.name.lastName}</div>
                 </div>
                 <div class="info-table">
                     <table class="table table-striped">
@@ -61,6 +62,14 @@ export function ViewProfile(props) {
                                     {props.user.gender}
                                 </td>
                             </tr>
+                        <tr>
+                                <td>
+                                    Programme
+                                </td>
+                                <td>
+                                    {props.user.programme}
+                                </td>
+                        </tr>
                         </tbody>
                     </table>
                 </div>
@@ -68,4 +77,3 @@ export function ViewProfile(props) {
         </div>
     );
 }
-export default ViewProfile;
