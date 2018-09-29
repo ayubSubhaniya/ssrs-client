@@ -1,6 +1,6 @@
 {
-  "name": "ssrs-client",
-  "homepage": "http://ayubSubhaniya.github.io/ssrs-client",
+  "name": "client-react",
+  "homepage": "http://localhost:5000",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
