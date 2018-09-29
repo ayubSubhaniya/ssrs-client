@@ -1,7 +1,16 @@
 {
-  "main.css": "static/css/main.b1abe03b.css",
-  "main.css.map": "static/css/main.b1abe03b.css.map",
-  "main.js": "static/js/main.a3ab0380.js",
-  "main.js.map": "static/js/main.a3ab0380.js.map",
-  "static/media/dalogo.jpg": "static/media/dalogo.8b6d645f.jpg"
+  "main.css": "static/css/main.c8b17991.css",
+  "main.css.map": "static/css/main.c8b17991.css.map",
+  "main.js": "static/js/main.9b179f11.js",
+  "main.js.map": "static/js/main.9b179f11.js.map",
+  "static/media/cd-icon-arrow.svg": "static/media/cd-icon-arrow.815e8edc.svg",
+  "static/media/cd-icon-check.svg": "static/media/cd-icon-check.91a39004.svg",
+  "static/media/cd-icon-filter.svg": "static/media/cd-icon-filter.ffa6397f.svg",
+  "static/media/daiict.png": "static/media/daiict.c787be75.png",
+  "static/media/dalogo.jpg": "static/media/dalogo.8b6d645f.jpg",
+  "static/media/fontawesome-webfont.eot": "static/media/fontawesome-webfont.674f50d2.eot",
+  "static/media/fontawesome-webfont.svg?v=4.7.0": "static/media/fontawesome-webfont.912ec66d.svg",
+  "static/media/fontawesome-webfont.ttf?v=4.7.0": "static/media/fontawesome-webfont.b06871f2.ttf",
+  "static/media/fontawesome-webfont.woff2?v=4.7.0": "static/media/fontawesome-webfont.af7ae505.woff2",
+  "static/media/fontawesome-webfont.woff?v=4.7.0": "static/media/fontawesome-webfont.fee66e71.woff"
 }
