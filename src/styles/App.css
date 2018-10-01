@@ -122,6 +122,210 @@ input[type=submit] {
     margin-bottom: 10px;
 }
 
+.limiter {
+    width: 100%;
+    margin: 0 auto;
+}
+
+.container-table100 {
+    width: 100%;
+    min-height: 100vh;
+    /*background: #c850c0;*/
+    /*background: -webkit-linear-gradient(45deg, #4158d0, #c850c0);*/
+    /*background: -o-linear-gradient(45deg, #4158d0, #c850c0);*/
+    /*background: -moz-linear-gradient(45deg, #4158d0, #c850c0);*/
+    /*background: linear-gradient(45deg, #4158d0, #c850c0);*/
+
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    flex-wrap: wrap;
+    /*padding: 33px 30px;*/
+}
+
+.wrap-table100 {
+    width: 1170px;
+}
+
+.limiter table {
+    border-collapse: collapse;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    width: 100%;
+    margin: 0 auto;
+    position: relative;
+}
+.limiter table * {
+    position: relative;
+}
+.limiter table td, table th {
+    padding-left: 8px;
+}
+.limiter table thead tr {
+    height: 60px;
+    background: #36304a;
+}
+.limiter table tbody tr {
+    height: 50px;
+}
+.limiter table tbody tr:last-child {
+    border: 0;
+}
+.limiter table td, table th {
+    text-align: left;
+}
+.limiter table td.l, table th.l {
+    text-align: right;
+}
+.limiter table td.c, table th.c {
+    text-align: center;
+}
+.limiter table td.r, table th.r {
+    text-align: center;
+}
+
+
+.limiter .table100-head th{
+    font-family: OpenSans-Regular;
+    font-size: 18px;
+    color: #fff;
+    line-height: 1.2;
+    font-weight: unset;
+}
+
+.limiter tbody tr:nth-child(even) {
+    background-color: #f5f5f5;
+}
+
+.limiter tbody tr {
+    font-family: OpenSans-Regular;
+    font-size: 15px;
+    color: #808080;
+    line-height: 1.2;
+    font-weight: unset;
+}
+
+tbody tr:hover {
+    color: #555555;
+    background-color: #f5f5f5;
+    cursor: pointer;
+}
+
+.more-items{
+    font-weight: bold;
+    padding-top: 4px;
+}
+
+.column1 {
+    width: 260px;
+    padding-left: 40px;
+}
+
+.column2 {
+    width: 160px;
+}
+
+.column3 {
+    width: 245px;
+}
+
+.column4 {
+    width: 110px;
+}
+
+.column5 {
+    width: 170px;
+}
+
+.column6 {
+    width: 222px;
+    padding-right: 62px;
+}
+
+
+@media screen and (max-width: 992px) {
+    .limiter table {
+        display: block;
+    }
+    .limiter  table > *, table tr, table td, table th {
+        display: block;
+    }
+    .limiter table thead {
+        display: none;
+    }
+    .limiter table tbody tr {
+        height: auto;
+        padding: 37px 0;
+    }
+    .limiter table tbody tr td {
+        padding-left: 40% !important;
+        margin-bottom: 24px;
+    }
+    .limiter table tbody tr td:last-child {
+        margin-bottom: 0;
+    }
+    .limiter table tbody tr td:before {
+        font-family: OpenSans-Regular;
+        font-size: 14px;
+        color: #999999;
+        line-height: 1.2;
+        font-weight: unset;
+        position: absolute;
+        width: 40%;
+        left: 30px;
+        top: 0;
+    }
+    .limiter table tbody tr td:nth-child(1):before {
+        content: "Date";
+    }
+    .limiter table tbody tr td:nth-child(2):before {
+        content: "Order ID";
+    }
+    .limiter table tbody tr td:nth-child(3):before {
+        content: "Name";
+    }
+    .limiter table tbody tr td:nth-child(4):before {
+        content: "Price";
+    }
+    .limiter table tbody tr td:nth-child(5):before {
+        content: "Quantity";
+    }
+    .limiter table tbody tr td:nth-child(6):before {
+        content: "Total";
+    }
+
+    .column4,
+    .column5,
+    .column6 {
+        text-align: left;
+    }
+
+    .column4,
+    .column5,
+    .column6,
+    .column1,
+    .column2,
+    .column3 {
+        width: 100%;
+    }
+
+    tbody tr {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 576px) {
+    .container-table100 {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+}
+
 /*Toggle Switch*/
 
 .switch {

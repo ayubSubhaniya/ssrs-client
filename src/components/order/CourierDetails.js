@@ -6,7 +6,7 @@ class CourierDetails extends Component {
     }
 
     render() {
-        const data = this.props.options;
+        const data = this.props.data;
         console.log(data);
         if (data){
             return (

@@ -1,39 +1,46 @@
 import React, {Component} from 'react';
-import _ from "lodash";
-import {isStudent} from "../../helper/userType";
-import {orderStatus} from "../../constants/status";
-import {camelCaseToWords} from "../../helper/String";
-import OrderList from "./OrderList";
+import {Redirect, withRouter} from 'react-router-dom'
+
+function getDateString(date) {
+    const dateObj = new Date(Date.parse(date))
+    return dateObj.toLocaleDateString() + " " + dateObj.toLocaleTimeString();
+}
 
 class CartDetails extends Component {
     constructor(props) {
         super(props);
     }
 
+    redirect = () => {
+        this.props.history.push({
+                pathname: this.props.location.pathname + "/" + this.props.cart._id,
+                state: {
+                    cart: this.props.cart
+                }
+            })
+    }
+
     render() {
-        const {cart,...others} = this.props
-        console.log(others);
+        const {cart, ...others} = this.props;
         return (
-            <div className="card cart-card">
-                <div className="card-body">
-                    {/*<h4 className="card-title">{order.serviceName}</h4>*/}
-                    <p className="card-text"><strong>Order No: </strong>{cart._id}</p>
-                    <p className="card-text"><strong>Order Date: </strong>{`${new Date(Date.parse(cart.createdOn))}`}</p>
-                    <p className="card-text"><strong>Collection Type: </strong>{`${cart.collectionType}`}</p>
-                    <p className="card-text"><strong>Total Cost: </strong>{`₹ ${cart.totalCost}`}</p>
-                    <p className="card-text"><strong>Status: </strong>{`${camelCaseToWords(orderStatus[cart.status])}`}</p>
+            <tr onClick={this.redirect}>
+                <td className="column1">{getDateString(cart.createdOn)}</td>
+                <td className="column2">{cart._id}</td>
+                <td className="column3">
+                    {cart.orders[0].serviceName} <br/>
                     {
-                        isStudent(this.props.user)
-                            ? ''
-                            : <p className="card-text"><strong>Requested By: </strong>{cart.requestedBy}</p>
+                        cart.orders.length > 1
+                            ? <div className='more-items'> + {cart.orders.length - 1} More Items</div>
+                            : ''
                     }
-                    {/*<a href="#" className="card-link">Status</a>*/}
-                    <OrderList orders={cart.orders}
-                               {...others}/>
-                </div>
-            </div>
+                </td>
+                <td className="column4">{`₹ ${cart.totalCost}`}</td>
+                <td className="column5">{cart.orders[0].unitsRequested}</td>
+                <td className="column6">{`₹ ${cart.totalCost}`}</td>
+            </tr>
+
         );
     }
 }
 
-export default CartDetails;
+export default withRouter(CartDetails);

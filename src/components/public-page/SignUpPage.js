@@ -18,7 +18,7 @@ export default function SignUpPage({
             <TextInputUserName daiictId={daiictId}
                                handleChange={handleChange}/>
             <div className="page-input">
-                <div className="title"><i className="material-icons">lock</i> PASSWORD
+                <div className="title"><i className="fa fa-lock"></i> PASSWORD
                 </div>
                 <div className="input-group mb-3">
                     <input type={showPassword ? "text" : "password"}
@@ -31,11 +31,10 @@ export default function SignUpPage({
                     <div className="input-group-append">
                                                             <span className="input-group-text"
                                                                   id="basic-addon">
-                                                                <i className="material-icons"
-                                                                   style={{"cursor": "pointer","fontSize":"19px"}}
-                                                                   onClick={changePassworVisibility}>
-                                                    {!showPassword ? "visibility_off" : "visibility"}
-                                                </i></span>
+                                                                <i className={`fa ${showPassword ? 'fa-eye' : 'fa-eye-slash'}`}
+                                                                   style={{"cursor": "pointer","fontSize":"1.6rem"}}
+                                                                   onClick={changePassworVisibility}></i>
+                                                               </span>
                     </div>
                 </div>
                 <div className={"alert alert-danger p-2 mt-2 mb-2" + (signupMessage ? '' : ' d-none')}>

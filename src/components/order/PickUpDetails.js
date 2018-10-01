@@ -6,7 +6,7 @@ class PickUpDetails extends Component {
     }
 
     render() {
-        const data = this.props.options;
+        const data = this.props.data;
         if (data){
             return (
                 <div className="address">

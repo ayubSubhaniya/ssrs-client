@@ -1,36 +1,46 @@
 import React, {Component} from 'react';
 import NavigationBar from "../../NavigationBar";
 import Header from "../../Header";
-import OrderList from "./../OrderList";
 import Spinner from "../../Spinner";
 import _ from "lodash"
 import {asyncFetch} from "../../../helper/FetchData";
-import {orderStatus} from "../../../constants/status"
 import {domainUrl} from "../../../config/configuration";
 import {camelCaseToWords} from "../../../helper/String";
 import * as HttpStatus from "http-status-codes";
 import CartList from "../CartList";
+const filterKey  = ['-10',30,40,50,60,70,80,90,0];
+const filter = {
+    '-10': "all",
+    0: "failed",
+    30: "placed",
+    40: "processing",
+    50: "ready",
+    60: "completed",
+    70: "onHold",
+    80: "cancelled",
+    90: "refunded"
+}
 
 class Filter extends Component {
     constructor(props) {
         super(props);
-        this.state={
+        this.state = {
             showSpinner: false,
             isFilterVisible: false,
-            filterState: 20,
+            filterState: '-10',
             order: [],
             cart: [],
         }
         this.asyncFetch = asyncFetch.bind(this);
     }
 
-    componentDidMount(){
+    componentDidMount() {
         this.asyncFetch('order');
         this.fetchCart();
     }
 
-    updateOrderStatus = (index,updatedStatus) => {
-        console.log(index,updatedStatus);
+    updateOrderStatus = (index, updatedStatus) => {
+        console.log(index, updatedStatus);
         this.setState({
             showSpinner: true
         });
@@ -72,7 +82,7 @@ class Filter extends Component {
                     const obj = JSON.parse(request.responseText);
                     console.log(obj);
                     that.setState({
-                        cart: obj['cart'],
+                        cart: _.filter(obj['cart'], (o) => o.status != 20),
                     })
                 } catch (e) {
                     console.error(e);
@@ -86,11 +96,14 @@ class Filter extends Component {
     }
 
     filterOrder = (order) => {
-        return _.filter(order,(o)=>o.status==this.state.filterState);
+        return _.filter(order, (o) => o.status == this.state.filterState);
     }
 
     filterCart = (cart) => {
-        return _.filter(cart,(o)=>o.status==this.state.filterState);
+        if (this.state.filterState === '-10') {
+            return cart;
+        } else
+            return _.filter(cart, (o) => o.status == this.state.filterState);
     }
 
     toggleFilter = () => {
@@ -110,28 +123,26 @@ class Filter extends Component {
                 <NavigationBar/>
                 <Header title={'Orders'}/>
                 <main className="cd-main-content">
-                    {/*<OrderList orders={this.filterOrder(this.state.order)}*/}
-                               {/*isFilterVisible={this.state.isFilterVisible}*/}
-                               {/*updateStatus={this.updateOrderStatus}*/}
-                               {/*user={this.props.user}/>*/}
 
                     <CartList carts={this.filterCart(this.state.cart)}
                               isFilterVisible={this.state.isFilterVisible}
                               updateStatus={this.updateOrderStatus}
                               user={this.props.user}/>
 
-                    <div className={`cd-filter ${this.state.isFilterVisible?'filter-is-visible':''}`}>
+                    <div className={`cd-filter ${this.state.isFilterVisible ? 'filter-is-visible' : ''}`}>
                         <form>
                             <div className="cd-filter-block">
                                 <h4>Order Status</h4>
                                 <ul className="cd-filter-content cd-filters list m-0 list-unstyled">
                                     {
-                                        _.map(Object.keys(orderStatus),(key) => {
+                                        _.map(filterKey, (key) => {
                                             return (
                                                 <li key={key}>
-                                                    <input className="filter" type="radio" checked={key==this.state.filterState}/>
-                                                    <label className="radio-label"  data-filter={key} onClick={this.updateFilter}>
-                                                        {camelCaseToWords(orderStatus[key])}
+                                                    <input className="filter" type="radio"
+                                                           checked={key == this.state.filterState}/>
+                                                    <label className="radio-label" data-filter={key}
+                                                           onClick={this.updateFilter}>
+                                                        {camelCaseToWords(filter[key])}
                                                     </label>
                                                 </li>
                                             )
@@ -144,7 +155,9 @@ class Filter extends Component {
                         <div className="cd-close" onClick={this.toggleFilter}>Close</div>
                     </div>
 
-                    <div className={`cd-filter-trigger ${this.state.isFilterVisible?'filter-is-visible':''}`} onClick={this.toggleFilter}>Filters</div>
+                    <div className={`cd-filter-trigger ${this.state.isFilterVisible ? 'filter-is-visible' : ''}`}
+                         onClick={this.toggleFilter}>Filters
+                    </div>
                 </main>
                 <Spinner open={this.state.showSpinner}/>
             </div>

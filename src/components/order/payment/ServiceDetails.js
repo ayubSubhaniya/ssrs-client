@@ -4,9 +4,6 @@ import _ from "lodash"
 class ServiceDetails extends Component {
     constructor() {
         super();
-        this.state = {
-            isModalOpen: false
-        }
     }
 
     render() {

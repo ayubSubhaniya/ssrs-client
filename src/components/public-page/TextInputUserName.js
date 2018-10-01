@@ -2,8 +2,7 @@ import React from "react";
 
 export default function TextInputUserName({daiictId,handleChange}) {
     return ( <div className="page-input">
-        <div className="title"><i
-            className="material-icons">account_box</i> DA-IICT ID
+        <div className="title"><i className="fa fa-user-circle"></i> DA-IICT ID
         </div>
         <div className="input-group mb-3">
             <input type="text" className="form-control"

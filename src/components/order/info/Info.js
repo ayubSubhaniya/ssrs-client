@@ -74,12 +74,22 @@ class Info extends React.Component {
                                     Recipient information
                                 </h3>
                             </div>
-                            {this.state.isCourierSelected ? <CourierDetails options={this.state.courier}
-                                                                            openAddressModal={this.openAddressModal}/> :
-                                <PickUpDetails options={this.state.pickup} openAddressModal={this.openAddressModal}/>}
-                            {this.state.isCourierSelected ?
-                                <CourierForm open={this.state.editAddress} close={this.closeAddressModal} data={this.state.courier}/> :
-                                <PickupForm open={this.state.editAddress} close={this.closeAddressModal} data={this.state.pickup}/>}
+                            {
+                                this.state.isCourierSelected
+                                ? <CourierDetails data={this.state.courier}
+                                                  openAddressModal={this.openAddressModal}/>
+                                : <PickUpDetails data={this.state.pickup}
+                                               openAddressModal={this.openAddressModal}/>
+                            }
+                            {
+                                this.state.isCourierSelected
+                                    ? <CourierForm
+                                        open={this.state.editAddress}
+                                        close={this.closeAddressModal}
+                                        data={this.state.courier}/>
+                                    : <PickupForm open={this.state.editAddress}
+                                                  close={this.closeAddressModal}
+                                                  data={this.state.pickup}/>}
                         </div>
                         <hr/>
                         </div>

@@ -7,7 +7,7 @@ export default function SignInPage({daiictId, handleChange, password, loginMessa
             <TextInputUserName daiictId={daiictId}
                                handleChange={handleChange}/>
             <div className="page-input">
-                <div className="title"><i className="material-icons">lock</i> PASSWORD
+                <div className="title"><i className="fa fa-lock"></i> PASSWORD
                 </div>
                 <input className="form-control" type="password" name="password" value={password}
                        onChange={handleChange}/>

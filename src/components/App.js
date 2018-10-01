@@ -29,6 +29,7 @@ import Info from "./order/info/Info";
 import Myprofile from './Myprofile/Myprofile'
 import UserList from './user/UserList';
 import Filter from './order/filter/Filter'
+import CartWithOrders from "./order/CartWithOrders";
 
 export const Context = React.createContext();
 
@@ -231,6 +232,11 @@ class App extends Component {
                             permission={true}
                             user={this.state.user}
                             updateUser={this.updateUser}/>
+                        <AuthorizedRoute
+                            exact path="/order/*"
+                            component={CartWithOrders}
+                            permission={true}
+                            user={this.state.user}/>
                     </React.Fragment>
                 </Router>
             </Context.Provider>
