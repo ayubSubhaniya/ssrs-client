@@ -1,9 +1,9 @@
 /*login page*/
 
 .loginbox {
-    margin-left: 61%;
-    margin-right: 33%;
-    margin-top: 111px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 2%;
     color: #fff;
     font-family: 'Raleway', sans-serif;
     height: auto;

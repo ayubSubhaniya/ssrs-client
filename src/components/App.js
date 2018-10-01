@@ -150,6 +150,11 @@ class App extends Component {
 
     render() {
         const {isAuthenticated, loginMessage} = this.state
+        if(isAuthenticated){
+            document.body.style.background = "#ffffff";
+        }else{
+            document.body.style.background = "#fff585";
+        }
         return (
             <Context.Provider value={
                 {

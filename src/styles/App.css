@@ -21,14 +21,11 @@ p {
 }
 
 .dalogo {
-    position: absolute;
-    width: 384px;
-    height: 384px;
-    top: 15%;
-    left: 10%;
-    display: block;
+    width: 200px;
+    height: 200px;
     margin: auto;
-    margin-bottom: 20px;
+    margin-top: 2%;
+    display: block;
 }
 
 .logo {
