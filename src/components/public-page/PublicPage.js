@@ -100,8 +100,20 @@ class PublicPage extends Component {
     }
 
     onForgetPassword = () => {
+
+        const url = domainUrl + '/account/forgotPassword' + this.state.forgotPasswordOfID;
+        const request = new XMLHttpRequest();
+        request.open('GET', url, true);
+        request.withCredentials = true;
+        request.setRequestHeader("Content-type", "application/json");
+        request.onload = function () {
+            if (this.status == HttpStatus.OK) {
+
+            }
+
+        };
+        request.send();
         this.setState({modalIsOpen: false});
-        console.log(this.state.forgotPasswordOfID);
     }
 
     clearSignupMessage = () => {
