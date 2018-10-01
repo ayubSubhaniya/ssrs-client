@@ -119,13 +119,17 @@ class PublicPage extends Component {
                     value => {
                         return (
                             <React.Fragment>
-                                <img className={"dalogo"} src={logo}/>
+                                
                                 <div className="loginbox">
+                                <div className="imagelogo">
+                                    <img className={"dalogo"} src={logo}/>
+                                </div>
                                     <input type="radio" name="tab" id="signin" onChange={this.switchTab}
                                            checked={login}/>
                                     <input type="radio" name="tab" id="register" onChange={this.switchTab}
                                            checked={!login}/>
                                     <div className="pages">
+                                    
                                         <SignInPage daiictId={daiictId}
                                                     loginMessage={value.loginMessage}
                                                     logIn={value.logIn}

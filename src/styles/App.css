@@ -21,10 +21,10 @@ p {
 }
 
 .dalogo {
-    width: 200px;
-    height: 200px;
+    width: 50%;
+    height: auto;
     margin: auto;
-    margin-top: 2%;
+    /* margin-top: 2%; */
     display: block;
 }
 
