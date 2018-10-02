@@ -1,24 +1,23 @@
 import React from "react"
 import Modal from "react-bootstrap4-modal";
-import {domainUrl} from '../../config/configuration'
-import HttpStatus from 'http-status-codes'
 
 class CourierForm extends React.Component {
     constructor(props) {
         super(props);
         let {data} = props;
-        if (data===undefined){
-            data={};
+        console.log(data.city);
+        if (data === undefined) {
+            data = {};
         }
         this.state = {
-            name: data.name?data.name:'',
-            email: data.email?data.email:'',
-            contactNo: data.contactNo?data.contactNo:'',
-            address: data.address?data.address:'',
-            city: data.city?data.city:'',
-            pinCode: data.pinCode?data.pinCode:'',
-            state: data.state?data.state:'',
-            country: data.country?data.country:''
+            name: data.name ? data.name : '',
+            email: data.email ? data.email : '',
+            contactNo: data.contactNo ? data.contactNo : '',
+            address: data.address.line1 ? data.address.line1 : '',
+            city: data.city ? data.city : '',
+            pinCode: data.pinCode ? data.pinCode : '',
+            state: data.state ? data.state : '',
+            country: data.country ? data.country : ''
         }
     }
 
@@ -51,7 +50,7 @@ class CourierForm extends React.Component {
         return (
             <Modal visible={this.props.open}>
                 <div className={'modal-body'}>
-                    <form autoComplete="on">
+                    <form autoComplete="off">
                         <div className={'form-group'}>
                             <label>Name:</label>
                             <input name="name"
@@ -78,6 +77,7 @@ class CourierForm extends React.Component {
                             <label>Address: </label>
                             <input name='address'
                                    className={'form-control'}
+                                   value={this.state.address}
                                    onChange={this.handleChange}/>
                         </div>
                         <div className={'form-group'}>
@@ -85,6 +85,7 @@ class CourierForm extends React.Component {
                             <input name='city'
                                    className={'form-control'}
                                    type={'text'}
+                                   value={this.state.city}
                                    onChange={this.handleChange}/>
                         </div>
                         <div className={'form-group'}>
@@ -92,12 +93,14 @@ class CourierForm extends React.Component {
                             <input name='pinCode'
                                    className={'form-control'}
                                    type={'text'}
+                                   value={this.state.pinCode}
                                    onChange={this.handleChange}/>
                         </div>
                         <div className={'form-group'}>
                             <label>State:</label>
                             <input name='state'
                                    className={'form-control'}
+                                   value={this.state.state}
                                    type={'text'}
                                    onChange={this.handleChange}/>
                         </div>
@@ -106,13 +109,16 @@ class CourierForm extends React.Component {
                             <input name='country'
                                    className={'form-control'}
                                    type={'text'}
+                                   value={this.state.country}
                                    onChange={this.handleChange}/>
                         </div>
                     </form>
                 </div>
                 <div className="modal-footer">
                     <button type="button" className="btn btn-danger" onClick={this.props.close}>Close</button>
-                    <button type="submit" className="btn btn-primary" onClick={() => this.props.handleSubmit(this.getCourierDetails())}>Save</button>
+                    <button type="submit" className="btn btn-primary"
+                            onClick={() => this.props.handleSubmit(this.getCourierDetails())}>Save
+                    </button>
                 </div>
             </Modal>
         );

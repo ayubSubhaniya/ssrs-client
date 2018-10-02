@@ -26,6 +26,7 @@ class Home extends Component {
     }
 
     deleteNews = (index) => {
+        console.log(index);
         this.setState({
             showSpinner: true
         });
@@ -53,7 +54,6 @@ class Home extends Component {
         this.setState({
             showSpinner: true
         });
-        console.log(this.state.notification);
 
         const that = this;
         const url = domainUrl + '/notification/' + this.state.notification[index]._id;
@@ -79,7 +79,6 @@ class Home extends Component {
         this.setState({
             showSpinner: true
         });
-
         const that = this;
         const url = domainUrl + '/news/' + this.state.news[index]._id;
         const request = new XMLHttpRequest();

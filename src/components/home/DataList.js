@@ -1,30 +1,27 @@
 import React, {Component} from 'react';
 import {timeSince} from "../../helper/Time";
 import AuthorizedComponent from "../AuthorizedComponent";
-import ApplyButton from "../service/ApplyButton";
-import {isStudent, isSuperAdmin} from "../../helper/userType";
-import EditButton from "../EditButton";
-import Switch from "../service/Switch";
+import {isSuperAdmin} from "../../helper/userType";
 import DeleteButton from "../DeleteButton";
 import ConfirmModal from "../ConfirmModal";
-import {domainUrl} from "../../config/configuration";
-import * as HttpStatus from "http-status-codes";
-import {asyncFetch} from "../../helper/FetchData";
 import EditNews from "./EditNews";
 import EditNewsButton from "./EditNewsButton";
+import _ from "lodash"
 
 class DataList extends Component {
 
     constructor(props) {
         super(props);
+        this.currentIndex = 0;
         this.state = {
             showSpinner: false,
             isModalOpen: false,
-            isNewsEditModalOpen: false,
+            isNewsEditModalOpen: false
         };
     }
 
-    openConfirmationModal = () => {
+    openConfirmationModal = (e) => {
+        this.currentIndex =  e.target.dataset.index;
         this.setState({
             isModalOpen: true
         })
@@ -32,11 +29,12 @@ class DataList extends Component {
 
     closeConfirmationModal = () => {
         this.setState({
-            isModalOpen: false
+            isModalOpen: false,
         })
     };
 
-    openEditModal = () => {
+    openEditModal = (e) => {
+        this.currentIndex =  e.target.dataset.index;
         this.setState({
             isNewsEditModalOpen: true
         })
@@ -49,12 +47,13 @@ class DataList extends Component {
     };
 
     onUpdate = (index, message) => {
-        this.props.onUpdate(index, message);
+        this.props.onUpdate(this.currentIndex, message);
         this.closeConfirmationModal();
     };
 
-    onYes = (index) => {
-        this.props.onDelete(index);
+    onYes = () => {
+        console.log(this.currentIndex);
+        this.props.onDelete(this.currentIndex);
         this.closeConfirmationModal();
     };
 
@@ -62,42 +61,50 @@ class DataList extends Component {
         const {data} = this.props;
         return (
             <div className={'list-group'}>
-
                 {
-
                     data.length !== 0
-                        ? data.map(
-                        (data, i) => (
-                                <div key={i}
-                                   className="list-group-item list-group-item-action align-items-start d-flex justify-content-between">
+                        ? _.map(data, (data, i) => {
+                            return (
+                            <div key={data._id}>
+                                <div
+                                    className="list-group-item list-group-item-action align-items-start d-flex justify-content-between">
                                     <div>
-                                    <h5 className="mb-1">{data.message}</h5>
-                                    <small
-                                        className="text-muted"> {timeSince(new Date(data.createdOn)) + ' ago'}</small>
+                                        <h5 className="mb-1">{data.message}</h5>
+                                        <small
+                                            className="text-muted"> {timeSince(new Date(data.createdOn)) + ' ago'}</small>
                                     </div>
                                     <div className='d-flex p-2 align-items-center justify-content-center'>
                                         <AuthorizedComponent
                                             component={EditNewsButton}
                                             openEditModal={this.openEditModal}
-                                            permission={isSuperAdmin(this.props.user)&&this.props.editPermission}
+                                            index={i}
+                                            permission={isSuperAdmin(this.props.user) && this.props.editPermission}
                                         />
-                                        <AuthorizedComponent permission={isSuperAdmin(this.props.user)||this.props.deletePermission}
-                                                             openConfirmationModal={this.openConfirmationModal}
-                                                             component={DeleteButton}/>
-                                        <ConfirmModal open={this.state.isModalOpen}
-                                                      onYes={() => this.onYes(i)}
-                                                      close={this.closeConfirmationModal}/>
-                                        <EditNews visible={this.state.isNewsEditModalOpen}
-                                                  onUpdate={(message) => this.onUpdate(i, message)}
-                                                  closeModal={this.closeEditModal}
-                                                  message={data.message}/>
-
+                                        <AuthorizedComponent
+                                            index={i}
+                                            permission={isSuperAdmin(this.props.user) || this.props.deletePermission}
+                                            openConfirmationModal={this.openConfirmationModal}
+                                            component={DeleteButton}/>
                                     </div>
                                 </div>
-                        ))
+                            </div>
+                        )})
                         :
                         <li className="list-group-item list-group-item-action flex-column align-items-start"> Nothing to
                             show </li>
+                }
+                {
+                    this.state.isModalOpen ?
+                    <ConfirmModal open={true}
+                                  onYes={this.onYes}
+                                  close={this.closeConfirmationModal}/> : ''
+                }
+                {
+                    this.state.isNewsEditModalOpen ?
+                    <EditNews visible={true}
+                              onUpdate={(message) => this.onUpdate(this.currentIndex, message)}
+                              closeModal={this.closeEditModal}
+                              message={data[this.currentIndex] ? data[this.currentIndex].message : ''}/> : ''
                 }
             </div>
         );

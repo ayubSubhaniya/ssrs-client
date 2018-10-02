@@ -17,7 +17,7 @@ class Info extends React.Component {
     constructor(props) {
         super(props);
         const {cart,avilableCollectionTypes} = props.location.state;
-
+        console.log(avilableCollectionTypes);
         if(avilableCollectionTypes.length===1) {
             this.state = {
                 showSpinner: false,
@@ -26,7 +26,7 @@ class Info extends React.Component {
                 collectionTypeIndex: 0,
                 courier: avilableCollectionTypes[0].name=='Courier' ? cart.courier : undefined,
                 pickup: avilableCollectionTypes[0].name=='Pickup' ? cart.pickup : undefined,
-                isCourierSelected: cart ? cart.courier !== undefined : false
+                isCourierSelected: avilableCollectionTypes[0].name==='Courier'
             };
         }else{
             const selectedCollectionType = cart.courier ? 'Courier' : 'Pickup';
