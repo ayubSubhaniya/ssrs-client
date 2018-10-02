@@ -81,7 +81,7 @@ class DataList extends Component {
                                         openEditModal={this.openEditModal}
                                         permission={isSuperAdmin(this.props.user)&&this.props.editPermission}
                                     />
-                                    <AuthorizedComponent permission={true}
+                                    <AuthorizedComponent permission={isSuperAdmin(this.props.user)}
                                                          openConfirmationModal={this.openConfirmationModal}
                                                          component={DeleteButton}/>
                                     <ConfirmModal open={this.state.isModalOpen}
