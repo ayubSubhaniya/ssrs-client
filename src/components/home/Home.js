@@ -125,6 +125,33 @@ class Home extends Component {
         request.send(JSON.stringify({message}));
     };
 
+    addNews = (message) => {
+        console.log("add news");
+        this.setState({
+            showSpinner: true
+        });
+
+        const that = this;
+        const url = domainUrl + '/news/';
+        const request = new XMLHttpRequest();
+        request.open('POST', url, true);
+        request.withCredentials = true;
+        request.setRequestHeader("Content-type", "application/json");
+        request.onload = function () {
+            if (this.status === HttpStatus.OK) {
+                const response = JSON.parse(request.response);
+                const news = that.state.news;
+                that.setState({
+                    news: that.state.news.push(news)
+                })
+            }
+            that.setState({
+                showSpinner: false
+            })
+        };
+        request.send(JSON.stringify({message}));
+    };
+
     render() {
         return (
             <React.Fragment>
