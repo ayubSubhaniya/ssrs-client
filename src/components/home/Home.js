@@ -54,7 +54,7 @@ class Home extends Component {
             showSpinner: true
         });
         console.log(this.state.notification);
-        console.log(index);
+
         const that = this;
         const url = domainUrl + '/notification/' + this.state.notification[index]._id;
         const request = new XMLHttpRequest();

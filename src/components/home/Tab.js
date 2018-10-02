@@ -11,10 +11,10 @@ class Tab extends Component{
                 </ul>
                 <div className="tab-content">
                     <div id="menu1" className="tab-pane active">
-                        <DataList user={this.props.user} data={this.props.notification} onDelete={this.props.deleteNotification} editPermission={false}/>
+                        <DataList user={this.props.user} data={this.props.notification} onDelete={this.props.deleteNotification} editPermission={false} deletePermission={true}/>
                     </div>
                     <div id="menu2" className="tab-pane fade">
-                        <DataList user={this.props.user} data={this.props.news} onDelete={this.props.deleteNews} onUpdate={this.props.updateNews} user={this.props.user} editPermission={true}/>
+                        <DataList user={this.props.user} data={this.props.news} onDelete={this.props.deleteNews} onUpdate={this.props.updateNews} user={this.props.user} editPermission={true} deletePermission={false}/>
                     </div>
                 </div>
             </div>
