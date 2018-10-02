@@ -16,7 +16,7 @@ class Home extends Component {
             news: [],
             notification: [],
             showSpinner: false
-        }
+        };
         this.asyncFetch = asyncFetch.bind(this);
     }
 
@@ -101,12 +101,39 @@ class Home extends Component {
         request.send(JSON.stringify({message}));
     };
 
+    addNews = (message) => {
+        console.log("add news");
+        this.setState({
+            showSpinner: true
+        });
+
+        const that = this;
+        const url = domainUrl + '/news/';
+        const request = new XMLHttpRequest();
+        request.open('POST', url, true);
+        request.withCredentials = true;
+        request.setRequestHeader("Content-type", "application/json");
+        request.onload = function () {
+            if (this.status === HttpStatus.OK) {
+                const response = JSON.parse(request.response);
+                const news = that.state.news;
+                that.setState({
+                    news: that.state.news.push(news)
+                })
+            }
+            that.setState({
+                showSpinner: false
+            })
+        };
+        request.send(JSON.stringify({message}));
+    };
+
     render() {
         return (
             <React.Fragment>
                 <NavigationBar/>
                 <Header title={'Welcome to Student Service Request System'}/>
-                <Tab user={this.props.user} news={this.state.news} deleteNews={this.deleteNews} updateNews={this.updateNews} notification={this.state.notification} deleteNotification={this.deleteNotification}/>
+                <Tab user={this.props.user} news={this.state.news} addNews={this.addNews} deleteNews={this.deleteNews} updateNews={this.updateNews} notification={this.state.notification} deleteNotification={this.deleteNotification}/>
                 <Spinner open={this.state.showSpinner}/>
             </React.Fragment>
         );
