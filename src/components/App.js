@@ -172,6 +172,7 @@ class App extends Component {
                             hideSpinner={this.hideSpinner}
                             showSpinner={this.showSpinner}
                             clearLoginMessage={this.clearLoginMessage}
+                            user={this.state.user}
                             component={isAuthenticated ? Home : PublicPage}/>
                         <AuthorizedRoute
                             exact path="/service"
