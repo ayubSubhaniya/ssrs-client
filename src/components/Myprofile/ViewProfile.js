@@ -1,14 +1,19 @@
 import React, { Component } from "react";
 import "../../styles/ViewProfile.css";
 import Avatar from 'react-avatar';
-
+import Address from './Address.js'
+ 
+const color = ['red', 'green', 'purple', 'cyan', 'teal','blue'];
+const getcolor = () => {
+    return color[Math.floor(Math.random() * 8)];
+}
 export default function ViewProfile(props) {
     console.log(props.user);
     return (
         <div class="container">
             <div class="parent">
                 <div class="quick-view">
-                    <Avatar name={props.user.name.firstName} color={Avatar.getRandomColor('sitebase', ['red', 'green' , 'Yellow', 'Purple'])} size="150" textSizeRatio="1.75" round={true} />
+                    <Avatar color={getcolor()} round={true} size={120} name={props.user.name.firstName + " " + props.user.name.lastName} />
                     <div class="name-style">{props.user.name.firstName} {props.user.name.lastName}</div>
                 </div>
                 <div class="info-table">
@@ -62,17 +67,21 @@ export default function ViewProfile(props) {
                                     {props.user.gender}
                                 </td>
                             </tr>
-                        <tr>
+                            <tr>
                                 <td>
                                     Programme
                                 </td>
                                 <td>
                                     {props.user.programme}
                                 </td>
-                        </tr>
+                            </tr>
                         </tbody>
                     </table>
+                    <button type="button" class="btn btn-primary style-btn" onClick={props.changeIsEdit.bind(this)}>Edit</button>
                 </div>
+            </div>
+            <div class="parent">
+                <Address/>
             </div>
         </div>
     );
