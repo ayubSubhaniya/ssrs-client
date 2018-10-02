@@ -153,7 +153,8 @@ class App extends Component {
         if(isAuthenticated){
             document.body.style.background = "#ffffff";
         }else{
-            document.body.style.background = "#fff585";
+            var urlString = 'url(' + require('../images/w2.jpg') + ')';
+            document.body.style.background = urlString;
         }
         return (
             <Context.Provider value={
