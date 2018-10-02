@@ -18,7 +18,7 @@ class EditNews extends React.Component {
     render() {
         return (
             <Modal visible={this.props.visible}
-                   className={'animated ' + (this.props.visible ? 'rotateIn' : 'rotateOut')}
+                   className={'animated ' + (this.props.visible ? 'fadeInDown' : 'fadeOutDown')}
                    onClickBackdrop={this.props.closeModal}>
 
                 <div className="modal-header">
@@ -37,8 +37,6 @@ class EditNews extends React.Component {
                                    onChange={this.handleChange}
                                    placeholder={"Enter modified News"}
                                    aria-describedby="basic-addon"/>
-                            <div className="input-group-append">
-                            </div>
                         </div>
                         <button type="button" className="btn btn-primary mt-3" onClick={() => {
                             this.props.closeModal();
