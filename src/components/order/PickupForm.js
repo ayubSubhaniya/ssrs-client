@@ -21,7 +21,7 @@ class PickupForm extends React.Component {
     getPickupDetails = () => {
         const pickup = {
             name: this.state.name,
-            daiictId: this.state.daiictId,
+            daiictId: this.state.daiictId!=''?this.state.daiictId:undefined,
             contactNo: this.state.contactNo,
             email: this.state.email,
         }
@@ -32,32 +32,6 @@ class PickupForm extends React.Component {
         this.setState({
             [target.name]: target.value
         })
-    }
-
-    handleSubmit = (e) => {
-        e.preventDefault()
-        //console.log(this.getPickupDetails(this.state));
-        if (this.state.daiictId===''){
-            this.setState({
-                daiictId:undefined
-            })
-
-        }
-        this.props.close();
-        const that = this;
-        const url = domainUrl + '/cart/pickup'
-        const request = new XMLHttpRequest();
-        request.open('POST', url, true);
-        request.withCredentials = true;
-        request.setRequestHeader("Content-type", "application/json");
-        request.onload = function () {
-            if (this.status == HttpStatus.CREATED) {
-                const response = JSON.parse(request.response)
-                console.log(response);
-                that.props.close();
-            }
-        }
-        request.send(JSON.stringify(this.getPickupDetails(this.state)));
     }
 
     render() {
@@ -97,7 +71,7 @@ class PickupForm extends React.Component {
                 </div>
                 <div className="modal-footer">
                     <button type="button" className="btn btn-danger" onClick={this.props.close}>Close</button>
-                    <button type="submit" className="btn btn-primary" onClick={this.handleSubmit}>Save</button>
+                    <button type="submit" className="btn btn-primary" onClick={() => this.props.handleSubmit(this.getPickupDetails())}>Save</button>
                 </div>
             </Modal>
         );

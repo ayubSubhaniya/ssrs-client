@@ -1,5 +1,8 @@
 import React, {Component} from 'react';
 import {Redirect, withRouter} from 'react-router-dom'
+import {orderStatus} from "../../constants/status";
+import {camelCaseToWords} from "../../helper/String";
+import {isSuperAdmin} from "../../helper/userType";
 
 function getDateString(date) {
     const dateObj = new Date(Date.parse(date))
@@ -24,18 +27,24 @@ class CartDetails extends Component {
         const {cart, ...others} = this.props;
         return (
             <tr onClick={this.redirect}>
-                <td className="column1">{getDateString(cart.createdOn)}</td>
-                <td className="column2">{cart._id}</td>
-                <td className="column3">
+                <td className="column1">
                     {cart.orders[0].serviceName} <br/>
+                    {getDateString(cart.createdOn)}
                     {
                         cart.orders.length > 1
                             ? <div className='more-items'> + {cart.orders.length - 1} More Items</div>
                             : ''
-                    }
+                    } <br/>
                 </td>
-                <td className="column4">{`₹ ${cart.totalCost}`}</td>
-                <td className="column5">{cart.orders[0].unitsRequested}</td>
+                <td className="column2">{camelCaseToWords(orderStatus[cart.status])}</td>
+                <td className="column3">{`₹ ${cart.ordersCost}`}</td>
+
+                <td className="column4">{`${cart._id}`}</td>
+                {
+                    isSuperAdmin(others.user)
+                        ? <td className="column5">{cart.requestedBy}</td>
+                        : ''
+                }
                 <td className="column6">{`₹ ${cart.totalCost}`}</td>
             </tr>
 

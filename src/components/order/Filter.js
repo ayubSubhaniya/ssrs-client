@@ -1,13 +1,13 @@
 import React, {Component} from 'react';
-import NavigationBar from "../../NavigationBar";
-import Header from "../../Header";
-import Spinner from "../../Spinner";
+import NavigationBar from "../NavigationBar";
+import Header from "../Header";
+import Spinner from "../Spinner";
 import _ from "lodash"
-import {asyncFetch} from "../../../helper/FetchData";
-import {domainUrl} from "../../../config/configuration";
-import {camelCaseToWords} from "../../../helper/String";
+import {asyncFetch} from "../../helper/FetchData";
+import {domainUrl} from "../../config/configuration";
+import {camelCaseToWords} from "../../helper/String";
 import * as HttpStatus from "http-status-codes";
-import CartList from "../CartList";
+import CartList from "./CartList";
 const filterKey  = ['-10',30,40,50,60,70,80,90,0];
 const filter = {
     '-10': "all",

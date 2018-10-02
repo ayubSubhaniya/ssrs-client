@@ -28,7 +28,7 @@ import Payment from "./order/payment/Payment";
 import Info from "./order/info/Info";
 import Myprofile from './Myprofile/Myprofile'
 import UserList from './user/UserList';
-import Filter from './order/filter/Filter'
+import Filter from './order/Filter'
 import CartWithOrders from "./order/CartWithOrders";
 
 export const Context = React.createContext();

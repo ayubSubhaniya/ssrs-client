@@ -29,8 +29,8 @@ class CourierForm extends React.Component {
             email: this.state.email,
             address: {
                 line1: this.state.address,
-                line2: "ads",
-                line3: "asdas"
+                line2: undefined,
+                line3: undefined
             },
             pinCode: this.state.pinCode,
             state: this.state.state,
@@ -46,25 +46,6 @@ class CourierForm extends React.Component {
         })
     };
 
-    handleSubmit = (e) => {
-        e.preventDefault();
-        //console.log(this.getCourierDetails(this.state));
-        this.props.close();
-        const that = this;
-        const url = domainUrl + '/cart/courier';
-        const request = new XMLHttpRequest();
-        request.open('POST', url, true);
-        request.withCredentials = true;
-        request.setRequestHeader("Content-type", "application/json");
-        request.onload = function () {
-            if (this.status === HttpStatus.CREATED) {
-                const response = JSON.parse(request.response);
-                console.log(response);
-                that.props.close();
-            }
-        };
-        request.send(JSON.stringify(this.getCourierDetails(this.state)));
-    };
 
     render() {
         return (
@@ -131,7 +112,7 @@ class CourierForm extends React.Component {
                 </div>
                 <div className="modal-footer">
                     <button type="button" className="btn btn-danger" onClick={this.props.close}>Close</button>
-                    <button type="submit" className="btn btn-primary" onClick={this.handleSubmit}>Save</button>
+                    <button type="submit" className="btn btn-primary" onClick={() => this.props.handleSubmit(this.getCourierDetails())}>Save</button>
                 </div>
             </Modal>
         );

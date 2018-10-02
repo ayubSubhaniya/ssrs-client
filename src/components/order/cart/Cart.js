@@ -3,7 +3,7 @@ import NavigationBar from "../../NavigationBar";
 import Service from "./Service";
 import Stapes from "../../service/Stapes";
 import {Link} from "react-router-dom";
-import {asyncFetch} from "../../../helper/FetchData";
+import {asyncFetch, syncFetch} from "../../../helper/FetchData";
 import _ from "lodash"
 import Spinner from "../../Spinner";
 import {domainUrl} from "../../../config/configuration";
@@ -18,6 +18,18 @@ class Cart extends Component {
             cart: []
         };
         this.asyncFetch = asyncFetch.bind(this);
+    }
+
+    findAvailableCollectionTypes = () => {
+        this.syncFetch = syncFetch.bind(this);
+        let collectionType = this.syncFetch('collectionType');
+        const orders = this.state.cart.orders;
+        let availableCollectionType = _.map(collectionType,'_id');
+        _.forEach(orders,(order)=>{
+            availableCollectionType = _.intersection(availableCollectionType,order.service.collectionTypes)
+        })
+        collectionType = _.filter(collectionType,(o) => _.some(availableCollectionType,(x) => x===o._id));
+        return collectionType;
     }
 
     componentDidMount(){
@@ -63,6 +75,7 @@ class Cart extends Component {
     }
 
     render() {
+        const avilableCollectionTypes = this.findAvailableCollectionTypes();
         return (
             <div>
                 <NavigationBar/>
@@ -92,7 +105,10 @@ class Cart extends Component {
                         </tbody>
                         <tfoot>
                         <tr className="visible-xs">
-                            <td colSpan="6" className="hidden-xs"></td>
+                            <td colSpan="6" className="hidden-xs">
+                                <div className={"alert alert-danger p-2 mt-2 mb-2" + (avilableCollectionTypes.length>0?' d-none':'')}>
+                                    <strong>{'Collection Type Not matching for this Services, Please Order Separately!'}</strong></div>
+                            </td>
                             <td className="text-center"><strong>{`Total: ₹ ${this.state.cart.totalCost}`}</strong></td>
                             <td className="hidden-xs"></td>
                         </tr>
@@ -106,8 +122,11 @@ class Cart extends Component {
                             </td>
                             <td colSpan="6" className="hidden-xs"></td>
                             <td>
-                                <Link to={{pathname:'/info',state:this.state.cart}}>
-                                    <div className="btn btn-success">
+                                <Link to={{pathname:'/info',state: {
+                                    cart: this.state.cart,
+                                    avilableCollectionTypes: avilableCollectionTypes
+                                }}} className={`${avilableCollectionTypes.length==0?'disabled-link':''}`}>
+                                    <div className={`btn btn-success`}>
                                         {"Checkout "}
                                         <i className="fa fa-angle-right"></i>
                                     </div>

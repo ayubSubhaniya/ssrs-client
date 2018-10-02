@@ -12,6 +12,7 @@ class CollectionTypeList extends Component {
                         _.map(this.props.collectionTypes, (collectionType, i) => {
                             return (
                                 <a href="#"
+                                   key={i}
                                    className="list-group-item list-group-item-action flex-column align-items-start">
                                     <div className="d-flex w-100 justify-content-between">
                                         <h5 className="m-0">{collectionType.name + " ( ₹ " + collectionType.baseCharge + " )"}</h5>

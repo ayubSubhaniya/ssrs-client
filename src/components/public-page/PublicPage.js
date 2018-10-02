@@ -101,7 +101,7 @@ class PublicPage extends Component {
 
     onForgetPassword = () => {
 
-        const url = domainUrl + '/account/forgotPassword' + this.state.forgotPasswordOfID;
+        const url = domainUrl + '/account/forgotPassword/' + this.state.forgotPasswordOfID;
         const request = new XMLHttpRequest();
         request.open('GET', url, true);
         request.withCredentials = true;
