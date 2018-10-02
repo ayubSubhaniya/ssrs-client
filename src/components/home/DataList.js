@@ -12,8 +12,9 @@ class DataList extends Component {
 
     constructor(props) {
         super(props);
-        this.currentIndex = 0;
-        this.state = {
+        this.currentId = 0;
+        this.currentMessage = '';
+            this.state = {
             showSpinner: false,
             isModalOpen: false,
             isNewsEditModalOpen: false
@@ -21,7 +22,7 @@ class DataList extends Component {
     }
 
     openConfirmationModal = (e) => {
-        this.currentIndex =  e.target.dataset.index;
+        this.currentId =  e.target.dataset.index;
         this.setState({
             isModalOpen: true
         })
@@ -34,7 +35,8 @@ class DataList extends Component {
     };
 
     openEditModal = (e) => {
-        this.currentIndex =  e.target.dataset.index;
+        this.currentId =  e.target.dataset.index;
+        this.currentMessage = e.target.dataset.message;
         this.setState({
             isNewsEditModalOpen: true
         })
@@ -47,13 +49,12 @@ class DataList extends Component {
     };
 
     onUpdate = (index, message) => {
-        this.props.onUpdate(this.currentIndex, message);
+        this.props.onUpdate(this.currentId, message);
         this.closeConfirmationModal();
     };
 
-    onYes = () => {
-        console.log(this.currentIndex);
-        this.props.onDelete(this.currentIndex);
+    onYes = (e) => {
+        this.props.onDelete(this.currentId);
         this.closeConfirmationModal();
     };
 
@@ -77,11 +78,12 @@ class DataList extends Component {
                                         <AuthorizedComponent
                                             component={EditNewsButton}
                                             openEditModal={this.openEditModal}
-                                            index={i}
+                                            index={data._id}
+                                            message={data.message}
                                             permission={isSuperAdmin(this.props.user) && this.props.editPermission}
                                         />
                                         <AuthorizedComponent
-                                            index={i}
+                                            index={data._id}
                                             permission={isSuperAdmin(this.props.user) || this.props.deletePermission}
                                             openConfirmationModal={this.openConfirmationModal}
                                             component={DeleteButton}/>
@@ -102,9 +104,9 @@ class DataList extends Component {
                 {
                     this.state.isNewsEditModalOpen ?
                     <EditNews visible={true}
-                              onUpdate={(message) => this.onUpdate(this.currentIndex, message)}
+                              onUpdate={(message) => this.onUpdate(this.currentId, message)}
                               closeModal={this.closeEditModal}
-                              message={data[this.currentIndex] ? data[this.currentIndex].message : ''}/> : ''
+                              message={this.currentMessage}/> : ''
                 }
             </div>
         );

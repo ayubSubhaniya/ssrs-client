@@ -23,9 +23,8 @@ class Myprofile extends Component{
             <div>
                 <NavigationBar/>
                 <div>
-                    {this.state.isEdit ? <EditProfile user={this.props.user} updateUser={this.props.updateUser} changeIsEdit={changeIsEdit.bind(this)}/> :<ViewProfile user={this.props.user}/>}
+                    {this.state.isEdit ? <EditProfile user={this.props.user} updateUser={this.props.updateUser} changeIsEdit={changeIsEdit.bind(this)}/> :<ViewProfile user={this.props.user} changeIsEdit={changeIsEdit.bind(this)} />}
                 </div>
-                {this.state.isEdit ? "" :<button type="button" class="btn btn-primary style-btn" onClick={changeIsEdit.bind(this)}>Edit</button>}
             </div>
         );
     }

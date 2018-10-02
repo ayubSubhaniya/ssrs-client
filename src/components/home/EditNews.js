@@ -5,7 +5,7 @@ class EditNews extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            message: props.message
+            message: props.message?props.message:""
         };
     }
 
@@ -22,7 +22,7 @@ class EditNews extends React.Component {
                    onClickBackdrop={this.props.closeModal}>
 
                 <div className="modal-header">
-                    <h5 className="modal-title">Edit News!</h5>
+                    <h5 className="modal-title">{this.props.action} News!</h5>
                     <button type="button" className="close" onClick={this.props.closeModal}><span
                         aria-hidden="true">&times;</span></button>
                 </div>
@@ -35,7 +35,7 @@ class EditNews extends React.Component {
                                    type="text"
                                    value={this.state.message}
                                    onChange={this.handleChange}
-                                   placeholder={"Enter modified News"}
+                                   placeholder={"Enter News"}
                                    aria-describedby="basic-addon"/>
                         </div>
                         <button type="button" className="btn btn-primary mt-3" onClick={() => {

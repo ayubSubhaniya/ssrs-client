@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
+import "../../styles/ViewProfile.css";
 
 class EditProfile extends Component {
     constructor(props) {
         super();
         this.state = {
-            name: {
+            name: { 
                 firstName: props.user.name.firstName,
                 lastName: props.user.name.lastName
             },
@@ -28,11 +29,11 @@ class EditProfile extends Component {
         console.log(this.props);
         return (
             <div>
-                <form onSubmit={(e) => {
+                <form class="edit-profile"onSubmit={(e) => {
                     e.preventDefault();
                     this.props.updateUser(this.state);
                 }}>
-                    <table class="table table-striped">
+                    <table class="table table-striped ">
                         <tbody>
                             <tr>
                                 <td>
