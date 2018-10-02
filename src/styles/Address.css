@@ -1,0 +1,31 @@
+.address-view{
+    display: inline-flex;
+}
+.add-box{
+    height : 18em;
+    width : 18em;
+    border : 1px solid #CCCCCC;
+    display: flex;
+    justify-content : center;
+    align-items: center;
+    transition: 0.3s;
+
+
+}
+.add-box:hover{
+    border-radius: 50%;
+}
+.address-bx{
+    height : 18em;
+    width : 18em;
+    border: 1px solid #CCCCCC; 
+}
+.idx img{
+    height : 100%;
+    width : 100%;
+    transition: 0.3s; 
+}
+.idx img:hover{
+    border-radius: 50%;
+      
+}
