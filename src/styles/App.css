@@ -103,6 +103,13 @@ input[type=submit] {
 
 /*All Orders*/
 
+.cart-empty{
+    display: flex;
+    flex-direction: column;
+    justify-content:center;
+    align-items: center;
+}
+
 .orders{
     display: flex;
     flex-direction: row;

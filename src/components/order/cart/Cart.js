@@ -75,6 +75,23 @@ class Cart extends Component {
     }
 
     render() {
+
+        if(this.state.cart.length==0 || this.state.cart.orders.length===0){
+            return (
+                <div>
+                    <NavigationBar/>
+                    <Stapes active={1}/>
+                    <div className="container cart-empty mt-4">
+                        <h1> Your cart is empty! </h1>
+                        <Link to={'/service'} className='mt-4'>
+                            <div className="btn btn-primary">
+                                {"GO ADD SERVICES"} </div>
+                        </Link>
+                    </div>
+                </div>
+            )
+        }
+
         const avilableCollectionTypes = this.findAvailableCollectionTypes();
         return (
             <div>
