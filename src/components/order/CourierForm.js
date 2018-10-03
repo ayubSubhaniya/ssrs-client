@@ -5,18 +5,28 @@ class CourierForm extends React.Component {
     constructor(props) {
         super(props);
         let {data} = props;
-        if (data === undefined) {
-            data = {};
-        }
-        this.state = {
-            name: data.name ? data.name : '',
-            email: data.email ? data.email : '',
-            contactNo: data.contactNo ? data.contactNo : '',
-            address: data.address.line1 ? data.address.line1 : '',
-            city: data.city ? data.city : '',
-            pinCode: data.pinCode ? data.pinCode : '',
-            state: data.state ? data.state : '',
-            country: data.country ? data.country : ''
+        if(data) {
+            this.state = {
+                name: data.name,
+                email: data.email,
+                contactNo: data.contactNo,
+                address: data.address.line1,
+                city: data.city,
+                pinCode: data.pinCode,
+                state: data.state,
+                country: data.country
+            }
+        }else{
+            this.state = {
+                name: '',
+                email: '',
+                contactNo: '',
+                address: '',
+                city: '',
+                pinCode: '',
+                state: '',
+                country: ''
+            }
         }
     }
 
