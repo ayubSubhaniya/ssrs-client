@@ -68,7 +68,7 @@ class CourierForm extends React.Component {
                             <input name="name"
                                    value={this.state.name}
                                    onChange={this.handleChange}
-                                   required='ture'
+                                   required='true'
                                    className={'form-control'} type={'text'}/>
                         </div>
                         <div className={'form-group'}>
@@ -76,7 +76,7 @@ class CourierForm extends React.Component {
                             <input name='email'
                                    value={this.state.email}
                                    onChange={this.handleChange}
-                                   required='ture'
+                                   required='true'
                                    className={'form-control'} type={'email'}/>
                         </div>
                         <div className={'form-group'}>
@@ -84,7 +84,8 @@ class CourierForm extends React.Component {
                             <input name='contactNo'
                                    value={this.state.contactNo}
                                    onChange={this.handleChange}
-                                   required='ture'
+                                   required='true'
+                                   pattern="[0-9]{10}"
                                    className={'form-control'} type={'tel'}/>
                         </div>
 
@@ -93,7 +94,7 @@ class CourierForm extends React.Component {
                             <input name='address'
                                    className={'form-control'}
                                    value={this.state.address}
-                                   required='ture'
+                                   required='true'
                                    onChange={this.handleChange}/>
                         </div>
                         <div className={'form-group'}>
@@ -101,7 +102,7 @@ class CourierForm extends React.Component {
                             <input name='city'
                                    className={'form-control'}
                                    type={'text'}
-                                   required='ture'
+                                   required='true'
                                    value={this.state.city}
                                    onChange={this.handleChange}/>
                         </div>
@@ -111,7 +112,7 @@ class CourierForm extends React.Component {
                                    className={'form-control'}
                                    type={'text'}
                                    value={this.state.pinCode}
-                                   required='ture'
+                                   required='true'
                                    onChange={this.handleChange}/>
                         </div>
                         <div className={'form-group'}>
@@ -120,7 +121,7 @@ class CourierForm extends React.Component {
                                    className={'form-control'}
                                    value={this.state.state}
                                    type={'text'}
-                                   required='ture'
+                                   required='true'
                                    onChange={this.handleChange}/>
                         </div>
                         <div className={'form-group'}>
@@ -129,7 +130,7 @@ class CourierForm extends React.Component {
                                    className={'form-control'}
                                    type={'text'}
                                    value={this.state.country}
-                                   required='ture'
+                                   required='true'
                                    onChange={this.handleChange}/>
                         </div>
                         </div>
