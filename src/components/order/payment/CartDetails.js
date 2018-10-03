@@ -42,7 +42,14 @@ class CartDetails extends Component {
                         }
                         </tbody>
                     </table>
-                    <div className="total-price"><div><span className={'total'}>Total: ₹ </span><span className='price'>{this.state.cart.totalCost}</span></div>
+
+                    <div className="total-price">
+                        <div><span className={'total'}>{this.state.cart.collectionType} Cost: ₹ </span><span
+                            className='price'>{this.state.cart.collectionTypeCost}</span></div>
+                    </div>
+                    <div className="total-price">
+                        <div><span className={'total'}>Total: ₹ </span><span
+                            className='price'>{this.state.cart.totalCost}</span></div>
                     </div>
                 </div>
                 <Spinner open={this.state.showSpinner}/>

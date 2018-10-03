@@ -72,32 +72,31 @@ class PublicPage extends Component {
             }
             that.props.hideSpinner();
         };
-        console.log(userObj);
         request.send(JSON.stringify(userObj));
     }
 
     handleResendVerificationLink = () => {
-        console.log("Verification Link Sent")
+        console.log("Verification Link Sent");
         var url = domainUrl + '/account/resendVerificationLink/' + this.state.daiictId;
         var request = new XMLHttpRequest();
         request.open('GET', url, true);
         request.withCredentials = true;
         request.send();
-    }
+    };
 
     changePassworVisibility = () => {
         this.setState({
             showPassword: !this.state.showPassword
         });
-    }
+    };
 
     openModal = () => {
         this.setState({modalIsOpen: true, isSignedup: false});
-    }
+    };
 
     closeModal = () => {
         this.setState({modalIsOpen: false});
-    }
+    };
 
     onForgetPassword = () => {
 
@@ -131,7 +130,7 @@ class PublicPage extends Component {
                     value => {
                         return (
                             <React.Fragment>
-                                
+
                                 <div className="loginbox">
                                 <div className="imagelogo">
                                     <img className={"dalogo"} src={logo}/>
@@ -141,7 +140,7 @@ class PublicPage extends Component {
                                     <input type="radio" name="tab" id="register" onChange={this.switchTab}
                                            checked={!login}/>
                                     <div className="pages">
-                                    
+
                                         <SignInPage daiictId={daiictId}
                                                     loginMessage={value.loginMessage}
                                                     logIn={value.logIn}

@@ -30,6 +30,7 @@ import Myprofile from './Myprofile/Myprofile'
 import UserList from './user/UserList';
 import Filter from './order/Filter'
 import CartWithOrders from "./order/CartWithOrders";
+import Permission from './Permission/Permission';
 
 export const Context = React.createContext();
 
@@ -46,6 +47,7 @@ class App extends Component {
     }
     updateUser = (updatedUser) => {
         const that = this;
+        console.log(updatedUser);
         var url = domainUrl + '/user';
         console.log(updatedUser);
         var request = new XMLHttpRequest();
@@ -244,6 +246,10 @@ class App extends Component {
                             component={CartWithOrders}
                             permission={true}
                             user={this.state.user}/>
+                        <AuthorizedRoute
+                            exact path='/Permission'
+                            component={Permission}
+                            permission={isSuperAdmin(this.state.user)}/>
                     </React.Fragment>
                 </Router>
             </Context.Provider>

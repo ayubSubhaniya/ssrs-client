@@ -54,6 +54,10 @@ class NavigationBar extends Component {
                                                              path='/collectionType'
                                                              text={'CollectionType Management'}
                                                              component={NavLink}/>
+                                        <AuthorizedComponent permission={isSuperAdmin(value.user)}
+                                                             path='/permission'
+                                                             text={'Permission'}
+                                                             component={NavLink}/>
                                         <NavLink text={'Logout'}
                                                  path={this.props.location.pathname}
                                                  onClick={value.logOut}/>
