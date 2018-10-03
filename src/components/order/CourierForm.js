@@ -5,7 +5,6 @@ class CourierForm extends React.Component {
     constructor(props) {
         super(props);
         let {data} = props;
-        console.log(data.city);
         if (data === undefined) {
             data = {};
         }
