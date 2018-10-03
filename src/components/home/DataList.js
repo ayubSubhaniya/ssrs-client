@@ -7,6 +7,7 @@ import ConfirmModal from "../ConfirmModal";
 import EditNews from "./EditNews";
 import EditNewsButton from "./EditNewsButton";
 import _ from "lodash"
+import AddNewsButton from "./AddNewsButton";
 
 class DataList extends Component {
 
@@ -14,15 +15,16 @@ class DataList extends Component {
         super(props);
         this.currentId = 0;
         this.currentMessage = '';
-            this.state = {
+        this.state = {
             showSpinner: false,
             isModalOpen: false,
-            isNewsEditModalOpen: false
+            isEditModalOpen: false,
+            isAddModalOpen: false
         };
     }
 
     openConfirmationModal = (e) => {
-        this.currentId =  e.target.dataset.index;
+        this.currentId = e.target.dataset.index;
         this.setState({
             isModalOpen: true
         })
@@ -34,23 +36,40 @@ class DataList extends Component {
         })
     };
 
+    openAddModal = (e) => {
+        this.setState({
+            isAddModalOpen: true
+        })
+    };
+
+    closeAddModal = () => {
+        this.setState({
+            isAddModalOpen: false,
+        })
+    };
+
     openEditModal = (e) => {
-        this.currentId =  e.target.dataset.index;
+        this.currentId = e.target.dataset.index;
         this.currentMessage = e.target.dataset.message;
         this.setState({
-            isNewsEditModalOpen: true
+            isEditModalOpen: true
         })
     };
 
     closeEditModal = () => {
         this.setState({
-            isNewsEditModalOpen: false
+            isEditModalOpen: false
         })
     };
 
     onUpdate = (index, message) => {
         this.props.onUpdate(this.currentId, message);
         this.closeConfirmationModal();
+    };
+
+    onAdd = (message) => {
+        this.props.onCreate(message);
+        this.closeAddModal();
     };
 
     onYes = (e) => {
@@ -61,53 +80,68 @@ class DataList extends Component {
     render() {
         const {data} = this.props;
         return (
-            <div className={'list-group'}>
-                {
-                    data.length !== 0
-                        ? _.map(data, (data, i) => {
-                            return (
-                            <div key={data._id}>
-                                <div
-                                    className="list-group-item list-group-item-action align-items-start d-flex justify-content-between">
-                                    <div>
-                                        <h5 className="mb-1">{data.message}</h5>
-                                        <small
-                                            className="text-muted"> {timeSince(new Date(data.createdOn)) + ' ago'}</small>
+            <div>
+                <AuthorizedComponent
+                    component={AddNewsButton}
+                    openAddModal={this.openAddModal}
+                    permission={isSuperAdmin(this.props.user) && this.props.createPermission}
+                />
+                <div className={'list-group'}>
+                    {
+                        data.length !== 0
+                            ? _.map(data, (data, i) => {
+                                return (
+                                    <div key={data._id}>
+                                        <div
+                                            className="list-group-item list-group-item-action align-items-start d-flex justify-content-between">
+                                            <div>
+                                                <h5 className="mb-1">{data.message}</h5>
+                                                <small
+                                                    className="text-muted"> {timeSince(new Date(data.createdOn)) + ' ago'}</small>
+                                            </div>
+                                            <div className='d-flex p-2 align-items-center justify-content-center'>
+                                                <AuthorizedComponent
+                                                    component={EditNewsButton}
+                                                    openEditModal={this.openEditModal}
+                                                    index={data._id}
+                                                    message={data.message}
+                                                    permission={isSuperAdmin(this.props.user) && this.props.editPermission}
+                                                />
+                                                <AuthorizedComponent
+                                                    index={data._id}
+                                                    permission={isSuperAdmin(this.props.user) || this.props.deletePermission}
+                                                    openConfirmationModal={this.openConfirmationModal}
+                                                    component={DeleteButton}/>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div className='d-flex p-2 align-items-center justify-content-center'>
-                                        <AuthorizedComponent
-                                            component={EditNewsButton}
-                                            openEditModal={this.openEditModal}
-                                            index={data._id}
-                                            message={data.message}
-                                            permission={isSuperAdmin(this.props.user) && this.props.editPermission}
-                                        />
-                                        <AuthorizedComponent
-                                            index={data._id}
-                                            permission={isSuperAdmin(this.props.user) || this.props.deletePermission}
-                                            openConfirmationModal={this.openConfirmationModal}
-                                            component={DeleteButton}/>
-                                    </div>
-                                </div>
-                            </div>
-                        )})
-                        :
-                        <li className="list-group-item list-group-item-action flex-column align-items-start"> Nothing to
-                            show </li>
-                }
-                {
-                    this.state.isModalOpen ?
-                    <ConfirmModal open={true}
-                                  onYes={this.onYes}
-                                  close={this.closeConfirmationModal}/> : ''
-                }
-                {
-                    this.state.isNewsEditModalOpen ?
-                    <EditNews visible={true}
-                              onUpdate={(message) => this.onUpdate(this.currentId, message)}
-                              closeModal={this.closeEditModal}
-                              message={this.currentMessage}/> : ''
-                }
+                                )
+                            })
+                            :
+                            <li className="list-group-item list-group-item-action flex-column align-items-start"> Nothing to
+                                show </li>
+                    }
+                    {
+                        this.state.isModalOpen ?
+                            <ConfirmModal open={true}
+                                          onYes={this.onYes}
+                                          close={this.closeConfirmationModal}/> : ''
+                    }
+                    {
+                        this.state.isEditModalOpen ?
+                            <EditNews visible={true}
+                                      onUpdate={(message) => this.onUpdate(this.currentId, message)}
+                                      closeModal={this.closeEditModal}
+                                      message={this.currentMessage}/> : ''
+                    }
+                    {
+                        this.state.isAddModalOpen ?
+                            <EditNews visible={true}
+                                      onUpdate={this.onAdd}
+                                      closeModal={this.closeAddModal}
+                            /> : ''
+                    }
+                </div>
             </div>
         );
     }
