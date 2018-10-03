@@ -14,7 +14,9 @@ class Address extends Component {
         super();
         this.state = {
             visible : false,
-            data: []
+            open : false,
+            data: [],
+            d : {}
         };
     }
     getList(data) {
@@ -32,9 +34,8 @@ class Address extends Component {
                 <h6>
                     <strong>Address:</strong>{" " + data.address.line1 +", "+ data.city + " - " + data.pinCode + ", " + data.state + ", " + data.country}
                 </h6>
-                <button type="button" class="btn btn-light" onClick={() => this.openModal(data._id,index)}>Edit</button>
+                <button type="button" class="btn btn-light" onClick={() => this.openModal(data._id,index,data)}>Edit</button>
                 <button type="button" class="btn btn-light ml-4" onClick={() => this.deleteAddress(data._id,index)}>Delete</button>
-            <CourierFrom data={data} open={this.state.visible} close={() => this.closeModal()} handleSubmit={this.editAddress} />
             </div>);
         });
     }
@@ -114,13 +115,27 @@ class Address extends Component {
             visible: false
         });
     }
-    openModal(index1,index2){
+    openModal(index1,index2,data){
         _id=index1;
         id=index2;
+        this.setState({
+            d : data
+        });
+        console.log(this.d);
         console.log(index1,index2,_id,id);
         this.setState({
             visible : true
         });
+    }
+    openM(){
+        this.setState({
+            open : true
+        })
+    }
+    closeM(){
+        this.setState({
+            open : false
+        })
     }
     componentDidMount(){
         this.getAddresses();
@@ -130,10 +145,13 @@ class Address extends Component {
         return (
             <div class="address-view">
                     {this.getList(this.state.data)}
-                    <div>
-                        <img src={plus} class="inox-img" alt="add" onClick={() => this.openModal()}/>
+                    <div className={'add-bx'} onClick={() => this.openM()}>
+                        + 
+                        <br/>                       
+                        Add Address
                     </div>
-                    <CourierFrom open={this.state.visible} close={() => this.closeModal()} handleSubmit={this.postAddress} />
+                   {this.state.visible ? <CourierFrom open={this.state.visible} data={this.state.d} close={() => this.closeModal()} handleSubmit={this.postAddress}/> : "" }
+                    <CourierFrom open={this.state.open} close={() => this.closeM()} handleSubmit={this.postAddress} />
             </div>
         );
 
