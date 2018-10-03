@@ -1,27 +1,25 @@
 import React from "react"
 import Modal from "react-bootstrap4-modal";
-import {domainUrl} from '../../config/configuration'
-import HttpStatus from 'http-status-codes'
 
 class PickupForm extends React.Component {
     constructor(props) {
         super(props);
         let {data} = props;
-        if (data===undefined){
-            data={};
+        if (data === undefined) {
+            data = {};
         }
         this.state = {
-            name: data.name?data.name:'',
-            daiictId:data.daiictId?data.daiictId:'',
-            email: data.email?data.email:'',
-            contactNo: data.contactNo?data.contactNo:'',
+            name: data.name ? data.name : '',
+            daiictId: data.daiictId ? data.daiictId : '',
+            email: data.email ? data.email : '',
+            contactNo: data.contactNo ? data.contactNo : '',
         }
     }
 
     getPickupDetails = () => {
         const pickup = {
             name: this.state.name,
-            daiictId: this.state.daiictId!=''?this.state.daiictId:undefined,
+            daiictId: this.state.daiictId != '' ? this.state.daiictId : undefined,
             contactNo: this.state.contactNo,
             email: this.state.email,
         }
@@ -37,13 +35,17 @@ class PickupForm extends React.Component {
     render() {
         return (
             <Modal visible={this.props.open}>
-                <div className={'modal-body'}>
-                    <form autoComplete="on">
+                <form autoComplete="off" onSubmit={(e) => {
+                    e.preventDefault();
+                    this.props.handleSubmit(this.getPickupDetails())
+                }}>
+                    <div className={'modal-body'}>
                         <div className={'form-group'}>
                             <label>Name:</label>
                             <input name="name"
                                    value={this.state.name}
                                    onChange={this.handleChange}
+                                   required='true'
                                    className={'form-control'} type={'text'}/>
                         </div>
                         <div className={'form-group'}>
@@ -57,6 +59,7 @@ class PickupForm extends React.Component {
                             <label>Email: </label>
                             <input name='email'
                                    value={this.state.email}
+                                   required='true'
                                    onChange={this.handleChange}
                                    className={'form-control'} type={'email'}/>
                         </div>
@@ -65,14 +68,16 @@ class PickupForm extends React.Component {
                             <input name='contactNo'
                                    value={this.state.contactNo}
                                    onChange={this.handleChange}
+                                   required='true'
                                    className={'form-control'} type={'tel'}/>
                         </div>
-                    </form>
-                </div>
-                <div className="modal-footer">
-                    <button type="button" className="btn btn-danger" onClick={this.props.close}>Close</button>
-                    <button type="submit" className="btn btn-primary" onClick={() => this.props.handleSubmit(this.getPickupDetails())}>Save</button>
-                </div>
+                    </div>
+                    <div className="modal-footer">
+                        <button type="button" className="btn btn-danger" onClick={this.props.close}>Close</button>
+                        <button type="submit" className="btn btn-primary">Save
+                        </button>
+                    </div>
+                </form>
             </Modal>
         );
     }
