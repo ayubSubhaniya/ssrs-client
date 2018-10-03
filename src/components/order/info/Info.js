@@ -16,8 +16,9 @@ import HttpStatus from 'http-status-codes'
 class Info extends React.Component {
     constructor(props) {
         super(props);
-        const {cart,avilableCollectionTypes} = props.location.state;
+        const {avilableCollectionTypes} = props.location.state;
         console.log(avilableCollectionTypes);
+        const cart = syncFetch('cart');
         if(avilableCollectionTypes.length===1) {
             this.state = {
                 showSpinner: false,

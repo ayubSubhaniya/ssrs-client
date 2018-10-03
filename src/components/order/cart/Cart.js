@@ -85,9 +85,10 @@ class Cart extends Component {
                         <h1> Your cart is empty! </h1>
                         <Link to={'/service'} className='mt-4'>
                             <div className="btn btn-primary">
-                                {"GO ADD SERVICES"} </div>
+                                {"GO, ADD SERVICES"} </div>
                         </Link>
                     </div>
+                    <Spinner open={this.state.showSpinner}/>
                 </div>
             )
         }
@@ -140,7 +141,6 @@ class Cart extends Component {
                             <td colSpan="6" className="hidden-xs"></td>
                             <td>
                                 <Link to={{pathname:'/info',state: {
-                                    cart: this.state.cart,
                                     avilableCollectionTypes: avilableCollectionTypes
                                 }}} className={`${avilableCollectionTypes.length==0?'disabled-link':''}`}>
                                     <div className={`btn btn-success`}>

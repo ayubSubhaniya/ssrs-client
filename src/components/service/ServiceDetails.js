@@ -23,9 +23,9 @@ class ServiceDetails extends Component {
                 <h5><strong>Payment Modes: </strong>
                     {_.map(_.keys(_.pickBy(service.paymentModes)), (x) => capitalize(x)).join(", ")} </h5>
                 <h5><strong>Collection Type: </strong>
-                    {filterName(service.collectionTypes)} </h5>
+                    {service.collectionTypes.length>0?filterName(service.collectionTypes):'None'} </h5>
                 <h5><strong>Available Parameters: </strong>
-                    {filterName(service.availableParameters)} </h5>
+                    {service.availableParameters.length>0?filterName(service.availableParameters):'None'} </h5>
             </div>
         )
     }

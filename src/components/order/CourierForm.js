@@ -58,13 +58,17 @@ class CourierForm extends React.Component {
     render() {
         return (
             <Modal visible={this.props.open}>
-                <div className={'modal-body'}>
-                    <form autoComplete="off">
+                    <form autoComplete="off" onSubmit={(e) => {
+                        e.preventDefault();
+                        this.props.handleSubmit(this.getCourierDetails())
+                    }}>
+                        <div className={'modal-body'}>
                         <div className={'form-group'}>
                             <label>Name:</label>
                             <input name="name"
                                    value={this.state.name}
                                    onChange={this.handleChange}
+                                   required='ture'
                                    className={'form-control'} type={'text'}/>
                         </div>
                         <div className={'form-group'}>
@@ -72,6 +76,7 @@ class CourierForm extends React.Component {
                             <input name='email'
                                    value={this.state.email}
                                    onChange={this.handleChange}
+                                   required='ture'
                                    className={'form-control'} type={'email'}/>
                         </div>
                         <div className={'form-group'}>
@@ -79,6 +84,7 @@ class CourierForm extends React.Component {
                             <input name='contactNo'
                                    value={this.state.contactNo}
                                    onChange={this.handleChange}
+                                   required='ture'
                                    className={'form-control'} type={'tel'}/>
                         </div>
 
@@ -87,6 +93,7 @@ class CourierForm extends React.Component {
                             <input name='address'
                                    className={'form-control'}
                                    value={this.state.address}
+                                   required='ture'
                                    onChange={this.handleChange}/>
                         </div>
                         <div className={'form-group'}>
@@ -94,6 +101,7 @@ class CourierForm extends React.Component {
                             <input name='city'
                                    className={'form-control'}
                                    type={'text'}
+                                   required='ture'
                                    value={this.state.city}
                                    onChange={this.handleChange}/>
                         </div>
@@ -103,6 +111,7 @@ class CourierForm extends React.Component {
                                    className={'form-control'}
                                    type={'text'}
                                    value={this.state.pinCode}
+                                   required='ture'
                                    onChange={this.handleChange}/>
                         </div>
                         <div className={'form-group'}>
@@ -111,6 +120,7 @@ class CourierForm extends React.Component {
                                    className={'form-control'}
                                    value={this.state.state}
                                    type={'text'}
+                                   required='ture'
                                    onChange={this.handleChange}/>
                         </div>
                         <div className={'form-group'}>
@@ -119,16 +129,17 @@ class CourierForm extends React.Component {
                                    className={'form-control'}
                                    type={'text'}
                                    value={this.state.country}
+                                   required='ture'
                                    onChange={this.handleChange}/>
                         </div>
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-danger" onClick={this.props.close}>Close</button>
+                            <button type="submit" className="btn btn-primary">Save
+                            </button>
+                        </div>
                     </form>
-                </div>
-                <div className="modal-footer">
-                    <button type="button" className="btn btn-danger" onClick={this.props.close}>Close</button>
-                    <button type="submit" className="btn btn-primary"
-                            onClick={() => this.props.handleSubmit(this.getCourierDetails())}>Save
-                    </button>
-                </div>
+
             </Modal>
         );
     }
