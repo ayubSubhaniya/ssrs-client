@@ -11,11 +11,18 @@
     padding-left : 2%;
     padding-top : 2%;
 }
-.inox-img{
-    height : 18em;
-    width : 18em;
-    transition: 0.3s; 
-}
-.inox-img:hover{
+.add-bx:hover{
     border-radius: 50%;
+}
+.add-bx{
+    height: 18em;
+    width : 18em;
+    border: 5px solid #CCCCCC;
+    transition: 0.3s;
+    display: flex;
+    align-items : center;
+    justify-content: center;
+    text-align: center;
+    color : white;
+    background-color: rgb(11, 150, 243)
 }
