@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import "../../styles/ViewProfile.css";
 import Avatar from 'react-avatar';
 import Address from './Address.js'
+import AuthorizedComponent from "../AuthorizedComponent";
+import { isSuperAdmin } from "../../helper/userType";
  
 const color = ['red', 'green', 'purple', 'cyan', 'teal','blue'];
 const getcolor = () => {
@@ -81,7 +83,9 @@ export default function ViewProfile(props) {
                 </div>
             </div>
             <div class="parent">
-                <Address/>
+                <AuthorizedComponent
+                    component={Address}
+                    permission={!isSuperAdmin(props.user)}/>
             </div>
         </div>
     );
