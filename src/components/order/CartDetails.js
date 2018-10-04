@@ -39,7 +39,7 @@ class CartDetails extends Component {
                 <td className="column2">{camelCaseToWords(orderStatus[cart.status])}</td>
                 <td className="column3">{`₹ ${cart.ordersCost}`}</td>
 
-                <td className="column4">{`${cart._id}`}</td>
+                <td className="column4">{`${cart.orderId}`}</td>
                 {
                     isSuperAdmin(others.user)
                         ? <td className="column5">{cart.requestedBy}</td>

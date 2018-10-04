@@ -22,7 +22,7 @@ class CartDetails extends Component {
         return (
             <div>
                 <div className="container pb-0">
-                    <table id="cart" className="table table-hover table-condensed">
+                    <table id="cart" className="table table-hover table-condensed mb-0">
                         <thead>
                         <tr>
                             <th style={{"width": "40%"}}>Service</th>
@@ -40,13 +40,20 @@ class CartDetails extends Component {
                                                                                     order={o}
                                                                                     index={i}/>)
                         }
+                        <tr>
+                            <td data-th="Product">
+                                <div className="row">
+                                    <div className="col-sm-10">
+                                        <h4 className="nomargin">{this.state.cart.collectionType}</h4>
+                                    </div>
+                                </div>
+                            </td>
+                            <td colSpan="5"></td>
+                            <td className="text-center">₹ {this.state.cart.collectionTypeCost}</td>
+                        </tr>
                         </tbody>
                     </table>
-
-                    <div className="total-price">
-                        <div><span className={'total'}>{this.state.cart.collectionType} Cost: ₹ </span><span
-                            className='price'>{this.state.cart.collectionTypeCost}</span></div>
-                    </div>
+                    <hr className={'mb-0 mt-0'}/>
                     <div className="total-price">
                         <div><span className={'total'}>Total: ₹ </span><span
                             className='price'>{this.state.cart.totalCost}</span></div>

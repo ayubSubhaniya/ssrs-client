@@ -609,7 +609,6 @@ input:checked + .slider:before {
 
 .title-wrap{
     padding: 1em 0;
-    background: url(//i01.appmifile.com/webfile/globalimg/en/2014/pay/secure-verified.jpg) no-repeat 100% 0;
 }
 
 .payment{
@@ -651,4 +650,9 @@ input:checked + .slider:before {
 .filter-col{
     padding-left:10px;
     padding-right:10px;
+}
+
+.order-status{
+    margin-top: 2%;
+    margin-bottom: 2%;
 }

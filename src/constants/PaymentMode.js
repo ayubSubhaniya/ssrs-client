@@ -1,6 +1,6 @@
 export const DEBITCARD = 'debitCard';
 export const NETBANKING = 'netBanking';
 export const PAYTM = 'paytm';
-export const COD = 'cashOnDelivery';
+export const OFFLINE = 'offline';
 
-export const paymentMode = [COD,NETBANKING,PAYTM,DEBITCARD]
+export const paymentMode = [OFFLINE,NETBANKING,PAYTM,DEBITCARD]

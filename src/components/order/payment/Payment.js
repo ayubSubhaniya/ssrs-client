@@ -72,7 +72,6 @@ class Payment extends React.Component {
                                 <div className='tab-payment'>Paytm</div>
                             </div>
                             <div className='payment-method-body'>
-
                                 <div className="btn btn-success m-4 p-4" onClick={this.pay}>
                                     {"Pay "}
                                 </div>

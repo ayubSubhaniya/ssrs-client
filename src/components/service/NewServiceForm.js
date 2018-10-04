@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {domainUrl} from '../../config/configuration'
-import {COD, DEBITCARD, NETBANKING, PAYTM} from "../../constants/PaymentMode"
+import {OFFLINE, DEBITCARD, NETBANKING, PAYTM} from "../../constants/PaymentMode"
 import {withRouter} from "react-router-dom";
 import Header from "../Header";
 import * as HttpStatus from "http-status-codes";
@@ -21,7 +21,7 @@ class NewServiceForm extends Component {
             maxUnits: '',
             baseCharge: '',
             paymentModes: {
-                [COD]: true,
+                [OFFLINE]: true,
                 [DEBITCARD]: true,
                 [NETBANKING]: true,
                 [PAYTM]: true
