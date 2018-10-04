@@ -6,6 +6,7 @@ import * as HttpStatus from "http-status-codes";
 import _ from 'lodash';
 import Modal from 'react-bootstrap4-modal';
 import CourierFrom from '../order/CourierForm.js';
+import {isSuperAdmin} from "../../helper/userType";
 
 let _id=-1;
 let id=-1;
@@ -142,19 +143,22 @@ class Address extends Component {
     }
     render() {
         console.log(this.state.data);
-        return (
-            <div class="address-view">
-                    {this.getList(this.state.data)}
-                    <div className={'add-bx'} onClick={() => this.openM()}>
-                        + 
-                        <br/>                       
-                        Add Address
-                    </div>
-                   {this.state.visible ? <CourierFrom open={this.state.visible} data={this.state.d} close={() => this.closeModal()} handleSubmit={this.postAddress}/> : "" }
-                    <CourierFrom open={this.state.open} close={() => this.closeM()} handleSubmit={this.postAddress} />
-            </div>
-        );
-
+        if(!isSuperAdmin) {
+            return (
+                <div class="address-view">
+                        {this.getList(this.state.data)}
+                        <div className={'add-bx'} onClick={() => this.openM()}>
+                            + 
+                            <br/>                       
+                            Add Address
+                        </div>
+                    {this.state.visible ? <CourierFrom open={this.state.visible} data={this.state.d} close={() => this.closeModal()} handleSubmit={this.postAddress}/> : "" }
+                        <CourierFrom open={this.state.open} close={() => this.closeM()} handleSubmit={this.postAddress} />
+                </div>
+            );
+        } else {
+            return (<div></div>);
+        }
     }
 }
 export default Address;

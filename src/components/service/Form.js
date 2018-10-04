@@ -45,7 +45,7 @@ function Form(props) {
                 className={'form-control'}
                 type="number"
                 min={'1'}
-                max={'1000'}
+                // max={'1000'}
                 name="maxUnits"
                 placeholder="Enter Maximum Allowed Unit"
                 value={props.state.maxUnits}
