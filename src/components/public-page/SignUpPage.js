@@ -1,18 +1,19 @@
 import TextInputUserName from "./TextInputUserName";
 import React from "react";
+import ErrorMessage from "../error/ErrorMessage";
 
 export default function SignUpPage({
-                        daiictId,
-                        password,
-                        showPassword,
-                        handleChange,
-                        changePassworVisibility,
-                        signupMessage,
-                        clearSignupMessage,
-                        handleSignUp,
-                        isSignedup,
-                        handleResendVerificationLink
-                    }) {
+                                       daiictId,
+                                       password,
+                                       showPassword,
+                                       handleChange,
+                                       changePassworVisibility,
+                                       signupMessage,
+                                       clearSignupMessage,
+                                       handleSignUp,
+                                       isSignedup,
+                                       handleResendVerificationLink
+                                   }) {
     return (
         <div className="page signup">
             <TextInputUserName daiictId={daiictId}
@@ -32,15 +33,12 @@ export default function SignUpPage({
                                                             <span className="input-group-text"
                                                                   id="basic-addon">
                                                                 <i className={`fa ${showPassword ? 'fa-eye' : 'fa-eye-slash'}`}
-                                                                   style={{"cursor": "pointer","fontSize":"1.6rem"}}
+                                                                   style={{"cursor": "pointer", "fontSize": "1.6rem"}}
                                                                    onClick={changePassworVisibility}></i>
                                                                </span>
                     </div>
                 </div>
-                <div className={"alert alert-danger p-2 mt-2 mb-2" + (signupMessage ? '' : ' d-none')}>
-                    <button type="button" className="close" onClick={clearSignupMessage}>
-                        &times;</button>
-                    <strong>{signupMessage}</strong></div>
+                <ErrorMessage message={signupMessage} clearMessage={clearSignupMessage}/>
             </div>
             <div className="page-input"><input type="submit" value="SIGN ME UP!"
                                                onClick={handleSignUp}/></div>

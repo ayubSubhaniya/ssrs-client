@@ -12,7 +12,7 @@ import Services from "./service/Services";
 import NewServiceForm from "./service/NewServiceForm";
 import EditForm from "./service/EditForm";
 import AuthorizedRoute from './AuthorizedRoute'
-import {domainUrl} from "../config/configuration";
+import {domainUrl, errorMessages} from "../config/configuration";
 import * as HttpStatus from "http-status-codes";
 import PublicPage from "./public-page/PublicPage";
 import Orders from "./order/Orders";
@@ -42,27 +42,37 @@ class App extends Component {
             isAuthenticated: false,
             loginMessage: '',
             user: {}
-        }
+        };
         this.getUserData();
     }
     updateUser = (updatedUser) => {
         const that = this;
-        console.log(updatedUser);
         var url = domainUrl + '/user';
-        console.log(updatedUser);
         var request = new XMLHttpRequest();
         request.open('PATCH',url,false);
         request.withCredentials = true;
         request.setRequestHeader("Content-type", "application/json");
         request.onload = function () {
             if(this.status === HttpStatus.OK){
-                var res = JSON.parse(request.response)
-                console.log(res.user);
+                var res = JSON.parse(request.response);
                 that.setState({
                     user : res.user
                 });
+            } else if (this.status === HttpStatus.FORBIDDEN) {
+                that.setState({
+                    signupMessage: errorMessages.userAlreadyExist
+                })
+            } else if (this.status === HttpStatus.INTERNAL_SERVER_ERROR) {
+                that.setState({
+                    signupMessage: errorMessages.internalServerError
+                })
             }
-        }
+            else {
+                that.setState({
+                    signupMessage: errorMessages.somethingsWrong
+                })
+            }
+        };
         try{
             request.send(JSON.stringify(updatedUser));
         }catch(e)
@@ -70,7 +80,7 @@ class App extends Component {
             console.log(e);
         }
 
-    }
+    };
     getUserData = () => {
         const that = this;
         var url = domainUrl + '/user';
@@ -80,7 +90,6 @@ class App extends Component {
         request.onload = function () {
             if (this.status === HttpStatus.OK) {
                 var res = JSON.parse(request.response)
-                console.log(res.user);
                 that.state = Object.assign({}, that.state, {
                     isAuthenticated: true,
                     user: res.user
@@ -115,21 +124,29 @@ class App extends Component {
         request.withCredentials = true;
         request.setRequestHeader("Content-type", "application/json");
         request.onload = function () {
-            if (this.status == HttpStatus.OK) {
-                var res = JSON.parse(request.response)
+            if (this.status === HttpStatus.OK) {
+                var res = JSON.parse(request.response);
                 that.setState({
                     isAuthenticated: true,
                     user: res.user
                 })
-            } else {
+            }else if (this.status === HttpStatus.UNAUTHORIZED) {
                 that.setState({
-                    loginMessage: 'Incorrect Username/Password'
+                    loginMessage: errorMessages.incorrectUserNameOrPassword
+                })
+            }  else if (this.status === HttpStatus.INTERNAL_SERVER_ERROR) {
+                that.setState({
+                    loginMessage: errorMessages.internalServerError
+                })
+            }else {
+                that.setState({
+                    loginMessage: errorMessages.somethingsWrong
                 })
             }
             that.hideSpinner();
-        }
+        };
         request.send(JSON.stringify(logInDetails));
-    }
+    };
 
     logOut = () => {
         this.showSpinner();
@@ -138,20 +155,20 @@ class App extends Component {
         request.open('GET', url, true);
         request.withCredentials = true;
         request.onload = function () {
-            if (this.status == HttpStatus.OK) {
+            if (this.status === HttpStatus.OK) {
                 window.location = '/'
             }
         };
         request.send();
-    }
+    };
     clearLoginMessage = () => {
         this.setState({
             loginMessage: ''
         })
-    }
+    };
 
     render() {
-        const {isAuthenticated, loginMessage} = this.state
+        const {isAuthenticated, loginMessage} = this.state;
         if(isAuthenticated){
             document.body.style.background = "#ffffff";
         }else{
