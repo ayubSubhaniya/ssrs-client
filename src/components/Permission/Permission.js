@@ -134,12 +134,14 @@ class Permission extends Component {
                     <ul className={'list-group mt-4'}>
                         {this.getUserList(this.state.userTypes)}
                     </ul>
+                    <button class="btn btn-primary d-block mx-auto">Add New User</button>
                 </div>
                 <div class="container bg-light mt-5">
                     <h1 class="text-muted text-center">AdminTypes</h1>
                     <ul className={'list-group mt-4'}>
                         {this.getAdminList(this.state.adminTypes)}
                     </ul>
+                    <button class="btn btn-primary d-block mx-auto">Add New Admin</button>
                 </div>
             </div>
         );
