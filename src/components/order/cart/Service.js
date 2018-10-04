@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import _ from "lodash"
-import {domainUrl} from "../../../config/configuration";
+import {domainUrl, orderStatus} from "../../../config/configuration";
 import * as HttpStatus from "http-status-codes";
 import EditCartForm from "./EditCartForm";
 import ConfirmModal from "../../ConfirmModal";
@@ -35,7 +35,7 @@ class Service extends Component {
         const service = order.service;
         const paramters = order.parameters;
         return (
-            <tr>
+            <tr class={order.status==orderStatus.invalidOrder?"border border-danger rounded":""}>
                 <td data-th="Product">
                     <div className="row">
                         <div className="col-sm-10">
