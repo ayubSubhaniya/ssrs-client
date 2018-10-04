@@ -6,7 +6,6 @@ import * as HttpStatus from "http-status-codes";
 import _ from 'lodash';
 import Modal from 'react-bootstrap4-modal';
 import CourierFrom from '../order/CourierForm.js';
-import {isSuperAdmin} from "../../helper/userType";
 
 let _id=-1;
 let id=-1;
@@ -22,7 +21,7 @@ class Address extends Component {
     }
     getList(data) {
         return _.map(data, (data,index) => {
-            return (<div className={'address-bx'}>
+            return (<div className={'address-bx animated fadeIn'}>
                 <h6>
                     <strong>Collector's Name:</strong>{" " + data.name}
                 </h6>
@@ -83,7 +82,7 @@ class Address extends Component {
         request.setRequestHeader("Content-type", "application/json");
         request.onload = function () {
             if (this.status == HttpStatus.OK) {
-                that.closeModal();
+                that.closeM();
                 var res = JSON.parse(request.response)
                 that.setState({
                     data: [...that.state.data,res.address]
@@ -94,7 +93,6 @@ class Address extends Component {
     }
     editAddress= (updatedAdress) => {
         const that = this;
-        console.log(updatedAdress);
         var url = domainUrl + '/user/address/' + _id;
         var request = new XMLHttpRequest();
         request.open('PATCH', url, true);
@@ -142,23 +140,18 @@ class Address extends Component {
         this.getAddresses();
     }
     render() {
-        console.log(this.state.data);
-        if(!isSuperAdmin) {
-            return (
-                <div class="address-view">
-                        {this.getList(this.state.data)}
-                        <div className={'add-bx'} onClick={() => this.openM()}>
-                            + 
-                            <br/>                       
-                            Add Address
-                        </div>
-                    {this.state.visible ? <CourierFrom open={this.state.visible} data={this.state.d} close={() => this.closeModal()} handleSubmit={this.postAddress}/> : "" }
-                        <CourierFrom open={this.state.open} close={() => this.closeM()} handleSubmit={this.postAddress} />
-                </div>
-            );
-        } else {
-            return (<div></div>);
-        }
+        return (
+            <div class="address-view">
+                    {this.getList(this.state.data)}
+                    <div className={'add-bx'} onClick={() => this.openM()}>
+                        +
+                        <br/>                       
+                        Add Address
+                    </div>
+                {this.state.visible ? <CourierFrom open={this.state.visible} data={this.state.d} close={() => this.closeModal()} handleSubmit={this.editAddress}/> : "" }
+                    <CourierFrom open={this.state.open} close={() => this.closeM()} handleSubmit={this.postAddress} />
+            </div>
+        );
     }
 }
 export default Address;
