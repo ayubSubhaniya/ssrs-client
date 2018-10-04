@@ -15,7 +15,6 @@ import AuthorizedRoute from './AuthorizedRoute'
 import {domainUrl, errorMessages} from "../config/configuration";
 import * as HttpStatus from "http-status-codes";
 import PublicPage from "./public-page/PublicPage";
-import Orders from "./order/Orders";
 import Spinner from "./Spinner";
 import Parameters from "./parameter/Parameters";
 import ParameterEditForm from "./parameter/ParameterEditForm";
@@ -45,18 +44,19 @@ class App extends Component {
         };
         this.getUserData();
     }
+
     updateUser = (updatedUser) => {
         const that = this;
         var url = domainUrl + '/user';
         var request = new XMLHttpRequest();
-        request.open('PATCH',url,false);
+        request.open('PATCH', url, false);
         request.withCredentials = true;
         request.setRequestHeader("Content-type", "application/json");
         request.onload = function () {
-            if(this.status === HttpStatus.OK){
+            if (this.status === HttpStatus.OK) {
                 var res = JSON.parse(request.response);
                 that.setState({
-                    user : res.user
+                    user: res.user
                 });
             } else if (this.status === HttpStatus.FORBIDDEN) {
                 that.setState({
@@ -73,10 +73,9 @@ class App extends Component {
                 })
             }
         };
-        try{
+        try {
             request.send(JSON.stringify(updatedUser));
-        }catch(e)
-        {
+        } catch (e) {
             console.log(e);
         }
 
@@ -130,15 +129,15 @@ class App extends Component {
                     isAuthenticated: true,
                     user: res.user
                 })
-            }else if (this.status === HttpStatus.UNAUTHORIZED) {
+            } else if (this.status === HttpStatus.UNAUTHORIZED) {
                 that.setState({
                     loginMessage: errorMessages.incorrectUserNameOrPassword
                 })
-            }  else if (this.status === HttpStatus.INTERNAL_SERVER_ERROR) {
+            } else if (this.status === HttpStatus.INTERNAL_SERVER_ERROR) {
                 that.setState({
                     loginMessage: errorMessages.internalServerError
                 })
-            }else {
+            } else {
                 that.setState({
                     loginMessage: errorMessages.somethingsWrong
                 })
@@ -169,9 +168,9 @@ class App extends Component {
 
     render() {
         const {isAuthenticated, loginMessage} = this.state;
-        if(isAuthenticated){
+        if (isAuthenticated) {
             document.body.style.background = "#ffffff";
-        }else{
+        } else {
             var urlString = 'url(' + require('../images/w2.jpg') + ')';
             document.body.style.background = urlString;
         }
