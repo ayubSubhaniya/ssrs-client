@@ -22,6 +22,13 @@ class ServiceDetails extends Component {
                         </div>
                     </div>
                 </td>
+                <td>{camelCaseToWords(orderStatus[order.status])}
+                    {
+                        order.status===40 ?
+                        (<div onClick={this.props.statusUpdateToReady}>(<span className={'link'}>Update</span>)</div>)
+                            : ''
+                    }
+                </td>
                 <td data-th="Parameters">{_.map(parameters, 'name').join(", ")}</td>
                 <td data-th="Price">{order.serviceCost}</td>
                 <td data-th="Quantity" className="text-center">{order.unitsRequested}</td>

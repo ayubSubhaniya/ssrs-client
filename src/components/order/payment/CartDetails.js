@@ -24,9 +24,9 @@ class CartDetails extends Component {
                 <div className="container pb-0">
                     <table id="cart" className="table table-hover table-condensed mb-0">
                         <thead>
-                        <tr>
-                            <th style={{"width": "40%"}}>Service</th>
-                            <th style={{"width": "20%"}}>Parameters</th>
+                        <tr style={{'cursor': 'default'}}>
+                            <th style={{"width": "15%"}}>Service</th>
+                            <th style={{"width": "10%"}}>Parameters</th>
                             <th style={{"width": "10%"}}>Price</th>
                             <th style={{"width": "8%"}}>Quantity</th>
                             <th style={{"width": "10%"}} className="text-center">Service Cost</th>

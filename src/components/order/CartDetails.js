@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Redirect, withRouter} from 'react-router-dom'
-import {orderStatus} from "../../constants/status";
+import {cartStatus, orderStatus} from "../../constants/status";
 import {camelCaseToWords} from "../../helper/String";
 import {isSuperAdmin} from "../../helper/userType";
 
@@ -37,7 +37,7 @@ class CartDetails extends Component {
                             : ''
                     } <br/>
                 </td>
-                <td className="column2">{camelCaseToWords(orderStatus[cart.status])}</td>
+                <td className="column2">{camelCaseToWords(cartStatus[cart.status])}</td>
                 <td className="column3">{`₹ ${cart.ordersCost}`}</td>
 
                 <td className="column4">{`${cart.orderId}`}</td>

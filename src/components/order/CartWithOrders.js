@@ -200,6 +200,7 @@ class CartWithOrders extends Component {
                         {
                             _.map(cart.orders, (o, i) => <ServiceDetails key={o._id}
                                                                          order={o}
+                                                                         statusUpdateToReady={this.statusUpdateToReady}
                                                                          index={i}/>)
                         }
                         <tr style={{'cursor': 'default'}}>
