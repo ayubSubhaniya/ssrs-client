@@ -1,10 +1,11 @@
 import React from 'react'
 import Modal from "react-bootstrap4-modal";
+import ErrorMessage from "../error/ErrorMessage";
 
 function ForgotPassword(props) {
     return (
         <Modal visible={props.visible}
-               className={'animated ' + (props.visible?'rotateIn':'rotateOut')}
+               className={'animated ' + (props.visible ? 'rotateIn' : 'rotateOut')}
                onClickBackdrop={props.closeModal}>
 
             <div className="modal-header">
@@ -28,6 +29,7 @@ function ForgotPassword(props) {
                                                                   id="basic-addon">@daiict.ac.in</span>
                         </div>
                     </div>
+                    <ErrorMessage message={props.errorMessage} clearMessage={props.clearErrorMessage}/>
                     <button type="button" className="btn btn-primary mt-3" onClick={props.onSubmit}>Submit</button>
                 </form>
             </div>

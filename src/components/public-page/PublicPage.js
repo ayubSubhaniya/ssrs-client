@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import '../../styles/publicpage.css'
 import {Context} from "../App";
-import {domainUrl} from "../../config/configuration";
+import {domainUrl, errorMessages, infoMessages} from "../../config/configuration";
 import * as HttpStatus from "http-status-codes";
 import logo from "../../images/dalogo.jpg";
 import ForgotPassword from "./ForgotPassword";
@@ -18,6 +18,7 @@ class PublicPage extends Component {
             login: true,
             isSignedup: false,
             signupMessage: '',
+            forgotPasswordMessage: '',
             showPassword: false,
             modalIsOpen: false
         }
@@ -45,14 +46,14 @@ class PublicPage extends Component {
         this.setState({
             isSignedup: false,
             signupMessage: ''
-        })
+        });
         this.props.showSpinner();
-        var url = domainUrl + '/account/signup';
-        var userObj = {
+        const url = domainUrl + '/account/signup';
+        const userObj = {
             daiictId: this.state.daiictId,
             password: this.state.password
         };
-        var request = new XMLHttpRequest();
+        const request = new XMLHttpRequest();
         request.open('POST', url, true);
         request.withCredentials = true;
         request.setRequestHeader("Content-type", "application/json");
@@ -62,12 +63,16 @@ class PublicPage extends Component {
                 that.setState({isSignedup: true});
             } else if (this.status === HttpStatus.FORBIDDEN) {
                 that.setState({
-                    signupMessage: "User Already Exist!"
+                    signupMessage: errorMessages.userAlreadyExist
+                })
+            } else if (this.status === HttpStatus.INTERNAL_SERVER_ERROR) {
+                that.setState({
+                    signupMessage: errorMessages.internalServerError
                 })
             }
             else {
                 that.setState({
-                    signupMessage: "Please Enter Valid Details"
+                    signupMessage: errorMessages.somethingsWrong
                 })
             }
             that.props.hideSpinner();
@@ -76,7 +81,6 @@ class PublicPage extends Component {
     }
 
     handleResendVerificationLink = () => {
-        console.log("Verification Link Sent");
         var url = domainUrl + '/account/resendVerificationLink/' + this.state.daiictId;
         var request = new XMLHttpRequest();
         request.open('GET', url, true);
@@ -99,7 +103,8 @@ class PublicPage extends Component {
     };
 
     onForgetPassword = () => {
-
+        this.props.showSpinner();
+        const that = this;
         const url = domainUrl + '/account/forgotPassword/' + this.state.forgotPasswordOfID;
         const request = new XMLHttpRequest();
         request.open('GET', url, true);
@@ -107,19 +112,38 @@ class PublicPage extends Component {
         request.setRequestHeader("Content-type", "application/json");
         request.onload = function () {
             if (this.status == HttpStatus.OK) {
-
+                alert(infoMessages.verificationLinkSent);
+                this.setState({modalIsOpen: false});
+            }  else if (this.status === HttpStatus.FORBIDDEN) {
+                that.setState({
+                    forgotPasswordMessage: errorMessages.userNotExist
+                })
+            } else if (this.status === HttpStatus.INTERNAL_SERVER_ERROR) {
+                that.setState({
+                    forgotPasswordMessage: errorMessages.internalServerError
+                })
             }
-
+            else {
+                that.setState({
+                    forgotPasswordMessage: errorMessages.somethingsWrong
+                })
+            }
+            that.props.hideSpinner();
         };
         request.send();
-        this.setState({modalIsOpen: false});
-    }
+    };
 
     clearSignupMessage = () => {
         this.setState({
             signupMessage: ''
         })
-    }
+    };
+
+    clearForgetPasswordMessage = () => {
+        this.setState({
+            forgotPasswordMessage: ''
+        })
+    };
 
 
     render() {
@@ -167,6 +191,8 @@ class PublicPage extends Component {
                                 </div>
                                 <ForgotPassword visible={this.state.modalIsOpen}
                                                 closeModal={this.closeModal}
+                                                errorMessage={this.state.forgotPasswordMessage}
+                                                clearErrorMessage={this.clearForgetPasswordMessage}
                                                 value={this.state.forgotPasswordOfID}
                                                 handleChange={this.handleChange}
                                                 onSubmit={this.onForgetPassword}/>

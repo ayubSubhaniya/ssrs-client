@@ -102,13 +102,13 @@ class Cart extends Component {
                     <table id="cart" className="table table-hover table-condensed">
                         <thead>
                         <tr>
-                            <th style={{"width": "30%"}}>Service</th>
-                            <th style={{"width": "20%"}}>Parameters</th>
+                            <th style={{"width": "26%"}}>Service</th>
+                            <th style={{"width": "18%"}}>Parameters</th>
                             <th style={{"width": "6%"}}>Price</th>
                             <th style={{"width": "6%"}}>Quantity</th>
                             <th style={{"width": "10%"}} className="text-center">Service Cost</th>
                             <th style={{"width": "12%"}} className="text-center">Parameter Cost</th>
-                            <th style={{"width": "6%"}} className="text-center">Subtotal</th>
+                            <th style={{"width": "12%"}} className="text-center">Subtotal</th>
                             <th style={{"width": "10%"}}></th>
                         </tr>
                         </thead>

@@ -69,6 +69,7 @@ class PickupForm extends React.Component {
                                    value={this.state.contactNo}
                                    onChange={this.handleChange}
                                    required='true'
+                                   pattern="[0-9]{10}"
                                    className={'form-control'} type={'tel'}/>
                         </div>
                     </div>

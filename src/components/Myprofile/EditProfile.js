@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import "../../styles/ViewProfile.css";
 
 class EditProfile extends Component {
     constructor(props) {
         super();
         this.state = {
-            name: { 
+            name: {
                 firstName: props.user.name.firstName,
                 lastName: props.user.name.lastName
             },
@@ -14,170 +14,177 @@ class EditProfile extends Component {
             programme: props.user.programme,
         }
     }
+
     changeProgramme = (e) => {
-                console.dir(e.target);
-                this.setState({
-                    programme: e.target.value
-                })
-            }
-    changeGender = (e) => {
+        console.dir(e.target);
         this.setState({
-            gender : e.target.value
+            programme: e.target.value
         })
     }
+    changeGender = (e) => {
+        this.setState({
+            gender: e.target.value
+        })
+    }
+
     render() {
         console.log(this.props);
         return (
             <div>
-                <form class="edit-profile"onSubmit={(e) => {
+                <form class="edit-profile" onSubmit={(e) => {
                     e.preventDefault();
+                    this.props.changeIsEdit();
                     this.props.updateUser(this.state);
                 }}>
                     <table class="table table-striped ">
                         <tbody>
-                            <tr>
-                                <td>
-                                    Daiict Id
-                        </td>
-                                <td>
-                                    {this.props.user.daiictId}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    First Name
-                        </td>
-                                <td>
-                                    <input type="text" value={this.state.name.firstName} onChange={(e) => {
-                                        this.setState({
-                                            name : {
-                                                firstName : e.target.value,
-                                                lastName : this.state.name.lastName
-                                            }
-                                        })
-                                    }} />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    Last Name
-                        </td>
-                                <td>
+                        <tr>
+                            <td>
+                                Daiict Id
+                            </td>
+                            <td>
+                                {this.props.user.daiictId}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                First Name
+                            </td>
+                            <td>
+                                <input type="text" value={this.state.name.firstName} onChange={(e) => {
+                                    this.setState({
+                                        name: {
+                                            firstName: e.target.value,
+                                            lastName: this.state.name.lastName
+                                        }
+                                    })
+                                }}
+                                required={true}/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Last Name
+                            </td>
+                            <td>
                                 <input type="text" value={this.state.name.lastName} onChange={(e) => {
-                                        this.setState({
-                                            name : {
-                                                firstName : this.state.name.firstName,
-                                                lastName : e.target.value
-                                            }
-                                        })
-                                    }} />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    Primary Email
-                        </td>
-                                <td>
-                                    {this.props.user.primaryEmail}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    Contact No
-                        </td>
-                                <td>
+                                    this.setState({
+                                        name: {
+                                            firstName: this.state.name.firstName,
+                                            lastName: e.target.value
+                                        }
+                                    })
+
+                                }}
+                                required={true}/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Primary Email
+                            </td>
+                            <td>
+                                {this.props.user.primaryEmail}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Contact No
+                            </td>
+                            <td>
                                 <input type="text" value={this.state.contactNo} onChange={(e) => {
-                                        this.setState({
-                                            contactNo : e.target.value
-                                        })
-                                    }} />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    Gender
-                        </td>
-                                <td>
+                                    this.setState({
+                                        contactNo: e.target.value
+                                    })
+                                }}
+                                       required='true'
+                                       pattern="[0-9]{10}"
+                                />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Gender
+                            </td>
+                            <td>
                                 <div className="col-9" style={{display: 'flex'}}>
 
-                                            <div className="form-check form-check-inline">
+                                    <div className="form-check form-check-inline">
 
-                                                <label className="form-check-label">
+                                        <label className="form-check-label">
 
-                                                    <input className="form-check-input"
+                                            <input className="form-check-input"
 
-                                                           style={{display: "inline"}}
+                                                   style={{display: "inline"}}
 
-                                                           type="radio"
+                                                   type="radio"
 
-                                                           value="Male"
+                                                   value="Male"
 
-                                                           checked={this.state.gender === "Male" ? true : false}
+                                                   checked={this.state.gender === "Male" ? true : false}
 
-                                                           onClick={this.changeGender}/>
+                                                   onClick={this.changeGender}
 
-                                                    Male
+                                            />
 
-                                                </label>
+                                            Male
 
-                                            </div>
+                                        </label>
 
-                                            <div className="form-check form-check-inline">
+                                    </div>
 
-                                                <label className="form-check-label">
+                                    <div className="form-check form-check-inline">
 
-                                                    <input className="form-check-input"
+                                        <label className="form-check-label">
 
-                                                           style={{display: "inline"}}
+                                            <input className="form-check-input"
 
-                                                           type="radio"
+                                                   style={{display: "inline"}}
 
-                                                           value="Female"
+                                                   type="radio"
 
-                                                           checked={this.state.gender === "Female" ? true : false}
+                                                   value="Female"
 
-                                                           onClick={this.changeGender}/>
+                                                   checked={this.state.gender === "Female" ? true : false}
 
-                                                    Female
+                                                   onClick={this.changeGender}/>
 
-                                                </label>
+                                            Female
 
-                                            </div>
+                                        </label>
 
-                                        </div>
-                                </td>
-                            </tr>
+                                    </div>
+
+                                </div>
+                            </td>
+                        </tr>
                         <tr>
-                                    <td>
-                                        Programme
-                                    </td>
-                                    <td>
-                                    <select onClick={this.changeProgramme}>
+                            <td>
+                                Programme
+                            </td>
+                            <td>
+                                <select onClick={this.changeProgramme}>
 
-                                            <option hidden>{this.state.programme}</option>
+                                    <option hidden>{this.state.programme}</option>
 
-                                            <option value="B.Tech (ICT)">B.Tech (ICT)</option>
+                                    <option value="B.Tech (ICT)">B.Tech (ICT)</option>
 
-                                            <option value="B.Tech (ICT+CS)">B.Tech (ICT+CS)</option>
+                                    <option value="B.Tech (ICT+CS)">B.Tech (ICT+CS)</option>
 
-                                            <option value="M.Tech">M.Tech</option>
+                                    <option value="M.Tech">M.Tech</option>
 
-                                            <option value="M.Sc.IT">M.Sc.IT</option>
+                                    <option value="M.Sc.IT">M.Sc.IT</option>
 
-                                            <option value="M.Des">M.Des</option>
+                                    <option value="M.Des">M.Des</option>
 
-                                            <option value="Ph.D">Ph.D</option>
+                                    <option value="Ph.D">Ph.D</option>
 
-                                        </select>
-                                    </td>
+                                </select>
+                            </td>
                         </tr>
                         </tbody>
                     </table>
-                  <input type="submit" class="btn btn-primary style-btn" value="Save" onClick={(e) => {
-                    e.preventDefault();
-                    this.props.changeIsEdit();
-                    this.props.updateUser(this.state);
-                }}/>
+                    <input type="submit" class="btn btn-primary style-btn" value="Save" />
                 </form>
             </div>
         );

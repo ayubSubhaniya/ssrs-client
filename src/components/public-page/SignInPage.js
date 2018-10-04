@@ -1,5 +1,6 @@
 import TextInputUserName from "./TextInputUserName";
 import React from "react";
+import ErrorMessage from "../error/ErrorMessage";
 
 export default function SignInPage({daiictId, handleChange, password, loginMessage, logIn, openModal, clearLoginMessage}) {
     return (
@@ -11,10 +12,7 @@ export default function SignInPage({daiictId, handleChange, password, loginMessa
                 </div>
                 <input className="form-control" type="password" name="password" value={password}
                        onChange={handleChange}/>
-                <div className={"alert alert-danger p-2 mt-2 mb-2" + (loginMessage ? '' : " d-none")}>
-                    <button type="button" className="close" onClick={clearLoginMessage}>
-                        &times;</button>
-                    <strong>{loginMessage}</strong></div>
+                <ErrorMessage message={loginMessage} clearMessage={clearLoginMessage}/>
             </div>
             <div className="page-input"><input type="submit" value="ENTER"
                                                onClick={() => logIn({

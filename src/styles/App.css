@@ -7,9 +7,9 @@ p {
     margin-bottom: 0.3rem;
 }
 
-input:invalid {
-    border: 2px solid red;
-}
+/*input:invalid {*/
+    /*border: 2px solid red;*/
+/*}*/
 
 
 .disabled-link {
