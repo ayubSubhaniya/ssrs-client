@@ -11,6 +11,14 @@ p {
     /*border: 2px solid red;*/
 /*}*/
 
+.link{
+    color: blue;
+    cursor: pointer;
+}
+
+.link:hover {
+    color: #0007ff;
+}
 
 .disabled-link {
     pointer-events: none;

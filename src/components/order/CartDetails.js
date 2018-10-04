@@ -18,7 +18,8 @@ class CartDetails extends Component {
         this.props.history.push({
                 pathname: this.props.location.pathname + "/" + this.props.cart._id,
                 state: {
-                    cart: this.props.cart
+                    id: this.props.cart._id,
+                    user: this.props.user
                 }
             })
     }

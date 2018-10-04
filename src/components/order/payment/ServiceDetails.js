@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import _ from "lodash"
+import {orderStatus} from "../../../constants/status";
+import {camelCaseToWords} from "../../../helper/String";
 
 class ServiceDetails extends Component {
     constructor() {
@@ -11,7 +13,7 @@ class ServiceDetails extends Component {
         const service = order.service;
         const parameters = order.parameters;
         return (
-            <tr>
+            <tr style={{'cursor': 'default'}}>
                 <td data-th="Product">
                     <div className="row">
                         <div className="col-sm-10">
@@ -20,6 +22,7 @@ class ServiceDetails extends Component {
                         </div>
                     </div>
                 </td>
+                <td>{camelCaseToWords(orderStatus[order.status])} <div>(<span className={'link'}>Update</span>)</div></td>
                 <td data-th="Parameters">{_.map(parameters, 'name').join(", ")}</td>
                 <td data-th="Price">{order.serviceCost}</td>
                 <td data-th="Quantity" className="text-center">{order.unitsRequested}</td>
