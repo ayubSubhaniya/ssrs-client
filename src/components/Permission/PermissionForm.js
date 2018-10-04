@@ -188,7 +188,7 @@ class PermissionForm extends React.Component {
             return (
                 <React.Fragment>
                     <tr>
-                        <th rowspan="3">{key}</th>
+                        <th rowspan="4">{key}</th>
                         <td>read</td>
                             <td>
                             <div className={'d-flex flex-row'}>
@@ -282,8 +282,53 @@ class PermissionForm extends React.Component {
                             </td>
                     </tr>
                     <tr>
-                        <td>delete</td>
-                        
+                        <td>create</td>          
+                            <td>
+                            <div className={'d-flex flex-row'}>
+                                <div style={{ display: 'flex' }}>
+                                    <div className="form-check form-check-inline">
+                                        <label className="form-check-label">
+                                            <input className="form-check-input"
+                                                style={{ display: "inline" }}
+                                                type="radio"
+                                                value="any"
+                                                checked={this.state.data[`${key}`].delete === "any"}
+                                                onClick={(e) => this.changeStatus(e, `${key}`, "create")} />
+                                            any
+                                                </label>
+                                    </div>
+                                </div>
+                                <div style={{ display: 'flex' }}>
+                                    <div className="form-check form-check-inline">
+                                        <label className="form-check-label">
+                                            <input className="form-check-input"
+                                                style={{ display: "inline" }}
+                                                type="radio"
+                                                value="own"
+                                                checked={this.state.data[`${key}`].delete === "own"}
+                                                onClick={(e) => this.changeStatus(e, `${key}`, "create")} />
+                                            own
+                                                </label>
+                                    </div>
+                                </div>
+                                <div style={{ display: 'flex' }}>
+                                    <div className="form-check form-check-inline">
+                                        <label className="form-check-label">
+                                            <input className="form-check-input"
+                                                style={{ display: "inline" }}
+                                                type="radio"
+                                                value="none"
+                                                checked={this.state.data[`${key}`].delete === "none"}
+                                                onClick={(e) => this.changeStatus(e, `${key}`, "create")} />
+                                            none
+                                                </label>
+                                    </div>
+                                </div>
+                            </div>
+                            </td>
+                    </tr>
+                    <tr>
+                        <td>delete</td>          
                             <td>
                             <div className={'d-flex flex-row'}>
                                 <div style={{ display: 'flex' }}>
