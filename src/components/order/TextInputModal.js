@@ -6,7 +6,7 @@ class TextInputModal extends React.Component{
     constructor(){
         super();
         this.state = {
-            paymentCode: ''
+            data: ''
         }
         this.handleChange = handleChange.bind(this);
     }
@@ -26,11 +26,11 @@ class TextInputModal extends React.Component{
                 <div className="modal-body">
                     <form autoComplete='off' onSubmit={(e) => {
                         e.preventDefault();
-                        this.props.onSubmit(this.state.paymentCode)
+                        this.props.onSubmit(this.state.data)
                     }}>
                         <div className="input-group">
                             <input className={'form-control'}
-                                   name="paymentCode"
+                                   name="data"
                                    type="text"
                                    value={this.state.value}
                                    onChange={this.handleChange}

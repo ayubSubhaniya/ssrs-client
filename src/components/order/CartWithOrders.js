@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import _ from "lodash";
 import {withRouter} from 'react-router-dom'
-import ServiceDetails from "./payment/ServiceDetails";
+import ServiceDetails from "./ServiceDetails";
 import Spinner from "../Spinner";
 import NavigationBar from "../NavigationBar";
 import '../../styles/orderstatus.css'
@@ -94,7 +94,9 @@ class CartWithOrders extends Component {
             cart: cart,
             isCourier: cart.collectionType === 'Courier',
             isPaymentCodeModalOpen: false,
+            isCollectionCodeModalOpen: false,
             isPaymentCodeWrong: false,
+            isCollectionCodeWrong: false,
             showSpinner: false
         }
     }
@@ -117,7 +119,6 @@ class CartWithOrders extends Component {
     }
 
     makePayment = (paymentCode) => {
-        console.log(paymentCode, this.state.cart.paymentCode)
         this.closePaymentCodeModal();
         if (paymentCode !== this.state.cart.paymentCode) {
             this.setState({
@@ -149,8 +150,30 @@ class CartWithOrders extends Component {
         }
     }
 
-    statusUpdateToReady = () => {
-
+    statusUpdateToReady = (id) => {
+        this.setState({
+            showSpinner: true,
+        });
+        const url = domainUrl + '/order/changeStatus/' + id;
+        const request = new XMLHttpRequest();
+        request.open('PATCH', url, true);
+        request.withCredentials = true;
+        request.setRequestHeader("Content-type", "application/json");
+        const that = this;
+        request.onload = function () {
+            if (this.status == HttpStatus.OK) {
+                var res = JSON.parse(request.response);
+                that.setState({
+                    cart: that.fetchCart()
+                })
+            }
+            that.setState({
+                showSpinner: false
+            })
+        };
+        request.send(JSON.stringify({
+            status: 50
+        }));
     }
 
     openPaymentCodeModal = () => {
@@ -163,6 +186,57 @@ class CartWithOrders extends Component {
         this.setState({
             isPaymentCodeModalOpen: false
         })
+    }
+    openCollectionCodeModal = () => {
+        this.setState({
+            isCollectionCodeModalOpen: true
+        })
+    }
+
+    closeColletionCodeModal = () => {
+        this.setState({
+            isCollectionCodeModalOpen: false
+        })
+    }
+
+    completeOrder = (data) => {
+        this.setState({
+            showSpinner: true,
+        });
+        const url = domainUrl + '/cart/changeStatus/' + this.state.cart._id;
+        const request = new XMLHttpRequest();
+        request.open('PATCH', url, true);
+        request.withCredentials = true;
+        request.setRequestHeader("Content-type", "application/json");
+        const that = this;
+        request.onload = function () {
+            if (this.status == HttpStatus.OK) {
+                var res = JSON.parse(request.response);
+                that.setState({
+                    cart: that.fetchCart()
+                })
+            }
+            that.setState({
+                showSpinner: false
+            })
+        };
+        request.send(JSON.stringify(data));
+    }
+
+    compareCollectionCode = (collectionCode) => {
+        this.closePaymentCodeModal();
+        if (collectionCode !== this.state.cart.collectionCode) {
+            this.setState({
+                isCollectionCodeWrong: true,
+            })
+        } else {
+            this.setState({
+                isCollectionCodeWrong: false
+            });
+            this.completeOrder({
+                status: 80
+            })
+        }
     }
 
     render() {
@@ -178,7 +252,25 @@ class CartWithOrders extends Component {
                         <strong>Order Number: {cart.orderId}</strong>
                     </h3>
                     <hr/>
-                    <h3 className='order-status'>{camelCaseToWords(cartStatus[cart.status])}</h3>
+                    <h3 className='order-status'>
+                        {camelCaseToWords(cartStatus[cart.status])}
+                        {
+                            this.state.isCourier
+                                ? ((isSuperAdmin(this.props.user) && cart.status === 60)
+                                ? (<span onClick={() => this.completeOrder({
+                                    courierServiceName: 'abc',
+                                    trackingId: '827348274837487347',
+                                    status: 80
+                                })}> (<span className='link'>Complete Order</span>)</span>)
+                                : '')
+                                : ((isSuperAdmin(this.props.user) && cart.status === 70)
+                                        ? (<span onClick={this.openCollectionCodeModal}> (<span className='link'>Complete Order</span>)</span>)
+                                        : '')
+                        }
+                    </h3>
+                    <TextInputModal visible={this.state.isCollectionCodeModalOpen}
+                                    closeModal={this.closeColletionCodeModal}
+                                    onSubmit={this.compareCollectionCode}/>
 
                     <OrderStatusBar status={cart.status}
                                     isCourier={this.state.isCourier}/>
@@ -200,6 +292,7 @@ class CartWithOrders extends Component {
                         {
                             _.map(cart.orders, (o, i) => <ServiceDetails key={o._id}
                                                                          order={o}
+                                                                         user={this.props.user}
                                                                          statusUpdateToReady={this.statusUpdateToReady}
                                                                          index={i}/>)
                         }
