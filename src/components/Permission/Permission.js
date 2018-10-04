@@ -68,12 +68,7 @@ class Permission extends Component {
             "role" : `${this.state.name}`,
             "roleType" : `${role}`
         }
-        this.setState({
-            name : "",
-            open : false,
-            adminAdd : false,
-            userAdd : false
-        });
+
         const that = this;
         var url = domainUrl + '/access/roles';
         var request = new XMLHttpRequest();
@@ -87,14 +82,20 @@ class Permission extends Component {
                 if(role==="user")
                 {
                     that.setState({
-                        userTypes : [...that.state.userTypes,`${this.state.name}`]
+                        userTypes : [...that.state.userTypes,`${that.state.name}`]
                     })
                 }
                 else if(role==="admin"){
                     that.setState({
-                        adminTypes : [...that.state.adminTypes,`${this.state.name}`]
+                        adminTypes : [...that.state.adminTypes,`${that.state.name}`]
                     })
                 }
+                that.setState({
+                    name : "",
+                    open : false,
+                    adminAdd : false,
+                    userAdd : false
+                });
             }
         }
         console.log(newUser);
@@ -236,7 +237,7 @@ class Permission extends Component {
                             open  : true
                         })
                     }}>Add New Admin</button>
-                    {this.state.userAdd ? this.PermissionModal("user") : ""}
+                    {this.state.adminAdd ? this.PermissionModal("admin") : ""}
                 </div>
             </div>
         );
