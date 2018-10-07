@@ -30,6 +30,7 @@ import UserList from './user/UserList';
 import Filter from './order/Filter'
 import CartWithOrders from "./order/CartWithOrders";
 import Permission from './Permission/Permission';
+import NewCollectionTypeForm from "./collectionType/NewCollectionTypeForm";
 
 export const Context = React.createContext();
 
@@ -234,6 +235,10 @@ class App extends Component {
                         <AuthorizedRoute
                             path="/collectionType/edit"
                             component={CollectionTypeEditForm}
+                            permission={isSuperAdmin(this.state.user)}/>
+                        <AuthorizedRoute
+                            path="/collectionType/add"
+                            component={NewCollectionTypeForm}
                             permission={isSuperAdmin(this.state.user)}/>
                         <AuthorizedRoute
                             path="/cart"

@@ -6,9 +6,9 @@ import * as HttpStatus from "http-status-codes";
 import NavigationBar from "../NavigationBar";
 import Spinner from "../Spinner";
 import {handleChange} from "../../helper/StateUpdate";
-import ParameterForm from "./ParameterForm";
+import CollectionTypeForm from "./CollectionTypeForm";
 
-class NewParameterForm extends Component {
+class NewCollectionTypeForm extends Component {
     constructor(props) {
         super(props);
 
@@ -21,7 +21,7 @@ class NewParameterForm extends Component {
         this.handleChange = handleChange.bind(this);
     }
 
-    getParameterFromState = () => {
+    getCollectionTypeFromState = () => {
         return {
             name: this.state.name,
             description: this.state.description,
@@ -30,12 +30,12 @@ class NewParameterForm extends Component {
     };
 
 
-    addParameter = () => {
+    addCollectionType = () => {
         this.setState({
             showSpinner: true
         })
         const that = this;
-        const url = domainUrl + '/parameter/';
+        const url = domainUrl + '/collectionType/';
         const request = new XMLHttpRequest();
         request.open('POST', url, true);
         request.withCredentials = true;
@@ -44,18 +44,18 @@ class NewParameterForm extends Component {
             if (this.status == HttpStatus.CREATED) {
                 const response = JSON.parse(request.response)
 
-                that.props.history.push('/parameter');
+                that.props.history.push('/collectionType');
             }
             that.setState({
                 showSpinner: false
             })
         };
-        request.send(JSON.stringify(this.getParameterFromState()));
+        request.send(JSON.stringify(this.getCollectionTypeFromState()));
     }
 
     handleSubmit = (event) => {
         event.preventDefault();
-        this.addParameter()
+        this.addCollectionType()
     }
 
 
@@ -65,7 +65,7 @@ class NewParameterForm extends Component {
                 <NavigationBar/>
                 <Header title={"Add New Parameter"}/>
                 <div className="container container-custom">
-                    <ParameterForm state={this.state}
+                    <CollectionTypeForm state={this.state}
                                    handleChange={this.handleChange}
                                    handleSubmit={this.handleSubmit}/>
                 </div>
@@ -75,5 +75,5 @@ class NewParameterForm extends Component {
     }
 }
 
-export default withRouter(NewParameterForm);
+export default withRouter(NewCollectionTypeForm);
 
