@@ -6,6 +6,7 @@ import _ from 'lodash';
 import Spinner from '../Spinner';
 import PermissionForm from './PermissionForm'
 import Modal from "react-bootstrap4-modal";
+import ConfirmModal from "../ConfirmModal";
 
 class Permission extends Component {
     constructor(props) {
@@ -19,54 +20,58 @@ class Permission extends Component {
             adminRoleData: undefined,
             showSpinner: false,
             open: false,
-            name : "",
-            adminAdd : false,
-            userAdd : false
+            name: "",
+            adminAdd: false,
+            userAdd: false,
+            userDelIdx: -1,
+            adminDelIdx: -1
         }
     }
-    
+
     PermissionModal = (role) => {
         return (
-        <Modal visible={this.state.open}>
-            <form autoComplete="off" onSubmit={(e) => {
-                e.preventDefault();
-                this.handleSubmit(role);
-            }}>
-                <div className={'modal-body'}>
-                    <div className={'form-group'}>
-                        <label>Name of New User</label>
-                        <input name="name"
-                            type="text"
-                            value={this.state.name}
-                            onChange={(e) => {
-                                this.setState({
-                                    name : e.target.value
-                                })
-                            }}
-                            required='true'
-                            className={'form-control'} type={'text'} />
+            <Modal visible={this.state.open}>
+                <form autoComplete="off" onSubmit={(e) => {
+                    e.preventDefault();
+                    this.handleSubmit(role);
+                }}>
+                    <div className={'modal-body'}>
+                        <div className={'form-group'}>
+                            <label>Name of New User</label>
+                            <input name="name"
+                                type="text"
+                                value={this.state.name}
+                                onChange={(e) => {
+                                    this.setState({
+                                        name: e.target.value
+                                    })
+                                }}
+                                required='true'
+                                className={'form-control'} type={'text'} />
+                        </div>
                     </div>
-                </div>
-                <div className="modal-footer">
-                    <button type="button" className="btn btn-danger" onClick={() => { this.setState({
-                        open : false,
-                        adminAdd : false,
-                        userAdd : false
-                    })}}>Close</button>
-                    <button type="submit" className="btn btn-primary" onClick={(e) => {
-                        e.preventDefault();
-                        this.handleSubmit(role);
-                    }}>Save
+                    <div className="modal-footer">
+                        <button type="button" className="btn btn-danger" onClick={() => {
+                            this.setState({
+                                open: false,
+                                adminAdd: false,
+                                userAdd: false
+                            })
+                        }}>Close</button>
+                        <button type="submit" className="btn btn-primary" onClick={(e) => {
+                            e.preventDefault();
+                            this.handleSubmit(role);
+                        }}>Save
                 </button>
-                </div>
-            </form>
-        </Modal>
+                    </div>
+                </form>
+            </Modal>
         );
     }
     handleSubmit = (role) => {
         let newUser = {
-            "role" : `${this.state.name}`,
-            "roleType" : `${role}`
+            "role": `${this.state.name}`,
+            "roleType": `${role}`
         }
 
         const that = this;
@@ -79,22 +84,21 @@ class Permission extends Component {
             if (this.status == HttpStatus.OK) {
                 var res = request.response;
                 console.log(res);
-                if(role==="user")
-                {
+                if (role === "user") {
                     that.setState({
-                        userTypes : [...that.state.userTypes,`${that.state.name}`]
+                        userTypes: [...that.state.userTypes, `${that.state.name}`]
                     })
                 }
-                else if(role==="admin"){
+                else if (role === "admin") {
                     that.setState({
-                        adminTypes : [...that.state.adminTypes,`${that.state.name}`]
+                        adminTypes: [...that.state.adminTypes, `${that.state.name}`]
                     })
                 }
                 that.setState({
-                    name : "",
-                    open : false,
-                    adminAdd : false,
-                    userAdd : false
+                    name: "",
+                    open: false,
+                    adminAdd: false,
+                    userAdd: false
                 });
             }
         }
@@ -118,8 +122,45 @@ class Permission extends Component {
         }
         request.send();
     }
+    closeConfirmationModal = () => {
+        this.setState({
+            userDelIdx: -1,
+            adminDelIdx: -1
+        });
+    }
+    onConfirm = (index, userType, roleType) => {
+        const that = this;
+        var url = domainUrl + '/access/roles';
+        var request = new XMLHttpRequest();
+        var delData = {
+            role: `${roleType}`,
+            roleType: `${userType}`
+        }
+        request.open('DELETE', url, true);
+        request.withCredentials = true;
+        request.setRequestHeader("Content-type", "application/json");
+        request.onload = function () {
+            if (this.status == HttpStatus.OK) {
+                console.log(request.response);
+                if (userType === 'user') {
+                    that.setState({
+                        userTypes: [...that.state.userTypes.slice(0, index), ...that.state.userTypes.slice(index + 1)]
+                    })
+                }
+                else if (userType === 'admin') {
+                    that.setState({
+                        adminTypes: [...that.state.adminTypes.slice(0, index), ...that.state.adminTypes.slice(index + 1)]
+                    })
+                }
+                that.closeConfirmationModal();
+                that.closeM();
+                that.closeModal();
+            }
+        }
+        console.log(delData);
+        request.send(JSON.stringify(delData));
+    }
     getUserList = (data) => {
-        ``
         return _.map(data, (data, index) => {
             return (
                 <div>
@@ -127,10 +168,15 @@ class Permission extends Component {
                         <h5 class="text-muted">{data}</h5>
                         <div>
                             <button class="btn btn-light" onClick={() => this.openModal(index, data)}><i class="fa fa-edit"></i></button>
-                            <button class="btn btn-light ml-4"><i class="fa fa-trash"></i></button>
+                            <button class="btn btn-light ml-4" onClick={() => {
+                                this.setState({
+                                    userDelIdx: index
+                                })
+                            }}><i class="fa fa-trash"></i></button>
                         </div>
                     </li>
                     {this.state.userIdx === index ? <PermissionForm data={this.state.userRoleData} role={data} userType={"user"} closeModal={this.closeModal} /> : ""}
+                    {this.state.userDelIdx === index ? <ConfirmModal open={true} onYes={() => this.onConfirm(index, "user", data)} close={this.closeConfirmationModal} /> : ''}
                 </div>
             );
         });
@@ -143,18 +189,31 @@ class Permission extends Component {
                         <h5 class="text-muted">{data}</h5>
                         <div>
                             <button class="btn btn-light" onClick={() => this.openM(index, data)}><i class="fa fa-edit"></i></button>
-                            <button class="btn btn-light ml-4"><i class="fa fa-trash"></i></button>
+                            <button class="btn btn-light ml-4" onClick={() => {
+                                this.setState({
+                                    adminDelIdx: index
+                                })
+                            }}><i class="fa fa-trash"></i></button>
                         </div>
                     </li>
                     {this.state.adminIdx === index ? <PermissionForm data={this.state.adminRoleData} role={data} userType={"admin"} closeModal={this.closeM} /> : ""}
+                    {this.state.adminDelIdx === index ? <ConfirmModal open={true} onYes={() => this.onConfirm(index, "admin", data)} close={this.closeConfirmationModal} /> : ''}
                 </div>
             );
         });
     }
     openModal = (index, userType) => {
+        if(this.state.userIdx!== index)
+        {
         this.setState({
             userIdx: index
         });
+        }
+        else{
+            this.setState({
+                userIdx : -1
+            })
+        }
     }
     closeModal = () => {
         this.setState({
@@ -163,9 +222,16 @@ class Permission extends Component {
 
     }
     openM = (index, adminType) => {
-        this.setState({
-            adminIdx: index
-        });
+        if (this.state.adminIdx !== index) {
+            this.setState({
+                adminIdx: index
+            });
+        }
+        else {
+            this.setState({
+                adminIdx: -1
+            })
+        }
     }
     closeM = () => {
         this.setState({
@@ -216,11 +282,11 @@ class Permission extends Component {
                     <ul className={'list-group mt-4'}>
                         {this.getUserList(this.state.userTypes)}
                     </ul>
-                    <button class="btn btn-primary d-block mx-auto" onClick={ (e) => {
+                    <button class="btn btn-primary d-block mx-auto mt-4" onClick={(e) => {
                         this.setState({
-                            userAdd : true,
-                            adminAdd : false,
-                            open : true
+                            userAdd: true,
+                            adminAdd: false,
+                            open: true
                         });
                     }}>Add New User</button>
                     {this.state.userAdd ? this.PermissionModal("user") : ""}
@@ -230,11 +296,11 @@ class Permission extends Component {
                     <ul className={'list-group mt-4'}>
                         {this.getAdminList(this.state.adminTypes)}
                     </ul>
-                    <button class="btn btn-primary d-block mx-auto" onClick={ (e) => {
+                    <button class="btn btn-primary d-block mx-auto mt-4" onClick={(e) => {
                         this.setState({
-                            adminAdd : true,
-                            userAdd : false,
-                            open  : true
+                            adminAdd: true,
+                            userAdd: false,
+                            open: true
                         })
                     }}>Add New Admin</button>
                     {this.state.adminAdd ? this.PermissionModal("admin") : ""}
