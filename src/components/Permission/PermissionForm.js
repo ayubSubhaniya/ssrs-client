@@ -13,7 +13,7 @@ class PermissionForm extends React.Component {
             this.state = {
                 data: this.props.data,
                 showSpinner : false
-            }
+            } 
         } else {
             this.state = {
                 showSpinner : false,
@@ -119,11 +119,13 @@ class PermissionForm extends React.Component {
         }
     }
     showSpinner = () => {
+        console.log("Inside spinner");
         this.setState({
             showSpinner: true
         })
     }
     hideSpinner = () => {
+        console.log("outside spinner");
         this.setState({
             showSpinner: false
         })
@@ -143,7 +145,7 @@ class PermissionForm extends React.Component {
                     data : res.permissions
                 })
             }
-            that.hideSpinner();
+           that.hideSpinner();
         }
         request.send();
     }
@@ -384,7 +386,7 @@ class PermissionForm extends React.Component {
         console.log(this.state.data);
         return (
             <div>
-                <Spinner/>
+                <Spinner open={this.state.showSpinner}/>
                 <form onSubmit={(e) => {
                      e.preventDefault();
                     this.postRoleData()}}>
@@ -392,12 +394,17 @@ class PermissionForm extends React.Component {
                         <tbody>
                             {this.getList()}
                         </tbody>
-                        <div class="d-flex justify-content-center">
-                        <input type="submit" value="Save" class="btn btn-primary" onClick={(e) => {
-                             e.preventDefault();
-                            this.postRoleData()}}/>
-                        </div>
                     </table>
+                    <div class="d-flex justify-content-left flex-row-reverse">
+
+                        <input type="submit" value="Close" class="btn btn-danger mr-5" onClick={(e) => {
+                             e.preventDefault();
+                             this.props.closeModal();
+                            }}/>                     
+                        <input type="submit" value="Save" class="btn btn-primary mr-5" onClick={(e) => {
+                             e.preventDefault();
+                            this.postRoleData()}}/>   
+                        </div>
                 </form>
             </div>
         );
