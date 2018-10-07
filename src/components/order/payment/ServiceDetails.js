@@ -11,12 +11,15 @@ class ServiceDetails extends Component {
         const service = order.service;
         const parameters = order.parameters;
         return (
-            <tr>
+            <tr style={{'cursor': 'default'}}>
                 <td data-th="Product">
                     <div className="row">
                         <div className="col-sm-10">
                             <h4 className="nomargin">{service.name}</h4>
-                            <div><strong>Comment: </strong>{order.comment}</div>
+                            {
+                                order.comment
+                                    ? (<div><strong>Comment: </strong>{order.comment}</div>) : ''
+                            }
                         </div>
                     </div>
                 </td>

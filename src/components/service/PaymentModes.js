@@ -1,5 +1,5 @@
 import React from 'react'
-import {COD, DEBITCARD, NETBANKING, PAYTM} from "../../constants/PaymentMode";
+import {OFFLINE, DEBITCARD, NETBANKING, PAYTM} from "../../constants/PaymentMode";
 import Mode from "./Mode";
 
 function PaymentModes(props) {
@@ -11,9 +11,9 @@ function PaymentModes(props) {
             </label>
             <div className={'bg-white'}>
                 <Mode onChange={props.handleChange}
-                      mode={COD}
+                      mode={OFFLINE}
                       text={'Cash(Offline)'}
-                      isChecked={props.paymentModes[COD]}/>
+                      isChecked={props.paymentModes[OFFLINE]}/>
                 <Mode onChange={props.handleChange}
                       mode={DEBITCARD}
                       text={'Debit Card'}

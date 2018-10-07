@@ -13,7 +13,7 @@ class PermissionForm extends React.Component {
             this.state = {
                 data: this.props.data,
                 showSpinner : false
-            }
+            } 
         } else {
             this.state = {
                 showSpinner : false,
@@ -119,11 +119,13 @@ class PermissionForm extends React.Component {
         }
     }
     showSpinner = () => {
+        console.log("Inside spinner");
         this.setState({
             showSpinner: true
         })
     }
     hideSpinner = () => {
+        console.log("outside spinner");
         this.setState({
             showSpinner: false
         })
@@ -143,7 +145,7 @@ class PermissionForm extends React.Component {
                     data : res.permissions
                 })
             }
-            that.hideSpinner();
+           that.hideSpinner();
         }
         request.send();
     }
@@ -188,7 +190,7 @@ class PermissionForm extends React.Component {
             return (
                 <React.Fragment>
                     <tr>
-                        <th rowspan="3">{key}</th>
+                        <th rowspan="4">{key}</th>
                         <td>read</td>
                             <td>
                             <div className={'d-flex flex-row'}>
@@ -282,8 +284,53 @@ class PermissionForm extends React.Component {
                             </td>
                     </tr>
                     <tr>
-                        <td>delete</td>
-                        
+                        <td>create</td>          
+                            <td>
+                            <div className={'d-flex flex-row'}>
+                                <div style={{ display: 'flex' }}>
+                                    <div className="form-check form-check-inline">
+                                        <label className="form-check-label">
+                                            <input className="form-check-input"
+                                                style={{ display: "inline" }}
+                                                type="radio"
+                                                value="any"
+                                                checked={this.state.data[`${key}`].delete === "any"}
+                                                onClick={(e) => this.changeStatus(e, `${key}`, "create")} />
+                                            any
+                                                </label>
+                                    </div>
+                                </div>
+                                <div style={{ display: 'flex' }}>
+                                    <div className="form-check form-check-inline">
+                                        <label className="form-check-label">
+                                            <input className="form-check-input"
+                                                style={{ display: "inline" }}
+                                                type="radio"
+                                                value="own"
+                                                checked={this.state.data[`${key}`].delete === "own"}
+                                                onClick={(e) => this.changeStatus(e, `${key}`, "create")} />
+                                            own
+                                                </label>
+                                    </div>
+                                </div>
+                                <div style={{ display: 'flex' }}>
+                                    <div className="form-check form-check-inline">
+                                        <label className="form-check-label">
+                                            <input className="form-check-input"
+                                                style={{ display: "inline" }}
+                                                type="radio"
+                                                value="none"
+                                                checked={this.state.data[`${key}`].delete === "none"}
+                                                onClick={(e) => this.changeStatus(e, `${key}`, "create")} />
+                                            none
+                                                </label>
+                                    </div>
+                                </div>
+                            </div>
+                            </td>
+                    </tr>
+                    <tr>
+                        <td>delete</td>          
                             <td>
                             <div className={'d-flex flex-row'}>
                                 <div style={{ display: 'flex' }}>
@@ -339,7 +386,7 @@ class PermissionForm extends React.Component {
         console.log(this.state.data);
         return (
             <div>
-                <Spinner/>
+                <Spinner open={this.state.showSpinner}/>
                 <form onSubmit={(e) => {
                      e.preventDefault();
                     this.postRoleData()}}>
@@ -347,12 +394,17 @@ class PermissionForm extends React.Component {
                         <tbody>
                             {this.getList()}
                         </tbody>
-                        <div class="d-flex justify-content-center">
-                        <input type="submit" value="Save" class="btn btn-primary" onClick={(e) => {
-                             e.preventDefault();
-                            this.postRoleData()}}/>
-                        </div>
                     </table>
+                    <div class="d-flex justify-content-left flex-row-reverse">
+
+                        <input type="submit" value="Close" class="btn btn-danger mr-5" onClick={(e) => {
+                             e.preventDefault();
+                             this.props.closeModal();
+                            }}/>                     
+                        <input type="submit" value="Save" class="btn btn-primary mr-5" onClick={(e) => {
+                             e.preventDefault();
+                            this.postRoleData()}}/>   
+                        </div>
                 </form>
             </div>
         );

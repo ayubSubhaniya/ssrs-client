@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Redirect, withRouter} from 'react-router-dom'
-import {orderStatus} from "../../constants/status";
+import {cartStatus, orderStatus} from "../../constants/status";
 import {camelCaseToWords} from "../../helper/String";
 import {isSuperAdmin} from "../../helper/userType";
 
@@ -18,7 +18,8 @@ class CartDetails extends Component {
         this.props.history.push({
                 pathname: this.props.location.pathname + "/" + this.props.cart._id,
                 state: {
-                    cart: this.props.cart
+                    id: this.props.cart._id,
+                    user: this.props.user
                 }
             })
     }
@@ -36,10 +37,10 @@ class CartDetails extends Component {
                             : ''
                     } <br/>
                 </td>
-                <td className="column2">{camelCaseToWords(orderStatus[cart.status])}</td>
+                <td className="column2">{camelCaseToWords(cartStatus[cart.status])}</td>
                 <td className="column3">{`₹ ${cart.ordersCost}`}</td>
 
-                <td className="column4">{`${cart._id}`}</td>
+                <td className="column4">{`${cart.orderId}`}</td>
                 {
                     isSuperAdmin(others.user)
                         ? <td className="column5">{cart.requestedBy}</td>

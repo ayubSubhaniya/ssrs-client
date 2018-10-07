@@ -8,17 +8,18 @@ import {domainUrl} from "../../config/configuration";
 import {camelCaseToWords} from "../../helper/String";
 import * as HttpStatus from "http-status-codes";
 import CartList from "./CartList";
-const filterKey  = ['-10',30,40,50,60,70,80,90,0];
+const filterKey  = ['-10',30,50,60,70,80,90,100,110,0];
 const filter = {
     '-10': "all",
     0: "failed",
     30: "placed",
-    40: "processing",
-    50: "ready",
-    60: "completed",
-    70: "onHold",
-    80: "cancelled",
-    90: "refunded"
+    50: "processing",
+    60: "readyToDeliver",
+    70: "readyToPickup",
+    80: "completed",
+    90: "onHold",
+    100: "cancelled",
+    110: "refunded"
 }
 
 class Filter extends Component {

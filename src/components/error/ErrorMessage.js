@@ -6,12 +6,20 @@ class ErrorMessage extends React.Component {
     }
 
     render() {
-        return (
-            <div className={"alert alert-danger p-2 mt-2 mb-2" + (this.props.message ? '' : ' d-none')}>
-                <button type="button" className="close" onClick={this.props.clearMessage}>
-                    &times;</button>
-                <strong>{this.props.message}</strong></div>
-        );
+        if (this.props.clearMessage){
+            return (
+                <div className={"alert alert-danger p-2 mt-2 mb-2" + (this.props.message ? '' : ' d-none')}>
+                    <button type="button" className="close" onClick={this.props.clearMessage}>
+                        &times;</button>
+                    <strong>{this.props.message}</strong></div>
+            );
+        } else {
+            return (
+                <div className={"alert alert-danger p-2 mt-2 mb-2" + (this.props.message ? '' : ' d-none')}>
+                    <strong>{this.props.message}</strong></div>
+            );
+        }
+
     }
 }
 

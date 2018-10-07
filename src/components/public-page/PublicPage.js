@@ -113,7 +113,7 @@ class PublicPage extends Component {
         request.onload = function () {
             if (this.status == HttpStatus.OK) {
                 alert(infoMessages.verificationLinkSent);
-                this.setState({modalIsOpen: false});
+                that.setState({modalIsOpen: false});
             }  else if (this.status === HttpStatus.FORBIDDEN) {
                 that.setState({
                     forgotPasswordMessage: errorMessages.userNotExist

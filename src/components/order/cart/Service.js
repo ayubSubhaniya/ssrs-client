@@ -40,7 +40,10 @@ class Service extends Component {
                     <div className="row">
                         <div className="col-sm-10">
                             <h4 className="nomargin">{service.name}</h4>
-                            <div><strong>Comment: </strong>{order.comment}</div>
+                            {
+                                order.comment
+                                    ? (<div><strong>Comment: </strong>{order.comment}</div>) : ''
+                            }
                         </div>
                     </div>
                 </td>

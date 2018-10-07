@@ -10,14 +10,15 @@ import PickUpDetails from "../PickUpDetails";
 import PickupForm from "../PickupForm";
 import _ from "lodash"
 import Spinner from "../../Spinner";
-import {domainUrl} from '../../../config/configuration'
-import HttpStatus from 'http-status-codes'
+import {domainUrl, errorMessages} from '../../../config/configuration'
+import * as HttpStatus from 'http-status-codes'
+import ErrorMessage from "../../error/ErrorMessage";
 
 class Info extends React.Component {
     constructor(props) {
         super(props);
         const {avilableCollectionTypes} = props.location.state;
-        console.log(avilableCollectionTypes);
+
         const cart = syncFetch('cart');
         if(avilableCollectionTypes.length===1) {
             this.state = {
@@ -27,18 +28,23 @@ class Info extends React.Component {
                 collectionTypeIndex: 0,
                 courier: avilableCollectionTypes[0].name=='Courier' ? cart.courier : undefined,
                 pickup: avilableCollectionTypes[0].name=='Pickup' ? cart.pickup : undefined,
-                isCourierSelected: avilableCollectionTypes[0].name==='Courier'
+                isCourierSelected: avilableCollectionTypes[0].name==='Courier',
+                errorMessage: '',
+                isCollectionTypeInfoProvided:avilableCollectionTypes[0].name==='Courier'?cart.courier!==undefined:cart.pickup!==undefined
             };
         }else{
             const selectedCollectionType = cart.courier ? 'Courier' : 'Pickup';
+            const collectionTypeIndex = _.findIndex(avilableCollectionTypes, (x) => x.name === selectedCollectionType);
             this.state = {
                 showSpinner: false,
                 editAddress: false,
                 collectionType: avilableCollectionTypes,
-                collectionTypeIndex: _.findIndex(avilableCollectionTypes, (x) => x.name === selectedCollectionType),
+                collectionTypeIndex,
                 courier: cart ? cart.courier : undefined,
                 pickup: cart ? cart.pickup : undefined,
-                isCourierSelected: cart ? cart.courier !== undefined : false
+                isCourierSelected: cart ? cart.courier !== undefined : false,
+                errorMessage: '',
+                isCollectionTypeInfoProvided:avilableCollectionTypes[collectionTypeIndex].name==='Courier'?cart.courier!==undefined:cart.pickup!==undefined
             };
         }
     }
@@ -54,18 +60,35 @@ class Info extends React.Component {
         })
     };
 
+    cleanErrorMessage=()=>{
+        this.setState({
+            errorMessage:''
+        })
+    };
+
+    doNothing=()=>{
+
+    };
+
     handleCollectionTypeChange = ({target}) => {
         let index = target.dataset.index;
         if (!index)
             index = target.parentNode.dataset.index;
+
+        const isCourierSelected = this.state.collectionType[Number(index)].name==='Courier';
         this.setState({
             collectionTypeIndex: Number(index),
-            isCourierSelected: Number(index) === 0
+            isCourierSelected,
+            isCollectionTypeInfoProvided:isCourierSelected?this.state.courier!==undefined:this.state.pickup!==undefined
         });
     };
 
     handleCourierDataSubmit = (data) => {
         const that = this;
+        that.setState({
+           showSpinner : true
+        });
+
         const url = domainUrl + '/cart/courier';
         const request = new XMLHttpRequest();
         request.open('POST', url, true);
@@ -77,15 +100,42 @@ class Info extends React.Component {
                 that.setState({
                     pickup: undefined,
                     courier: response.courier,
-                    editAddress: false
+                    editAddress: false,
+                    isCollectionTypeInfoProvided:true
+                })
+            } else if (this.status === HttpStatus.PRECONDITION_FAILED){
+                that.setState({
+                    errorMessage: request.responseText
+                })
+            } else if (this.status === HttpStatus.INTERNAL_SERVER_ERROR){
+                that.setState({
+                    errorMessage: errorMessages.internalServerError
+                })
+            } else if (this.status === HttpStatus.FORBIDDEN){
+                that.setState({
+                    errorMessage: errorMessages.forbidden
+                })
+            } else if (this.status === HttpStatus.NOT_FOUND){
+                that.setState({
+                    errorMessage: "cart not found"
+                })
+            } else {
+                that.setState({
+                    errorMessage: errorMessages.somethingsWrong
                 })
             }
+            that.setState({
+                showSpinner : false
+            });
         };
         request.send(JSON.stringify(data));
     };
 
     handlePickupDataSubmit = (data) => {
         const that = this;
+        that.setState({
+            showSpinner : true
+        });
         const url = domainUrl + '/cart/pickup';
         const request = new XMLHttpRequest();
         request.open('POST', url, true);
@@ -97,9 +147,33 @@ class Info extends React.Component {
                 that.setState({
                     courier: undefined,
                     pickup: response.pickup,
-                    editAddress: false
+                    editAddress: false,
+                    isCollectionTypeInfoProvided:true
+                })
+            } else if (this.status === HttpStatus.PRECONDITION_FAILED){
+                that.setState({
+                    errorMessage: request.responseText
+                })
+            } else if (this.status === HttpStatus.INTERNAL_SERVER_ERROR){
+                that.setState({
+                    errorMessage: errorMessages.internalServerError
+                })
+            } else if (this.status === HttpStatus.FORBIDDEN){
+                that.setState({
+                    errorMessage: errorMessages.forbidden
+                })
+            } else if (this.status === HttpStatus.NOT_FOUND){
+                that.setState({
+                    errorMessage: "cart not found"
+                })
+            } else {
+                that.setState({
+                    errorMessage: errorMessages.somethingsWrong
                 })
             }
+            that.setState({
+                showSpinner : false
+            });
         };
         request.send(JSON.stringify(data));
     };
@@ -109,7 +183,6 @@ class Info extends React.Component {
             ? this.state.collectionType[this.state.collectionTypeIndex].name + " (₹" +
             this.state.collectionType[this.state.collectionTypeIndex].baseCharge + ")"
             : 'Select';
-        const placeButtonAvailable = this.state.courier || this.state.pickup;
         return (
             <div>
                 <NavigationBar/>
@@ -149,7 +222,9 @@ class Info extends React.Component {
                         </div>
                         <hr/>
                     </div>
-                    <Link to={'/payment'} className={placeButtonAvailable?'':'disabled-link'}>
+                    <ErrorMessage message={this.state.errorMessage} clearMessage={this.cleanErrorMessage}/>
+                    <ErrorMessage message={this.state.isCollectionTypeInfoProvided?'':errorMessages.noCollectionTypes} />
+                    <Link to={'/payment'} className={this.state.isCollectionTypeInfoProvided?'':'disabled-link'}>
                         <div className='btn place-order submit mb-4'>PLACE ORDER</div>
                     </Link>
                 </div>

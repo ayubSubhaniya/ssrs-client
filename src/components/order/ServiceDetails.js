@@ -1,25 +1,41 @@
 import React, {Component} from 'react';
 import _ from "lodash"
+import {orderStatus} from "../../constants/status";
+import {camelCaseToWords} from "../../helper/String";
+import {isSuperAdmin} from "../../helper/userType";
 
-class OrderDetails extends Component {
-    constructor(props) {
-        super(props);
+class ServiceDetails extends Component {
+    constructor() {
+        super();
     }
 
     render() {
-        const {order} = this.props;
+        const order = this.props.order;
         const service = order.service;
         const parameters = order.parameters;
         return (
-            <tr>
+            <tr style={{'cursor': 'default'}}>
                 <td data-th="Product">
                     <div className="row">
                         <div className="col-sm-10">
                             <h4 className="nomargin">{service.name}</h4>
-                            <div><strong>Comment: </strong>{order.comment}</div>
+                            {
+                                order.comment
+                                    ? (<div><strong>Comment: </strong>{order.comment}</div>) : ''
+                            }
                         </div>
                     </div>
                 </td>
+                {
+                    <td>{camelCaseToWords(orderStatus[order.status])}
+                        {
+                            order.status === 40 && isSuperAdmin(this.props.user) ?
+                                (<div onClick={() => this.props.statusUpdateToReady(order._id)}>(<span
+                                    className={'link'}>Update</span>)</div>)
+                                : ''
+                        }
+                    </td>
+                }
                 <td data-th="Parameters">{_.map(parameters, 'name').join(", ")}</td>
                 <td data-th="Price">{order.serviceCost}</td>
                 <td data-th="Quantity" className="text-center">{order.unitsRequested}</td>
@@ -31,4 +47,4 @@ class OrderDetails extends Component {
     }
 }
 
-export default OrderDetails;
+export default ServiceDetails;

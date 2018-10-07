@@ -1,6 +1,7 @@
 import {Route} from "react-router-dom";
 import NotFound from "../errors/NotFound";
 import React from "react";
+import PublicPage from "./public-page/PublicPage";
 
 const AuthorizedRoute = ({component: Component, ...rest, permission}) => (
     <Route
@@ -9,7 +10,7 @@ const AuthorizedRoute = ({component: Component, ...rest, permission}) => (
             permission ? (
                 <Component {...props} {...rest}/>
             ) : (
-                <NotFound/>
+                <PublicPage/>
             )
         }
     />
