@@ -28,25 +28,24 @@ class CartDetails extends Component {
         const {cart, ...others} = this.props;
         return (
             <tr onClick={this.redirect}>
-                <td className="column1">
-                    {cart.orders[0].serviceName} <br/>
+                <td className="column1" class="text-center">{`${cart.orderId}`}</td>
+                <td className="column2">
+                    <strong>{cart.orders[0].serviceName}</strong> <br/>
                     {getDateString(cart.createdOn)}
                     {
                         cart.orders.length > 1
-                            ? <div className='more-items'> + {cart.orders.length - 1} More Items</div>
+                            ? <div > + {cart.orders.length - 1} More Items</div>
                             : ''
                     } <br/>
                 </td>
-                <td className="column2">{camelCaseToWords(cartStatus[cart.status])}</td>
-                <td className="column3">{`₹ ${cart.ordersCost}`}</td>
-
-                <td className="column4">{`${cart.orderId}`}</td>
+                <td className="column3" class="text-center">{camelCaseToWords(cartStatus[cart.status])}</td>
+                <td className="column4" class="text-center">{`₹ ${cart.ordersCost}`}</td>
                 {
                     isSuperAdmin(others.user)
-                        ? <td className="column5">{cart.requestedBy}</td>
+                        ? <td className="column5" class="text-center">{cart.requestedBy}</td>
                         : ''
                 }
-                <td className="column6">{`₹ ${cart.totalCost}`}</td>
+                <td className="column6" class="text-center">{`₹ ${cart.totalCost}`}</td>
             </tr>
 
         );

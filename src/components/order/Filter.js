@@ -83,7 +83,7 @@ class Filter extends Component {
             if (this.status === HttpStatus.OK) {
                 try {
                     const obj = JSON.parse(request.responseText);
-                    console.log(obj);
+
                     that.setState({
                         cart: _.filter(obj['cart'], (o) => o.status != 20),
                     })

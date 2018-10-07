@@ -15,16 +15,16 @@ class CartList extends Component {
                                 <table>
                                     <thead>
                                     <tr className="table100-head">
-                                        <th className="column1">Service</th>
-                                        <th className="column2">Status</th>
-                                        <th className="column3">Price</th>
-                                        <th className="column4">Order No.</th>
+                                        <th className="column1" style={{"width": "20%"}} class="text-center">Order No.</th>
+                                        <th className="column2" style={{"width": "25%"}} class="text-center">Service</th>
+                                        <th className="column3" style={{"width": "15%"}} class="text-center">Status</th>
+                                        <th className="column4" style={{"width": "10%"}} class="text-center">Price</th>
                                         {
                                             isSuperAdmin(others.user)
-                                                ? <th className="column5">Requested By</th>
+                                                ? <th className="column5" style={{"width": "15%"}} class="text-center">Requested By</th>
                                                 : ''
                                         }
-                                        <th className="column6">Order Total</th>
+                                        <th className="column6" style={{"width": "15%"}} class="text-center">Order Total</th>
                                     </tr>
                                     </thead>
                                     <tbody>
