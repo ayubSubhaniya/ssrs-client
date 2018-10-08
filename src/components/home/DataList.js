@@ -91,7 +91,7 @@ class DataList extends Component {
                         data.length !== 0
                             ? _.map(data, (data, i) => {
                                 return (
-                                    <div key={data._id}>
+                                    <div key={data.createdOn}>
                                         <div
                                             className="list-group-item list-group-item-action align-items-start d-flex justify-content-between">
                                             <div>

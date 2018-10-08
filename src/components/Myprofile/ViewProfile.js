@@ -4,7 +4,7 @@ import Avatar from 'react-avatar';
 import Address from './Address.js'
 import AuthorizedComponent from "../AuthorizedComponent";
 import { isSuperAdmin } from "../../helper/userType";
- 
+
 const color = ['red', 'green', 'purple', 'cyan', 'teal','blue'];
 const getcolor = () => {
     return color[Math.floor(Math.random() * 8)];
@@ -12,14 +12,14 @@ const getcolor = () => {
 export default function ViewProfile(props) {
     console.log(props.user);
     return (
-        <div class="container">
-            <div class="parent">
-                <div class="quick-view">
+        <div className="container">
+            <div className="parent">
+                <div className="quick-view">
                     <Avatar color={getcolor()} round={true} size={120} name={props.user.name.firstName + " " + props.user.name.lastName} />
-                    <div class="name-style">{props.user.name.firstName} {props.user.name.lastName}</div>
+                    <div className="name-style">{props.user.name.firstName} {props.user.name.lastName}</div>
                 </div>
-                <div class="info-table">
-                    <table class="table table-striped">
+                <div className="info-table">
+                    <table className="table table-striped">
                         <tbody>
                             <tr>
                                 <td>
@@ -79,10 +79,10 @@ export default function ViewProfile(props) {
                             </tr>
                         </tbody>
                     </table>
-                    <button type="button" class="btn btn-primary style-btn" onClick={props.changeIsEdit.bind(this)}>Edit</button>
+                    <button type="button" className="btn btn-primary style-btn" onClick={props.changeIsEdit.bind(this)}>Edit</button>
                 </div>
             </div>
-            <div class="parent">
+            <div className="parent">
                 <AuthorizedComponent
                     component={Address}
                     permission={!isSuperAdmin(props.user)}/>

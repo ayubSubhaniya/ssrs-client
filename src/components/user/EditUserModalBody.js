@@ -66,15 +66,15 @@ class EditUserModalBody extends Component {
 
     render() {
         return (
-            <div class="modal" ref={modal => this.modal = modal} id={"myModal" + this.props.detail.daiictId}>
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title">Edit User</h4>
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <div className="modal" ref={modal => this.modal = modal} id={"myModal" + this.props.detail.daiictId}>
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h4 className="modal-title">Edit User</h4>
+                            <button type="button" className="close" data-dismiss="modal">&times;</button>
                         </div>
 
-                        <div class="modal-body">
+                        <div className="modal-body">
                             <form  onSubmit={this.onSubmit}>
                                 <TextField value={this.state.daiictId}
                                            name="daiictId"
@@ -124,7 +124,7 @@ class EditUserModalBody extends Component {
                                     </div>
                                 </fieldset>
                                 <div className="form-group row">
-                                    <label for="last_name" className="col-3 col-form-label">Programme</label>
+                                    <label className="col-3 col-form-label">Programme</label>
                                     <div className="col-9">
                                         <select className="form-control" onClick={this.changeProgramme} >
                                             <option hidden>{this.state.programme}</option>
