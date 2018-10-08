@@ -88,7 +88,7 @@ function OrderStatusBar({status, isCourier}) {
 class CartWithOrders extends Component {
     constructor(props) {
         super(props);
-        this.id = props.location.state.id
+        this.id = this.props.location.pathname.split('/')[2];
         const cart = this.fetchCart();
         this.state = {
             cart: cart,
@@ -224,8 +224,8 @@ class CartWithOrders extends Component {
     }
 
     compareCollectionCode = (collectionCode) => {
-        this.closePaymentCodeModal();
-        if (collectionCode !== this.state.cart.collectionCode) {
+        this.closeColletionCodeModal();
+        if (collectionCode !== this.state.cart.pickup.collectionCode) {
             this.setState({
                 isCollectionCodeWrong: true,
             })
@@ -243,7 +243,6 @@ class CartWithOrders extends Component {
         const cart = this.state.cart;
         const courier = cart.courier;
         const pickup = cart.pickup;
-        console.log(courier, pickup, cart);
         return (
             <div className='mb-4 pb-4'>
                 <NavigationBar/>
