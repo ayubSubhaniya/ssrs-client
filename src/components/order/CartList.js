@@ -48,7 +48,7 @@ class CartList extends Component {
                                 <table>
                                     <thead>
                                     <tr className="table100-head">
-                                        <th>Service</th>
+                                        <th className='text-center'>Service</th>
                                         <th>Status</th>
                                         <th>Price</th>
                                         <th>Order No.</th>

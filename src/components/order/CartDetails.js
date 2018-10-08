@@ -36,7 +36,7 @@ class CartDetails extends Component {
         const {cart, ...others} = this.props;
         return (
             <tr onClick={this.redirect}>
-                <td className='pt-2 pb-2'>
+                <td className='pt-2 pb-2 pl-4'>
                     {cart.orders[0].serviceName} <br/>
                     {getDateString(cart.createdOn)}
                     {

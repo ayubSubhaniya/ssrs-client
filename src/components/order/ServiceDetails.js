@@ -37,7 +37,6 @@ class ServiceDetails extends Component {
                     </td>
                 }
                 <td data-th="Parameters">{_.map(parameters, 'name').join(", ")}</td>
-                <td data-th="Price">{order.serviceCost}</td>
                 <td data-th="Quantity" className="text-center">{order.unitsRequested}</td>
                 <td data-th="Service Cost" className="text-center">{`₹ ${order.serviceCost}`}</td>
                 <td data-th="Parameter Cost" className="text-center">{`₹ ${order.parameterCost}`}</td>
