@@ -18,34 +18,45 @@ class CartDetails extends Component {
         this.props.history.push({
                 pathname: this.props.location.pathname + "/" + this.props.cart._id,
                 state: {
-                    id: this.props.cart._id,
                     user: this.props.user
                 }
             })
+    }
+
+    formatMatched = (match,id) => {
+        if(id) {
+            const regex = new RegExp(id, 'gi')
+            const str = match.replace(regex, `<span class="hl">${id}</span>`)
+            return str;
+        }else
+            return match;
     }
 
     render() {
         const {cart, ...others} = this.props;
         return (
             <tr onClick={this.redirect}>
-                <td className="column1" class="text-center">{`${cart.orderId}`}</td>
-                <td className="column2">
-                    <strong>{cart.orders[0].serviceName}</strong> <br/>
+                <td className='pt-2 pb-2 pl-4'>
+                    {cart.orders[0].serviceName} <br/>
                     {getDateString(cart.createdOn)}
                     {
                         cart.orders.length > 1
-                            ? <div > + {cart.orders.length - 1} More Items</div>
+                            ? <div className='more-items'> + {cart.orders.length - 1} More Items</div>
                             : ''
                     } <br/>
                 </td>
-                <td className="column3" class="text-center">{camelCaseToWords(cartStatus[cart.status])}</td>
-                <td className="column4" class="text-center">{`₹ ${cart.ordersCost}`}</td>
+                <td >{camelCaseToWords(cartStatus[cart.status])}</td>
+                <td >{`₹ ${cart.ordersCost}`}</td>
+
+                <td
+                    dangerouslySetInnerHTML={{__html: this.formatMatched(cart.orderId,this.props.searchedId)}}>
+                </td>
                 {
                     isSuperAdmin(others.user)
-                        ? <td className="column5" class="text-center">{cart.requestedBy}</td>
+                        ? <td >{cart.requestedBy}</td>
                         : ''
                 }
-                <td className="column6" class="text-center">{`₹ ${cart.totalCost}`}</td>
+                <td >{`₹ ${cart.totalCost}`}</td>
             </tr>
 
         );
