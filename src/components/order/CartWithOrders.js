@@ -263,8 +263,9 @@ class CartWithOrders extends Component {
                                 })}> (<span className='link'>Complete Order</span>)</span>)
                                 : '')
                                 : ((isSuperAdmin(this.props.user) && cart.status === 70)
-                                        ? (<span onClick={this.openCollectionCodeModal}> (<span className='link'>Complete Order</span>)</span>)
-                                        : '')
+                                ? (<span onClick={this.openCollectionCodeModal}> (<span
+                                    className='link'>Complete Order</span>)</span>)
+                                : '')
                         }
                     </h3>
                     <TextInputModal visible={this.state.isCollectionCodeModalOpen}

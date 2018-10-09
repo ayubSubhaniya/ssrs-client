@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import {Redirect, withRouter} from 'react-router-dom'
-import {cartStatus, orderStatus} from "../../constants/status";
+import {withRouter} from 'react-router-dom'
+import {cartStatus} from "../../constants/status";
 import {camelCaseToWords} from "../../helper/String";
 import {isSuperAdmin} from "../../helper/userType";
 
@@ -16,19 +16,19 @@ class CartDetails extends Component {
 
     redirect = () => {
         this.props.history.push({
-                pathname: this.props.location.pathname + "/" + this.props.cart._id,
-                state: {
-                    user: this.props.user
-                }
-            })
+            pathname: this.props.location.pathname + "/" + this.props.cart._id,
+            state: {
+                user: this.props.user
+            }
+        })
     }
 
-    formatMatched = (match,id) => {
-        if(id) {
+    formatMatched = (match, id) => {
+        if (id) {
             const regex = new RegExp(id, 'gi')
             const str = match.replace(regex, `<span class="hl">${id}</span>`)
             return str;
-        }else
+        } else
             return match;
     }
 
@@ -37,7 +37,7 @@ class CartDetails extends Component {
         return (
             <tr onClick={this.redirect}>
                 <td data-th="Order No" className="text-center"
-                    dangerouslySetInnerHTML={{__html: this.formatMatched(cart.orderId,this.props.searchedId)}}>
+                    dangerouslySetInnerHTML={{__html: this.formatMatched(cart.orderId, this.props.searchedId)}}>
                 </td>
                 <td data-th="Service" className='pt-3 pb-3 pl-4'>
                     {cart.orders[0].serviceName} <br/>
