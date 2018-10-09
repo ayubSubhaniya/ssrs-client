@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import _ from "lodash"
 import CartDetails from "./CartDetails";
-import {isSuperAdmin} from "../../helper/userType";
+import {isStudent} from "../../helper/userType";
 import {handleChange} from "../../helper/StateUpdate";
 
 class CartList extends Component {
@@ -48,16 +48,16 @@ class CartList extends Component {
                                 <table>
                                     <thead>
                                     <tr className="table100-head">
-                                        <th className='text-center'>Service</th>
-                                        <th>Status</th>
-                                        <th>Price</th>
-                                        <th>Order No.</th>
+                                        <th className="text-center">Order No.</th>
+                                        <th className="text-center">Service</th>
+                                        <th className="text-center">Status</th>
+                                        <th className="text-center">Price</th>
                                         {
-                                            isSuperAdmin(others.user)
-                                                ? <th>Requested By</th>
+                                            !isStudent(others.user)
+                                                ? <th className="text-center">Requested By</th>
                                                 : ''
                                         }
-                                        <th>Order Total</th>
+                                        <th className="text-center">Order Total</th>
                                     </tr>
                                     </thead>
                                     <tbody>

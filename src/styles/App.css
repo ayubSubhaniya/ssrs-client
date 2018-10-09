@@ -181,7 +181,7 @@ input[type=submit] {
 .limiter table {
     border-collapse: collapse;
     background: white;
-    border-radius: 10px;
+    /*border-radius: 10px;*/
     overflow: hidden;
     width: 100%;
     margin: 0 auto;
@@ -199,9 +199,12 @@ input[type=submit] {
 }
 .limiter table tbody tr {
     height: 50px;
+    border-bottom: 1px solid black;
+    border-top: 0px;
 }
 .limiter table tbody tr:last-child {
-    border: 0;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
 }
 .limiter table td, table th {
     text-align: left;
@@ -248,34 +251,7 @@ tbody tr:hover {
     padding-top: 4px;
 }
 
-.column1 {
-    width: 600px;
-    padding-left: 10%;
-}
-
-.column2 {
-    width: 160px;
-}
-
-.column3 {
-    width: 245px;
-}
-
-.column4 {
-    width: 110px;
-}
-
-.column5 {
-    width: 170px;
-}
-
-.column6 {
-    width: 222px;
-    padding-right: 62px;
-}
-
-
-@media screen and (max-width: 992px) {
+@media screen and (max-width: 600px) {
     .limiter table {
         display: block;
     }
@@ -288,13 +264,18 @@ tbody tr:hover {
     .limiter table tbody tr {
         height: auto;
         padding: 37px 0;
+        border: 1px solid black;
+        border-top: 0px;
     }
     .limiter table tbody tr td {
         padding-left: 40% !important;
-        margin-bottom: 24px;
+        margin-bottom: 4px;
     }
     .limiter table tbody tr td:last-child {
         margin-bottom: 0;
+    }
+    .limiter table tbody tr:first-child {
+        border-top: 1px solid black;
     }
     .limiter table tbody tr td:before {
         font-family: OpenSans-Regular;
@@ -307,38 +288,12 @@ tbody tr:hover {
         left: 30px;
         top: 0;
     }
-    .limiter table tbody tr td:nth-child(1):before {
-        content: "Date";
-    }
-    .limiter table tbody tr td:nth-child(2):before {
-        content: "Order ID";
-    }
-    .limiter table tbody tr td:nth-child(3):before {
-        content: "Name";
-    }
-    .limiter table tbody tr td:nth-child(4):before {
-        content: "Price";
-    }
-    .limiter table tbody tr td:nth-child(5):before {
-        content: "Quantity";
-    }
-    .limiter table tbody tr td:nth-child(6):before {
-        content: "Total";
-    }
 
-    .column4,
-    .column5,
-    .column6 {
-        text-align: left;
-    }
-
-    .column4,
-    .column5,
-    .column6,
-    .column1,
-    .column2,
-    .column3 {
-        width: 100%;
+    .limiter table tbody tr td:before {
+        content: attr(data-th);
+        font-weight: bold;
+        display: inline-block;
+        width: 8rem;
     }
 
     tbody tr {

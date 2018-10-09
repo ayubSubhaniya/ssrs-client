@@ -33,10 +33,10 @@ class Service extends Component {
     render() {
         const order = this.props.order;
         const service = order.service;
-        const paramters = order.parameters;
+        const parameters = order.parameters;
         return (
             <tr class={order.status==orderStatus.invalidOrder?"border border-danger rounded":""}>
-                <td data-th="Product">
+                <td data-th="Service">
                     <div className="row">
                         <div className="col-sm-10">
                             <h4 className="nomargin">{service.name}</h4>
@@ -47,13 +47,12 @@ class Service extends Component {
                         </div>
                     </div>
                 </td>
-                <td data-th="Parameters">{_.map(paramters, 'name').join(", ")}</td>
-                <td data-th="Price">{order.serviceCost}</td>
+                <td data-th="Parameters" className="text-center">{parameters.length>0?_.map(parameters, 'name').join(", "):'None'}</td>
                 <td data-th="Quantity" className="text-center">{order.unitsRequested}</td>
                 <td data-th="Service Cost" className="text-center">{`₹ ${order.serviceCost}`}</td>
                 <td data-th="Parameter Cost" className="text-center">{`₹ ${order.parameterCost}`}</td>
                 <td data-th="Subtotal" className="text-center">{`₹ ${order.totalCost}`}</td>
-                <td className="actions" data-th="">
+                <td className="actions">
                     <button type="button" className="btn btn-light" data-toggle="modal"
                             data-target={"#myModal" + order._id}>
                         <i className="fa fa-pencil"
@@ -61,7 +60,7 @@ class Service extends Component {
                     </button>
                     <EditCartForm id={order._id}
                                   service={service}
-                                  parameter={paramters}
+                                  parameter={parameters}
                                   units={order.unitsRequested}
                                   comment={order.comment}
                                   index={this.props.index}

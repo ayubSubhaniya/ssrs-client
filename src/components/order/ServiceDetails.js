@@ -15,7 +15,7 @@ class ServiceDetails extends Component {
         const parameters = order.parameters;
         return (
             <tr style={{'cursor': 'default'}}>
-                <td data-th="Product">
+                <td data-th="Service">
                     <div className="row">
                         <div className="col-sm-10">
                             <h4 className="nomargin">{service.name}</h4>
@@ -27,7 +27,7 @@ class ServiceDetails extends Component {
                     </div>
                 </td>
                 {
-                    <td>{camelCaseToWords(orderStatus[order.status])}
+                    <td data-th="Status" className="text-center">{camelCaseToWords(orderStatus[order.status])}
                         {
                             order.status === 40 && isSuperAdmin(this.props.user) ?
                                 (<div onClick={() => this.props.statusUpdateToReady(order._id)}>(<span
@@ -36,7 +36,7 @@ class ServiceDetails extends Component {
                         }
                     </td>
                 }
-                <td data-th="Parameters">{_.map(parameters, 'name').join(", ")}</td>
+                <td data-th="Parameters" className="text-center">{parameters.length>0?_.map(parameters, 'name').join(", "):'None'}</td>
                 <td data-th="Quantity" className="text-center">{order.unitsRequested}</td>
                 <td data-th="Service Cost" className="text-center">{`₹ ${order.serviceCost}`}</td>
                 <td data-th="Parameter Cost" className="text-center">{`₹ ${order.parameterCost}`}</td>

@@ -25,13 +25,13 @@ class CartDetails extends Component {
                     <table id="cart" className="table table-hover table-condensed mb-0">
                         <thead>
                         <tr style={{'cursor': 'default'}}>
-                            <th style={{"width": "15%"}}>Service</th>
-                            <th style={{"width": "10%"}}>Parameters</th>
-                            <th style={{"width": "10%"}}>Price</th>
-                            <th style={{"width": "8%"}}>Quantity</th>
-                            <th style={{"width": "10%"}} className="text-center">Service Cost</th>
-                            <th style={{"width": "12%"}} className="text-center">Parameter Cost</th>
-                            <th style={{"width": "12%"}} className="text-center">Subtotal</th>
+                            <th className="text-center">Service</th>
+                            <th className="text-center">Parameters</th>
+                            <th className="text-center">Price</th>
+                            <th className="text-center">Quantity</th>
+                            <th className="text-center">Service Cost</th>
+                            <th className="text-center">Parameter Cost</th>
+                            <th className="text-center">Subtotal</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -41,7 +41,7 @@ class CartDetails extends Component {
                                                                                     index={i}/>)
                         }
                         <tr>
-                            <td data-th="Product">
+                            <td data-th="Service">
                                 <div className="row">
                                     <div className="col-sm-10">
                                         <h4 className="nomargin">{this.state.cart.collectionType}</h4>

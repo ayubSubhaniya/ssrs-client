@@ -36,27 +36,27 @@ class CartDetails extends Component {
         const {cart, ...others} = this.props;
         return (
             <tr onClick={this.redirect}>
-                <td className='pt-2 pb-2 pl-4'>
+                <td data-th="Order No" className="text-center"
+                    dangerouslySetInnerHTML={{__html: this.formatMatched(cart.orderId,this.props.searchedId)}}>
+                </td>
+                <td data-th="Service" className='pt-3 pb-3 pl-4'>
                     {cart.orders[0].serviceName} <br/>
                     {getDateString(cart.createdOn)}
                     {
                         cart.orders.length > 1
                             ? <div className='more-items'> + {cart.orders.length - 1} More Items</div>
                             : ''
-                    } <br/>
+                    }
                 </td>
-                <td >{camelCaseToWords(cartStatus[cart.status])}</td>
-                <td >{`₹ ${cart.ordersCost}`}</td>
+                <td data-th="Status" className="text-center">{camelCaseToWords(cartStatus[cart.status])}</td>
+                <td data-th="Price" className="text-center">{`₹ ${cart.ordersCost}`}</td>
 
-                <td
-                    dangerouslySetInnerHTML={{__html: this.formatMatched(cart.orderId,this.props.searchedId)}}>
-                </td>
                 {
                     isSuperAdmin(others.user)
-                        ? <td >{cart.requestedBy}</td>
+                        ? <td data-th="Requested By" className="text-center">{cart.requestedBy}</td>
                         : ''
                 }
-                <td >{`₹ ${cart.totalCost}`}</td>
+                <td data-th="Order Total" className="text-center">{`₹ ${cart.totalCost}`}</td>
             </tr>
 
         );

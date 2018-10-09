@@ -277,13 +277,13 @@ class CartWithOrders extends Component {
                     <table id="cart" className="table table-hover table-condensed mt-4">
                         <thead>
                         <tr style={{'cursor': 'default'}}>
-                            <th style={{"width": "25%"}}>Service</th>
-                            <th style={{"width": "10%"}}>Status</th>
-                            <th style={{"width": "18%"}}>Parameters</th>
-                            <th style={{"width": "5%"}}>Quantity</th>
-                            <th style={{"width": "12%"}} className="text-center">Service Cost</th>
-                            <th style={{"width": "14%"}} className="text-center">Parameter Cost</th>
-                            <th style={{"width": "16%"}} className="text-center">Subtotal</th>
+                            <th>Service</th>
+                            <th className="text-center">Status</th>
+                            <th className="text-center">Parameters</th>
+                            <th className="text-center">Quantity</th>
+                            <th className="text-center">Service Cost</th>
+                            <th className="text-center">Parameter Cost</th>
+                            <th className="text-center">Subtotal</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -295,10 +295,10 @@ class CartWithOrders extends Component {
                                                                          index={i}/>)
                         }
                         <tr style={{'cursor': 'default'}}>
-                            <td data-th="Product" colSpan="6">
+                            <td data-th="Service" colSpan="6">
                                 <div className="row">
                                     <div className="col-sm-10">
-                                        <h4 className="nomargin">Collection Type: {cart.collectionType}</h4>
+                                        <h4 className="nomargin">{cart.collectionType}</h4>
                                     </div>
                                 </div>
                             </td>
