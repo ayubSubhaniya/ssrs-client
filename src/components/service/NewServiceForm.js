@@ -1,13 +1,13 @@
 import React, {Component} from 'react';
 import {domainUrl} from '../../config/configuration'
-import {OFFLINE, DEBITCARD, NETBANKING, PAYTM} from "../../constants/PaymentMode"
+import {DEBITCARD, NETBANKING, OFFLINE, PAYTM} from "../../constants/PaymentMode"
 import {withRouter} from "react-router-dom";
 import Header from "../Header";
 import * as HttpStatus from "http-status-codes";
 import {syncFetch} from '../../helper/FetchData'
 import NavigationBar from "../NavigationBar";
 import {collectionType} from "../../test/CollectionType";
-import {handleChange, handleArrayUpdate, handlePaymentModeChange, getServiceFromState} from "../../helper/StateUpdate"
+import {getServiceFromState, handleArrayUpdate, handleChange, handlePaymentModeChange} from "../../helper/StateUpdate"
 import Form from "./Form";
 import Spinner from "../Spinner";
 
@@ -74,8 +74,7 @@ class NewServiceForm extends Component {
                           handleChange={this.handleChange}
                           handleArrayUpdate={this.handleArrayUpdate}
                           handleSubmit={this.handleSubmit}
-                          handleSubmit={this.handleSubmit}
-                          handlePaymentModeChange={this.handlePaymentModeChange} />
+                          handlePaymentModeChange={this.handlePaymentModeChange}/>
                 </div>
                 <Spinner open={this.state.showSpinner}/>
             </div>
