@@ -1,6 +1,20 @@
 import React from 'react'
-import {OFFLINE, DEBITCARD, NETBANKING, PAYTM} from "../../constants/PaymentMode";
-import Mode from "./Mode";
+import {OFFLINE, ONLINE} from "../../constants/PaymentMode";
+
+function Mode({text,mode,isChecked,onChange}) {
+    return (
+        <div className={'form-check'}>
+            <label>
+                <input className="form-check-input"
+                       type="checkbox"
+                       name={mode}
+                       checked={isChecked}
+                       onChange={onChange}/>
+                {text}
+            </label>
+        </div>
+    )
+}
 
 function PaymentModes(props) {
     return (
@@ -15,17 +29,9 @@ function PaymentModes(props) {
                       text={'Cash(Offline)'}
                       isChecked={props.paymentModes[OFFLINE]}/>
                 <Mode onChange={props.handleChange}
-                      mode={DEBITCARD}
-                      text={'Debit Card'}
-                      isChecked={props.paymentModes[DEBITCARD]}/>
-                <Mode onChange={props.handleChange}
-                      mode={NETBANKING}
-                      text={'Netbanking'}
-                      isChecked={props.paymentModes[NETBANKING]}/>
-                <Mode onChange={props.handleChange}
-                      mode={PAYTM}
-                      text={'Paytm'}
-                      isChecked={props.paymentModes[PAYTM]}/>
+                      mode={ONLINE}
+                      text={'Online'}
+                      isChecked={props.paymentModes[ONLINE]}/>
             </div>
         </div>
     )

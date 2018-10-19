@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import _ from "lodash"
 import ServiceDetails from "./ServiceDetails";
-import {asyncFetch} from "../../helper/FetchData"
 import EditButton from "../EditButton";
 import Switch from "../Switch";
 import AuthorizedComponent from "../AuthorizedComponent";
@@ -12,6 +11,7 @@ import Spinner from "../Spinner";
 import DeleteButton from "../DeleteButton";
 import {isStudent, isSuperAdmin} from "../../helper/userType";
 import ApplyButton from "./ApplyButton";
+import {makeCall} from "../../helper/caller";
 
 class ServiceList extends Component {
     constructor(props, context) {
@@ -20,11 +20,23 @@ class ServiceList extends Component {
             service: [],
             showSpinner: false
         };
-        this.asyncFetch = asyncFetch.bind(this);
     }
 
     componentDidMount() {
-        this.asyncFetch('service');
+       this.getService();
+    }
+
+    getService = () => {
+        makeCall({
+            jobType: "GET",
+            urlParams: '/service'
+        })
+            .then((response) => {
+                this.setState({
+                    service: response.service,
+                });
+            })
+            .catch(error => console.log(error));
     }
 
     deleteService = (index) => {
@@ -52,26 +64,22 @@ class ServiceList extends Component {
     }
 
     toggleService = (index) => {
-        this.props.showSpinner();
         const service = this.state.service[index];
-        const that = this;
-        const url = domainUrl + '/service/changeStatus/' + service._id;
-        const request = new XMLHttpRequest();
-        request.open('PATCH', url, true);
-        request.withCredentials = true;
-        request.setRequestHeader("Content-type", "application/json");
-        request.onload = function () {
-            if (this.status == HttpStatus.OK) {
-                const response = JSON.parse(request.response)
-                const serviceList = that.state.service;
+        makeCall({
+            jobType: "PATCH",
+            urlParams: '/service/changeStatus/' + service._id,
+            params: {
+                isActive: !service.isActive
+            }
+        })
+            .then((response) => {
+                const serviceList = this.state.service;
                 serviceList[index] = response.service;
-                that.setState({
+                this.setState({
                     service: serviceList,
                 });
-            }
-            that.props.hideSpinner();
-        }
-        request.send(JSON.stringify({isActive: !service.isActive}));
+            })
+            .catch(error => console.log(error));
     }
 
     render() {
