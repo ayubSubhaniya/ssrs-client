@@ -7,6 +7,11 @@ import AuthorizedComponent from "./AuthorizedComponent";
 import {isSuperAdmin} from "../helper/userType";
 
 function NavLink({path, text, onClick, className, currPath}) {
+
+    if(currPath){
+        currPath = "/" + currPath.split('/')[1];
+    }
+
     return (
         <li className={"nav-item " + (currPath === path ? "active" : "") + " " + className}>
             <Link className="nav-link" onClick={onClick} to={{
@@ -72,6 +77,7 @@ class NavigationBar extends Component {
                                         <NavLink text={'Logout'}
                                                  className={"ml-auto"}
                                                  path={this.props.location.pathname}
+                                                 currPath={""}
                                                  onClick={value.logOut}/>
                                     </ul>
                                 </div>
