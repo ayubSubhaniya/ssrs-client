@@ -2,7 +2,7 @@ import React from 'react'
 import Stapes from "../../service/Stapes";
 import NavigationBar from "../../NavigationBar";
 import CourierForm from "../CourierForm";
-import {Link} from "react-router-dom"
+import {withRouter} from "react-router-dom"
 import CollectionTypesDropDown from "../../service/CollectionTypesDropDown"
 import {syncFetch} from "../../../helper/FetchData";
 import CourierDetails from "../CourierDetails";
@@ -62,6 +62,12 @@ class Info extends React.Component {
             this.setState({
                 addresses: response.addresses
             })
+        })
+    }
+
+    updateSelectedAddress = (index) => {
+        this.setState({
+            selectedAddress: index
         })
     }
 
@@ -130,8 +136,8 @@ class Info extends React.Component {
         }
     }
 
-    handleCourierDataSubmit = (index) => {
-        const address = this.state.addresses[index];
+    handleCourierDataSubmit = () => {
+        const address = this.state.addresses[this.state.selectedAddress];
         address._id = undefined;
         makeCall({
             jobType: 'POST',
@@ -143,9 +149,9 @@ class Info extends React.Component {
                     pickup: undefined,
                     courier: response.courier,
                     editAddress: false,
-                    isCollectionTypeInfoProvided: true,
-                    selectedAddress: index
+                    isCollectionTypeInfoProvided: true
                 })
+                this.props.history.push('/payment');
             })
             .catch((response) => {
                 this.closeAddressModal();
@@ -197,7 +203,7 @@ class Info extends React.Component {
                                 this.state.isCourierSelected
                                     ? <CourierDetails data={this.state.addresses}
                                                       selected={this.state.selectedAddress}
-                                                      handleClick={this.handleCourierDataSubmit}
+                                                      handleClick={this.updateSelectedAddress}
                                                       openAddressModal={this.openAddressModal}/>
                                     : <PickUpDetails data={this.state.pickup}
                                                      openAddressModal={this.openAddressModal}/>
@@ -218,13 +224,14 @@ class Info extends React.Component {
                                   clearMessage={this.cleanErrorMessage}/>
                     <ErrorMessage
                         message={this.state.isCollectionTypeInfoProvided ? '' : errorMessages.noCollectionTypes}/>
-                    <Link to={'/payment'} className={this.state.isCollectionTypeInfoProvided ? '' : 'disabled-link'}>
+                    <div className={this.state.isCollectionTypeInfoProvided ? '' : 'disabled-link'}
+                         onClick={this.handleCourierDataSubmit}>
                         <div className='btn place-order submit mb-4'>PLACE ORDER</div>
-                    </Link>
+                    </div>
                 </div>
             </div>
         );
     }
 }
 
-export default Info
+export default withRouter(Info)
