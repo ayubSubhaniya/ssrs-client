@@ -65,7 +65,7 @@ p {
     margin-bottom: 2em;
 }
 
-/*naviagatin bar*/
+/*navigation bar*/
 
 .bg-dark {
     background-color: #203447;
@@ -73,6 +73,19 @@ p {
 
 .navbar-dark .navbar-nav .nav-link {
     color: white;
+}
+
+.active {
+    font-weight: 640;
+    /* text-decoration-line: overline;
+    text-decoration-style: dashed;
+    text-decoration-color: white; */
+    border-bottom: white;
+    border-bottom-style: solid;
+}
+
+#navbarNavDropdown ul {
+    width: 100%;
 }
 
 /*service list*/
