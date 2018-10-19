@@ -22,10 +22,13 @@ export default function SignInPage({ daiictId, handleChange, password, loginMess
                     <ErrorMessage message={loginMessage} clearMessage={clearLoginMessage} />
                 </div>
                 <div className="page-input"><input type="submit" value="ENTER"
-                    onClick={() => logIn({
-                        daiictId: daiictId,
-                        password: password
-                    })} /></div>
+                    onClick={(e) => {
+                        e.preventDefault()
+                        logIn({
+                            daiictId: daiictId,
+                            password: password
+                        })
+                    }} /></div>
                 <input type="button" className={'page-link-cstm'} value="Forgot Password"
                     onClick={openModal} />
             </form>
