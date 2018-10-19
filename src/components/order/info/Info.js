@@ -9,7 +9,7 @@ import CourierDetails from "../CourierDetails";
 import PickUpDetails from "../PickUpDetails";
 import PickupForm from "../PickupForm";
 import _ from "lodash"
-import {domainUrl, errorMessages} from '../../../config/configuration'
+import {errorMessages} from '../../../config/configuration'
 import * as HttpStatus from 'http-status-codes'
 import ErrorMessage from "../../error/ErrorMessage";
 import {makeCall} from "../../../helper/caller";
@@ -38,6 +38,8 @@ class Info extends React.Component {
             const selectedCollectionType = cart.courier ? 'Courier' : 'Pickup';
             const collectionTypeIndex = _.findIndex(avilableCollectionTypes, (x) => x.name === selectedCollectionType);
             this.state = {
+                addresses: [],
+                selectedAddress: 0,
                 showSpinner: false,
                 editAddress: false,
                 collectionType: avilableCollectionTypes,
@@ -86,10 +88,19 @@ class Info extends React.Component {
         })
     }
 
-    updateSelectedAddress = (i) => {
-        this.setState({
-            selectedAddress: i
+    addAddress = (newAddress) => {
+        makeCall({
+            jobType: 'POST',
+            urlParams: '/user/address',
+            params: newAddress
         })
+            .then((response) => {
+                this.closeAddressModal();
+                this.setState({
+                    addresses: [...this.state.addresses, response.address]
+                })
+            })
+            .catch((error) => console.log(error));
     }
 
     handleCollectionTypeChange = ({target}) => {
@@ -119,20 +130,27 @@ class Info extends React.Component {
         }
     }
 
-    handleCourierDataSubmit = (data) => {
-        makeCall({jobType: 'POST', urlParams: '/cart/courier', params: data}).then((response) => {
-            this.setState({
-                pickup: undefined,
-                courier: response.courier,
-                editAddress: false,
-                isCollectionTypeInfoProvided: true
-            })
-        }).catch((response) => {
-            this.setState({
-                editAddress: false
-            })
-            this.onError(response);
+    handleCourierDataSubmit = (index) => {
+        const address = this.state.addresses[index];
+        address._id = undefined;
+        makeCall({
+            jobType: 'POST',
+            urlParams: '/cart/courier',
+            params: address
         })
+            .then((response) => {
+                this.setState({
+                    pickup: undefined,
+                    courier: response.courier,
+                    editAddress: false,
+                    isCollectionTypeInfoProvided: true,
+                    selectedAddress: index
+                })
+            })
+            .catch((response) => {
+                this.closeAddressModal();
+                this.onError(response);
+            })
     };
 
     handlePickupDataSubmit = (data) => {
@@ -178,6 +196,8 @@ class Info extends React.Component {
                             {
                                 this.state.isCourierSelected
                                     ? <CourierDetails data={this.state.addresses}
+                                                      selected={this.state.selectedAddress}
+                                                      handleClick={this.handleCourierDataSubmit}
                                                       openAddressModal={this.openAddressModal}/>
                                     : <PickUpDetails data={this.state.pickup}
                                                      openAddressModal={this.openAddressModal}/>
@@ -186,8 +206,7 @@ class Info extends React.Component {
                                 this.state.isCourierSelected
                                     ? <CourierForm open={this.state.editAddress}
                                                    close={this.closeAddressModal}
-                                                   handleSubmit={this.handleCourierDataSubmit}
-                                                   data={this.state.courier}/>
+                                                   handleSubmit={this.addAddress} />
                                     : <PickupForm open={this.state.editAddress}
                                                   close={this.closeAddressModal}
                                                   handleSubmit={this.handlePickupDataSubmit}

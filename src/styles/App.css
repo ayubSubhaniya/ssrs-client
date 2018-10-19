@@ -541,6 +541,11 @@ input:checked + .slider:before {
     color: gray;
     margin: 5px;
     padding: 20px;
+    cursor: pointer;
+}
+
+.address-selected{
+    outline: 2px solid black;
 }
 
 .address:hover, .empty-box:hover {
