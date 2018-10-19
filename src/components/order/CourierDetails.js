@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import _ from 'lodash'
 
 class CourierDetails extends Component {
     constructor(props) {
@@ -7,16 +8,20 @@ class CourierDetails extends Component {
 
     render() {
         const data = this.props.data;
-        if (data){
+        if (data.length){
             return (
-                <div className="address">
-                    <p className={'item-address'}><strong>{data.name}</strong></p>
-                    <p className={'item-address'}>{data.contactNo}</p>
-                    <p className={'item-address'}>{" " + data.email}</p>
-                    <p className={'item-address'}>{" " + data.address.line1 +
-                        ", " + data.city + " - " + data.pinCode + ", " + data.state + ", " + data.country}</p>
-                    <p className="item-address address-edit-btn" onClick={this.props.openAddressModal}>EDIT</p>
-                </div>
+                _.map(data,(data) => {
+                    return (
+                        <div className="address">
+                            <p className={'item-address'}><strong>{data.name}</strong></p>
+                            <p className={'item-address'}>{data.contactNo}</p>
+                            <p className={'item-address'}>{" " + data.email}</p>
+                            <p className={'item-address'}>{" " + data.address.line1 +
+                            ", " + data.city + " - " + data.pinCode + ", " + data.state + ", " + data.country}</p>
+                            <p className="item-address address-edit-btn" onClick={this.props.openAddressModal}>EDIT</p>
+                        </div>
+                    )
+                })
             )
         } else {
             return (

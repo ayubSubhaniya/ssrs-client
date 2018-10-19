@@ -4,15 +4,15 @@ import NavigationBar from "../../NavigationBar";
 import CourierForm from "../CourierForm";
 import {Link} from "react-router-dom"
 import CollectionTypesDropDown from "../../service/CollectionTypesDropDown"
-import {asyncFetch, syncFetch} from "../../../helper/FetchData";
+import {syncFetch} from "../../../helper/FetchData";
 import CourierDetails from "../CourierDetails";
 import PickUpDetails from "../PickUpDetails";
 import PickupForm from "../PickupForm";
 import _ from "lodash"
-import Spinner from "../../Spinner";
 import {domainUrl, errorMessages} from '../../../config/configuration'
 import * as HttpStatus from 'http-status-codes'
 import ErrorMessage from "../../error/ErrorMessage";
+import {makeCall} from "../../../helper/caller";
 
 class Info extends React.Component {
     constructor(props) {
@@ -20,19 +20,21 @@ class Info extends React.Component {
         const {avilableCollectionTypes} = props.location.state;
 
         const cart = syncFetch('cart');
-        if(avilableCollectionTypes.length===1) {
+        if (avilableCollectionTypes.length === 1) {
             this.state = {
+                addresses: [],
+                selectedAddress: 0,
                 showSpinner: false,
                 editAddress: false,
                 collectionType: avilableCollectionTypes,
                 collectionTypeIndex: 0,
-                courier: avilableCollectionTypes[0].name=='Courier' ? cart.courier : undefined,
-                pickup: avilableCollectionTypes[0].name=='Pickup' ? cart.pickup : undefined,
-                isCourierSelected: avilableCollectionTypes[0].name==='Courier',
+                courier: avilableCollectionTypes[0].name == 'Courier' ? cart.courier : undefined,
+                pickup: avilableCollectionTypes[0].name == 'Pickup' ? cart.pickup : undefined,
+                isCourierSelected: avilableCollectionTypes[0].name === 'Courier',
                 errorMessage: '',
-                isCollectionTypeInfoProvided:avilableCollectionTypes[0].name==='Courier'?cart.courier!==undefined:cart.pickup!==undefined
+                isCollectionTypeInfoProvided: avilableCollectionTypes[0].name === 'Courier' ? cart.courier !== undefined : cart.pickup !== undefined
             };
-        }else{
+        } else {
             const selectedCollectionType = cart.courier ? 'Courier' : 'Pickup';
             const collectionTypeIndex = _.findIndex(avilableCollectionTypes, (x) => x.name === selectedCollectionType);
             this.state = {
@@ -44,9 +46,21 @@ class Info extends React.Component {
                 pickup: cart ? cart.pickup : undefined,
                 isCourierSelected: cart ? cart.courier !== undefined : false,
                 errorMessage: '',
-                isCollectionTypeInfoProvided:avilableCollectionTypes[collectionTypeIndex].name==='Courier'?cart.courier!==undefined:cart.pickup!==undefined
+                isCollectionTypeInfoProvided: avilableCollectionTypes[collectionTypeIndex].name === 'Courier' ? cart.courier !== undefined : cart.pickup !== undefined
             };
         }
+    }
+
+    componentDidMount() {
+        this.getAddress();
+    }
+
+    getAddress = () => {
+        makeCall({jobType: 'GET', urlParams: '/user/address'}).then((response) => {
+            this.setState({
+                addresses: response.addresses
+            })
+        })
     }
 
     openAddressModal = () => {
@@ -60,122 +74,81 @@ class Info extends React.Component {
         })
     };
 
-    cleanErrorMessage=()=>{
+    cleanErrorMessage = () => {
         this.setState({
-            errorMessage:''
+            errorMessage: ''
         })
     };
 
-    doNothing=()=>{
+    setErrorMessage = (message) => {
+        this.setState({
+            errorMessage: message
+        })
+    }
 
-    };
+    updateSelectedAddress = (i) => {
+        this.setState({
+            selectedAddress: i
+        })
+    }
 
     handleCollectionTypeChange = ({target}) => {
         let index = target.dataset.index;
         if (!index)
             index = target.parentNode.dataset.index;
 
-        const isCourierSelected = this.state.collectionType[Number(index)].name==='Courier';
+        const isCourierSelected = this.state.collectionType[Number(index)].name === 'Courier';
         this.setState({
             collectionTypeIndex: Number(index),
             isCourierSelected,
-            isCollectionTypeInfoProvided:isCourierSelected?this.state.courier!==undefined:this.state.pickup!==undefined
+            isCollectionTypeInfoProvided: isCourierSelected ? this.state.courier !== undefined : this.state.pickup !== undefined
         });
     };
 
-    handleCourierDataSubmit = (data) => {
-        const that = this;
-        that.setState({
-           showSpinner : true
-        });
+    onError = (response) => {
+        if (response.status === HttpStatus.PRECONDITION_FAILED) {
+            this.setErrorMessage(response.statusText);
+        } else if (response.status === HttpStatus.INTERNAL_SERVER_ERROR) {
+            this.setErrorMessage(errorMessages.internalServerError);
+        } else if (response.status === HttpStatus.FORBIDDEN) {
+            this.setErrorMessage(errorMessages.forbidden);
+        } else if (response.status === HttpStatus.NOT_FOUND) {
+            this.setErrorMessage('Cart not found');
+        } else {
+            this.setErrorMessage(errorMessages.somethingsWrong);
+        }
+    }
 
-        const url = domainUrl + '/cart/courier';
-        const request = new XMLHttpRequest();
-        request.open('POST', url, true);
-        request.withCredentials = true;
-        request.setRequestHeader("Content-type", "application/json");
-        request.onload = function () {
-            if (this.status === HttpStatus.CREATED) {
-                const response = JSON.parse(request.response);
-                that.setState({
-                    pickup: undefined,
-                    courier: response.courier,
-                    editAddress: false,
-                    isCollectionTypeInfoProvided:true
-                })
-            } else if (this.status === HttpStatus.PRECONDITION_FAILED){
-                that.setState({
-                    errorMessage: request.responseText
-                })
-            } else if (this.status === HttpStatus.INTERNAL_SERVER_ERROR){
-                that.setState({
-                    errorMessage: errorMessages.internalServerError
-                })
-            } else if (this.status === HttpStatus.FORBIDDEN){
-                that.setState({
-                    errorMessage: errorMessages.forbidden
-                })
-            } else if (this.status === HttpStatus.NOT_FOUND){
-                that.setState({
-                    errorMessage: "cart not found"
-                })
-            } else {
-                that.setState({
-                    errorMessage: errorMessages.somethingsWrong
-                })
-            }
-            that.setState({
-                showSpinner : false
-            });
-        };
-        request.send(JSON.stringify(data));
+    handleCourierDataSubmit = (data) => {
+        makeCall({jobType: 'POST', urlParams: '/cart/courier', params: data}).then((response) => {
+            this.setState({
+                pickup: undefined,
+                courier: response.courier,
+                editAddress: false,
+                isCollectionTypeInfoProvided: true
+            })
+        }).catch((response) => {
+            this.setState({
+                editAddress: false
+            })
+            this.onError(response);
+        })
     };
 
     handlePickupDataSubmit = (data) => {
-        const that = this;
-        that.setState({
-            showSpinner : true
-        });
-        const url = domainUrl + '/cart/pickup';
-        const request = new XMLHttpRequest();
-        request.open('POST', url, true);
-        request.withCredentials = true;
-        request.setRequestHeader("Content-type", "application/json");
-        request.onload = function () {
-            if (this.status === HttpStatus.CREATED) {
-                const response = JSON.parse(request.response);
-                that.setState({
-                    courier: undefined,
-                    pickup: response.pickup,
-                    editAddress: false,
-                    isCollectionTypeInfoProvided:true
+        makeCall({jobType: 'POST', urlParams: '/cart/pickup', params: data}).then((response) => {
+            this.setState({
+                courier: undefined,
+                pickup: response.pickup,
+                editAddress: false,
+                isCollectionTypeInfoProvided: true
+            }).catch((response) => {
+                this.setState({
+                    editAddress: false
                 })
-            } else if (this.status === HttpStatus.PRECONDITION_FAILED){
-                that.setState({
-                    errorMessage: request.responseText
-                })
-            } else if (this.status === HttpStatus.INTERNAL_SERVER_ERROR){
-                that.setState({
-                    errorMessage: errorMessages.internalServerError
-                })
-            } else if (this.status === HttpStatus.FORBIDDEN){
-                that.setState({
-                    errorMessage: errorMessages.forbidden
-                })
-            } else if (this.status === HttpStatus.NOT_FOUND){
-                that.setState({
-                    errorMessage: "cart not found"
-                })
-            } else {
-                that.setState({
-                    errorMessage: errorMessages.somethingsWrong
-                })
-            }
-            that.setState({
-                showSpinner : false
-            });
-        };
-        request.send(JSON.stringify(data));
+                this.onError(response);
+            })
+        })
     };
 
     render() {
@@ -204,7 +177,7 @@ class Info extends React.Component {
                             </div>
                             {
                                 this.state.isCourierSelected
-                                    ? <CourierDetails data={this.state.courier}
+                                    ? <CourierDetails data={this.state.addresses}
                                                       openAddressModal={this.openAddressModal}/>
                                     : <PickUpDetails data={this.state.pickup}
                                                      openAddressModal={this.openAddressModal}/>
@@ -222,13 +195,14 @@ class Info extends React.Component {
                         </div>
                         <hr/>
                     </div>
-                    <ErrorMessage message={this.state.errorMessage} clearMessage={this.cleanErrorMessage}/>
-                    <ErrorMessage message={this.state.isCollectionTypeInfoProvided?'':errorMessages.noCollectionTypes} />
-                    <Link to={'/payment'} className={this.state.isCollectionTypeInfoProvided?'':'disabled-link'}>
+                    <ErrorMessage message={this.state.errorMessage}
+                                  clearMessage={this.cleanErrorMessage}/>
+                    <ErrorMessage
+                        message={this.state.isCollectionTypeInfoProvided ? '' : errorMessages.noCollectionTypes}/>
+                    <Link to={'/payment'} className={this.state.isCollectionTypeInfoProvided ? '' : 'disabled-link'}>
                         <div className='btn place-order submit mb-4'>PLACE ORDER</div>
                     </Link>
                 </div>
-                <Spinner open={this.state.showSpinner}/>
             </div>
         );
     }
