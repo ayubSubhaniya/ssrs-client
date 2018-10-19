@@ -45,13 +45,16 @@ export default function SignUpPage({
                     <ErrorMessage message={signupMessage} clearMessage={clearSignupMessage} />
                 </div>
                 <div className="page-input"><input type="submit" value="SIGN ME UP!"
-                    onClick={handleSignUp} /></div>
+                    onClick={(e) => {
+                        e.preventDefault()
+                        handleSignUp()
+                    }} /></div>
                 <div className={'alert alert-success p-2 mt-2 mb-2' + (isSignedup ? '' : ' d-none')}>
                     <strong>Verification Link Sent!</strong>
                     <span className={"alert-link"}
                         style={{ "cursor": "pointer" }}
                         onClick={handleResendVerificationLink}> Resend
-                                                </span>
+                    </span>
                 </div>
             </form>
         </div>
