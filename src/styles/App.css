@@ -389,7 +389,8 @@ input:checked + .slider:before {
 }
 
 .spinner > div {
-    width: 3%;
+    width: 40px;
+    margin: 0 auto;
 }
 
 .spinner > div > div {
