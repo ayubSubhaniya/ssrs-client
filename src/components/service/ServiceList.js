@@ -3,14 +3,12 @@ import _ from "lodash"
 import ServiceDetails from "./ServiceDetails";
 import {asyncFetch} from "../../helper/FetchData"
 import EditButton from "../EditButton";
-import Switch from "./Switch";
+import Switch from "../Switch";
 import AuthorizedComponent from "../AuthorizedComponent";
 import {domainUrl} from '../../config/configuration'
 import * as HttpStatus from "http-status-codes";
 import ButtonLink from "./ButtonLink";
 import Spinner from "../Spinner";
-import OrderForm from "../order/cart/OrderForm";
-import ConfirmModal from "../ConfirmModal";
 import DeleteButton from "../DeleteButton";
 import {isStudent, isSuperAdmin} from "../../helper/userType";
 import ApplyButton from "./ApplyButton";
@@ -20,8 +18,7 @@ class ServiceList extends Component {
         super(props, context);
         this.state = {
             service: [],
-            showSpinner: false,
-            isModalOpen: false
+            showSpinner: false
         };
         this.asyncFetch = asyncFetch.bind(this);
     }
@@ -29,23 +26,6 @@ class ServiceList extends Component {
     componentDidMount() {
         this.asyncFetch('service');
     }
-
-    openConfirmationModal = () => {
-        this.setState({
-            isModalOpen: true
-        })
-    };
-
-    closeConfirmationModal = () => {
-        this.setState({
-            isModalOpen: false
-        })
-    };
-
-    onYes = (index) => {
-        this.deleteService(index);
-        this.closeConfirmationModal();
-    };
 
     deleteService = (index) => {
         this.setState({
@@ -61,7 +41,7 @@ class ServiceList extends Component {
             if (this.status === HttpStatus.OK) {
                 const service = that.state.service;
                 that.setState({
-                    service: [...service.slice(0,index),...service.slice(index+1)]
+                    service: [...service.slice(0, index), ...service.slice(index + 1)]
                 })
             }
             that.setState({
@@ -123,13 +103,11 @@ class ServiceList extends Component {
                                                 index={i}
                                                 isChecked={service.isActive ? true : false}
                                                 permission={isSuperAdmin(this.props.user)}/>
-                                            <AuthorizedComponent permission={isSuperAdmin(this.props.user)}
-                                                                 openConfirmationModal={this.openConfirmationModal}
-                                                                 component={DeleteButton}/>
-                                            <ConfirmModal open={this.state.isModalOpen}
-                                                          onYes={() => this.onYes(i)}
-                                                          close={this.closeConfirmationModal}/>
-
+                                            <AuthorizedComponent
+                                                permission={isSuperAdmin(this.props.user)}
+                                                handleClick={this.deleteService}
+                                                index={i}
+                                                component={DeleteButton}/>
                                         </div>
                                     </div>
                                     <div id={'collapse' + i} className="collapse" data-parent="#accordion">

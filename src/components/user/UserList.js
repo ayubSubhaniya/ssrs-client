@@ -8,7 +8,7 @@ import * as HttpStatus from "http-status-codes";
 import NavigationBar from '../NavigationBar';
 import Header from '../Header';
 import $ from "jquery";
-import Switch from "../service/Switch";
+import Switch from "../Switch";
 
 function UserDetails(props) {
     return (
