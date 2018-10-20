@@ -17,24 +17,11 @@ class DataList extends Component {
         this.currentMessage = '';
         this.state = {
             showSpinner: false,
-            isModalOpen: false,
             isEditModalOpen: false,
             isAddModalOpen: false
         };
     }
 
-    openConfirmationModal = (e) => {
-        this.currentId = e.target.dataset.index;
-        this.setState({
-            isModalOpen: true
-        })
-    };
-
-    closeConfirmationModal = () => {
-        this.setState({
-            isModalOpen: false,
-        })
-    };
 
     openAddModal = (e) => {
         this.setState({
@@ -64,17 +51,12 @@ class DataList extends Component {
 
     onUpdate = (index, message) => {
         this.props.onUpdate(this.currentId, message);
-        this.closeConfirmationModal();
+        this.closeEditModal();
     };
 
     onAdd = (message) => {
         this.props.onCreate(message);
         this.closeAddModal();
-    };
-
-    onYes = (e) => {
-        this.props.onDelete(this.currentId);
-        this.closeConfirmationModal();
     };
 
     render() {
@@ -108,9 +90,9 @@ class DataList extends Component {
                                                     permission={isSuperAdmin(this.props.user) && this.props.editPermission}
                                                 />
                                                 <AuthorizedComponent
-                                                    index={data._id}
+                                                    index={i}
                                                     permission={isSuperAdmin(this.props.user) || this.props.deletePermission}
-                                                    openConfirmationModal={this.openConfirmationModal}
+                                                    handleClick={this.props.onDelete}
                                                     component={DeleteButton}/>
                                             </div>
                                         </div>
@@ -120,12 +102,6 @@ class DataList extends Component {
                             :
                             <li className="list-group-item list-group-item-action flex-column align-items-start"> Nothing to
                                 show </li>
-                    }
-                    {
-                        this.state.isModalOpen ?
-                            <ConfirmModal open={true}
-                                          onYes={this.onYes}
-                                          close={this.closeConfirmationModal}/> : ''
                     }
                     {
                         this.state.isEditModalOpen ?

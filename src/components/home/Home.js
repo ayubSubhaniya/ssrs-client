@@ -25,12 +25,12 @@ class Home extends Component {
         this.asyncFetch('notification');
     }
 
-    deleteNews = (id) => {
+    deleteNews = (index) => {
         this.setState({
             showSpinner: true
         });
         const that = this;
-        const url = domainUrl + '/news/' + id;
+        const url = domainUrl + '/news/' + this.state.news[index]._id;
         const request = new XMLHttpRequest();
         request.open('DELETE', url, true);
         request.withCredentials = true;
@@ -38,7 +38,7 @@ class Home extends Component {
         request.onload = function () {
             if (this.status === HttpStatus.OK) {
                 that.setState({
-                    news: _.filter(that.state.news,(o)=>o._id!==id)
+                    news: [...that.state.news.slice(0, index), ...that.state.news.slice(index + 1)]
                 })
             }
             that.setState({
@@ -48,12 +48,13 @@ class Home extends Component {
         request.send();
     };
 
-    deleteNotification = (id) => {
+    deleteNotification = (index) => {
+        console.log(index);
         this.setState({
             showSpinner: true
         });
         const that = this;
-        const url = domainUrl + '/notification/' + id;
+        const url = domainUrl + '/notification/' + this.state.notification[index]._id;
         const request = new XMLHttpRequest();
         request.open('DELETE', url, true);
         request.withCredentials = true;
@@ -61,7 +62,7 @@ class Home extends Component {
         request.onload = function () {
             if (this.status === HttpStatus.OK) {
                 that.setState({
-                    notification: _.filter(that.state.notification,(o)=>o._id!==id)
+                    notification: [...that.state.notification.slice(0, index), ...that.state.notification.slice(index + 1)]
                 })
             }
             that.setState({
@@ -130,7 +131,13 @@ class Home extends Component {
             <React.Fragment>
                 <NavigationBar/>
                 <Header title={'Welcome to Student Service Request System'}/>
-                <Tab user={this.props.user} news={this.state.news} addNews={this.addNews} deleteNews={this.deleteNews} updateNews={this.updateNews} notification={this.state.notification} deleteNotification={this.deleteNotification}/>
+                <Tab user={this.props.user}
+                     news={this.state.news}
+                     addNews={this.addNews}
+                     deleteNews={this.deleteNews}
+                     updateNews={this.updateNews}
+                     notification={this.state.notification}
+                     deleteNotification={this.deleteNotification}/>
                 <Spinner open={this.state.showSpinner}/>
             </React.Fragment>
         );
