@@ -71,7 +71,7 @@ class NewCollectionTypeForm extends Component {
         return (
             <div>
                 <NavigationBar/>
-                <Header title={"Add New Parameter"}/>
+                <Header title={"Add New CollectionType"}/>
                 <div className="container container-custom">
                     <CollectionTypeForm state={this.state}
                                         handleChange={this.handleChange}
