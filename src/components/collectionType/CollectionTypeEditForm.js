@@ -21,15 +21,23 @@ class CollectionTypeEditForm extends Component {
             name: this.collectionType.name,
             description: this.collectionType.description,
             baseCharge: this.collectionType.baseCharge,
+            category: this.collectionType.category,
         };
         this.handleChange = handleChange.bind(this);
-    }
+    };
+
+    handleCategoryChange = (e) => {
+        this.setState({
+            category: e.target.value
+        });
+    };
 
     getCollectionTypeFromState = () => {
         return {
             name: this.state.name,
             description: this.state.description,
             baseCharge: this.state.baseCharge,
+            category: this.state.category,
         };
     };
 
@@ -72,7 +80,8 @@ class CollectionTypeEditForm extends Component {
                     <div className="container container-custom">
                         <CollectionTypeForm state={this.state}
                                             handleChange={this.handleChange}
-                                            handleSubmit={this.handleSubmit}/>
+                                            handleSubmit={this.handleSubmit}
+                                            handleCategoryChange={this.handleCategoryChange}/>
                     </div>
                     <Spinner open={this.state.showSpinner}/>
                 </div>
