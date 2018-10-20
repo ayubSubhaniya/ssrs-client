@@ -137,7 +137,7 @@ class UserList extends Component {
         request.setRequestHeader("Content-type", "application/json");
         request.onload = function () {
             if (this.status == HttpStatus.OK) {
-                alert("data upadted successfully")
+                alert("data updated successfully")
                 that.setState({
                     showSpinner: false
                 });
