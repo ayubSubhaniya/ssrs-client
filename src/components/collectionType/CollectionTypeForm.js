@@ -37,6 +37,62 @@ function CollectionTypeForm(props) {
                 onChange={props.handleChange}>
                             </textarea>
         </div>
+        <div className="form-group">
+            <label>CollectionType Category</label>
+            <div className="col-9" style={{display: 'flex'}}>
+
+                <div className="form-check form-check-inline">
+
+                    <label className="form-check-label">
+
+                        <input className="form-check-input"
+
+                               style={{display: "inline"}}
+
+                               type="radio"
+
+                               value="Pickup"
+
+                               checked={props.state.category === "Pickup"}
+
+                               onClick={(e)=>{
+                                   e.target.checked = true;
+                                   props.handleCategoryChange(e);
+                               }}
+
+                        />
+
+                        Pickup
+
+                    </label>
+
+                </div>
+
+                <div className="form-check form-check-inline">
+
+                    <label className="form-check-label">
+
+                        <input className="form-check-input"
+
+                               style={{display: "inline"}}
+
+                               type="radio"
+
+                               value="Delivery"
+
+                               checked={props.state.category === "Delivery" || props.state.category === ""}
+
+                               onClick={props.handleCategoryChange}
+                               />
+
+                        Delivery
+
+                    </label>
+
+                </div>
+
+            </div>
+        </div>
         <div className={'d-flex justify-content-center mt-4'}>
             <input
                 className='submit'

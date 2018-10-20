@@ -17,15 +17,23 @@ class NewCollectionTypeForm extends Component {
             name: '',
             description: '',
             baseCharge: '',
+            category: '',
         };
         this.handleChange = handleChange.bind(this);
     }
+
+    handleCategoryChange = (e) => {
+        this.setState({
+            category: e.target.value
+        });
+    };
 
     getCollectionTypeFromState = () => {
         return {
             name: this.state.name,
             description: this.state.description,
             baseCharge: this.state.baseCharge,
+            category: this.state.category,
         };
     };
 
@@ -33,7 +41,7 @@ class NewCollectionTypeForm extends Component {
     addCollectionType = () => {
         this.setState({
             showSpinner: true
-        })
+        });
         const that = this;
         const url = domainUrl + '/collectionType/';
         const request = new XMLHttpRequest();
@@ -41,7 +49,7 @@ class NewCollectionTypeForm extends Component {
         request.withCredentials = true;
         request.setRequestHeader("Content-type", "application/json");
         request.onload = function () {
-            if (this.status == HttpStatus.CREATED) {
+            if (this.status === HttpStatus.CREATED) {
                 const response = JSON.parse(request.response)
 
                 that.props.history.push('/collectionType');
@@ -63,11 +71,12 @@ class NewCollectionTypeForm extends Component {
         return (
             <div>
                 <NavigationBar/>
-                <Header title={"Add New Parameter"}/>
+                <Header title={"Add New CollectionType"}/>
                 <div className="container container-custom">
                     <CollectionTypeForm state={this.state}
-                                   handleChange={this.handleChange}
-                                   handleSubmit={this.handleSubmit}/>
+                                        handleChange={this.handleChange}
+                                        handleSubmit={this.handleSubmit}
+                                        handleCategoryChange={this.handleCategoryChange}/>
                 </div>
                 <Spinner open={this.state.showSpinner}/>
             </div>
