@@ -1,14 +1,15 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import '../../styles/table.css';
 import EditUserModal from './EditUserModal';
 import _ from "lodash"
 import Spinner from "../Spinner";
-import {domainUrl} from "../../config/configuration";
+import { domainUrl } from "../../config/configuration";
 import * as HttpStatus from "http-status-codes";
 import NavigationBar from '../NavigationBar';
 import Header from '../Header';
 import $ from "jquery";
 import Switch from "../Switch";
+import FileUpload from "../FileUpload/FileUpload";
 
 function UserDetails(props) {
     return (
@@ -18,11 +19,11 @@ function UserDetails(props) {
             <td>{props.user.userType}</td>
             <td>
                 <div className={'d-flex flex-direction-col'}>
-                    <EditUserModal detail={props.user} index={props.index} updateUser={props.updateUser}/>
+                    <EditUserModal detail={props.user} index={props.index} updateUser={props.updateUser} />
                     <Switch
                         handleClick={() => props.toggleUserActiveStatus(props.index)}
                         index={props.index}
-                        isChecked={props.user.isActive ? true : false}/>
+                        isChecked={props.user.isActive ? true : false} />
                 </div>
             </td>
         </React.Fragment>
@@ -118,42 +119,78 @@ class UserList extends Component {
                 });
             }
         };
-        request.send(JSON.stringify({isActive: !user.isActive}));
+        request.send(JSON.stringify({ isActive: !user.isActive }));
     };
 
+    uploadHandler = (data) => {
+        data = {
+            "userInfo": data
+        }
+        this.setState({
+            showSpinner: true
+        });
+        const that = this;
+        const url = domainUrl + '/userInfo'
+        const request = new XMLHttpRequest();
+        request.open('POST', url, true);
+        request.withCredentials = true;
+        request.setRequestHeader("Content-type", "application/json");
+        request.onload = function () {
+            if (this.status == HttpStatus.OK) {
+                alert("data upadted successfully")
+                that.setState({
+                    showSpinner: false
+                });
+            }
+            else{
+                alert("please check the file again for format issues")
+            }
+        };
+        request.send(JSON.stringify(data));
+    }
 
     render() {
         return (
             <React.Fragment>
-                <NavigationBar/>
-                <Header title={'User Management'}/>
+                <NavigationBar />
+                <Header title={'User Management'} />
                 <table id="table" className='mb-4'>
                     <thead>
-                    <tr>
-                        <th>User ID</th>
-                        <th>User Name</th>
-                        <th>User Type</th>
-                        <th>Actions</th>
-                    </tr>
+                        <tr>
+                            <th>User ID</th>
+                            <th>User Name</th>
+                            <th>User Type</th>
+                            <th>Actions</th>
+                        </tr>
                     </thead>
                     <tbody>
-                    {
-                        _.map(this.state.user, (user, i) => {
-                            user.name.firstName = user.name.firstName?user.name.firstName:'';
-                            user.name.lastName = user.name.lastName?user.name.lastName:'';
-                            return (
-                                <tr key={i}>
-                                    <UserDetails user={user}
-                                                 index={i}
-                                                 updateUser={this.updateUser}
-                                                 toggleUserActiveStatus={this.toggleUserActiveStatus}/>
-                                </tr>
-                            )
-                        })
-                    }
+                        {
+                            _.map(this.state.user, (user, i) => {
+                                user.name.firstName = user.name.firstName ? user.name.firstName : '';
+                                user.name.lastName = user.name.lastName ? user.name.lastName : '';
+                                return (
+                                    <tr key={i}>
+                                        <UserDetails user={user}
+                                            index={i}
+                                            updateUser={this.updateUser}
+                                            toggleUserActiveStatus={this.toggleUserActiveStatus} />
+                                    </tr>
+                                )
+                            })
+                        }
                     </tbody>
                 </table>
-                <Spinner open={this.state.showSpinner}/>
+                <Spinner open={this.state.showSpinner} />
+                <div className={'d-flex justify-content-center'}>
+                <div class="card d-flex justify-content-center" style={{
+                    width : "30em"
+                }}>
+                    <div class="card-body mx-auto">
+                        <h5 class="card-title">Upload New User Data!</h5>
+                        <p class="card-text"><FileUpload handleSubmit={this.uploadHandler}/></p>
+                    </div>
+                </div>
+                </div>
             </React.Fragment>
         );
     }
