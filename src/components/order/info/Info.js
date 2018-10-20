@@ -4,57 +4,49 @@ import NavigationBar from "../../NavigationBar";
 import CourierForm from "../CourierForm";
 import {withRouter} from "react-router-dom"
 import CollectionTypesDropDown from "../../service/CollectionTypesDropDown"
-import {syncFetch} from "../../../helper/FetchData";
 import CourierDetails from "../CourierDetails";
 import PickUpDetails from "../PickUpDetails";
 import PickupForm from "../PickupForm";
-import _ from "lodash"
 import {errorMessages} from '../../../config/configuration'
 import * as HttpStatus from 'http-status-codes'
 import ErrorMessage from "../../error/ErrorMessage";
 import {makeCall} from "../../../helper/caller";
+import _ from "lodash"
+
+const DELIVERY = "Delivery";
+const PICKUP = "Pickup"
 
 class Info extends React.Component {
     constructor(props) {
         super(props);
-        const {avilableCollectionTypes} = props.location.state;
+        this.avilableCollectionTypes = props.location.state.avilableCollectionTypes;
 
-        const cart = syncFetch('cart');
-        if (avilableCollectionTypes.length === 1) {
-            this.state = {
-                addresses: [],
-                selectedAddress: 0,
-                showSpinner: false,
-                editAddress: false,
-                collectionType: avilableCollectionTypes,
-                collectionTypeIndex: 0,
-                courier: avilableCollectionTypes[0].name == 'Courier' ? cart.courier : undefined,
-                pickup: avilableCollectionTypes[0].name == 'Pickup' ? cart.pickup : undefined,
-                isCourierSelected: avilableCollectionTypes[0].name === 'Courier',
-                errorMessage: '',
-                isCollectionTypeInfoProvided: avilableCollectionTypes[0].name === 'Courier' ? cart.courier !== undefined : cart.pickup !== undefined
-            };
-        } else {
-            const selectedCollectionType = cart.courier ? 'Courier' : 'Pickup';
-            const collectionTypeIndex = _.findIndex(avilableCollectionTypes, (x) => x.name === selectedCollectionType);
-            this.state = {
-                addresses: [],
-                selectedAddress: 0,
-                showSpinner: false,
-                editAddress: false,
-                collectionType: avilableCollectionTypes,
-                collectionTypeIndex,
-                courier: cart ? cart.courier : undefined,
-                pickup: cart ? cart.pickup : undefined,
-                isCourierSelected: cart ? cart.courier !== undefined : false,
-                errorMessage: '',
-                isCollectionTypeInfoProvided: avilableCollectionTypes[collectionTypeIndex].name === 'Courier' ? cart.courier !== undefined : cart.pickup !== undefined
-            };
-        }
+        this.state = {
+            addresses: [],
+            cart: [],
+            selectedAddress: -1,
+            showSpinner: false,
+            editAddress: false,
+            collectionTypes: this.avilableCollectionTypes,
+            selectedCollectionTypeIndex: 0,
+            isCollectionTypeInfoProvided: false
+        };
     }
 
     componentDidMount() {
         this.getAddress();
+        this.getCart();
+    }
+
+    getCart = () => {
+        makeCall({jobType: 'GET', urlParams: '/cart'}).then((response) => {
+            const index = _.findIndex(this.avilableCollectionTypes,(x) => x._id===response.cart.collectionType)
+            this.setState({
+                cart: response.cart,
+                selectedCollectionTypeIndex: index!=-1?index:0,
+                isCollectionTypeInfoProvided: Boolean(response.cart.collectionType)
+            })
+        })
     }
 
     getAddress = () => {
@@ -66,8 +58,12 @@ class Info extends React.Component {
     }
 
     updateSelectedAddress = (index) => {
+        const cart = this.state.cart;
+        cart.delivery = this.state.addresses[index];
         this.setState({
-            selectedAddress: index
+            selectedAddress: index,
+            cart: cart,
+            isCollectionTypeInfoProvided: true
         })
     }
 
@@ -113,12 +109,8 @@ class Info extends React.Component {
         let index = target.dataset.index;
         if (!index)
             index = target.parentNode.dataset.index;
-
-        const isCourierSelected = this.state.collectionType[Number(index)].name === 'Courier';
         this.setState({
-            collectionTypeIndex: Number(index),
-            isCourierSelected,
-            isCollectionTypeInfoProvided: isCourierSelected ? this.state.courier !== undefined : this.state.pickup !== undefined
+            selectedCollectionTypeIndex: Number(index)
         });
     };
 
@@ -136,21 +128,15 @@ class Info extends React.Component {
         }
     }
 
-    handleCourierDataSubmit = () => {
+    handleDeliveryDataSubmit = () => {
         const address = this.state.addresses[this.state.selectedAddress];
         address._id = undefined;
         makeCall({
             jobType: 'POST',
-            urlParams: '/cart/courier',
+            urlParams: '/cart/delivery/' + this.state.collectionTypes[this.state.selectedCollectionTypeIndex]._id,
             params: address
         })
             .then((response) => {
-                this.setState({
-                    pickup: undefined,
-                    courier: response.courier,
-                    editAddress: false,
-                    isCollectionTypeInfoProvided: true
-                })
                 this.props.history.push('/payment');
             })
             .catch((response) => {
@@ -160,25 +146,34 @@ class Info extends React.Component {
     };
 
     handlePickupDataSubmit = (data) => {
-        makeCall({jobType: 'POST', urlParams: '/cart/pickup', params: data}).then((response) => {
-            this.setState({
-                courier: undefined,
-                pickup: response.pickup,
-                editAddress: false,
-                isCollectionTypeInfoProvided: true
-            }).catch((response) => {
+        const selectedCollectionType = this.state.collectionTypes[this.state.selectedCollectionTypeIndex];
+        makeCall({
+            jobType: 'POST',
+            urlParams: '/cart/pickup/' + selectedCollectionType._id,
+            params: data
+        })
+            .then((response) => {
+                const cart = this.state.cart;
+                cart.pickup = selectedCollectionType;
                 this.setState({
-                    editAddress: false
+                    cart: cart,
+                    isCollectionTypeInfoProvided: true
                 })
+                this.closeAddressModal()
+            })
+            .catch((response) => {
+                this.closeAddressModal()
                 this.onError(response);
             })
-        })
     };
 
     render() {
-        const SelectedCollectionTypeName = this.state.collectionTypeIndex !== -1
-            ? this.state.collectionType[this.state.collectionTypeIndex].name + " (₹" +
-            this.state.collectionType[this.state.collectionTypeIndex].baseCharge + ")"
+        console.log(this.state.cart);
+        const selectedCollectionType = this.state.selectedCollectionTypeIndex !== -1
+            ? this.state.collectionTypes[this.state.selectedCollectionTypeIndex]
+            : undefined
+        const SelectedCollectionTypeName = selectedCollectionType
+            ? selectedCollectionType.name + " (₹" + selectedCollectionType.baseCharge + ")"
             : 'Select';
         return (
             <div>
@@ -187,7 +182,7 @@ class Info extends React.Component {
                     <Stapes active={2}/>
                     <hr/>
                     <div className={'col-sm-6'}>
-                        <CollectionTypesDropDown label={'Collection Type'} options={this.state.collectionType}
+                        <CollectionTypesDropDown label={'Collection Type'} options={this.state.collectionTypes}
                                                  btnLabel={SelectedCollectionTypeName}
                                                  handleOptionChange={this.handleCollectionTypeChange}/>
                     </div>
@@ -200,23 +195,23 @@ class Info extends React.Component {
                                 </h3>
                             </div>
                             {
-                                this.state.isCourierSelected
+                                selectedCollectionType.category === DELIVERY
                                     ? <CourierDetails data={this.state.addresses}
                                                       selected={this.state.selectedAddress}
                                                       handleClick={this.updateSelectedAddress}
                                                       openAddressModal={this.openAddressModal}/>
-                                    : <PickUpDetails data={this.state.pickup}
+                                    : <PickUpDetails data={this.state.cart.pickup}
                                                      openAddressModal={this.openAddressModal}/>
                             }
                             {
-                                this.state.isCourierSelected
+                                selectedCollectionType.category === DELIVERY
                                     ? <CourierForm open={this.state.editAddress}
                                                    close={this.closeAddressModal}
-                                                   handleSubmit={this.addAddress} />
+                                                   handleSubmit={this.addAddress}/>
                                     : <PickupForm open={this.state.editAddress}
                                                   close={this.closeAddressModal}
                                                   handleSubmit={this.handlePickupDataSubmit}
-                                                  data={this.state.pickup}/>}
+                                                  data={this.state.cart.pickup}/>}
                         </div>
                         <hr/>
                     </div>
@@ -225,7 +220,7 @@ class Info extends React.Component {
                     <ErrorMessage
                         message={this.state.isCollectionTypeInfoProvided ? '' : errorMessages.noCollectionTypes}/>
                     <div className={this.state.isCollectionTypeInfoProvided ? '' : 'disabled-link'}
-                         onClick={this.handleCourierDataSubmit}>
+                         onClick={this.handleDeliveryDataSubmit}>
                         <div className='btn place-order submit mb-4'>PLACE ORDER</div>
                     </div>
                 </div>
