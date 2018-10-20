@@ -80,9 +80,10 @@ function CollectionTypeForm(props) {
 
                                value="Delivery"
 
-                               checked={props.state.category === "Delivery"}
+                               checked={props.state.category === "Delivery" || props.state.category === ""}
 
-                               onClick={props.handleCategoryChange}/>
+                               onClick={props.handleCategoryChange}
+                               />
 
                         Delivery
 
