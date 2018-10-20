@@ -11,7 +11,7 @@ class EditUserModal extends Component {
     render() {
         return (
             <div>
-                <button type="button" class="btn btn-light" data-toggle="modal"
+                <button type="button" className="btn btn-light" data-toggle="modal"
                         data-target={"#myModal" + this.props.detail.daiictId}>
                     <i className="fa fa-pencil"
                        style={{"fontSize": "24px", "color": "black"}}></i>

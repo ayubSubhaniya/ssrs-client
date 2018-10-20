@@ -102,14 +102,13 @@ class Cart extends Component {
                     <table id="cart" className="table table-hover table-condensed">
                         <thead>
                         <tr>
-                            <th style={{"width": "26%"}}>Service</th>
-                            <th style={{"width": "18%"}}>Parameters</th>
-                            <th style={{"width": "6%"}}>Price</th>
-                            <th style={{"width": "6%"}}>Quantity</th>
-                            <th style={{"width": "10%"}} className="text-center">Service Cost</th>
-                            <th style={{"width": "12%"}} className="text-center">Parameter Cost</th>
-                            <th style={{"width": "12%"}} className="text-center">Subtotal</th>
-                            <th style={{"width": "10%"}}></th>
+                            <th className='text-center'>Service</th>
+                            <th className='text-center'>Parameters</th>
+                            <th className='text-center'>Quantity</th>
+                            <th className='text-center'>Service Cost</th>
+                            <th className='text-center'>Parameter Cost</th>
+                            <th className='text-center'>Subtotal</th>
+                            <th className='text-center'></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -123,7 +122,7 @@ class Cart extends Component {
                         </tbody>
                         <tfoot>
                         <tr className="visible-xs">
-                            <td colSpan="6" className="hidden-xs">
+                            <td colSpan="5" className="hidden-xs">
                                 <div className={"alert alert-danger p-2 mt-2 mb-2" + (avilableCollectionTypes.length>0?' d-none':'')}>
                                     <strong>{'Collection Type Not matching for this Services, Please Order Separately!'}</strong></div>
                             </td>
@@ -138,7 +137,7 @@ class Cart extends Component {
                                         {" Add More Services"} </div>
                                 </Link>
                             </td>
-                            <td colSpan="6" className="hidden-xs"></td>
+                            <td colSpan="5" className="hidden-xs"></td>
                             <td>
                                 <Link to={{pathname:'/info',state: {
                                     avilableCollectionTypes: avilableCollectionTypes

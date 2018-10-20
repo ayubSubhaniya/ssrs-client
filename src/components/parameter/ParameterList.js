@@ -1,35 +1,11 @@
 import React, {Component} from 'react';
 import _ from "lodash"
 import EditButton from "../EditButton";
-import Switch from "../service/Switch";
+import Switch from "../Switch";
 import {Link} from "react-router-dom";
-import ConfirmModal from "../ConfirmModal";
+import DeleteButton from "../DeleteButton";
 
 class ParameterList extends Component {
-    constructor() {
-        super();
-        this.state = {
-            isModalOpen: false
-        }
-    }
-
-    openConfirmationModal = () => {
-        this.setState({
-            isModalOpen: true
-        })
-    };
-
-    closeConfirmationModal = () => {
-        this.setState({
-            isModalOpen: false
-        })
-    };
-
-    onYes = (index) => {
-        this.props.deleteParameter(index);
-        this.closeConfirmationModal();
-    };
-
     render() {
         return (
             <div className={'container container-custom'}>
@@ -50,18 +26,12 @@ class ParameterList extends Component {
                                                     handleClick={this.props.toggleParameter}
                                                     index={i}
                                                     isChecked={parameter.isActive ? true : false}/>
-                                                <button className="btn btn-danger btn-sm ml-2"
-                                                        onClick={this.openConfirmationModal}
-                                                        style={{"fontSize": "20px", "color": "black"}}>
-                                                    <i className="fa fa-trash-o"></i>
-                                                </button>
+                                                <DeleteButton handleClick={this.props.deleteParameter}
+                                                              index={i}/>
                                             </div>
                                         </div>
                                         <p className="mb-1">{parameter.description}</p>
                                     </div>
-                                    <ConfirmModal open={this.state.isModalOpen}
-                                                  onYes={() => this.onYes(i)}
-                                                  close={this.closeConfirmationModal}/>
                                 </React.Fragment>
                             )
                         })

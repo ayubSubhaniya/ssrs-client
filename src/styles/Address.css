@@ -1,13 +1,14 @@
 .address-view{
     display: flex;
     flex-direction: row;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
 }
 .address-bx{
     height : 18em;
     width : 18em;
-    border: 1px solid #CCCCCC; 
+    border: 1px solid #CCCCCC;
     margin-right : 5px;
+    margin-bottom: 5px;
     padding-left : 5px;
     padding-top : 5px;
 }

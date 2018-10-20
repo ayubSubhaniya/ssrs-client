@@ -88,7 +88,7 @@ function OrderStatusBar({status, isCourier}) {
 class CartWithOrders extends Component {
     constructor(props) {
         super(props);
-        this.id = props.location.state.id
+        this.id = this.props.location.pathname.split('/')[2];
         const cart = this.fetchCart();
         this.state = {
             cart: cart,
@@ -224,8 +224,8 @@ class CartWithOrders extends Component {
     }
 
     compareCollectionCode = (collectionCode) => {
-        this.closePaymentCodeModal();
-        if (collectionCode !== this.state.cart.collectionCode) {
+        this.closeColletionCodeModal();
+        if (collectionCode !== this.state.cart.pickup.collectionCode) {
             this.setState({
                 isCollectionCodeWrong: true,
             })
@@ -243,13 +243,12 @@ class CartWithOrders extends Component {
         const cart = this.state.cart;
         const courier = cart.courier;
         const pickup = cart.pickup;
-        console.log(courier, pickup, cart);
         return (
             <div className='mb-4 pb-4'>
                 <NavigationBar/>
                 <div className="container pb-0 mt-4">
                     <h3>
-                        <strong>Order Number: {cart.orderId}</strong>
+                        <strong>Order #: {cart.orderId}</strong>
                     </h3>
                     <hr/>
                     <h3 className='order-status'>
@@ -264,8 +263,9 @@ class CartWithOrders extends Component {
                                 })}> (<span className='link'>Complete Order</span>)</span>)
                                 : '')
                                 : ((isSuperAdmin(this.props.user) && cart.status === 70)
-                                        ? (<span onClick={this.openCollectionCodeModal}> (<span className='link'>Complete Order</span>)</span>)
-                                        : '')
+                                ? (<span onClick={this.openCollectionCodeModal}> (<span
+                                    className='link'>Complete Order</span>)</span>)
+                                : '')
                         }
                     </h3>
                     <TextInputModal visible={this.state.isCollectionCodeModalOpen}
@@ -278,14 +278,13 @@ class CartWithOrders extends Component {
                     <table id="cart" className="table table-hover table-condensed mt-4">
                         <thead>
                         <tr style={{'cursor': 'default'}}>
-                            <th style={{"width": "15%"}}>Service</th>
-                            <th style={{"width": "8%"}}>Status</th>
-                            <th style={{"width": "10%"}}>Parameters</th>
-                            <th style={{"width": "10%"}}>Price</th>
-                            <th style={{"width": "8%"}}>Quantity</th>
-                            <th style={{"width": "10%"}} className="text-center">Service Cost</th>
-                            <th style={{"width": "12%"}} className="text-center">Parameter Cost</th>
-                            <th style={{"width": "12%"}} className="text-center">Subtotal</th>
+                            <th>Service</th>
+                            <th className="text-center">Status</th>
+                            <th className="text-center">Parameters</th>
+                            <th className="text-center">Quantity</th>
+                            <th className="text-center">Service Cost</th>
+                            <th className="text-center">Parameter Cost</th>
+                            <th className="text-center">Subtotal</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -297,14 +296,13 @@ class CartWithOrders extends Component {
                                                                          index={i}/>)
                         }
                         <tr style={{'cursor': 'default'}}>
-                            <td data-th="Product">
+                            <td data-th="Service" colSpan="6">
                                 <div className="row">
                                     <div className="col-sm-10">
                                         <h4 className="nomargin">{cart.collectionType}</h4>
                                     </div>
                                 </div>
                             </td>
-                            <td colSpan="6"></td>
                             <td className="text-center">₹ {cart.collectionTypeCost}</td>
                         </tr>
                         </tbody>

@@ -8,6 +8,8 @@ import {domainUrl} from "../../config/configuration";
 import {camelCaseToWords} from "../../helper/String";
 import * as HttpStatus from "http-status-codes";
 import CartList from "./CartList";
+import {isSuperAdmin} from "../../helper/userType";
+
 const filterKey  = ['-10',30,50,60,70,80,90,100,110,0];
 const filter = {
     '-10': "all",
@@ -28,7 +30,7 @@ class Filter extends Component {
         this.state = {
             showSpinner: false,
             isFilterVisible: false,
-            filterState: '-10',
+            filterState: (isSuperAdmin(this.props.user) ? 50 : '-10'),
             order: [],
             cart: [],
         }
@@ -81,7 +83,7 @@ class Filter extends Component {
             if (this.status === HttpStatus.OK) {
                 try {
                     const obj = JSON.parse(request.responseText);
-                    console.log(obj);
+
                     that.setState({
                         cart: _.filter(obj['cart'], (o) => o.status != 20),
                     })

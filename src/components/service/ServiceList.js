@@ -1,51 +1,43 @@
 import React, {Component} from 'react';
 import _ from "lodash"
 import ServiceDetails from "./ServiceDetails";
-import {asyncFetch} from "../../helper/FetchData"
 import EditButton from "../EditButton";
-import Switch from "./Switch";
+import Switch from "../Switch";
 import AuthorizedComponent from "../AuthorizedComponent";
 import {domainUrl} from '../../config/configuration'
 import * as HttpStatus from "http-status-codes";
 import ButtonLink from "./ButtonLink";
 import Spinner from "../Spinner";
-import OrderForm from "../order/cart/OrderForm";
-import ConfirmModal from "../ConfirmModal";
 import DeleteButton from "../DeleteButton";
 import {isStudent, isSuperAdmin} from "../../helper/userType";
 import ApplyButton from "./ApplyButton";
+import {makeCall} from "../../helper/caller";
 
 class ServiceList extends Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
             service: [],
-            showSpinner: false,
-            isModalOpen: false
+            showSpinner: false
         };
-        this.asyncFetch = asyncFetch.bind(this);
     }
 
     componentDidMount() {
-        this.asyncFetch('service');
+       this.getService();
     }
 
-    openConfirmationModal = () => {
-        this.setState({
-            isModalOpen: true
+    getService = () => {
+        makeCall({
+            jobType: "GET",
+            urlParams: '/service'
         })
-    };
-
-    closeConfirmationModal = () => {
-        this.setState({
-            isModalOpen: false
-        })
-    };
-
-    onYes = (index) => {
-        this.deleteService(index);
-        this.closeConfirmationModal();
-    };
+            .then((response) => {
+                this.setState({
+                    service: response.service,
+                });
+            })
+            .catch(error => console.log(error));
+    }
 
     deleteService = (index) => {
         this.setState({
@@ -61,7 +53,7 @@ class ServiceList extends Component {
             if (this.status === HttpStatus.OK) {
                 const service = that.state.service;
                 that.setState({
-                    service: [...service.slice(0,index),...service.slice(index+1)]
+                    service: [...service.slice(0, index), ...service.slice(index + 1)]
                 })
             }
             that.setState({
@@ -72,26 +64,22 @@ class ServiceList extends Component {
     }
 
     toggleService = (index) => {
-        this.props.showSpinner();
         const service = this.state.service[index];
-        const that = this;
-        const url = domainUrl + '/service/changeStatus/' + service._id;
-        const request = new XMLHttpRequest();
-        request.open('PATCH', url, true);
-        request.withCredentials = true;
-        request.setRequestHeader("Content-type", "application/json");
-        request.onload = function () {
-            if (this.status == HttpStatus.OK) {
-                const response = JSON.parse(request.response)
-                const serviceList = that.state.service;
+        makeCall({
+            jobType: "PATCH",
+            urlParams: '/service/changeStatus/' + service._id,
+            params: {
+                isActive: !service.isActive
+            }
+        })
+            .then((response) => {
+                const serviceList = this.state.service;
                 serviceList[index] = response.service;
-                that.setState({
+                this.setState({
                     service: serviceList,
                 });
-            }
-            that.props.hideSpinner();
-        }
-        request.send(JSON.stringify({isActive: !service.isActive}));
+            })
+            .catch(error => console.log(error));
     }
 
     render() {
@@ -123,13 +111,11 @@ class ServiceList extends Component {
                                                 index={i}
                                                 isChecked={service.isActive ? true : false}
                                                 permission={isSuperAdmin(this.props.user)}/>
-                                            <AuthorizedComponent permission={isSuperAdmin(this.props.user)}
-                                                                 openConfirmationModal={this.openConfirmationModal}
-                                                                 component={DeleteButton}/>
-                                            <ConfirmModal open={this.state.isModalOpen}
-                                                          onYes={() => this.onYes(i)}
-                                                          close={this.closeConfirmationModal}/>
-
+                                            <AuthorizedComponent
+                                                permission={isSuperAdmin(this.props.user)}
+                                                handleClick={this.deleteService}
+                                                index={i}
+                                                component={DeleteButton}/>
                                         </div>
                                     </div>
                                     <div id={'collapse' + i} className="collapse" data-parent="#accordion">

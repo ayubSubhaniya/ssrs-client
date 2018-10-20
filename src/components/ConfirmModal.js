@@ -8,7 +8,7 @@ class ConfirmModal extends React.Component {
 
     render() {
         return (
-            <Modal visible={this.props.open} >
+            <Modal visible={this.props.open}>
                 <div className="modal-header">
                     <h5 className="modal-title">Confirmation!</h5>
                 </div>

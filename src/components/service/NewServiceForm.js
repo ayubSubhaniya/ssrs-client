@@ -1,30 +1,25 @@
 import React, {Component} from 'react';
-import {domainUrl} from '../../config/configuration'
-import {OFFLINE, DEBITCARD, NETBANKING, PAYTM} from "../../constants/PaymentMode"
+import {OFFLINE, ONLINE} from "../../constants/PaymentMode"
 import {withRouter} from "react-router-dom";
 import Header from "../Header";
-import * as HttpStatus from "http-status-codes";
 import {syncFetch} from '../../helper/FetchData'
 import NavigationBar from "../NavigationBar";
 import {collectionType} from "../../test/CollectionType";
-import {handleChange, handleArrayUpdate, handlePaymentModeChange, getServiceFromState} from "../../helper/StateUpdate"
+import {getServiceFromState, handleArrayUpdate, handleChange, handlePaymentModeChange} from "../../helper/StateUpdate"
 import Form from "./Form";
-import Spinner from "../Spinner";
+import {makeCall} from "../../helper/caller";
 
 class NewServiceForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            showSpinner: false,
             name: '',
             description: '',
             maxUnits: '',
             baseCharge: '',
             paymentModes: {
                 [OFFLINE]: true,
-                [DEBITCARD]: true,
-                [NETBANKING]: true,
-                [PAYTM]: true
+                [ONLINE]: true
             },
             collectionType: syncFetch("collectionType"),
             parameter: syncFetch("parameter")
@@ -36,26 +31,15 @@ class NewServiceForm extends Component {
     }
 
     addService = () => {
-        const that = this;
-        this.setState({
-            showSpinner: true
+        makeCall({
+            jobType: 'POST',
+            urlParams: '/service/',
+            params: this.getServiceFromState()
         })
-        const url = domainUrl + '/service/'
-        const request = new XMLHttpRequest();
-        request.open('POST', url, true);
-        request.withCredentials = true;
-        request.setRequestHeader("Content-type", "application/json");
-        request.onload = function () {
-            if (this.status == HttpStatus.CREATED) {
-                const response = JSON.parse(request.response)
-                console.log(response);
-                that.props.history.push('/service');
-            }
-            that.setState({
-                showSpinner: true
-            })
-        }
-        request.send(JSON.stringify(this.getServiceFromState()));
+            .then(response => this.props.history.push('/service'))
+            .catch((error) => {
+                console.log(error.statusText);
+            });
     }
 
     handleSubmit = (event) => {
@@ -74,10 +58,8 @@ class NewServiceForm extends Component {
                           handleChange={this.handleChange}
                           handleArrayUpdate={this.handleArrayUpdate}
                           handleSubmit={this.handleSubmit}
-                          handleSubmit={this.handleSubmit}
-                          handlePaymentModeChange={this.handlePaymentModeChange} />
+                          handlePaymentModeChange={this.handlePaymentModeChange}/>
                 </div>
-                <Spinner open={this.state.showSpinner}/>
             </div>
         );
     }

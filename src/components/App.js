@@ -6,7 +6,7 @@ import 'font-awesome/css/font-awesome.min.css'
 import '../styles/filter/reset.css'
 import '../styles/filter/style.css'
 import '../styles/App.css';
-import {BrowserRouter as Router} from "react-router-dom";
+import {BrowserRouter as Router, Switch, Route, Redirect} from "react-router-dom";
 import Home from './home/Home';
 import Services from "./service/Services";
 import NewServiceForm from "./service/NewServiceForm";
@@ -186,91 +186,94 @@ class App extends Component {
                 <Router>
                     <React.Fragment>
                         <Spinner open={this.state.showSpinner}/>
-                        <AuthorizedRoute
-                            permission={true}
-                            exact path="/"
-                            hideSpinner={this.hideSpinner}
-                            showSpinner={this.showSpinner}
-                            clearLoginMessage={this.clearLoginMessage}
-                            user={this.state.user}
-                            component={isAuthenticated ? Home : PublicPage}/>
-                        <AuthorizedRoute
-                            exact path="/service"
-                            component={Services}
-                            hideSpinner={this.hideSpinner}
-                            showSpinner={this.showSpinner}
-                            permission={isAuthenticated}
-                            user={this.state.user}/>
-                        <AuthorizedRoute
-                            exact path="/order"
-                            component={Filter}
-                            permission={isAuthenticated}
-                            user={this.state.user}/>
-                        <AuthorizedRoute
-                            exact path="/service/add"
-                            component={NewServiceForm}
-                            permission={isSuperAdmin(this.state.user)}/>
-                        <AuthorizedRoute
-                            path="/service/edit"
-                            component={EditForm}
-                            permission={isSuperAdmin(this.state.user)}/>
-                        <AuthorizedRoute
-                            exact path="/parameter"
-                            component={Parameters}
-                            permission={isSuperAdmin(this.state.user)}
-                            user={this.state.user}/>
-                        <AuthorizedRoute
-                            path="/parameter/edit"
-                            component={ParameterEditForm}
-                            permission={isSuperAdmin(this.state.user)}/>
-                        <AuthorizedRoute
-                            exact path="/parameter/add"
-                            component={NewParameterForm}
-                            permission={isSuperAdmin(this.state.user)}/>
-                        <AuthorizedRoute
-                            exact path="/collectionType"
-                            component={CollectionType}
-                            permission={isSuperAdmin(this.state.user)}
-                            user={this.state.user}/>
-                        <AuthorizedRoute
-                            path="/collectionType/edit"
-                            component={CollectionTypeEditForm}
-                            permission={isSuperAdmin(this.state.user)}/>
-                        <AuthorizedRoute
-                            path="/collectionType/add"
-                            component={NewCollectionTypeForm}
-                            permission={isSuperAdmin(this.state.user)}/>
-                        <AuthorizedRoute
-                            path="/cart"
-                            component={Cart}
-                            permission={isStudent(this.state.user)}/>
-                        <AuthorizedRoute
-                            exact path="/info"
-                            component={Info}
-                            permission={isStudent(this.state.user)}/>
-                        <AuthorizedRoute
-                            exact path='/payment'
-                            component={Payment}
-                            permission={isStudent(this.state.user)}/>
-                        <AuthorizedRoute
-                            exact path='/users'
-                            component={UserList}
-                            permission={isSuperAdmin(this.state.user)}/>
-                        <AuthorizedRoute
-                            exact path="/Myprofile"
-                            component={Myprofile}
-                            permission={true}
-                            user={this.state.user}
-                            updateUser={this.updateUser}/>
-                        <AuthorizedRoute
-                            exact path="/order/*"
-                            component={CartWithOrders}
-                            permission={true}
-                            user={this.state.user}/>
-                        <AuthorizedRoute
-                            exact path='/Permission'
-                            component={Permission}
-                            permission={isSuperAdmin(this.state.user)}/>
+                        <Switch>
+                            <AuthorizedRoute
+                                permission={true}
+                                exact path="/"
+                                hideSpinner={this.hideSpinner}
+                                showSpinner={this.showSpinner}
+                                clearLoginMessage={this.clearLoginMessage}
+                                user={this.state.user}
+                                component={isAuthenticated ? Home : PublicPage}/>
+                            <AuthorizedRoute
+                                exact path="/service"
+                                component={Services}
+                                hideSpinner={this.hideSpinner}
+                                showSpinner={this.showSpinner}
+                                permission={isAuthenticated}
+                                user={this.state.user}/>
+                            <AuthorizedRoute
+                                exact path="/order"
+                                component={Filter}
+                                permission={isAuthenticated}
+                                user={this.state.user}/>
+                            <AuthorizedRoute
+                                exact path="/service/add"
+                                component={NewServiceForm}
+                                permission={isSuperAdmin(this.state.user)}/>
+                            <AuthorizedRoute
+                                path="/service/edit"
+                                component={EditForm}
+                                permission={isSuperAdmin(this.state.user)}/>
+                            <AuthorizedRoute
+                                exact path="/parameter"
+                                component={Parameters}
+                                permission={isSuperAdmin(this.state.user)}
+                                user={this.state.user}/>
+                            <AuthorizedRoute
+                                path="/parameter/edit"
+                                component={ParameterEditForm}
+                                permission={isSuperAdmin(this.state.user)}/>
+                            <AuthorizedRoute
+                                exact path="/parameter/add"
+                                component={NewParameterForm}
+                                permission={isSuperAdmin(this.state.user)}/>
+                            <AuthorizedRoute
+                                exact path="/collectionType"
+                                component={CollectionType}
+                                permission={isSuperAdmin(this.state.user)}
+                                user={this.state.user}/>
+                            <AuthorizedRoute
+                                path="/collectionType/edit"
+                                component={CollectionTypeEditForm}
+                                permission={isSuperAdmin(this.state.user)}/>
+                            <AuthorizedRoute
+                                path="/collectionType/add"
+                                component={NewCollectionTypeForm}
+                                permission={isSuperAdmin(this.state.user)}/>
+                            <AuthorizedRoute
+                                path="/cart"
+                                component={Cart}
+                                permission={isStudent(this.state.user)}/>
+                            <AuthorizedRoute
+                                exact path="/info"
+                                component={Info}
+                                permission={isStudent(this.state.user)}/>
+                            <AuthorizedRoute
+                                exact path='/payment'
+                                component={Payment}
+                                permission={isStudent(this.state.user)}/>
+                            <AuthorizedRoute
+                                exact path='/users'
+                                component={UserList}
+                                permission={isSuperAdmin(this.state.user)}/>
+                            <AuthorizedRoute
+                                exact path="/Myprofile"
+                                component={Myprofile}
+                                permission={true}
+                                user={this.state.user}
+                                updateUser={this.updateUser}/>
+                            <AuthorizedRoute
+                                exact path="/order/*"
+                                component={CartWithOrders}
+                                permission={true}
+                                user={this.state.user}/>
+                            <AuthorizedRoute
+                                exact path='/Permission'
+                                component={Permission}
+                                permission={isSuperAdmin(this.state.user)}/>
+                            <Route render={()=> <Redirect to='/' />} />
+                        </Switch>
                     </React.Fragment>
                 </Router>
             </Context.Provider>

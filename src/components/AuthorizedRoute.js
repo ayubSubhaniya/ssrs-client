@@ -1,7 +1,5 @@
-import {Route} from "react-router-dom";
-import NotFound from "../errors/NotFound";
+import {Route, Redirect} from "react-router-dom";
 import React from "react";
-import PublicPage from "./public-page/PublicPage";
 
 const AuthorizedRoute = ({component: Component, ...rest, permission}) => (
     <Route
@@ -10,7 +8,7 @@ const AuthorizedRoute = ({component: Component, ...rest, permission}) => (
             permission ? (
                 <Component {...props} {...rest}/>
             ) : (
-                <PublicPage/>
+                <Redirect to="/"/>
             )
         }
     />

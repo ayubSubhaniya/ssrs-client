@@ -8,7 +8,26 @@ import * as HttpStatus from "http-status-codes";
 import NavigationBar from '../NavigationBar';
 import Header from '../Header';
 import $ from "jquery";
-import Switch from "../service/Switch";
+import Switch from "../Switch";
+
+function UserDetails(props) {
+    return (
+        <React.Fragment>
+            <td>{props.user.daiictId}</td>
+            <td>{props.user.name.firstName + ' ' + props.user.name.lastName}</td>
+            <td>{props.user.userType}</td>
+            <td>
+                <div className={'d-flex flex-direction-col'}>
+                    <EditUserModal detail={props.user} index={props.index} updateUser={props.updateUser}/>
+                    <Switch
+                        handleClick={() => props.toggleUserActiveStatus(props.index)}
+                        index={props.index}
+                        isChecked={props.user.isActive ? true : false}/>
+                </div>
+            </td>
+        </React.Fragment>
+    )
+}
 
 class UserList extends Component {
 
@@ -104,40 +123,35 @@ class UserList extends Component {
 
 
     render() {
-        console.log(this.state.user);
         return (
             <React.Fragment>
                 <NavigationBar/>
                 <Header title={'User Management'}/>
-                <table id="table">
+                <table id="table" className='mb-4'>
+                    <thead>
                     <tr>
                         <th>User ID</th>
                         <th>User Name</th>
                         <th>User Type</th>
                         <th>Actions</th>
                     </tr>
+                    </thead>
+                    <tbody>
                     {
                         _.map(this.state.user, (user, i) => {
                             user.name.firstName = user.name.firstName?user.name.firstName:'';
                             user.name.lastName = user.name.lastName?user.name.lastName:'';
                             return (
-                                <tr>
-                                    <td>{user.daiictId}</td>
-                                    <td>{user.name.firstName + ' ' + user.name.lastName}</td>
-                                    <td>{user.userType}</td>
-                                    <td>
-                                        <div className={'d-flex flex-direction-col'}>
-                                            <EditUserModal detail={user} index={i} updateUser={this.updateUser}/>
-                                            <Switch
-                                                handleClick={() => this.toggleUserActiveStatus(i)}
-                                                index={i}
-                                                isChecked={user.isActive ? true : false}/>
-                                        </div>
-                                    </td>
+                                <tr key={i}>
+                                    <UserDetails user={user}
+                                                 index={i}
+                                                 updateUser={this.updateUser}
+                                                 toggleUserActiveStatus={this.toggleUserActiveStatus}/>
                                 </tr>
                             )
                         })
                     }
+                    </tbody>
                 </table>
                 <Spinner open={this.state.showSpinner}/>
             </React.Fragment>
