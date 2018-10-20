@@ -8,11 +8,14 @@ import {collectionType} from "../../test/CollectionType";
 import {getServiceFromState, handleArrayUpdate, handleChange, handlePaymentModeChange} from "../../helper/StateUpdate"
 import Form from "./Form";
 import {makeCall} from "../../helper/caller";
+import _ from 'lodash'
 
 class NewServiceForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            isApplicationSpecific: "false",
+            isSpecialService: "false",
             name: '',
             description: '',
             maxUnits: '',
@@ -30,6 +33,10 @@ class NewServiceForm extends Component {
         this.getServiceFromState = getServiceFromState.bind(this);
     }
 
+    componentDidMount(){
+        this.getUserInfoDistinct();
+    }
+
     addService = () => {
         makeCall({
             jobType: 'POST',
@@ -37,9 +44,33 @@ class NewServiceForm extends Component {
             params: this.getServiceFromState()
         })
             .then(response => this.props.history.push('/service'))
-            .catch((error) => {
-                console.log(error.statusText);
-            });
+    }
+
+    getUserInfoDistinct = () => {
+        makeCall({
+            jobType: "GET",
+            urlParams: '/userInfo/distinct'
+        })
+            .then((response) => {
+                this.setState({
+                    batches: _.map(response.batches,(o) =>({name:o,isSelected:true})),
+                    userTypes: _.map(response.userTypes,(o) =>({name:o,isSelected:true})),
+                    programmes:_.map(response.programmes,(o) =>({name:o,isSelected:true}))
+                })
+            })
+    }
+
+    makeServiceApplicationSpecific = ({target}) => {
+        console.log(target);
+        this.setState({
+            isApplicationSpecific: target.value
+        })
+    }
+
+    makeServiceSpecial = ({target}) => {
+        this.setState({
+            isSpecialService: target.value
+        })
     }
 
     handleSubmit = (event) => {
@@ -58,6 +89,8 @@ class NewServiceForm extends Component {
                           handleChange={this.handleChange}
                           handleArrayUpdate={this.handleArrayUpdate}
                           handleSubmit={this.handleSubmit}
+                          makeServiceSpecial={this.makeServiceSpecial}
+                          makeServiceApplicationSpecific={this.makeServiceApplicationSpecific}
                           handlePaymentModeChange={this.handlePaymentModeChange}/>
                 </div>
             </div>

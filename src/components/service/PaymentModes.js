@@ -3,7 +3,7 @@ import {OFFLINE, ONLINE} from "../../constants/PaymentMode";
 
 function Mode({text,mode,isChecked,onChange}) {
     return (
-        <div className={'form-check'}>
+        <div className={'form-check mr-4'}>
             <label>
                 <input className="form-check-input"
                        type="checkbox"
@@ -19,11 +19,11 @@ function Mode({text,mode,isChecked,onChange}) {
 function PaymentModes(props) {
     return (
         <div
-            className={'form-group col-sm-6'}>
+            className={'form-group col-md-6'}>
             <label>
                 Payment Modes
             </label>
-            <div className={'bg-white'}>
+            <div className={'bg-white pt-2 d-flex'}>
                 <Mode onChange={props.handleChange}
                       mode={OFFLINE}
                       text={'Cash(Offline)'}

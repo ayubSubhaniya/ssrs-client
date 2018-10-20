@@ -17,7 +17,24 @@ function setSelecteProperty(arr1, arr2) {
     })
 }
 
-
+function setSelectedPropertyByName(arr1, arr2) {
+    return _.map(arr1, (x) => {
+        const newElement = {name: x}
+        console.log(arr1,arr2)
+        if (_.some(arr2, (o) => o === x))
+            newElement.isSelected = true
+        else
+            newElement.isSelected = false
+        console.log(newElement)
+        return newElement;
+    })
+}
+function reducArrayInToObject(params) {
+    return _.reduce(params, function (obj, param) {
+        obj[param] = true;
+        return obj;
+    }, {});
+}
 class EditForm extends Component {
     constructor(props) {
         super(props);
@@ -29,11 +46,16 @@ class EditForm extends Component {
 
         this.service = props.location.state;
         this.state = {
+            isApplicationSpecific: this.service.isApplicationSpecific.toString(),
+            isSpecialService: this.service.isSpecialService.toString(),
             name: this.service.name,
             description: this.service.description,
             maxUnits: this.service.maxUnits,
             baseCharge: this.service.baseCharge,
-            paymentModes: this.service.paymentModes,
+            paymentModes: reducArrayInToObject(this.service.availablePaymentModes),
+            batches: this.service.allowedBatches,
+            userTypes: this.service.allowedUserTypes,
+            programmes: this.service.allowedProgrammes,
             collectionType: setSelecteProperty(allCollectionTypes, this.service.collectionTypes),
             parameter: setSelecteProperty(allParameters, this.service.availableParameters)
         }
@@ -42,6 +64,25 @@ class EditForm extends Component {
         this.handlePaymentModeChange = handlePaymentModeChange.bind(this);
         this.getServiceFromState = getServiceFromState.bind(this);
     }
+
+    componentDidMount() {
+        this.getUserInfoDistinct();
+    }
+
+    getUserInfoDistinct = () => {
+        makeCall({
+            jobType: "GET",
+            urlParams: '/userInfo/distinct'
+        })
+            .then((response) => {
+                this.setState({
+                    batches: setSelectedPropertyByName(response.batches, this.state.batches),
+                    userTypes: setSelectedPropertyByName(response.userTypes, this.state.userTypes),
+                    programmes: setSelectedPropertyByName(response.programmes, this.state.programmes)
+                })
+            })
+    }
+
 
     updateService = () => {
         makeCall({
@@ -60,6 +101,18 @@ class EditForm extends Component {
         this.updateService()
     }
 
+    makeServiceApplicationSpecific = ({target}) => {
+        console.log(target);
+        this.setState({
+            isApplicationSpecific: target.value
+        })
+    }
+
+    makeServiceSpecial = ({target}) => {
+        this.setState({
+            isSpecialService: target.value
+        })
+    }
 
     render() {
         if (this.props.location.state) {
@@ -72,6 +125,8 @@ class EditForm extends Component {
                               handleChange={this.handleChange}
                               handleArrayUpdate={this.handleArrayUpdate}
                               handleSubmit={this.handleSubmit}
+                              makeServiceSpecial={this.makeServiceSpecial}
+                              makeServiceApplicationSpecific={this.makeServiceApplicationSpecific}
                               handlePaymentModeChange={this.handlePaymentModeChange}/>
                     </div>
                 </div>

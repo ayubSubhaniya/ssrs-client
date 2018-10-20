@@ -21,15 +21,27 @@ export function handleArrayUpdate({target}){
     })
 }
 
+function getSelectedName(obj) {
+   return _.map(_.filter(obj,({isSelected}) => isSelected), 'name')
+}
+function getSelectedID(obj) {
+    return _.map(_.filter(obj,({isSelected}) => isSelected), '_id')
+}
+
 export function getServiceFromState(){
     const updatedService = {
         name: this.state.name,
         description: this.state.description,
+        isApplicationSpecific: this.state.isApplicationSpecific,
+        isSpecialService: this.state.isSpecialService,
         maxUnits: this.state.maxUnits,
         baseCharge: this.state.baseCharge,
-        paymentModes: this.state.paymentModes,
-        collectionTypes: _.map(_.filter(this.state.collectionType, ({isSelected}) => isSelected), '_id'),
-        availableParameters: _.map(_.filter(this.state.parameter, ({isSelected}) => isSelected), '_id')
+        availablePaymentModes: _.filter(Object.keys(this.state.paymentModes),(key) => this.state.paymentModes[key]),
+        collectionTypes: getSelectedID(this.state.collectionType),
+        availableParameters: getSelectedID(this.state.parameter),
+        allowedUserTypes: getSelectedName(this.state.userTypes),
+        allowedProgrammes: getSelectedName(this.state.programmes),
+        allowedBatches: getSelectedName(this.state.batches)
     }
     console.log(updatedService);
     return updatedService;

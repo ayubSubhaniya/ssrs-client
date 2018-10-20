@@ -116,7 +116,7 @@ p {
 input[type=checkbox] {
     margin: 0px;
     position: relative;
-    left: -10px;
+    left: -4px;
 }
 
 input[type=submit] {

@@ -21,7 +21,7 @@ class ServiceDetails extends Component {
                 <h5><strong>Maximum Units: </strong>
                     {service.maxUnits}</h5>
                 <h5><strong>Payment Modes: </strong>
-                    {_.map(_.keys(_.pickBy(service.paymentModes)), (x) => capitalize(x)).join(", ")} </h5>
+                    {_.map(service.availablePaymentModes, (x) => capitalize(x)).join(", ")} </h5>
                 <h5><strong>Collection Type: </strong>
                     {service.collectionTypes.length>0?filterName(service.collectionTypes):'None'} </h5>
                 <h5><strong>Available Parameters: </strong>
