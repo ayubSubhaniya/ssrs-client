@@ -2,7 +2,7 @@ import React from 'react'
 import Modal from "react-bootstrap4-modal";
 import {handleChange} from "../../helper/StateUpdate";
 
-class TextInputModal extends React.Component{
+class TextInput extends React.Component{
     constructor(){
         super();
         this.state = {
@@ -45,4 +45,4 @@ class TextInputModal extends React.Component{
     }
 }
 
-export default TextInputModal
+export default TextInput

@@ -1,10 +1,10 @@
 import React from 'react'
 import Stapes from "../../service/Stapes";
 import NavigationBar from "../../NavigationBar";
-import CourierForm from "../CourierForm";
+import AddressForm from "../AddressForm";
 import {withRouter} from "react-router-dom"
 import CollectionTypesDropDown from "../../service/CollectionTypesDropDown"
-import CourierDetails from "../CourierDetails";
+import AddressList from "../AddressList";
 import PickUpDetails from "../PickUpDetails";
 import PickupForm from "../PickupForm";
 import {errorMessages} from '../../../config/configuration'
@@ -206,16 +206,16 @@ class Info extends React.Component {
                             </div>
                             {
                                 selectedCollectionType.category === DELIVERY
-                                    ? <CourierDetails data={this.state.addresses}
-                                                      selected={this.state.selectedAddress}
-                                                      handleClick={this.updateSelectedAddress}
-                                                      openAddressModal={this.openAddressModal}/>
+                                    ? <AddressList data={this.state.addresses}
+                                                   selected={this.state.selectedAddress}
+                                                   handleClick={this.updateSelectedAddress}
+                                                   openAddressModal={this.openAddressModal}/>
                                     : <PickUpDetails data={this.state.cart.pickup}
                                                      openAddressModal={this.openAddressModal}/>
                             }
                             {
                                 selectedCollectionType.category === DELIVERY
-                                    ? <CourierForm open={this.state.editAddress}
+                                    ? <AddressForm open={this.state.editAddress}
                                                    close={this.closeAddressModal}
                                                    handleSubmit={this.addAddress}/>
                                     : <PickupForm open={this.state.editAddress}

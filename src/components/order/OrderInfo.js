@@ -5,13 +5,13 @@ import '../../styles/orderstatus.css'
 import {cartStatus, rcartStatus, rorderStatus} from "../../constants/status";
 import {camelCaseToWords} from "../../helper/String";
 import {isSuperAdmin} from "../../helper/userType";
-import TextInputModal from "./TextInputModal";
+import TextInput from "./TextInput";
 import {makeCall} from "../../helper/caller";
 import {defaultCart} from "../../constants/constants";
 import TextInfo from "./TextInfo"
-import CourierDetailsModal from "./CourierDetailsModal";
+import CourierForm from "./CourierForm";
 import OrderStatusBar from "./OrderStatusBar"
-import OrderList from "./OrderList";
+import ServiceList from "./ServiceList";
 import {DeliveryInfo, PickupInfo} from './Info'
 
 
@@ -50,10 +50,10 @@ function PaymentInfo({cart, user, isPaymentCodeModalOpen, openPaymentCodeModal, 
                                                         Update Status</span>)</span>) : ''}
                                     </div>
                                 </div>
-                                <TextInputModal visible={isPaymentCodeModalOpen}
-                                                text={'Enter Payment Code'}
-                                                onSubmit={makePayment}
-                                                closeModal={closePaymentCodeModal}/>
+                                <TextInput visible={isPaymentCodeModalOpen}
+                                           text={'Enter Payment Code'}
+                                           onSubmit={makePayment}
+                                           closeModal={closePaymentCodeModal}/>
                             </React.Fragment>
                         )
                         : (<React.Fragment>
@@ -66,7 +66,7 @@ function PaymentInfo({cart, user, isPaymentCodeModalOpen, openPaymentCodeModal, 
     )
 }
 
-class CartWithOrders extends Component {
+class OrderInfo extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -223,20 +223,20 @@ class CartWithOrders extends Component {
                                 user={this.props.user}
                                 openCourierDetailsModal={this.openCourierDetailsModal}
                                 openCollectionCodeModal={this.openCollectionCodeModal}/>
-                    <TextInputModal visible={this.state.isCollectionCodeModalOpen}
-                                    text={'Enter Collection Code'}
-                                    closeModal={this.closeColletionCodeModal}
-                                    onSubmit={this.compareCollectionCode}/>
-                    <CourierDetailsModal visible={this.state.isCourierDetailsModalOpen}
-                                         closeModal={this.closeCourierDetailsModal}
-                                         onSubmit={this.completeOrder}/>
+                    <TextInput visible={this.state.isCollectionCodeModalOpen}
+                               text={'Enter Collection Code'}
+                               closeModal={this.closeColletionCodeModal}
+                               onSubmit={this.compareCollectionCode}/>
+                    <CourierForm visible={this.state.isCourierDetailsModalOpen}
+                                 closeModal={this.closeCourierDetailsModal}
+                                 onSubmit={this.completeOrder}/>
                     <OrderStatusBar status={cart.status}
                                     isDelivery={delivery}/>
 
-                    <OrderList cart={cart}
-                               collectionType={this.state.collectionType}
-                               user={this.props.user}
-                               statusUpdateToReady={this.statusUpdateToReady}/>
+                    <ServiceList cart={cart}
+                                 collectionType={this.state.collectionType}
+                                 user={this.props.user}
+                                 statusUpdateToReady={this.statusUpdateToReady}/>
                     <div className="total-price">
                         <div><span className={'total'}>Total: ₹ </span><span
                             className='price'>{cart.totalCost}</span></div>
@@ -262,4 +262,4 @@ class CartWithOrders extends Component {
     }
 }
 
-export default withRouter(CartWithOrders);
+export default withRouter(OrderInfo);

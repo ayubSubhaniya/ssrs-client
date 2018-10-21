@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import _ from 'lodash'
 
-class CourierDetails extends Component {
+class AddressList extends Component {
     constructor(props) {
         super(props);
     }
@@ -33,4 +33,4 @@ class CourierDetails extends Component {
     }
 }
 
-export default CourierDetails;
+export default AddressList;

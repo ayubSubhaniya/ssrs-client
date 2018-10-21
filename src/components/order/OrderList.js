@@ -1,42 +1,89 @@
-import _ from "lodash";
-import ServiceDetails from "./ServiceDetails";
-import React from "react";
+import React, {Component} from 'react';
+import _ from "lodash"
+import CartDetails from "./OrderDetails";
+import {isStudent} from "../../helper/userType";
+import {handleChange} from "../../helper/StateUpdate";
 
-function OrderList({cart,collectionType,user,statusUpdateToReady}) {
-    return (
-        <table id="cart" className="table table-hover table-condensed mt-4">
-            <thead>
-            <tr style={{'cursor': 'default'}}>
-                <th>Service</th>
-                <th className="text-center">Status</th>
-                <th className="text-center">Parameters</th>
-                <th className="text-center">Quantity</th>
-                <th className="text-center">Service Cost</th>
-                <th className="text-center">Parameter Cost</th>
-                <th className="text-center">Subtotal</th>
-            </tr>
-            </thead>
-            <tbody>
-            {
-                _.map(cart.orders, (o, i) => <ServiceDetails key={o._id}
-                                                             order={o}
-                                                             user={user}
-                                                             statusUpdateToReady={statusUpdateToReady}
-                                                             index={i}/>)
-            }
-            <tr style={{'cursor': 'default'}}>
-                <td data-th="Service" colSpan="6">
-                    <div className="row">
-                        <div className="col-sm-10">
-                            <h4 className="nomargin">{collectionType.name}</h4>
+class OrderList extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            orderId: ''
+        }
+        this.handleChange = handleChange.bind(this);
+    }
+
+
+    filterByOrderId = (carts) => {
+        if(this.state.orderId) {
+            const regex = new RegExp(this.state.orderId, 'gi')
+            return _.filter(carts, (cart) => {
+                return cart.orderId.match(regex);
+            })
+        }else{
+            return carts;
+        }
+    }
+
+
+
+    render() {
+        const {carts, ...others} = this.props;
+        const filteredCarts = this.filterByOrderId(carts);
+        return (
+            <section className={`orders cd-gallery ${this.props.isFilterVisible ? 'filter-is-visible' : ''}`}>
+                <div className='container mb-3 pb-0 d-flex flex-row'>
+                    <i className="fa fa-search search-icon" aria-hidden="true"></i>
+                    <input type="text"
+                       className='form-control search-bar'
+                       name={'orderId'}
+                       onKeyUp={this.handleChange}
+                       placeholder="Search By Order No."/>
+                </div>
+                <div className="limiter">
+                    <div className="container-table100">
+                        <div className="wrap-table100">
+                            <div className="table100">
+                                <table>
+                                    <thead>
+                                    <tr className="table100-head">
+                                        <th className="text-center">Order No.</th>
+                                        <th className="text-center">Service</th>
+                                        <th className="text-center">Status</th>
+                                        <th className="text-center">Price</th>
+                                        {
+                                            !isStudent(others.user)
+                                                ? <th className="text-center">Requested By</th>
+                                                : ''
+                                        }
+                                        <th className="text-center">Order Total</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {
+                                        filteredCarts.length
+                                            ? _.map(filteredCarts, (cart, i) => {
+                                                    return (
+                                                        <CartDetails key={cart._id}
+                                                                     cart={cart}
+                                                                     index={i}
+                                                                     searchedId={this.state.orderId}
+                                                                     {...others}/>
+                                                    )
+                                                })
+                                            : <tr><td colSpan={6} className='text-center'>No Order Found</td></tr>
+                                    }
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
-                </td>
-                <td className="text-center">₹ {cart.collectionTypeCost}</td>
-            </tr>
-            </tbody>
-        </table>
-    )
+                </div>
+            </section>
+        );
+    }
 }
 
-export default OrderList
+
+export default OrderList;
+

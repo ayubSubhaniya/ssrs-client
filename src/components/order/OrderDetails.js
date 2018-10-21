@@ -9,7 +9,7 @@ function getDateString(date) {
     return dateObj.toLocaleDateString() + " " + dateObj.toLocaleTimeString();
 }
 
-class CartDetails extends Component {
+class OrderDetails extends Component {
     constructor(props) {
         super(props);
     }
@@ -63,4 +63,4 @@ class CartDetails extends Component {
     }
 }
 
-export default withRouter(CartDetails);
+export default withRouter(OrderDetails);

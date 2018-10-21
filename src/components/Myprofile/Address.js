@@ -5,7 +5,7 @@ import { domainUrl } from "../../config/configuration";
 import * as HttpStatus from "http-status-codes";
 import _ from 'lodash';
 import Modal from 'react-bootstrap4-modal';
-import CourierFrom from '../order/CourierForm.js';
+import CourierFrom from '../order/AddressForm.js';
 
 let _id=-1;
 let id=-1;
@@ -145,7 +145,7 @@ class Address extends Component {
                     {this.getList(this.state.data)}
                     <div className={'add-bx'} onClick={() => this.openM()}>
                         +
-                        <br/>                       
+                        <br/>
                         Add Address
                     </div>
                 {this.state.visible ? <CourierFrom open={this.state.visible} data={this.state.d} close={() => this.closeModal()} handleSubmit={this.editAddress}/> : "" }
