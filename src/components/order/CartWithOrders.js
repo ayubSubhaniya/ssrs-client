@@ -12,7 +12,7 @@ import TextInfo from "./TextInfo"
 import CourierDetailsModal from "./CourierDetailsModal";
 import OrderStatusBar from "./OrderStatusBar"
 import OrderList from "./OrderList";
-import {PickupInfo, DeliveryInfo} from './Info'
+import {DeliveryInfo, PickupInfo} from './Info'
 
 
 function CartStatus({status, user, delivery, openCourierDetailsModal, openCollectionCodeModal}) {
@@ -20,13 +20,10 @@ function CartStatus({status, user, delivery, openCourierDetailsModal, openCollec
         <h3 className='order-status'>
             {camelCaseToWords(cartStatus[status])}
             {
-                delivery
-                    ? ((isSuperAdmin(user) && status === rcartStatus.readyToDeliver)
-                    ? (<span onClick={openCourierDetailsModal}> (<span className='link'>Complete Order</span>)</span>)
-                    : '')
-                    : ((isSuperAdmin(user) && status === rcartStatus.readyToPickup)
-                    ? (<span onClick={openCollectionCodeModal}> (<span
-                        className='link'>Complete Order</span>)</span>)
+                ((isSuperAdmin(user) && status === (rcartStatus.readyToDeliver || rcartStatus.readyToPickup))
+                    ? (<span onClick={delivery ? openCourierDetailsModal : openCollectionCodeModal}>
+                        (<span className='link'>Complete Order</span>)
+                    </span>)
                     : '')
             }
         </h3>

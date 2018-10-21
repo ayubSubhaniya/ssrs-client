@@ -11,7 +11,7 @@ function getStatus(x, y) {
 }
 
 function Step({curStatus, status, label}) {
-    retrun(
+    return (
         <div className={`col-3 bs-wizard-step ${getStatus(curStatus, status)}`}>
             <div className="text-center bs-wizard-stepnum">{label}</div>
             <div className="progress">
