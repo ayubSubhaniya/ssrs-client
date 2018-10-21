@@ -13,10 +13,25 @@ function NavLink({path, text, onClick, className, currPath}) {
     }
 
     return (
-        <li className={"nav-item " + (currPath === path ? "active" : "") + " " + className}>
+        <li className={"nav-item " + (currPath === path ? "active" : "") + " " + className} >
             <Link className="nav-link" onClick={onClick} to={{
                 pathname: path,
-            }}>{text}</Link>
+            }}>
+                {
+                    text === 'Logout' ? <i className="fa fa-sign-out" style={{ marginRight: "5px" }} />
+                    : text === "My Profile" ? <i className="fa fa-user" style={{ marginRight: "5px" }} />
+                    : text === "Users" ? <i className="fa fa-users" style={{ marginRight: "5px" }} />
+                    : text === "All Orders" ? <i className="fa fa-shopping-basket" style={{ marginRight: "5px" }} />
+                    : text === "My Orders" ? <i className="fa fa-list-ul" style={{ marginRight: "5px" }} />
+                    : text === "Home" ? <i className="fa fa-home" style={{ marginRight: "5px" }} />
+                    : text === "Services" ? <i className="fa fa-handshake-o" style={{ marginRight: "5px" }} />
+                    : text === "Parameters" ? <i className="fa fa-cog" style={{ marginRight: "5px" }} />
+                    : text === "Permissions" ? <i className="fa fa-lock" style={{ marginRight: "5px" }} />
+                    : text === "CollectionTypes" ? <i className="fa fa-archive" style={{ marginRight: "5px" }} /> 
+                    : text === "My Cart" ? <i className="fa fa-cart-plus" style={{ marginRight: "5px" }}></i>
+                    : <i></i>
+                }{text}
+            </Link>
         </li>
     )
 }
