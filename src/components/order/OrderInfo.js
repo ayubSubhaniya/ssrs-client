@@ -4,7 +4,6 @@ import NavigationBar from "../NavigationBar";
 import '../../styles/orderstatus.css'
 import {cartStatus, rcartStatus, rorderStatus} from "../../constants/status";
 import {camelCaseToWords} from "../../helper/String";
-import {isSuperAdmin} from "../../helper/userType";
 import TextInput from "./TextInput";
 import {makeCall} from "../../helper/caller";
 import {defaultCart} from "../../constants/constants";
@@ -16,8 +15,8 @@ import {DeliveryInfo, PickupInfo} from './Info'
 
 function PaymentInfo({cart}) {
     return (
-        <React.Fragment>
-            <h5 className={'mt-4'}><strong>PAYMENT INFORMATION</strong></h5>
+        <div className='w-50'>
+            <h5><strong>PAYMENT INFORMATION</strong></h5>
             <div className='container p-1'>
                 <TextInfo lable="Payment Mode" data={camelCaseToWords(cart.paymentType)}/>
                 {
@@ -38,7 +37,7 @@ function PaymentInfo({cart}) {
                         </React.Fragment>)
                 }
             </div>
-        </React.Fragment>
+        </div>
     )
 }
 
@@ -220,20 +219,24 @@ class OrderInfo extends Component {
                         <div><span className={'total'}>Total: ₹ </span><span
                             className='price'>{cart.totalCost}</span></div>
                     </div>
-                    <h5><strong>COLLECTION INFORMATION</strong></h5>
-                    <div className='container p-1'>
-                        <TextInfo lable="Collection Type" data={this.state.collectionType.name}/>
-                        {
-                            delivery
-                                ? <DeliveryInfo delivery={delivery}/>
-                                : <PickupInfo pickup={pickup}/>
-                        }
+                    <div className='d-flex'>
+                        <div className='w-50'>
+                            <h5><strong>COLLECTION INFORMATION</strong></h5>
+                            <div className='container p-1'>
+                                <TextInfo lable="Collection Type" data={this.state.collectionType.name}/>
+                                {
+                                    delivery
+                                        ? <DeliveryInfo delivery={delivery}/>
+                                        : <PickupInfo pickup={pickup}/>
+                                }
+                            </div>
+                        </div>
+                        <PaymentInfo cart={cart}/>
                     </div>
                     <TextInput visible={this.state.isPaymentCodeModalOpen}
                                text={'Enter Payment Code'}
                                onSubmit={this.makePayment}
                                closeModal={this.closePaymentCodeModal}/>
-                    <PaymentInfo cart={cart}/>
                 </div>
             </div>
         );

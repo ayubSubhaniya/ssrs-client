@@ -21,6 +21,8 @@ export function DeliveryInfo({delivery}) {
             ", " + delivery.city + " - " + delivery.pinCode + ", " + delivery.state + ", " + delivery.country}/>
             <TextInfo lable="Phone" data={delivery.contactNo}/>
             <TextInfo lable="Email" data={delivery.email}/>
+            <TextInfo lable="Courier Service" data={delivery.courierServiceName}/>
+            <TextInfo lable="Courier Tacking ID" data={delivery.trackingId}/>
         </React.Fragment>
     )
 }
