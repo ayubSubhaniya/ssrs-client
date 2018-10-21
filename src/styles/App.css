@@ -76,9 +76,9 @@ p {
 }
 
 @media screen and (min-width: 600px) {
-    
+
     .active {
-        font-weight: 640;
+        font-weight: 600;
         /* text-decoration-line: overline;
         text-decoration-style: dashed;
         text-decoration-color: white; */
