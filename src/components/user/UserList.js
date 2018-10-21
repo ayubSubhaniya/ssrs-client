@@ -184,7 +184,7 @@ class UserList extends Component {
                     </tbody>
                 </table>
                 <Spinner open={this.state.showSpinner} />
-                <div className={'d-flex justify-content-center'}>
+                <div className={'d-flex justify-content-center mb-4'}>
                 <div class="card d-flex justify-content-center" style={{
                     width : "30em"
                 }}>
