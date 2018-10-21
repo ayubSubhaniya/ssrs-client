@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import _ from "lodash"
-import {orderStatus} from "../../constants/status";
+import {orderStatus,rorderStatus} from "../../constants/status";
 import {camelCaseToWords} from "../../helper/String";
 import {isSuperAdmin} from "../../helper/userType";
 
@@ -29,7 +29,7 @@ class ServiceDetails extends Component {
                 {
                     <td data-th="Status" className="text-center">{camelCaseToWords(orderStatus[order.status])}
                         {
-                            order.status === 40 && isSuperAdmin(this.props.user) ?
+                            order.status === rorderStatus.processing && isSuperAdmin(this.props.user) ?
                                 (<div onClick={() => this.props.statusUpdateToReady(order._id)}>(<span
                                     className={'link'}>Update</span>)</div>)
                                 : ''

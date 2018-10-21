@@ -18,7 +18,7 @@ class TextInputModal extends React.Component{
                    onClickBackdrop={this.props.closeModal}>
 
                 <div className="modal-header">
-                    <h5 className="modal-title">Enter Payment Code!</h5>
+                    <h5 className="modal-title">{this.props.text + "!"}</h5>
                     <button type="button" className="close" onClick={this.props.closeModal}><span
                         aria-hidden="true">&times;</span></button>
                 </div>
@@ -32,9 +32,9 @@ class TextInputModal extends React.Component{
                             <input className={'form-control'}
                                    name="data"
                                    type="text"
-                                   value={this.state.value}
+                                   value={this.state.data}
                                    onChange={this.handleChange}
-                                   placeholder={"Enter Code"}
+                                   placeholder={this.props.text}
                                    aria-describedby="basic-addon"/>
                         </div>
                         <button type="submit" className="btn btn-primary mt-3">Submit</button>

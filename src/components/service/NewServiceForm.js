@@ -1,10 +1,9 @@
 import React, {Component} from 'react';
-import {OFFLINE, ONLINE} from "../../constants/PaymentMode"
+import {OFFLINE, ONLINE} from "../../constants/constants"
 import {withRouter} from "react-router-dom";
 import Header from "../Header";
 import {syncFetch} from '../../helper/FetchData'
 import NavigationBar from "../NavigationBar";
-import {collectionType} from "../../test/CollectionType";
 import {getServiceFromState, handleArrayUpdate, handleChange, handlePaymentModeChange} from "../../helper/StateUpdate"
 import Form from "./Form";
 import {makeCall} from "../../helper/caller";

@@ -39,7 +39,7 @@ class CartList extends Component {
                        className='form-control search-bar'
                        name={'orderId'}
                        onKeyUp={this.handleChange}
-                       placeholder="Search By Order ID.."/>
+                       placeholder="Search By Order No."/>
                 </div>
                 <div className="limiter">
                     <div className="container-table100">
@@ -62,15 +62,17 @@ class CartList extends Component {
                                     </thead>
                                     <tbody>
                                     {
-                                        _.map(filteredCarts, (cart, i) => {
-                                            return (
-                                                <CartDetails key={cart._id}
-                                                             cart={cart}
-                                                             index={i}
-                                                             searchedId={this.state.orderId}
-                                                             {...others}/>
-                                            )
-                                        })
+                                        filteredCarts.length
+                                            ? _.map(filteredCarts, (cart, i) => {
+                                                    return (
+                                                        <CartDetails key={cart._id}
+                                                                     cart={cart}
+                                                                     index={i}
+                                                                     searchedId={this.state.orderId}
+                                                                     {...others}/>
+                                                    )
+                                                })
+                                            : <tr><td colSpan={6} className='text-center'>No Order Found</td></tr>
                                     }
                                     </tbody>
                                 </table>

@@ -6,7 +6,6 @@ import {asyncFetch} from "../../helper/FetchData";
 import Spinner from "../Spinner";
 import {domainUrl} from "../../config/configuration";
 import * as HttpStatus from "http-status-codes";
-import {collectionType} from "../../test/CollectionType";
 
 class CollectionType extends Component {
     constructor(props) {

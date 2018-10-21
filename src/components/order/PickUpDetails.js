@@ -20,7 +20,7 @@ class PickUpDetails extends Component {
         } else {
             return (
                 <div className="empty-box" onClick={this.props.openAddressModal}>
-                    <span className="icon-add">+</span> Add Address
+                    <span className="icon-add">+</span> Add Collection Info
                 </div>
             )
         }

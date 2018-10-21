@@ -1,13 +1,13 @@
 import React from 'react'
 import NavigationBar from "../../NavigationBar";
 import Stapes from "../../service/Stapes";
-import {Link, Redirect} from "react-router-dom";
-import {domainUrl, errorMessages} from "../../../config/configuration";
+import {Redirect} from "react-router-dom";
+import {errorMessages} from "../../../config/configuration";
 import * as HttpStatus from "http-status-codes";
-import {asyncFetch} from "../../../helper/FetchData";
 import CartDetails from "./CartDetails";
-import Spinner from "../../Spinner";
 import ErrorMessage from "../../error/ErrorMessage";
+import {paymentMode} from '../../../constants/constants'
+import {makeCall} from "../../../helper/caller";
 
 class Payment extends React.Component {
     constructor(props) {
@@ -22,64 +22,43 @@ class Payment extends React.Component {
 
     getPaymentDetails = (state) => {
         const paymentDetails = {
-            paymentType: state.paymentType,
+            paymentType: paymentMode[state.paymentType],
         };
         return paymentDetails;
     };
 
-    cleanErrorMessage=()=>{
+    cleanErrorMessage = () => {
         this.setState({
-            errorMessage:''
+            errorMessage: ''
         })
     };
 
+    onError = (response) => {
+        if (response.status === HttpStatus.PRECONDITION_FAILED) {
+            this.setErrorMessage(response.statusText);
+        } else if (response.status === HttpStatus.INTERNAL_SERVER_ERROR) {
+            this.setErrorMessage(errorMessages.internalServerError);
+        } else if (response.status === HttpStatus.FORBIDDEN) {
+            this.setErrorMessage(errorMessages.forbidden);
+        } else if (response.status === HttpStatus.NOT_FOUND) {
+            this.setErrorMessage('Cart not found');
+        } else {
+            this.setErrorMessage(errorMessages.somethingsWrong);
+        }
+    }
+
     pay = () => {
-        const that = this;
-        that.setState({
-            showSpinner : true
-        });
-        const url = domainUrl + '/cart/addPayment';
-        const request = new XMLHttpRequest();
-        request.open('PATCH', url, true);
-        request.withCredentials = true;
-        request.setRequestHeader("Content-type", "application/json");
-        request.onload = function () {
-            if (this.status === HttpStatus.OK) {
-                const response = JSON.parse(request.response);
-                that.setState({
+        makeCall({
+            jobType: 'PATCH',
+            urlParams: '/cart/addPayment',
+            params: this.getPaymentDetails(this.state)
+        })
+            .then((response) => {
+                this.setState({
                     isPaymentDone: true
                 });
-            } else if (this.status === HttpStatus.PRECONDITION_FAILED){
-                that.setState({
-                    errorMessage: request.responseText
-                })
-            } else if (this.status === HttpStatus.INTERNAL_SERVER_ERROR){
-                that.setState({
-                    errorMessage: errorMessages.internalServerError
-                })
-            } else if (this.status === HttpStatus.FORBIDDEN){
-                that.setState({
-                    errorMessage: errorMessages.forbidden
-                })
-            } else if (this.status === HttpStatus.NOT_FOUND){
-                that.setState({
-                    errorMessage: "cart not found"
-                })
-            } else if (this.status === HttpStatus.BAD_REQUEST){
-                that.setState({
-                    errorMessage: request.responseText
-                })
-            } else {
-                that.setState({
-                    errorMessage: errorMessages.somethingsWrong
-                })
-            }
-            that.setState({
-                showSpinner : true
-            });
-        };
-
-        request.send(JSON.stringify(this.getPaymentDetails(this.state)));
+            })
+            .catch((error) => this.onError(error))
     };
 
     render() {
@@ -90,12 +69,13 @@ class Payment extends React.Component {
                 }}/>
             )
         }
+        const collectionType = this.props.location.state;
         return (
             <div>
                 <NavigationBar/>
                 <div className={'container'}>
                     <Stapes active={3}/>
-                    <CartDetails/>
+                    <CartDetails collectionType={collectionType}/>
                     <hr/>
                     <ErrorMessage message={this.state.errorMessage} clearMessage={this.cleanErrorMessage}/>
                     <div className={'payment-operation'}>
@@ -106,9 +86,9 @@ class Payment extends React.Component {
                         </div>
                         <div className='payment'>
                             <div className='payment-method-tabs'>
-                                <div className='tab-payment'>Offline</div>
+                                <div className='tab-payment tab-payment-active'>Offline</div>
                                 <div className='tab-payment'>Debit Card</div>
-                                <div className='tab-payment tab-payment-active'>Net Banking</div>
+                                <div className='tab-payment '>Net Banking</div>
                                 <div className='tab-payment'>Paytm</div>
                             </div>
                             <div className='payment-method-body'>

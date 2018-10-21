@@ -2,16 +2,16 @@ import React, {Component} from 'react';
 import _ from "lodash";
 import {withRouter} from 'react-router-dom'
 import ServiceDetails from "./ServiceDetails";
-import Spinner from "../Spinner";
 import NavigationBar from "../NavigationBar";
 import '../../styles/orderstatus.css'
-import {cartStatus} from "../../constants/status";
+import {cartStatus, rcartStatus, rorderStatus} from "../../constants/status";
 import {camelCaseToWords} from "../../helper/String";
-import {paymentMode} from "../../constants/PaymentMode";
 import {isSuperAdmin} from "../../helper/userType";
 import TextInputModal from "./TextInputModal";
-import {domainUrl} from "../../config/configuration";
-import * as HttpStatus from "http-status-codes";
+import {makeCall} from "../../helper/caller";
+import {defaultCart} from "../../constants/constants";
+import TextInfo from "./TextInfo"
+import CourierDetailsModal from "./CourierDetailsModal";
 
 function getStatus(x, y) {
     if (x == y) {
@@ -22,20 +22,10 @@ function getStatus(x, y) {
         return 'disabled'
 }
 
-function TextInfo({lable, data}) {
-    if (data)
-        return (<div className='row'>
-            <div className='col-3'>{lable}</div>
-            <div className='col-9'>: {data}</div>
-        </div>)
-    else
-        return ''
-}
-
-function OrderStatusBar({status, isCourier}) {
+function OrderStatusBar({status, isDelivery}) {
     return (
         <div className="row bs-wizard" style={{"borderBottom": "0"}}>
-            <div className={`col-3 bs-wizard-step ${getStatus(status, 30)}`}>
+            <div className={`col-3 bs-wizard-step ${getStatus(status, rcartStatus.placed)}`}>
                 <div className="text-center bs-wizard-stepnum">Placed</div>
                 <div className="progress">
                     <div className="progress-bar"></div>
@@ -43,7 +33,7 @@ function OrderStatusBar({status, isCourier}) {
                 <div className="bs-wizard-dot"></div>
             </div>
 
-            <div className={`col-3 bs-wizard-step ${getStatus(status, 50)}`}>
+            <div className={`col-3 bs-wizard-step ${getStatus(status, rcartStatus.processing)}`}>
                 <div className="text-center bs-wizard-stepnum">Processing</div>
                 <div className="progress">
                     <div className="progress-bar"></div>
@@ -52,8 +42,8 @@ function OrderStatusBar({status, isCourier}) {
             </div>
 
             {
-                isCourier ?
-                    <div className={`col-3 bs-wizard-step ${getStatus(status, 60)}`}>
+                isDelivery ?
+                    <div className={`col-3 bs-wizard-step ${getStatus(status, rcartStatus.readyToDeliver)}`}>
                         <div className="text-center bs-wizard-stepnum">Ready To Deliver</div>
                         <div className="progress">
                             <div className="progress-bar"></div>
@@ -64,8 +54,8 @@ function OrderStatusBar({status, isCourier}) {
             }
 
             {
-                isCourier ? '' :
-                    <div className={`col-3 bs-wizard-step ${getStatus(status, 70)}`}>
+                isDelivery ? '' :
+                    <div className={`col-3 bs-wizard-step ${getStatus(status, rcartStatus.readyToPickup)}`}>
                         <div className="text-center bs-wizard-stepnum">Ready To Pickup</div>
                         <div className="progress">
                             <div className="progress-bar"></div>
@@ -74,7 +64,7 @@ function OrderStatusBar({status, isCourier}) {
                     </div>
             }
 
-            <div className={`col-3 bs-wizard-step ${getStatus(status, 80)}`}>
+            <div className={`col-3 bs-wizard-step ${getStatus(status, rcartStatus.completed)}`}>
                 <div className="text-center bs-wizard-stepnum">Completed</div>
                 <div className="progress">
                     <div className="progress-bar"></div>
@@ -88,34 +78,45 @@ function OrderStatusBar({status, isCourier}) {
 class CartWithOrders extends Component {
     constructor(props) {
         super(props);
-        this.id = this.props.location.pathname.split('/')[2];
-        const cart = this.fetchCart();
         this.state = {
-            cart: cart,
-            isCourier: cart.collectionType === 'Courier',
+            cart: defaultCart,
+            collectionType: {},
             isPaymentCodeModalOpen: false,
             isCollectionCodeModalOpen: false,
             isPaymentCodeWrong: false,
             isCollectionCodeWrong: false,
-            showSpinner: false
+            isCourierDetailsModalOpen: false,
         }
     }
 
-    fetchCart = (id) => {
-        const that = this;
-        const url = domainUrl + '/cart/' + this.id
-        var request = new XMLHttpRequest();
-        request.open('GET', url, false);
-        request.withCredentials = true;
-        let cart = {}
-        request.onload = function () {
-            if (this.status === HttpStatus.OK) {
-                const obj = JSON.parse(request.responseText);
-                cart = obj.cart;
-            }
-        };
-        request.send();
-        return cart;
+    componentDidMount(){
+        this.getCart();
+    }
+
+    getCart = () => {
+        let id = this.props.location.pathname.split('/')[2];
+        makeCall({
+            jobType: 'GET',
+            urlParams: '/cart/' + id
+        })
+            .then((response) => {
+                this.setState({
+                    cart: response.cart
+                })
+                this.getCollection(response.cart.collectionType);
+            })
+    }
+
+    getCollection = (id) => {
+        makeCall({
+            jobType: 'GET',
+            urlParams: '/collectionType/' + id
+        })
+            .then((response) => {
+                this.setState({
+                    collectionType: response.collectionType
+                })
+            })
     }
 
     makePayment = (paymentCode) => {
@@ -126,54 +127,29 @@ class CartWithOrders extends Component {
             })
         } else {
             this.setState({
-                showSpinner: true,
                 isPaymentCodeWrong: false
-            });
-            const url = domainUrl + '/cart/acceptPayment/' + paymentCode;
-            const request = new XMLHttpRequest();
-            request.open('PATCH', url, true);
-            request.withCredentials = true;
-            request.setRequestHeader("Content-type", "application/json");
-            const that = this;
-            request.onload = function () {
-                if (this.status == HttpStatus.OK) {
-                    var res = JSON.parse(request.response);
-                    that.setState({
-                        cart: that.fetchCart()
-                    })
-                }
-                that.setState({
-                    showSpinner: false
+            })
+            makeCall({
+                jobType: 'PATCH',
+                urlParams: '/cart/acceptPayment/' + paymentCode
+            })
+                .then(() => {
+                    this.getCart();
                 })
-            };
-            request.send(JSON.stringify({}));
         }
     }
 
     statusUpdateToReady = (id) => {
-        this.setState({
-            showSpinner: true,
-        });
-        const url = domainUrl + '/order/changeStatus/' + id;
-        const request = new XMLHttpRequest();
-        request.open('PATCH', url, true);
-        request.withCredentials = true;
-        request.setRequestHeader("Content-type", "application/json");
-        const that = this;
-        request.onload = function () {
-            if (this.status == HttpStatus.OK) {
-                var res = JSON.parse(request.response);
-                that.setState({
-                    cart: that.fetchCart()
-                })
+        makeCall({
+            jobType: 'PATCH',
+            urlParams: '/order/changeStatus/' + id,
+            params: {
+                status: rorderStatus.ready
             }
-            that.setState({
-                showSpinner: false
-            })
-        };
-        request.send(JSON.stringify({
-            status: 50
-        }));
+        })
+            .then((response) => {
+               this.getCart()
+            });
     }
 
     openPaymentCodeModal = () => {
@@ -187,6 +163,19 @@ class CartWithOrders extends Component {
             isPaymentCodeModalOpen: false
         })
     }
+
+    openCourierDetailsModal = () => {
+        this.setState({
+            isCourierDetailsModalOpen: true
+        })
+    }
+
+    closeCourierDetailsModal = () => {
+        this.setState({
+            isCourierDetailsModalOpen: false
+        })
+    }
+
     openCollectionCodeModal = () => {
         this.setState({
             isCollectionCodeModalOpen: true
@@ -200,27 +189,15 @@ class CartWithOrders extends Component {
     }
 
     completeOrder = (data) => {
-        this.setState({
-            showSpinner: true,
-        });
-        const url = domainUrl + '/cart/changeStatus/' + this.state.cart._id;
-        const request = new XMLHttpRequest();
-        request.open('PATCH', url, true);
-        request.withCredentials = true;
-        request.setRequestHeader("Content-type", "application/json");
-        const that = this;
-        request.onload = function () {
-            if (this.status == HttpStatus.OK) {
-                var res = JSON.parse(request.response);
-                that.setState({
-                    cart: that.fetchCart()
-                })
-            }
-            that.setState({
-                showSpinner: false
+        makeCall({
+            jobType: 'PATCH',
+            urlParams: '/cart/changeStatus/' + this.state.cart._id,
+            params: data
+        })
+            .then(() => {
+                this.closeCourierDetailsModal();
+                this.getCart()
             })
-        };
-        request.send(JSON.stringify(data));
     }
 
     compareCollectionCode = (collectionCode) => {
@@ -234,14 +211,14 @@ class CartWithOrders extends Component {
                 isCollectionCodeWrong: false
             });
             this.completeOrder({
-                status: 80
+                status: rcartStatus.completed
             })
         }
     }
 
     render() {
         const cart = this.state.cart;
-        const courier = cart.courier;
+        const delivery = cart.delivery;
         const pickup = cart.pickup;
         return (
             <div className='mb-4 pb-4'>
@@ -254,26 +231,27 @@ class CartWithOrders extends Component {
                     <h3 className='order-status'>
                         {camelCaseToWords(cartStatus[cart.status])}
                         {
-                            this.state.isCourier
-                                ? ((isSuperAdmin(this.props.user) && cart.status === 60)
-                                ? (<span onClick={() => this.completeOrder({
-                                    courierServiceName: 'abc',
-                                    trackingId: '827348274837487347',
-                                    status: 80
-                                })}> (<span className='link'>Complete Order</span>)</span>)
+                            delivery
+                                ? ((isSuperAdmin(this.props.user) && cart.status === rcartStatus.readyToDeliver)
+                                ? (<span onClick={this.openCourierDetailsModal}> (<span className='link'>Complete Order</span>)</span>)
                                 : '')
-                                : ((isSuperAdmin(this.props.user) && cart.status === 70)
+                                : ((isSuperAdmin(this.props.user) && cart.status === rcartStatus.readyToPickup)
                                 ? (<span onClick={this.openCollectionCodeModal}> (<span
                                     className='link'>Complete Order</span>)</span>)
                                 : '')
                         }
                     </h3>
                     <TextInputModal visible={this.state.isCollectionCodeModalOpen}
+                                    text={'Enter Collection Code'}
                                     closeModal={this.closeColletionCodeModal}
                                     onSubmit={this.compareCollectionCode}/>
+                    <CourierDetailsModal visible={this.state.isCourierDetailsModalOpen}
+                                         closeModal={this.closeCourierDetailsModal}
+                                         onSubmit={this.completeOrder}/>
+
 
                     <OrderStatusBar status={cart.status}
-                                    isCourier={this.state.isCourier}/>
+                                    isDelivery={delivery}/>
 
                     <table id="cart" className="table table-hover table-condensed mt-4">
                         <thead>
@@ -299,7 +277,7 @@ class CartWithOrders extends Component {
                             <td data-th="Service" colSpan="6">
                                 <div className="row">
                                     <div className="col-sm-10">
-                                        <h4 className="nomargin">{cart.collectionType}</h4>
+                                        <h4 className="nomargin">{this.state.collectionType.name}</h4>
                                     </div>
                                 </div>
                             </td>
@@ -313,16 +291,16 @@ class CartWithOrders extends Component {
                     </div>
                     <h5><strong>COLLECTION INFORMATION</strong></h5>
                     <div className='container p-1'>
-                        <TextInfo lable="Collection Type" data={cart.collectionType}/>
+                        <TextInfo lable="Collection Type" data={this.state.collectionType.name}/>
                         {
-                            this.state.isCourier
+                            delivery
                                 ? (
                                     <React.Fragment>
-                                        <TextInfo lable="Name" data={courier.name}/>
-                                        <TextInfo lable="Address" data={" " + courier.address.line1 +
-                                        ", " + courier.city + " - " + courier.pinCode + ", " + courier.state + ", " + courier.country}/>
-                                        <TextInfo lable="Phone" data={courier.contactNo}/>
-                                        <TextInfo lable="Email" data={courier.email}/>
+                                        <TextInfo lable="Name" data={delivery.name}/>
+                                        <TextInfo lable="Address" data={" " + delivery.address.line1 +
+                                        ", " + delivery.city + " - " + delivery.pinCode + ", " + delivery.state + ", " + delivery.country}/>
+                                        <TextInfo lable="Phone" data={delivery.contactNo}/>
+                                        <TextInfo lable="Email" data={delivery.email}/>
                                     </React.Fragment>
                                 )
                                 : (<React.Fragment>
@@ -337,9 +315,9 @@ class CartWithOrders extends Component {
 
                     <h5 className={'mt-4'}><strong>PAYMENT INFORMATION</strong></h5>
                     <div className='container p-1'>
-                        <TextInfo lable="Payment Mode" data={camelCaseToWords(paymentMode[cart.paymentType])}/>
+                        <TextInfo lable="Payment Mode" data={camelCaseToWords(cart.paymentType)}/>
                         {
-                            cart.status == 30
+                            cart.status === rcartStatus.placed
                                 ? (
                                     <React.Fragment>
                                         <TextInfo lable="Payment Code" data={cart.paymentCode}/>
@@ -353,6 +331,7 @@ class CartWithOrders extends Component {
                                             </div>
                                         </div>
                                         <TextInputModal visible={this.state.isPaymentCodeModalOpen}
+                                                        text={'Enter Payment Code'}
                                                         onSubmit={this.makePayment}
                                                         closeModal={this.closePaymentCodeModal}/>
                                     </React.Fragment>
@@ -364,7 +343,6 @@ class CartWithOrders extends Component {
                         }
                     </div>
                 </div>
-                <Spinner open={this.state.showSpinner}/>
             </div>
         );
     }

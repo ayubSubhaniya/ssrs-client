@@ -1,5 +1,5 @@
 import React from 'react'
-import {OFFLINE, ONLINE} from "../../constants/PaymentMode";
+import {OFFLINE, ONLINE} from "../../constants/constants";
 
 function Mode({text,mode,isChecked,onChange}) {
     return (

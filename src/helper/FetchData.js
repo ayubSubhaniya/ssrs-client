@@ -1,8 +1,15 @@
 import {domainUrl} from "../config/configuration";
 import * as HttpStatus from "http-status-codes";
-import ReactDOM from "react-dom";
-import Spinner from "../components/Spinner";
 import React from "react";
+import {makeCall} from "./caller";
+
+export function getCart(callback){
+    makeCall({
+        jobType: 'GET',
+        urlParams: '/cart'
+    })
+        .then(callback)
+}
 
 export function asyncFetch(dataName) {
     const that = this;

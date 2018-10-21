@@ -12,15 +12,15 @@ import * as HttpStatus from 'http-status-codes'
 import ErrorMessage from "../../error/ErrorMessage";
 import {makeCall} from "../../../helper/caller";
 import _ from "lodash"
+import {collectionTypeCategory} from "../../../constants/constants";
+import {getCart} from "../../../helper/FetchData";
+const {DELIVERY, PICKUP} = collectionTypeCategory
 
-const DELIVERY = "Delivery";
-const PICKUP = "Pickup"
 
 class Info extends React.Component {
     constructor(props) {
         super(props);
         this.avilableCollectionTypes = props.location.state.avilableCollectionTypes;
-
         this.state = {
             addresses: [],
             cart: [],
@@ -35,17 +35,16 @@ class Info extends React.Component {
 
     componentDidMount() {
         this.getAddress();
-        this.getCart();
+        getCart(this.setCart);
     }
 
-    getCart = () => {
-        makeCall({jobType: 'GET', urlParams: '/cart'}).then((response) => {
-            const index = _.findIndex(this.avilableCollectionTypes,(x) => x._id===response.cart.collectionType)
-            this.setState({
-                cart: response.cart,
-                selectedCollectionTypeIndex: index!=-1?index:0,
-                isCollectionTypeInfoProvided: Boolean(response.cart.collectionType)
-            })
+    setCart = (response) => {
+        let index = _.findIndex(this.avilableCollectionTypes, (x) => x._id === response.cart.collectionType)
+        index = index == -1 ? _.findIndex(this.avilableCollectionTypes, (x) => x.category === PICKUP) : index;
+        this.setState({
+            cart: response.cart,
+            selectedCollectionTypeIndex: index != -1 ? index : 0,
+            isCollectionTypeInfoProvided: Boolean(response.cart.collectionType)
         })
     }
 
@@ -128,7 +127,21 @@ class Info extends React.Component {
         }
     }
 
+    redirect = (data) => {
+        this.props.history.push({
+            pathname: '/payment',
+            state: data
+        });
+    }
+
     handleDeliveryDataSubmit = () => {
+        const selectedCollectionType = this.state.collectionTypes[this.state.selectedCollectionTypeIndex];
+
+        if(selectedCollectionType.category === PICKUP){
+            this.redirect(selectedCollectionType)
+            return;
+        }
+
         const address = this.state.addresses[this.state.selectedAddress];
         address._id = undefined;
         makeCall({
@@ -136,9 +149,7 @@ class Info extends React.Component {
             urlParams: '/cart/delivery/' + this.state.collectionTypes[this.state.selectedCollectionTypeIndex]._id,
             params: address
         })
-            .then((response) => {
-                this.props.history.push('/payment');
-            })
+            .then(() => this.redirect(selectedCollectionType))
             .catch((response) => {
                 this.closeAddressModal();
                 this.onError(response);
@@ -154,7 +165,7 @@ class Info extends React.Component {
         })
             .then((response) => {
                 const cart = this.state.cart;
-                cart.pickup = selectedCollectionType;
+                cart.pickup = data;
                 this.setState({
                     cart: cart,
                     isCollectionTypeInfoProvided: true
@@ -168,7 +179,6 @@ class Info extends React.Component {
     };
 
     render() {
-        console.log(this.state.cart);
         const selectedCollectionType = this.state.selectedCollectionTypeIndex !== -1
             ? this.state.collectionTypes[this.state.selectedCollectionTypeIndex]
             : undefined
@@ -211,7 +221,8 @@ class Info extends React.Component {
                                     : <PickupForm open={this.state.editAddress}
                                                   close={this.closeAddressModal}
                                                   handleSubmit={this.handlePickupDataSubmit}
-                                                  data={this.state.cart.pickup}/>}
+                                                  data={this.state.cart.pickup}/>
+                            }
                         </div>
                         <hr/>
                     </div>

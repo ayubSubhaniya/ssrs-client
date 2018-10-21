@@ -3,7 +3,6 @@ import {Redirect, withRouter} from "react-router-dom";
 import Header from "../Header";
 import {syncFetch} from '../../helper/FetchData'
 import NavigationBar from "../NavigationBar";
-import {collectionType} from "../../test/CollectionType";
 import {getServiceFromState, handleArrayUpdate, handleChange, handlePaymentModeChange} from "../../helper/StateUpdate"
 import Form from "./Form";
 import _ from "lodash"
@@ -20,7 +19,7 @@ function setSelecteProperty(arr1, arr2) {
 function setSelectedPropertyByName(arr1, arr2) {
     return _.map(arr1, (x) => {
         const newElement = {name: x}
-        console.log(arr1,arr2)
+        console.log(arr1, arr2)
         if (_.some(arr2, (o) => o === x))
             newElement.isSelected = true
         else
@@ -29,12 +28,14 @@ function setSelectedPropertyByName(arr1, arr2) {
         return newElement;
     })
 }
+
 function reducArrayInToObject(params) {
     return _.reduce(params, function (obj, param) {
         obj[param] = true;
         return obj;
     }, {});
 }
+
 class EditForm extends Component {
     constructor(props) {
         super(props);
