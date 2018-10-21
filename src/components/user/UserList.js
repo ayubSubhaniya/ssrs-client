@@ -137,13 +137,16 @@ class UserList extends Component {
         request.setRequestHeader("Content-type", "application/json");
         request.onload = function () {
             if (this.status == HttpStatus.OK) {
-                alert("data updated successfully")
                 that.setState({
                     showSpinner: false
                 });
+                alert("data updated successfully")
             }
             else{
-                alert("please check the file again for format issues")
+                that.setState({
+                    showSpinner: false
+                });
+                alert("please check the file again for format issues");
             }
         };
         request.send(JSON.stringify(data));
@@ -181,7 +184,7 @@ class UserList extends Component {
                     </tbody>
                 </table>
                 <Spinner open={this.state.showSpinner} />
-                <div className={'d-flex justify-content-center'}>
+                <div className={'d-flex justify-content-center mb-4'}>
                 <div class="card d-flex justify-content-center" style={{
                     width : "30em"
                 }}>

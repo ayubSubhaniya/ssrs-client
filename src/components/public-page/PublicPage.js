@@ -63,7 +63,7 @@ class PublicPage extends Component {
                 that.setState({isSignedup: true});
             } else if (this.status === HttpStatus.FORBIDDEN) {
                 that.setState({
-                    signupMessage: errorMessages.userAlreadyExist
+                    signupMessage: request.responseText
                 })
             } else if (this.status === HttpStatus.INTERNAL_SERVER_ERROR) {
                 that.setState({

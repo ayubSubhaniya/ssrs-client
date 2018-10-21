@@ -130,7 +130,11 @@ class App extends Component {
                     isAuthenticated: true,
                     user: res.user
                 })
-            } else if (this.status === HttpStatus.UNAUTHORIZED) {
+            } else if (this.status === HttpStatus.FORBIDDEN) {
+                that.setState({
+                    loginMessage: request.responseText
+                })
+            }  else if (this.status === HttpStatus.UNAUTHORIZED) {
                 that.setState({
                     loginMessage: errorMessages.incorrectUserNameOrPassword
                 })
