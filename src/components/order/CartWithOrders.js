@@ -12,6 +12,7 @@ import TextInfo from "./TextInfo"
 import CourierDetailsModal from "./CourierDetailsModal";
 import OrderStatusBar from "./OrderStatusBar"
 import OrderList from "./OrderList";
+import {PickupInfo, DeliveryInfo} from './Info'
 
 
 function CartStatus({status, user, delivery, openCourierDetailsModal, openCollectionCodeModal}) {
@@ -29,30 +30,6 @@ function CartStatus({status, user, delivery, openCourierDetailsModal, openCollec
                     : '')
             }
         </h3>
-    )
-}
-
-function DeliveryInfo({delivery}) {
-    return (
-        <React.Fragment>
-            <TextInfo lable="Name" data={delivery.name}/>
-            <TextInfo lable="Address" data={" " + delivery.address.line1 +
-            ", " + delivery.city + " - " + delivery.pinCode + ", " + delivery.state + ", " + delivery.country}/>
-            <TextInfo lable="Phone" data={delivery.contactNo}/>
-            <TextInfo lable="Email" data={delivery.email}/>
-        </React.Fragment>
-    )
-}
-
-function PickInfo({pickup}) {
-    return (
-        <React.Fragment>
-            <TextInfo lable="Collection Code" data={pickup.collectionCode}/>
-            <TextInfo lable="Name" data={pickup.name}/>
-            <TextInfo lable="DAIICT ID" data={pickup.daiictId}/>
-            <TextInfo lable="Phone" data={pickup.contactNo}/>
-            <TextInfo lable="Email" data={pickup.email}/>
-        </React.Fragment>
     )
 }
 
@@ -273,7 +250,7 @@ class CartWithOrders extends Component {
                         {
                             delivery
                                 ? <DeliveryInfo delivery={delivery}/>
-                                : <PickInfo pickup={pickup}/>
+                                : <PickupInfo pickup={pickup}/>
                         }
                     </div>
                     <PaymentInfo user={this.props.user}

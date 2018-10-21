@@ -10,55 +10,39 @@ function getStatus(x, y) {
         return 'disabled'
 }
 
+function Step({curStatus, status, label}) {
+    retrun(
+        <div className={`col-3 bs-wizard-step ${getStatus(curStatus, status)}`}>
+            <div className="text-center bs-wizard-stepnum">{label}</div>
+            <div className="progress">
+                <div className="progress-bar"></div>
+            </div>
+            <div className="bs-wizard-dot"></div>
+        </div>
+    )
+}
+
 function OrderStatusBar({status, isDelivery}) {
     return (
         <div className="row bs-wizard" style={{"borderBottom": "0"}}>
-            <div className={`col-3 bs-wizard-step ${getStatus(status, rcartStatus.placed)}`}>
-                <div className="text-center bs-wizard-stepnum">Placed</div>
-                <div className="progress">
-                    <div className="progress-bar"></div>
-                </div>
-                <div className="bs-wizard-dot"></div>
-            </div>
-
-            <div className={`col-3 bs-wizard-step ${getStatus(status, rcartStatus.processing)}`}>
-                <div className="text-center bs-wizard-stepnum">Processing</div>
-                <div className="progress">
-                    <div className="progress-bar"></div>
-                </div>
-                <div className="bs-wizard-dot"></div>
-            </div>
-
+            <Step curStatus={status}
+                  status={rcartStatus.placed}
+                  label={'Placed'}/>
+            <Step curStatus={status}
+                  status={rcartStatus.processing}
+                  label={'Processing'}/>
             {
-                isDelivery ?
-                    <div className={`col-3 bs-wizard-step ${getStatus(status, rcartStatus.readyToDeliver)}`}>
-                        <div className="text-center bs-wizard-stepnum">Ready To Deliver</div>
-                        <div className="progress">
-                            <div className="progress-bar"></div>
-                        </div>
-                        <div className="bs-wizard-dot"></div>
-                    </div>
-                    : ''
+                isDelivery
+                    ? <Step curStatus={status}
+                            status={rcartStatus.readyToDeliver}
+                            label={'Ready To Deliver'}/>
+                    : <Step curStatus={status}
+                            status={rcartStatus.readyToPickup}
+                            label={'Ready To Pickup'}/>
             }
-
-            {
-                isDelivery ? '' :
-                    <div className={`col-3 bs-wizard-step ${getStatus(status, rcartStatus.readyToPickup)}`}>
-                        <div className="text-center bs-wizard-stepnum">Ready To Pickup</div>
-                        <div className="progress">
-                            <div className="progress-bar"></div>
-                        </div>
-                        <div className="bs-wizard-dot"></div>
-                    </div>
-            }
-
-            <div className={`col-3 bs-wizard-step ${getStatus(status, rcartStatus.completed)}`}>
-                <div className="text-center bs-wizard-stepnum">Completed</div>
-                <div className="progress">
-                    <div className="progress-bar"></div>
-                </div>
-                <div className="bs-wizard-dot"></div>
-            </div>
+            <Step curStatus={status}
+                  status={rcartStatus.completed}
+                  label={'Completed'}/>
         </div>
     )
 }
