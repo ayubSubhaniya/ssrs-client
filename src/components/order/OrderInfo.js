@@ -14,22 +14,6 @@ import OrderStatusBar from "./OrderStatusBar"
 import ServiceList from "./ServiceList";
 import {DeliveryInfo, PickupInfo} from './Info'
 
-
-function CartStatus({status, user, delivery, openCourierDetailsModal, openCollectionCodeModal}) {
-    return (
-        <h3 className='order-status'>
-            {camelCaseToWords(cartStatus[status])}
-            {
-                ((isSuperAdmin(user) && status === (rcartStatus.readyToDeliver || rcartStatus.readyToPickup))
-                    ? (<span onClick={delivery ? openCourierDetailsModal : openCollectionCodeModal}>
-                        (<span className='link'>Complete Order</span>)
-                    </span>)
-                    : '')
-            }
-        </h3>
-    )
-}
-
 function PaymentInfo({cart, user, isPaymentCodeModalOpen, openPaymentCodeModal, closePaymentCodeModal, makePayment}) {
     return (
         <React.Fragment>
@@ -219,10 +203,9 @@ class OrderInfo extends Component {
                         <strong>Order #: {cart.orderId}</strong>
                     </h3>
                     <hr/>
-                    <CartStatus status={cart.status}
-                                user={this.props.user}
-                                openCourierDetailsModal={this.openCourierDetailsModal}
-                                openCollectionCodeModal={this.openCollectionCodeModal}/>
+                    <h3 className='order-status'>
+                        {camelCaseToWords(cartStatus[cart.status])}
+                    </h3>
                     <TextInput visible={this.state.isCollectionCodeModalOpen}
                                text={'Enter Collection Code'}
                                closeModal={this.closeColletionCodeModal}
@@ -231,8 +214,11 @@ class OrderInfo extends Component {
                                  closeModal={this.closeCourierDetailsModal}
                                  onSubmit={this.completeOrder}/>
                     <OrderStatusBar status={cart.status}
+                                    user={this.props.user}
+                                    openPaymentCodeModal={this.openPaymentCodeModal}
+                                    openCollectionCodeModal={this.openCollectionCodeModal}
+                                    openCourierDetailsModal={this.openCourierDetailsModal}
                                     isDelivery={delivery}/>
-
                     <ServiceList cart={cart}
                                  collectionType={this.state.collectionType}
                                  user={this.props.user}

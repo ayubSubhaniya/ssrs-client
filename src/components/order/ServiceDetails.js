@@ -27,11 +27,12 @@ class ServiceDetails extends Component {
                     </div>
                 </td>
                 {
-                    <td data-th="Status" className="text-center">{camelCaseToWords(orderStatus[order.status])}
+                    <td data-th="Status" className="text-center">{camelCaseToWords(orderStatus[order.status])} <br/>
                         {
                             order.status === rorderStatus.processing && isSuperAdmin(this.props.user) ?
-                                (<div onClick={() => this.props.statusUpdateToReady(order._id)}>(<span
-                                    className={'link'}>Update</span>)</div>)
+                                (<div className='btn btn-success' onClick={() => this.props.statusUpdateToReady(order._id)}>
+                                    Ready
+                                </div>)
                                 : ''
                         }
                     </td>

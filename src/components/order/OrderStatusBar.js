@@ -1,5 +1,6 @@
 import {rcartStatus} from "../../constants/status";
 import React from "react";
+import {isSuperAdmin} from "../../helper/userType";
 
 function getStatus(x, y) {
     if (x == y) {
@@ -10,7 +11,7 @@ function getStatus(x, y) {
         return 'disabled'
 }
 
-function Step({curStatus, status, label}) {
+function Step({curStatus, status, label, showButton,handleClick, btnLabel}) {
     return (
         <div className={`col-3 bs-wizard-step ${getStatus(curStatus, status)}`}>
             <div className="text-center bs-wizard-stepnum">{label}</div>
@@ -18,11 +19,21 @@ function Step({curStatus, status, label}) {
                 <div className="progress-bar"></div>
             </div>
             <div className="bs-wizard-dot"></div>
+            <div className="bs-wizard-info text-center">{new Date().toLocaleTimeString()}
+            <br/>
+                {
+                    showButton
+                        ? (<div className={'btn btn-success ml-2'} onClick={handleClick}>
+                            {btnLabel}
+                        </div>)
+                        : ''
+                }
+            </div>
         </div>
     )
 }
 
-function OrderStatusBar({status, isDelivery}) {
+function OrderStatusBar({status, isDelivery, openPaymentCodeModal, openCollectionCodeModal, openCourierDetailsModal,user}) {
     return (
         <div className="row bs-wizard" style={{"borderBottom": "0"}}>
             <Step curStatus={status}
@@ -30,6 +41,9 @@ function OrderStatusBar({status, isDelivery}) {
                   label={'Placed'}/>
             <Step curStatus={status}
                   status={rcartStatus.processing}
+                  showButton={status===rcartStatus.placed && isSuperAdmin(user)}
+                  handleClick={openPaymentCodeModal}
+                  btnLabel={'Accept Payment'}
                   label={'Processing'}/>
             {
                 isDelivery
@@ -41,6 +55,9 @@ function OrderStatusBar({status, isDelivery}) {
                             label={'Ready To Pickup'}/>
             }
             <Step curStatus={status}
+                  showButton={(status===rcartStatus.readyToDeliver || status===rcartStatus.readyToPickup) && isSuperAdmin(user)}
+                  handleClick={status===rcartStatus.readyToDeliver ? openCourierDetailsModal : openCollectionCodeModal}
+                  btnLabel={'Complete'}
                   status={rcartStatus.completed}
                   label={'Completed'}/>
         </div>
