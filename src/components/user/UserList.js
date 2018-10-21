@@ -137,13 +137,16 @@ class UserList extends Component {
         request.setRequestHeader("Content-type", "application/json");
         request.onload = function () {
             if (this.status == HttpStatus.OK) {
-                alert("data updated successfully")
                 that.setState({
                     showSpinner: false
                 });
+                alert("data updated successfully")
             }
             else{
-                alert("please check the file again for format issues")
+                that.setState({
+                    showSpinner: false
+                });
+                alert("please check the file again for format issues");
             }
         };
         request.send(JSON.stringify(data));
