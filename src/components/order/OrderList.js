@@ -13,7 +13,6 @@ class OrderList extends Component {
         this.handleChange = handleChange.bind(this);
     }
 
-
     filterByOrderId = (carts) => {
         if(this.state.orderId) {
             const regex = new RegExp(this.state.orderId, 'gi')
@@ -24,8 +23,6 @@ class OrderList extends Component {
             return carts;
         }
     }
-
-
 
     render() {
         const {carts, ...others} = this.props;
@@ -48,7 +45,7 @@ class OrderList extends Component {
                                     <thead>
                                     <tr className="table100-head">
                                         <th className="text-center">Order No.</th>
-                                        <th className="text-center">Service</th>
+                                        <th className="pl-4">Service</th>
                                         <th className="text-center">Status</th>
                                         <th className="text-center">Price</th>
                                         {

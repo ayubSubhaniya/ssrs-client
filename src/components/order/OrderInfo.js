@@ -14,7 +14,7 @@ import OrderStatusBar from "./OrderStatusBar"
 import ServiceList from "./ServiceList";
 import {DeliveryInfo, PickupInfo} from './Info'
 
-function PaymentInfo({cart, user, isPaymentCodeModalOpen, openPaymentCodeModal, closePaymentCodeModal, makePayment}) {
+function PaymentInfo({cart}) {
     return (
         <React.Fragment>
             <h5 className={'mt-4'}><strong>PAYMENT INFORMATION</strong></h5>
@@ -27,17 +27,9 @@ function PaymentInfo({cart, user, isPaymentCodeModalOpen, openPaymentCodeModal, 
                                 <TextInfo lable="Payment Code" data={cart.paymentCode}/>
                                 <div className='row'>
                                     <div className='col-3'>Payment Status</div>
-                                    <div className='col-9'>: Pending
-                                        {isSuperAdmin(user) ?
-                                            (<span> (<span className='link'
-                                                           onClick={openPaymentCodeModal}>
-                                                        Update Status</span>)</span>) : ''}
-                                    </div>
+                                    <div className='col-9'>: Pending</div>
                                 </div>
-                                <TextInput visible={isPaymentCodeModalOpen}
-                                           text={'Enter Payment Code'}
-                                           onSubmit={makePayment}
-                                           closeModal={closePaymentCodeModal}/>
+
                             </React.Fragment>
                         )
                         : (<React.Fragment>
@@ -215,6 +207,7 @@ class OrderInfo extends Component {
                                  onSubmit={this.completeOrder}/>
                     <OrderStatusBar status={cart.status}
                                     user={this.props.user}
+                                    statusChangeTime={cart.statusChangeTime}
                                     openPaymentCodeModal={this.openPaymentCodeModal}
                                     openCollectionCodeModal={this.openCollectionCodeModal}
                                     openCourierDetailsModal={this.openCourierDetailsModal}
@@ -236,12 +229,11 @@ class OrderInfo extends Component {
                                 : <PickupInfo pickup={pickup}/>
                         }
                     </div>
-                    <PaymentInfo user={this.props.user}
-                                 cart={cart}
-                                 openPaymentCodeModal={this.openPaymentCodeModal}
-                                 makePayment={this.makePayment}
-                                 closePaymentCodeModal={this.closePaymentCodeModal}
-                                 isPaymentCodeModalOpen={this.state.isPaymentCodeModalOpen}/>
+                    <TextInput visible={this.state.isPaymentCodeModalOpen}
+                               text={'Enter Payment Code'}
+                               onSubmit={this.makePayment}
+                               closeModal={this.closePaymentCodeModal}/>
+                    <PaymentInfo cart={cart}/>
                 </div>
             </div>
         );

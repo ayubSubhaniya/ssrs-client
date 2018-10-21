@@ -22,5 +22,19 @@ export const defaultCart = {
     totalCost: 0,
     _id: "1",
     pickup: '',
-    delivery: ''
+    delivery: '',
+    statusChangeTime: {
+        failed: {},
+        invalid: {},
+        unplaced: {},
+        placed: {},
+        paymentComplete: {},
+        processing: {},
+        readyToDeliver: {},
+        readyToPickup: {},
+        completed: {},
+        onHold: {},
+        cancelled: {},
+        refunded: {}
+    }
 }

@@ -3,11 +3,7 @@ import {withRouter} from 'react-router-dom'
 import {cartStatus} from "../../constants/status";
 import {camelCaseToWords} from "../../helper/String";
 import {isSuperAdmin} from "../../helper/userType";
-
-function getDateString(date) {
-    const dateObj = new Date(Date.parse(date))
-    return dateObj.toLocaleDateString() + " " + dateObj.toLocaleTimeString();
-}
+import {formatDate} from "../../helper/String";
 
 class OrderDetails extends Component {
     constructor(props) {
@@ -39,9 +35,9 @@ class OrderDetails extends Component {
                 <td data-th="Order No" className="text-center"
                     dangerouslySetInnerHTML={{__html: this.formatMatched(cart.orderId, this.props.searchedId)}}>
                 </td>
-                <td data-th="Service" className='pt-3 pb-3 pl-4'>
+                <td data-th="Service" className='pt-3 pb-3'>
                     {cart.orders[0].serviceName} <br/>
-                    {getDateString(cart.createdOn)}
+                    {formatDate(cart.statusChangeTime.placed.time)}
                     {
                         cart.orders.length > 1
                             ? <div className='more-items'> + {cart.orders.length - 1} More Items</div>

@@ -1,6 +1,7 @@
 import {rcartStatus} from "../../constants/status";
 import React from "react";
 import {isSuperAdmin} from "../../helper/userType";
+import {formatDate} from "../../helper/String";
 
 function getStatus(x, y) {
     if (x == y) {
@@ -11,7 +12,7 @@ function getStatus(x, y) {
         return 'disabled'
 }
 
-function Step({curStatus, status, label, showButton,handleClick, btnLabel}) {
+function Step({curStatus, status, label, showButton,handleClick, btnLabel, time}) {
     return (
         <div className={`col-3 bs-wizard-step ${getStatus(curStatus, status)}`}>
             <div className="text-center bs-wizard-stepnum">{label}</div>
@@ -19,7 +20,7 @@ function Step({curStatus, status, label, showButton,handleClick, btnLabel}) {
                 <div className="progress-bar"></div>
             </div>
             <div className="bs-wizard-dot"></div>
-            <div className="bs-wizard-info text-center">{new Date().toLocaleTimeString()}
+            <div className="bs-wizard-info text-center">{time}
             <br/>
                 {
                     showButton
@@ -33,28 +34,33 @@ function Step({curStatus, status, label, showButton,handleClick, btnLabel}) {
     )
 }
 
-function OrderStatusBar({status, isDelivery, openPaymentCodeModal, openCollectionCodeModal, openCourierDetailsModal,user}) {
+function OrderStatusBar({status, isDelivery, openPaymentCodeModal, statusChangeTime, openCollectionCodeModal, openCourierDetailsModal,user}) {
     return (
         <div className="row bs-wizard" style={{"borderBottom": "0"}}>
             <Step curStatus={status}
                   status={rcartStatus.placed}
+                  time={formatDate(statusChangeTime.placed.time)}
                   label={'Placed'}/>
             <Step curStatus={status}
                   status={rcartStatus.processing}
                   showButton={status===rcartStatus.placed && isSuperAdmin(user)}
                   handleClick={openPaymentCodeModal}
+                  time={formatDate(statusChangeTime.processing.time)}
                   btnLabel={'Accept Payment'}
                   label={'Processing'}/>
             {
                 isDelivery
                     ? <Step curStatus={status}
+                            time={formatDate(statusChangeTime.readyToDeliver.time)}
                             status={rcartStatus.readyToDeliver}
                             label={'Ready To Deliver'}/>
                     : <Step curStatus={status}
+                            time={formatDate(statusChangeTime.readyToPickup.time)}
                             status={rcartStatus.readyToPickup}
                             label={'Ready To Pickup'}/>
             }
             <Step curStatus={status}
+                  time={formatDate(statusChangeTime.completed.time)}
                   showButton={(status===rcartStatus.readyToDeliver || status===rcartStatus.readyToPickup) && isSuperAdmin(user)}
                   handleClick={status===rcartStatus.readyToDeliver ? openCourierDetailsModal : openCollectionCodeModal}
                   btnLabel={'Complete'}
