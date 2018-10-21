@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
 import _ from "lodash"
-import CartDetails from "./CartDetails";
+import CartDetails from "./OrderDetails";
 import {isStudent} from "../../helper/userType";
 import {handleChange} from "../../helper/StateUpdate";
 
-class CartList extends Component {
+class OrderList extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -30,7 +30,6 @@ class CartList extends Component {
     render() {
         const {carts, ...others} = this.props;
         const filteredCarts = this.filterByOrderId(carts);
-        console.log(filteredCarts);
         return (
             <section className={`orders cd-gallery ${this.props.isFilterVisible ? 'filter-is-visible' : ''}`}>
                 <div className='container mb-3 pb-0 d-flex flex-row'>
@@ -86,5 +85,5 @@ class CartList extends Component {
 }
 
 
-export default CartList;
+export default OrderList;
 

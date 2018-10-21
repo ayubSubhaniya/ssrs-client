@@ -27,8 +27,8 @@ import Payment from "./order/payment/Payment";
 import Info from "./order/info/Info";
 import Myprofile from './Myprofile/Myprofile'
 import UserList from './user/UserList';
-import Filter from './order/Filter'
-import CartWithOrders from "./order/CartWithOrders";
+import Filter from './order/Orders'
+import CartWithOrders from "./order/OrderInfo";
 import Permission from './Permission/Permission';
 import NewCollectionTypeForm from "./collectionType/NewCollectionTypeForm";
 

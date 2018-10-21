@@ -1,148 +1,63 @@
-import React from "react"
+import React from 'react'
 import Modal from "react-bootstrap4-modal";
+import {handleChange} from "../../helper/StateUpdate";
 
-class CourierForm extends React.Component {
-    constructor(props) {
-        super(props);
-        let {data} = props;
-        if(data) {
-            this.state = {
-                name: data.name,
-                email: data.email,
-                contactNo: data.contactNo,
-                address: data.address.line1,
-                city: data.city,
-                pinCode: data.pinCode,
-                state: data.state,
-                country: data.country
-            }
-        }else{
-            this.state = {
-                name: '',
-                email: '',
-                contactNo: '',
-                address: '',
-                city: '',
-                pinCode: '',
-                state: '',
-                country: ''
-            }
+class CourierForm extends React.Component{
+    constructor(){
+        super();
+        this.state = {
+            courierServiceName: '',
+            trackingId: ''
         }
+        this.handleChange = handleChange.bind(this);
     }
-
-    getCourierDetails = () => {
-        const courier = {
-            name: this.state.name,
-            contactNo: this.state.contactNo,
-            email: this.state.email,
-            address: {
-                line1: this.state.address,
-                line2: undefined,
-                line3: undefined
-            },
-            pinCode: this.state.pinCode,
-            state: this.state.state,
-            city: this.state.city,
-            country: this.state.country
-        };
-        return courier;
-    };
-
-    handleChange = ({target}) => {
-        this.setState({
-            [target.name]: target.value
-        })
-    };
-
 
     render() {
         return (
-            <Modal visible={this.props.open}>
-                    <form autoComplete="off" onSubmit={(e) => {
+            <Modal visible={this.props.visible}
+                   className={'animated ' + (this.props.visible ? 'fadeIn' : 'fadeOut')}
+                   onClickBackdrop={this.props.closeModal}>
+
+                <div className="modal-header">
+                    <h5 className="modal-title">Enter Courier Details!</h5>
+                    <button type="button" className="close" onClick={this.props.closeModal}><span
+                        aria-hidden="true">&times;</span></button>
+                </div>
+
+                <div className="modal-body">
+                    <form autoComplete='off' onSubmit={(e) => {
                         e.preventDefault();
-                        this.props.handleSubmit(this.getCourierDetails())
+                        this.props.onSubmit({
+                            courierServiceName: this.state.courierServiceName,
+                            trackingId: this.state.trackingId,
+                            status: 80
+                        })
                     }}>
-                        <div className={'modal-body'}>
-                        <div className={'form-group'}>
-                            <label>Name:</label>
-                            <input name="name"
-                                   value={this.state.name}
+                        <div className="form-group">
+                            <label>Service Name</label>
+                            <input className={'form-control'}
+                                   name="courierServiceName"
+                                   type="text"
+                                   value={this.state.courierServiceName}
                                    onChange={this.handleChange}
-                                   required='true'
-                                   className={'form-control'} type={'text'}/>
+                                   placeholder={"Enter Courier Service Name"}
+                                   aria-describedby="basic-addon"/>
                         </div>
-                        <div className={'form-group'}>
-                            <label>Email: </label>
-                            <input name='email'
-                                   value={this.state.email}
+                        <div className="form-group">
+                            <label>Tracking ID</label>
+                            <input className={'form-control'}
+                                   name="trackingId"
+                                   type="text"
+                                   value={this.state.trackingId}
                                    onChange={this.handleChange}
-                                   required='true'
-                                   className={'form-control'} type={'email'}/>
+                                   placeholder={"Enter Tarcking ID"}
+                                   aria-describedby="basic-addon"/>
                         </div>
-                        <div className={'form-group'}>
-                            <label>Contact No: </label>
-                            <input name='contactNo'
-                                   value={this.state.contactNo}
-                                   onChange={this.handleChange}
-                                   required='true'
-                                   pattern="[0-9]{10}"
-                                   className={'form-control'} type={'tel'}/>
-                        </div>
-
-                        <div className={'form-group'}>
-                            <label>Address: </label>
-                            <input name='address'
-                                   className={'form-control'}
-                                   value={this.state.address}
-                                   required='true'
-                                   onChange={this.handleChange}/>
-                        </div>
-                        <div className={'form-group'}>
-                            <label>City:</label>
-                            <input name='city'
-                                   className={'form-control'}
-                                   type={'text'}
-                                   required='true'
-                                   value={this.state.city}
-                                   onChange={this.handleChange}/>
-                        </div>
-                        <div className={'form-group'}>
-                            <label>Pincode:</label>
-                            <input name='pinCode'
-                                   className={'form-control'}
-                                   type={'text'}
-                                   value={this.state.pinCode}
-                                   required='true'
-                                   onChange={this.handleChange}/>
-                        </div>
-                        <div className={'form-group'}>
-                            <label>State:</label>
-                            <input name='state'
-                                   className={'form-control'}
-                                   value={this.state.state}
-                                   type={'text'}
-                                   required='true'
-                                   onChange={this.handleChange}/>
-                        </div>
-                        <div className={'form-group'}>
-                            <label>Country:</label>
-                            <input name='country'
-                                   className={'form-control'}
-                                   type={'text'}
-                                   value={this.state.country}
-                                   required='true'
-                                   onChange={this.handleChange}/>
-                        </div>
-                        </div>
-                        <div className="modal-footer">
-                            <button type="button" className="btn btn-danger" onClick={this.props.close}>Close</button>
-                            <button type="submit" className="btn btn-primary">Save
-                            </button>
-                        </div>
+                        <button type="submit" className="btn btn-primary mt-3">Submit</button>
                     </form>
-
+                </div>
             </Modal>
-        );
+        )
     }
 }
 

@@ -4,6 +4,7 @@ import _ from "lodash"
 import ServiceDetails from "./ServiceDetails";
 import {defaultCart} from "../../../constants/constants";
 import TextInfo from "../TextInfo"
+import {DeliveryInfo,PickupInfo} from "../Info";
 
 class CartDetails extends Component {
     constructor(props) {
@@ -73,21 +74,8 @@ class CartDetails extends Component {
                         <TextInfo lable="Collection Type" data={this.props.collectionType.name}/>
                         {
                            delivery
-                                ? (
-                                    <React.Fragment>
-                                        <TextInfo lable="Name" data={delivery.name}/>
-                                        <TextInfo lable="Address" data={" " + delivery.address.line1 +
-                                        ", " + delivery.city + " - " + delivery.pinCode + ", " + delivery.state + ", " + delivery.country}/>
-                                        <TextInfo lable="Phone" data={delivery.contactNo}/>
-                                        <TextInfo lable="Email" data={delivery.email}/>
-                                    </React.Fragment>
-                                )
-                                : (<React.Fragment>
-                                    <TextInfo lable="Name" data={pickup.name}/>
-                                    <TextInfo lable="DAIICT ID" data={pickup.daiictId}/>
-                                    <TextInfo lable="Phone" data={pickup.contactNo}/>
-                                    <TextInfo lable="Email" data={pickup.email}/>
-                                </React.Fragment>)
+                                ? <DeliveryInfo delivery={delivery}/>
+                                : <PickupInfo pickup={pickup}/>
                         }
                     </div>
                 </div>

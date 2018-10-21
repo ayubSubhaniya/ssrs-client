@@ -7,11 +7,11 @@ import {asyncFetch} from "../../helper/FetchData";
 import {domainUrl} from "../../config/configuration";
 import {camelCaseToWords} from "../../helper/String";
 import * as HttpStatus from "http-status-codes";
-import CartList from "./CartList";
+import OrderList from "./OrderList";
 import {isSuperAdmin} from "../../helper/userType";
 
 const filterKey  = ['-10',30,50,60,70,80,90,100,110,0];
-const filter = {
+const orders = {
     '-10': "all",
     0: "failed",
     30: "placed",
@@ -127,10 +127,10 @@ class Filter extends Component {
                 <Header title={'Orders'}/>
                 <main className="cd-main-content">
 
-                    <CartList carts={this.filterCart(this.state.cart)}
-                              isFilterVisible={this.state.isFilterVisible}
-                              updateStatus={this.updateOrderStatus}
-                              user={this.props.user}/>
+                    <OrderList carts={this.filterCart(this.state.cart)}
+                               isFilterVisible={this.state.isFilterVisible}
+                               updateStatus={this.updateOrderStatus}
+                               user={this.props.user}/>
 
                     <div className={`cd-filter ${this.state.isFilterVisible ? 'filter-is-visible' : ''}`}>
                         <form>
@@ -145,7 +145,7 @@ class Filter extends Component {
                                                            checked={key == this.state.filterState}/>
                                                     <label className="radio-label" data-filter={key}
                                                            onClick={this.updateFilter}>
-                                                        {camelCaseToWords(filter[key])}
+                                                        {camelCaseToWords(orders[key])}
                                                     </label>
                                                 </li>
                                             )
