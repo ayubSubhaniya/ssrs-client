@@ -5,7 +5,7 @@ import { domainUrl } from "../../config/configuration";
 import * as HttpStatus from "http-status-codes";
 import _ from 'lodash';
 import Modal from 'react-bootstrap4-modal';
-import CourierFrom from '../order/AddressForm.js';
+import CourierFrom from './AddressForm.js';
 
 let _id=-1;
 let id=-1;
