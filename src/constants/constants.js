@@ -1,3 +1,6 @@
+import _ from "lodash";
+import {syncFetch} from "../helper/FetchData";
+
 export const DEBITCARD = 'debitCard';
 export const NETBANKING = 'netBanking';
 export const PAYTM = 'paytm';
@@ -37,4 +40,22 @@ export const defaultCart = {
         cancelled: {},
         refunded: {}
     }
+}
+
+export const defaultService = {
+    isApplicationSpecific: "false",
+    isSpecialService: "false",
+    name: '',
+    description: '',
+    maxUnits: '',
+    baseCharge: '',
+    paymentModes: {
+        [OFFLINE]: true,
+        [ONLINE]: true
+    },
+    allBatches: 'true',
+    allUserTypes: 'true',
+    allProgrammes: 'true',
+    collectionType: [],
+    parameter: []
 }

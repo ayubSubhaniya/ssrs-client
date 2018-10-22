@@ -4,10 +4,7 @@ import ServiceDetails from "./ServiceDetails";
 import EditButton from "../EditButton";
 import Switch from "../Switch";
 import AuthorizedComponent from "../AuthorizedComponent";
-import {domainUrl} from '../../config/configuration'
-import * as HttpStatus from "http-status-codes";
 import ButtonLink from "./ButtonLink";
-import Spinner from "../Spinner";
 import DeleteButton from "../DeleteButton";
 import {isStudent, isSuperAdmin} from "../../helper/userType";
 import ApplyButton from "./ApplyButton";
@@ -18,12 +15,11 @@ class ServiceList extends Component {
         super(props, context);
         this.state = {
             service: [],
-            showSpinner: false
         };
     }
 
     componentDidMount() {
-       this.getService();
+        this.getService();
     }
 
     getService = () => {
@@ -36,31 +32,19 @@ class ServiceList extends Component {
                     service: response.service,
                 });
             })
-            .catch(error => console.log(error));
     }
 
     deleteService = (index) => {
-        this.setState({
-            showSpinner: true
-        });
-        const that = this;
-        const url = domainUrl + '/service/' + this.state.service[index]._id;
-        const request = new XMLHttpRequest();
-        request.open('DELETE', url, true);
-        request.withCredentials = true;
-        request.setRequestHeader("Content-type", "application/json");
-        request.onload = function () {
-            if (this.status === HttpStatus.OK) {
-                const service = that.state.service;
-                that.setState({
+        makeCall({
+            jobType: "DELETE",
+            urlParams: '/service/' + this.state.service[index]._id
+        })
+            .then(() => {
+                const service = this.state.service;
+                this.setState({
                     service: [...service.slice(0, index), ...service.slice(index + 1)]
                 })
-            }
-            that.setState({
-                showSpinner: false
             })
-        }
-        request.send();
     }
 
     toggleService = (index) => {
@@ -79,7 +63,6 @@ class ServiceList extends Component {
                     service: serviceList,
                 });
             })
-            .catch(error => console.log(error));
     }
 
     render() {
@@ -104,7 +87,7 @@ class ServiceList extends Component {
                                                 component={EditButton}
                                                 permission={isSuperAdmin(this.props.user)}
                                                 data={service}
-                                                path={'/service/edit/' + i}/>
+                                                path={'/service/edit/' + service._id}/>
                                             <AuthorizedComponent
                                                 component={Switch}
                                                 handleClick={this.toggleService}
@@ -132,7 +115,6 @@ class ServiceList extends Component {
                     component={ButtonLink}
                     permission={isSuperAdmin(this.props.user)}
                 />
-                <Spinner open={this.state.showSpinner}/>
             </div>
         );
     }

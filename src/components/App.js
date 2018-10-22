@@ -218,7 +218,7 @@ class App extends Component {
                                 component={NewServiceForm}
                                 permission={isSuperAdmin(this.state.user)}/>
                             <AuthorizedRoute
-                                path="/service/edit"
+                                exact path="/service/edit/*"
                                 component={EditForm}
                                 permission={isSuperAdmin(this.state.user)}/>
                             <AuthorizedRoute
@@ -281,11 +281,11 @@ class App extends Component {
                             <AuthorizedRoute
                                 exact path='/helpAdmin'
                                 component={HelpAdmin}
-                                permission={isSuperAdmin(this.state.user)}/> 
+                                permission={isSuperAdmin(this.state.user)}/>
                             <AuthorizedRoute
                                 exact path='/helpUser'
                                 component={HelpUser}
-                                permission={isStudent(this.state.user)}/>                                                                
+                                permission={isStudent(this.state.user)}/>
                             <Route render={()=> <Redirect to='/' />} />
                         </Switch>
                     </React.Fragment>
