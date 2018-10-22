@@ -215,7 +215,7 @@ class OrderInfo extends Component {
                         {
                             (cart.status >= rcartStatus.placed && cart.status < rcartStatus.completed)
                                 ? <div className='btn btn-outline-danger mr-4 align-self-center'
-                                       onClick={this.openModal}>
+                                       onClick={this.openCancelModal}>
                                     Cancel
                                 </div>
                                 : ''
