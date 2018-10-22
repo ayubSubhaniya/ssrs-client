@@ -50,7 +50,7 @@ class CourierForm extends React.Component{
                                    type="text"
                                    value={this.state.trackingId}
                                    onChange={this.handleChange}
-                                   placeholder={"Enter Tarcking ID"}
+                                   placeholder={"Enter Tracking ID"}
                                    aria-describedby="basic-addon"/>
                         </div>
                         <button type="submit" className="btn btn-primary mt-3">Submit</button>

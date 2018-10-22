@@ -9,3 +9,11 @@ export const cartError = {
     [HttpStatus.NOT_FOUND]: "Not found!",
     noCollectionTypes: "No collection type information provided. Please select collection type and provide information."
 };
+
+export const paymentCode = {
+    wrong: "PaymentCode Did Not Matched. Please Try Again!"
+}
+
+export const collectionCode = {
+    wrong: "CollectionCode Did Not Matched. Please Try Again!"
+}

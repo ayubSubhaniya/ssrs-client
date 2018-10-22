@@ -7,6 +7,7 @@ import {camelCaseToWords} from "../../helper/String";
 import TextInput from "./TextInput";
 import {makeCall} from "../../helper/caller";
 import {defaultCart} from "../../constants/constants";
+import {paymentCode, collectionCode} from "../../constants/errorMessage";
 import TextInfo from "./TextInfo"
 import CourierForm from "./CourierForm";
 import OrderStatusBar from "./OrderStatusBar"
@@ -260,10 +261,12 @@ class OrderInfo extends Component {
                                onSubmit={this.cancelCart}/>
                     <TextInput visible={this.state.isCollectionCodeModalOpen}
                                text={'Enter Collection Code'}
+                               errorMessage={this.state.isCollectionCodeWrong?collectionCode.wrong:''}
                                closeModal={this.closeColletionCodeModal}
                                onSubmit={this.compareCollectionCode}/>
                     <TextInput visible={this.state.isPaymentCodeModalOpen}
                                text={'Enter Payment Code'}
+                               errorMessage={this.state.isPaymentCodeWrong?paymentCode.wrong:''}
                                onSubmit={this.makePayment}
                                closeModal={this.closePaymentCodeModal}/>
                 </div>

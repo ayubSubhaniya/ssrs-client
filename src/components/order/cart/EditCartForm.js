@@ -38,7 +38,7 @@ function syncFetch(dataName, key) {
 class EditCartForm extends Component {
     constructor(props) {
         super(props);
-        const availableParameters = _.map(this.props.service.availableParameters,(id) => syncFetch(`parameter/${id}`,'parameter'))
+        const availableParameters = _.map(this.props.service.availableParameters, (id) => syncFetch(`parameter/${id}`, 'parameter'))
         this.state = {
             units: props.units,
             comments: props.comment,
@@ -92,25 +92,33 @@ class EditCartForm extends Component {
                         <div className={'modal-body'}>
                             <form autoComplete="on">
                                 <div className="card bg-light p-4">
-                                    <div className="form-group form-inline">
-                                        <label>Select No. Of Units:</label>
-                                        <input
-                                            className={'form-control text-center ml-2 col-6'}
-                                            type="number"
-                                            min={1}
-                                            max={service.maxUnits}
-                                            name="units"
-                                            value={this.state.units}
-                                            placeholder="Enter Maximum Allowed Unit"
-                                            onChange={this.handleChange}
-                                            required
-                                        />
-                                    </div>
-                                    <MultiSelectDropDownControled label={'Parameters'}
-                                                                  btnLabel={parameterBtnLabel}
-                                                                  options={this.state.parameter}
-                                                                  name={'parameter'}
-                                                                  handleOptionChange={this.handleArrayUpdate}/>
+                                    {
+                                        this.props.hide
+                                            ? ''
+                                            : <div className="form-group form-inline">
+                                                <label>Select No. Of Units:</label>
+                                                <input
+                                                    className={'form-control text-center ml-2 col-6'}
+                                                    type="number"
+                                                    min={1}
+                                                    max={service.maxUnits}
+                                                    name="units"
+                                                    value={this.state.units}
+                                                    placeholder="Enter Maximum Allowed Unit"
+                                                    onChange={this.handleChange}
+                                                    required
+                                                />
+                                            </div>
+                                    }
+                                    {
+                                        this.props.hide
+                                            ? ' '
+                                            : <MultiSelectDropDownControled label={'Parameters'}
+                                                                            btnLabel={parameterBtnLabel}
+                                                                            options={this.state.parameter}
+                                                                            name={'parameter'}
+                                                                            handleOptionChange={this.handleArrayUpdate}/>
+                                    }
                                     <div className={'form-group'}>
                                         <label>Comments:</label>
                                         <textarea
