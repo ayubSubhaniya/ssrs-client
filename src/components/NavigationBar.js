@@ -4,7 +4,7 @@ import Image from "./Image";
 import logo from "../images/daiict.png";
 import {Link, withRouter} from "react-router-dom";
 import AuthorizedComponent from "./AuthorizedComponent";
-import {isSuperAdmin} from "../helper/userType";
+import {isSuperAdmin, isStudent} from "../helper/userType";
 
 function NavLink({path, text, onClick, className, currPath,icon}) {
 
@@ -13,7 +13,8 @@ function NavLink({path, text, onClick, className, currPath,icon}) {
     }
 
     return (
-        <li className={"nav-item " + (currPath === path ? "active" : "") + " " + className}>
+        <li className={"nav-item " + (currPath === path ? "active" : "") + " " + className}
+            style={{marginLeft:"10px", marginRight:"10px"}}>
             <Link className="nav-link" onClick={onClick} to={{
                 pathname: path,
             }}>
@@ -86,10 +87,18 @@ class NavigationBar extends Component {
                                                              currPath={this.props.location.pathname}
                                                              text={'Permissions'}
                                                              component={NavLink}/>
-                                        <NavLink path={'/help'}
-                                                 icon={'question-circle'}
-                                                 currPath={this.props.location.pathname}
-                                                 text={'Help'}/>
+                                        <AuthorizedComponent permission={isSuperAdmin(value.user)}
+                                                             path='/helpAdmin'
+                                                             currPath={this.props.location.pathname}
+                                                             text={'Help'}
+                                                             icon={'question-circle'}
+                                                             component={NavLink}/>
+                                        <AuthorizedComponent permission={isStudent(value.user)}
+                                                             path='/helpUser'
+                                                             currPath={this.props.location.pathname}
+                                                             text={'Help'}
+                                                             icon={'question-circle'}
+                                                             component={NavLink}/>                                                             
                                         <NavLink text={'Logout'}
                                                  icon={'sign-out'}
                                                  className={"ml-auto"}

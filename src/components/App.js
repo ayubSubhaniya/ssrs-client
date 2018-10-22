@@ -31,6 +31,8 @@ import Filter from './order/Orders'
 import CartWithOrders from "./order/OrderInfo";
 import Permission from './Permission/Permission';
 import NewCollectionTypeForm from "./collectionType/NewCollectionTypeForm";
+import HelpAdmin from './helpAdmin/HelpAdmin';
+import HelpUser from './helpUser/HelpUser';
 
 export const Context = React.createContext();
 
@@ -276,6 +278,14 @@ class App extends Component {
                                 exact path='/Permission'
                                 component={Permission}
                                 permission={isSuperAdmin(this.state.user)}/>
+                            <AuthorizedRoute
+                                exact path='/helpAdmin'
+                                component={HelpAdmin}
+                                permission={isSuperAdmin(this.state.user)}/> 
+                            <AuthorizedRoute
+                                exact path='/helpUser'
+                                component={HelpUser}
+                                permission={isStudent(this.state.user)}/>                                                                
                             <Route render={()=> <Redirect to='/' />} />
                         </Switch>
                     </React.Fragment>
