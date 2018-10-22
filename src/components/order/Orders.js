@@ -3,14 +3,12 @@ import NavigationBar from "../NavigationBar";
 import Header from "../Header";
 import Spinner from "../Spinner";
 import _ from "lodash"
-import {asyncFetch} from "../../helper/FetchData";
-import {domainUrl} from "../../config/configuration";
 import {camelCaseToWords} from "../../helper/String";
-import * as HttpStatus from "http-status-codes";
 import OrderList from "./OrderList";
 import {isSuperAdmin} from "../../helper/userType";
+import {makeCall} from "../../helper/caller";
 
-const filterKey  = ['-10',30,50,60,70,80,90,100,110,0];
+const filterKey = ['-10', 30, 50, 60, 70, 80, 90, 100, 110, 0];
 const orders = {
     '-10': "all",
     0: "failed",
@@ -31,71 +29,24 @@ class Filter extends Component {
             showSpinner: false,
             isFilterVisible: false,
             filterState: (isSuperAdmin(this.props.user) ? 50 : '-10'),
-            order: [],
             cart: [],
         }
-        this.asyncFetch = asyncFetch.bind(this);
     }
 
     componentDidMount() {
-        this.asyncFetch('order');
-        this.fetchCart();
+        this.getAllCart();
     }
 
-    updateOrderStatus = (index, updatedStatus) => {
-        console.log(index, updatedStatus);
-        this.setState({
-            showSpinner: true
-        });
-
-        const that = this;
-        const order = this.state.order[index];
-        const url = domainUrl + '/order/changeStatus/' + order._id;
-        const request = new XMLHttpRequest();
-        request.open('PATCH', url, true);
-        request.withCredentials = true;
-        request.setRequestHeader("Content-type", "application/json");
-        request.onload = function () {
-            if (this.status == HttpStatus.OK) {
-                const response = JSON.parse(request.response)
-                console.log(response);
-            }
-            that.setState({
-                showSpinner: false
-            })
-        };
-        request.send(JSON.stringify({
-            status: updatedStatus
-        }));
-    }
-
-
-    fetchCart = () => {
-        const that = this;
-        that.setState({
-            showSpinner: true
+    getAllCart = () => {
+        makeCall({
+            jobType: 'GET',
+            urlParams: '/cart/all'
         })
-        const url = domainUrl + '/' + 'cart/all'
-        var request = new XMLHttpRequest();
-        request.open('GET', url, true);
-        request.withCredentials = true;
-        request.onload = function () {
-            if (this.status === HttpStatus.OK) {
-                try {
-                    const obj = JSON.parse(request.responseText);
-
-                    that.setState({
-                        cart: _.filter(obj['cart'], (o) => o.status != 20),
-                    })
-                } catch (e) {
-                    console.error(e);
-                }
-            }
-            that.setState({
-                showSpinner: false
+            .then((response) => {
+                this.setState({
+                    cart: _.filter(response.cart, (o) => o.status != 20),
+                })
             })
-        };
-        request.send();
     }
 
     filterOrder = (order) => {
@@ -129,7 +80,6 @@ class Filter extends Component {
 
                     <OrderList carts={this.filterCart(this.state.cart)}
                                isFilterVisible={this.state.isFilterVisible}
-                               updateStatus={this.updateOrderStatus}
                                user={this.props.user}/>
 
                     <div className={`cd-filter ${this.state.isFilterVisible ? 'filter-is-visible' : ''}`}>

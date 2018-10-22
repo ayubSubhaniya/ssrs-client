@@ -39,10 +39,9 @@ export function getServiceFromState(){
         availablePaymentModes: _.filter(Object.keys(this.state.paymentModes),(key) => this.state.paymentModes[key]),
         collectionTypes: getSelectedID(this.state.collectionType),
         availableParameters: getSelectedID(this.state.parameter),
-        allowedUserTypes: getSelectedName(this.state.userTypes),
-        allowedProgrammes: getSelectedName(this.state.programmes),
-        allowedBatches: getSelectedName(this.state.batches)
+        allowedUserTypes: this.state.allUserTypes==='true' ? ['*'] : getSelectedName(this.state.userTypes),
+        allowedProgrammes: this.state.allProgrammes==='true' ? ['*'] : getSelectedName(this.state.programmes),
+        allowedBatches: this.state.allBatches==='true' ? ['*'] : getSelectedName(this.state.batches)
     }
-    console.log(updatedService);
     return updatedService;
 }

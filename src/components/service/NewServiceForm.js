@@ -23,6 +23,9 @@ class NewServiceForm extends Component {
                 [OFFLINE]: true,
                 [ONLINE]: true
             },
+            allBatches: 'true',
+            allUserTypes: 'true',
+            allProgrammes: 'true',
             collectionType: syncFetch("collectionType"),
             parameter: syncFetch("parameter")
         }
@@ -77,6 +80,12 @@ class NewServiceForm extends Component {
         this.addService()
     }
 
+    changeRadioButtonState = ({target}) => {
+        this.setState({
+            [target.name]: target.value
+        })
+    }
+
 
     render() {
         return (
@@ -89,6 +98,7 @@ class NewServiceForm extends Component {
                           handleArrayUpdate={this.handleArrayUpdate}
                           handleSubmit={this.handleSubmit}
                           makeServiceSpecial={this.makeServiceSpecial}
+                          changeRadioButtonState={this.changeRadioButtonState}
                           makeServiceApplicationSpecific={this.makeServiceApplicationSpecific}
                           handlePaymentModeChange={this.handlePaymentModeChange}/>
                 </div>

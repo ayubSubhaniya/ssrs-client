@@ -6,7 +6,7 @@ import NavigationBar from "../NavigationBar";
 import {getServiceFromState, handleArrayUpdate, handleChange, handlePaymentModeChange} from "../../helper/StateUpdate"
 import Form from "./Form";
 import _ from "lodash"
-import {makeCall} from "../../helper/caller";
+import {makeCall} from "../../helper/caller"
 
 function setSelecteProperty(arr1, arr2) {
     return _.map(arr1, (x) => {
@@ -57,6 +57,9 @@ class EditForm extends Component {
             batches: this.service.allowedBatches,
             userTypes: this.service.allowedUserTypes,
             programmes: this.service.allowedProgrammes,
+            allBatches: _.some(this.service.allowedBatches,(x) => x==='*') ? 'true' : 'false',
+            allUserTypes: _.some(this.service.allowedUserTypes,(x) => x==='*') ? 'true' : 'false',
+            allProgrammes: _.some(this.service.allowedProgrammes,(x) => x==='*') ? 'true' : 'false',
             collectionType: setSelecteProperty(allCollectionTypes, this.service.collectionTypes),
             parameter: setSelecteProperty(allParameters, this.service.availableParameters)
         }
@@ -102,16 +105,9 @@ class EditForm extends Component {
         this.updateService()
     }
 
-    makeServiceApplicationSpecific = ({target}) => {
-        console.log(target);
+    changeRadioButtonState = ({target}) => {
         this.setState({
-            isApplicationSpecific: target.value
-        })
-    }
-
-    makeServiceSpecial = ({target}) => {
-        this.setState({
-            isSpecialService: target.value
+            [target.name]: target.value
         })
     }
 
@@ -126,8 +122,7 @@ class EditForm extends Component {
                               handleChange={this.handleChange}
                               handleArrayUpdate={this.handleArrayUpdate}
                               handleSubmit={this.handleSubmit}
-                              makeServiceSpecial={this.makeServiceSpecial}
-                              makeServiceApplicationSpecific={this.makeServiceApplicationSpecific}
+                              changeRadioButtonState={this.changeRadioButtonState}
                               handlePaymentModeChange={this.handlePaymentModeChange}/>
                     </div>
                 </div>

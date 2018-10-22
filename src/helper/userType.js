@@ -1,5 +1,5 @@
 export function isSuperAdmin(user) {
-    return user.userType === 'superAdmin'
+    return user.userType === 'superAdmin' || user.userType === 'admin'
 }
 
 export function isStudent(user) {
