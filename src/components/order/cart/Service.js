@@ -10,7 +10,7 @@ class Service extends Component {
         const service = order.service;
         const parameters = order.parameters;
         return (
-            <tr class={order.status == orderStatus.invalidOrder ? "border border-danger rounded" : ""}>
+            <tr class={order.status === orderStatus.invalidOrder ? "table-danger" : ""}>
                 <td data-th="Service">
                     <div className="row">
                         <div className="col-sm-10">
