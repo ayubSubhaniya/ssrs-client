@@ -1,48 +1,205 @@
 import React, {Component} from 'react';
 import _ from "lodash"
-import {orderStatus,rorderStatus} from "../../constants/status";
+import {orderStatus, rorderStatus} from "../../constants/status";
 import {camelCaseToWords} from "../../helper/String";
-import {isSuperAdmin} from "../../helper/userType";
+import {makeCall} from "../../helper/caller";
+import {isStudent, isSuperAdmin} from "../../helper/userType";
+import TextInput from "./TextInput";
+import EditCartForm from "./cart/EditCartForm";
+import $ from "jquery";
 
 class ServiceDetails extends Component {
     constructor() {
         super();
+        this.state = {
+            isHoldModalOpen: false,
+            isCancelModalOpen: false
+        }
     }
+
+    openHoldModal = () => {
+        this.setState({
+            isHoldModalOpen: true
+        })
+    }
+
+    closeHoldModal = () => {
+        this.setState({
+            isHoldModalOpen: false
+        })
+    }
+
+    openCancelModal = () => {
+        this.setState({
+            isCancelModalOpen: true
+        })
+    }
+
+    closeCancelModal = () => {
+        this.setState({
+            isCancelModalOpen: false
+        })
+    }
+
+
+    statusUpdateToReady = (id) => {
+        makeCall({
+            jobType: 'PATCH',
+            urlParams: '/order/changeStatus/' + id,
+            params: {
+                status: rorderStatus.ready
+            }
+        })
+            .then((response) => {
+                this.props.getCart()
+            });
+    }
+
+
+    hold = (reason, id) => {
+        console.log(reason)
+        makeCall({
+            jobType: 'PATCH',
+            urlParams: '/order/changeStatus/' + id,
+            params: {
+                status: rorderStatus.onHold,
+                reason: reason
+            }
+        })
+            .then(() => {
+                this.props.getCart();
+                this.closeHoldModal();
+            })
+    }
+
+    cancel = (reason, id) => {
+        makeCall({
+            jobType: 'PATCH',
+            urlParams: '/order/cancelOrder/' + id,
+            params: {
+                cancelReason: reason
+            }
+        }).then(() => {
+            this.props.getCart();
+            this.closeCancelModal();
+        })
+    }
+
+    edit = (editedOrder, index, modal) => {
+        const oldOrder = this.props.order;
+        makeCall({
+            jobType: 'PATCH',
+            urlParams: '/order/' + oldOrder._id,
+            params: editedOrder
+        })
+            .then((response) => {
+                $(modal).modal('hide');
+                this.props.getCart();
+            })
+    };
 
     render() {
         const order = this.props.order;
         const service = order.service;
         const parameters = order.parameters;
         return (
-            <tr style={{'cursor': 'default'}}>
-                <td data-th="Service">
-                    <div className="row">
-                        <div className="col-sm-10">
-                            <h4 className="nomargin">{service.name}</h4>
+            <React.Fragment>
+                <tr style={{'cursor': 'default'}}>
+                    <td data-th="Service">
+                        <div className="row">
+                            <div className="col-sm-10">
+                                <h4 className="nomargin">{service.name}</h4>
+                                {
+                                    order.comment
+                                        ? (<div><strong>Comment: </strong>{order.comment}</div>) : ''
+                                }
+                            </div>
+                        </div>
+                    </td>
+                    <td data-th="Status" className="text-center">
+                        {camelCaseToWords(orderStatus[order.status])}
+                    </td>
+                    <td data-th="Parameters"
+                        className="text-center">{parameters.length > 0 ? _.map(parameters, 'name').join(", ") : 'None'}</td>
+                    <td data-th="Quantity" className="text-center">{order.unitsRequested}</td>
+                    <td data-th="Service Cost" className="text-center">{`₹ ${order.serviceCost}`}</td>
+                    <td data-th="Parameter Cost" className="text-center">{`₹ ${order.parameterCost}`}</td>
+                    <td data-th="Subtotal" className="text-center">{`₹ ${order.totalCost}`}</td>
+                </tr>
+                <tr>
+                    <td colSpan={7} className='border-top-0'>
+                        <div className='d-flex justify-content-between align-content-center'>
+                        <div className='w-50'>
                             {
-                                order.comment
-                                    ? (<div><strong>Comment: </strong>{order.comment}</div>) : ''
+                                order.status === rorderStatus.onHold
+                                    ? <span>
+                                        <strong>Hold Reason: </strong>
+                                        {order.holdReason}
+                                    </span>
+                                    : ''
+                            }
+                            {
+                                order.status === rorderStatus.cancelled
+                                    ? <div>
+                                        <strong>Cancellation Reason: </strong>
+                                        {order.cancelReason}
+                                    </div>
+                                    : ''
                             }
                         </div>
-                    </div>
-                </td>
-                {
-                    <td data-th="Status" className="text-center">{camelCaseToWords(orderStatus[order.status])} <br/>
-                        {
-                            order.status === rorderStatus.processing && isSuperAdmin(this.props.user) ?
-                                (<div className='btn btn-success' onClick={() => this.props.statusUpdateToReady(order._id)}>
-                                    Ready
-                                </div>)
-                                : ''
-                        }
+                        <div className=''>
+                            {
+                                order.status === rorderStatus.processing && isSuperAdmin(this.props.user)
+                                    ? (<div className='btn btn-success mr-3'
+                                            onClick={() => this.statusUpdateToReady(order._id)}>
+                                        Ready
+                                    </div>)
+                                    : ''
+                            }
+                            {
+                                order.status > rorderStatus.placed && order.status < rorderStatus.completed && isSuperAdmin(this.props.user)
+                                    ? (<div className='btn btn-success mr-3'
+                                            onClick={this.openHoldModal}>
+                                        Hold
+                                    </div>)
+                                    : ''
+                            }
+                            {
+                                order.status > rorderStatus.placed && order.status < rorderStatus.completed && isSuperAdmin(this.props.user)
+                                    ? (<div className='btn btn-outline-danger mr-3'
+                                            onClick={this.openCancelModal}>
+                                        Cancel
+                                    </div>)
+                                    : ''
+                            }
+                            {
+                                order.status === rorderStatus.onHold && isStudent(this.props.user)
+                                    ? <button type="button" className="btn btn-primary" data-toggle="modal"
+                                           data-target={"#myModal" + order._id}>
+                                        EDIT
+                                    </button>
+                                    : ''
+                            }
+                        </div>
+                        </div>
                     </td>
-                }
-                <td data-th="Parameters" className="text-center">{parameters.length>0?_.map(parameters, 'name').join(", "):'None'}</td>
-                <td data-th="Quantity" className="text-center">{order.unitsRequested}</td>
-                <td data-th="Service Cost" className="text-center">{`₹ ${order.serviceCost}`}</td>
-                <td data-th="Parameter Cost" className="text-center">{`₹ ${order.parameterCost}`}</td>
-                <td data-th="Subtotal" className="text-center">{`₹ ${order.totalCost}`}</td>
-            </tr>
+                </tr>
+                <EditCartForm id={order._id}
+                              service={service}
+                              parameter={parameters}
+                              units={order.unitsRequested}
+                              comment={order.comment}
+                              index={this.props.index}
+                              updateOrder={this.edit}/>
+                <TextInput visible={this.state.isHoldModalOpen}
+                           text={'Enter Reason Holding Of Order'}
+                           closeModal={this.closeHoldModal}
+                           onSubmit={(data) => this.hold(data, order._id)}/>
+                <TextInput visible={this.state.isCancelModalOpen}
+                           text={'Enter Reason Cancellation'}
+                           closeModal={this.closeCancelModal}
+                           onSubmit={(data) => this.cancel(data, order._id)}/>
+            </React.Fragment>
         );
     }
 }

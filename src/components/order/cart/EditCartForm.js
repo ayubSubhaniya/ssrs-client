@@ -51,7 +51,7 @@ class EditCartForm extends Component {
         const order = {
             parameters: _.map(_.filter(state.parameter, ({isSelected}) => isSelected), '_id'),
             unitsRequested: state.units,
-            comment: state.comments
+            comment: state.comments ? state.comments : undefined
         }
         return order;
     }
@@ -61,7 +61,6 @@ class EditCartForm extends Component {
     }
 
     handleSubmit = () => {
-        console.log(this.getOrderDetails(this.state));
         this.props.updateOrder(this.getOrderDetails(this.state), this.props.index, this.modal);
     }
 

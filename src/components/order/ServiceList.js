@@ -2,7 +2,7 @@ import _ from "lodash";
 import ServiceDetails from "./ServiceDetails";
 import React from "react";
 
-function ServiceList({cart,collectionType,user,statusUpdateToReady}) {
+function ServiceList({cart, collectionType, user, getCart}) {
     return (
         <table id="cart" className="table table-hover table-condensed mt-4">
             <thead>
@@ -21,7 +21,7 @@ function ServiceList({cart,collectionType,user,statusUpdateToReady}) {
                 _.map(cart.orders, (o, i) => <ServiceDetails key={o._id}
                                                              order={o}
                                                              user={user}
-                                                             statusUpdateToReady={statusUpdateToReady}
+                                                             getCart={getCart}
                                                              index={i}/>)
             }
             <tr style={{'cursor': 'default'}}>

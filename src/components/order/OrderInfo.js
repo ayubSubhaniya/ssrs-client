@@ -47,6 +47,7 @@ class OrderInfo extends Component {
         this.state = {
             cart: defaultCart,
             collectionType: {},
+            isCancelModalOpen: false,
             isPaymentCodeModalOpen: false,
             isCollectionCodeModalOpen: false,
             isPaymentCodeWrong: false,
@@ -105,19 +106,6 @@ class OrderInfo extends Component {
         }
     }
 
-    statusUpdateToReady = (id) => {
-        makeCall({
-            jobType: 'PATCH',
-            urlParams: '/order/changeStatus/' + id,
-            params: {
-                status: rorderStatus.ready
-            }
-        })
-            .then((response) => {
-                this.getCart()
-            });
-    }
-
     openPaymentCodeModal = () => {
         this.setState({
             isPaymentCodeModalOpen: true
@@ -127,6 +115,18 @@ class OrderInfo extends Component {
     closePaymentCodeModal = () => {
         this.setState({
             isPaymentCodeModalOpen: false
+        })
+    }
+
+    openCancelModal = () => {
+        this.setState({
+            isCancelModalOpen: true
+        })
+    }
+
+    closeCancelModal = () => {
+        this.setState({
+            isCancelModalOpen: false
         })
     }
 
@@ -166,6 +166,20 @@ class OrderInfo extends Component {
             })
     }
 
+
+    cancelCart = (reason) => {
+        makeCall({
+            jobType: 'PATCH',
+            urlParams: '/cart/cancelCart/' + this.state.cart._id,
+            params: {
+                cancelReason: reason
+            }
+        }).then(() => {
+            this.closeModal();
+            this.getCart();
+        })
+    }
+
     compareCollectionCode = (collectionCode) => {
         this.closeColletionCodeModal();
         if (collectionCode !== this.state.cart.pickup.collectionCode) {
@@ -194,13 +208,19 @@ class OrderInfo extends Component {
                         <strong>Order #: {cart.orderId}</strong>
                     </h3>
                     <hr/>
-                    <h3 className='order-status'>
-                        {camelCaseToWords(cartStatus[cart.status])}
-                    </h3>
-                    <TextInput visible={this.state.isCollectionCodeModalOpen}
-                               text={'Enter Collection Code'}
-                               closeModal={this.closeColletionCodeModal}
-                               onSubmit={this.compareCollectionCode}/>
+                    <div className='d-flex justify-content-between'>
+                        <h3 className='order-status'>
+                            {camelCaseToWords(cartStatus[cart.status])}
+                        </h3>
+                        {
+                            (cart.status >= rcartStatus.placed && cart.status < rcartStatus.completed)
+                                ? <div className='btn btn-outline-danger mr-4 align-self-center'
+                                       onClick={this.openModal}>
+                                    Cancel
+                                </div>
+                                : ''
+                        }
+                    </div>
                     <CourierForm visible={this.state.isCourierDetailsModalOpen}
                                  closeModal={this.closeCourierDetailsModal}
                                  onSubmit={this.completeOrder}/>
@@ -214,7 +234,7 @@ class OrderInfo extends Component {
                     <ServiceList cart={cart}
                                  collectionType={this.state.collectionType}
                                  user={this.props.user}
-                                 statusUpdateToReady={this.statusUpdateToReady}/>
+                                 getCart={this.getCart}/>
                     <div className="total-price">
                         <div><span className={'total'}>Total: ₹ </span><span
                             className='price'>{cart.totalCost}</span></div>
@@ -233,6 +253,14 @@ class OrderInfo extends Component {
                         </div>
                         <PaymentInfo cart={cart}/>
                     </div>
+                    <TextInput visible={this.state.isCancelModalOpen}
+                               text={'Enter Reason For Cancellation'}
+                               closeModal={this.closeCancelModal}
+                               onSubmit={this.cancelCart}/>
+                    <TextInput visible={this.state.isCollectionCodeModalOpen}
+                               text={'Enter Collection Code'}
+                               closeModal={this.closeColletionCodeModal}
+                               onSubmit={this.compareCollectionCode}/>
                     <TextInput visible={this.state.isPaymentCodeModalOpen}
                                text={'Enter Payment Code'}
                                onSubmit={this.makePayment}
