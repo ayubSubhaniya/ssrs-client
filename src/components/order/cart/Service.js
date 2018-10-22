@@ -40,7 +40,8 @@ class Service extends Component {
                                   units={order.unitsRequested}
                                   comment={order.comment}
                                   index={this.props.index}
-                                  updateOrder={this.props.updateOrder}/>
+                                  updateOrder={this.props.updateOrder}
+                                  validityErrors={order.validityErrors}/>
                     <DeleteButton handleClick={this.props.deleteOrder}
                                   index={this.props.index}/>
                 </td>
