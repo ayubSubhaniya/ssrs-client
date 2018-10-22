@@ -12,7 +12,7 @@ function getStatus(x, y) {
         return 'disabled'
 }
 
-function Step({curStatus, status, label, showButton,handleClick, btnLabel, time}) {
+function Step({curStatus, status, label, showButton, handleClick, btnLabel, time}) {
     return (
         <div className={`col-3 bs-wizard-step ${getStatus(curStatus, status)}`}>
             <div className="text-center bs-wizard-stepnum">{label}</div>
@@ -21,7 +21,7 @@ function Step({curStatus, status, label, showButton,handleClick, btnLabel, time}
             </div>
             <div className="bs-wizard-dot"></div>
             <div className="bs-wizard-info text-center">{time}
-            <br/>
+                <br/>
                 {
                     showButton
                         ? (<div className={'btn btn-success ml-2'} onClick={handleClick}>
@@ -34,16 +34,16 @@ function Step({curStatus, status, label, showButton,handleClick, btnLabel, time}
     )
 }
 
-function OrderStatusBar({status, isDelivery, openPaymentCodeModal, statusChangeTime, openCollectionCodeModal, openCourierDetailsModal,user}) {
+function OrderStatusBar({status, isDelivery, openPaymentCodeModal, statusChangeTime, openCollectionCodeModal, openCourierDetailsModal, user}) {
     return (
-        <div className="row bs-wizard" style={{"borderBottom": "0"}}>
+        <div className={"row bs-wizard "+ (status===rcartStatus.cancelled?'cancelled':'')} style={{"borderBottom": "0"}}>
             <Step curStatus={status}
                   status={rcartStatus.placed}
                   time={formatDate(statusChangeTime.placed.time)}
                   label={'Placed'}/>
             <Step curStatus={status}
                   status={rcartStatus.processing}
-                  showButton={status===rcartStatus.placed && isSuperAdmin(user)}
+                  showButton={status === rcartStatus.placed && isSuperAdmin(user)}
                   handleClick={openPaymentCodeModal}
                   time={formatDate(statusChangeTime.processing.time)}
                   btnLabel={'Accept Payment'}
@@ -59,13 +59,20 @@ function OrderStatusBar({status, isDelivery, openPaymentCodeModal, statusChangeT
                             status={rcartStatus.readyToPickup}
                             label={'Ready To Pickup'}/>
             }
-            <Step curStatus={status}
-                  time={formatDate(statusChangeTime.completed.time)}
-                  showButton={(status===rcartStatus.readyToDeliver || status===rcartStatus.readyToPickup) && isSuperAdmin(user)}
-                  handleClick={status===rcartStatus.readyToDeliver ? openCourierDetailsModal : openCollectionCodeModal}
-                  btnLabel={'Complete'}
-                  status={rcartStatus.completed}
-                  label={'Completed'}/>
+            {
+                status === rcartStatus.cancelled
+                    ? <Step curStatus={status}
+                            time={formatDate(statusChangeTime.cancelled.time)}
+                            status={rcartStatus.cancelled}
+                            label={'Cancelled'}/>
+                    : <Step curStatus={status}
+                            time={formatDate(statusChangeTime.completed.time)}
+                            showButton={(status === rcartStatus.readyToDeliver || status === rcartStatus.readyToPickup) && isSuperAdmin(user)}
+                            handleClick={status === rcartStatus.readyToDeliver ? openCourierDetailsModal : openCollectionCodeModal}
+                            btnLabel={'Complete'}
+                            status={rcartStatus.completed}
+                            label={'Completed'}/>
+            }
         </div>
     )
 }
