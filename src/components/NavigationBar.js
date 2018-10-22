@@ -13,7 +13,8 @@ function NavLink({path, text, onClick, className, currPath,icon}) {
     }
 
     return (
-        <li className={"nav-item " + (currPath === path ? "active" : "") + " " + className}>
+        <li className={"nav-item " + (currPath === path ? "active" : "") + " " + className}
+            style={{marginLeft:"10px", marginRight:"10px"}}>
             <Link className="nav-link" onClick={onClick} to={{
                 pathname: path,
             }}>
