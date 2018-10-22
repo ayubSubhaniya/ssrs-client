@@ -12,6 +12,7 @@ import CourierForm from "./CourierForm";
 import OrderStatusBar from "./OrderStatusBar"
 import ServiceList from "./ServiceList";
 import {DeliveryInfo, PickupInfo} from './Info'
+import {isSuperAdmin} from "../../helper/userType";
 
 function PaymentInfo({cart}) {
     return (
@@ -87,7 +88,6 @@ class OrderInfo extends Component {
     }
 
     makePayment = (paymentCode) => {
-        this.closePaymentCodeModal();
         if (paymentCode !== this.state.cart.paymentCode) {
             this.setState({
                 isPaymentCodeWrong: true,
@@ -102,6 +102,7 @@ class OrderInfo extends Component {
             })
                 .then(() => {
                     this.getCart();
+                    this.closePaymentCodeModal();
                 })
         }
     }
@@ -162,6 +163,7 @@ class OrderInfo extends Component {
         })
             .then(() => {
                 this.closeCourierDetailsModal();
+                this.closeColletionCodeModal();
                 this.getCart()
             })
     }
@@ -175,13 +177,12 @@ class OrderInfo extends Component {
                 cancelReason: reason
             }
         }).then(() => {
-            this.closeModal();
+            this.closeCancelModal();
             this.getCart();
         })
     }
 
     compareCollectionCode = (collectionCode) => {
-        this.closeColletionCodeModal();
         if (collectionCode !== this.state.cart.pickup.collectionCode) {
             this.setState({
                 isCollectionCodeWrong: true,
@@ -213,7 +214,7 @@ class OrderInfo extends Component {
                             {camelCaseToWords(cartStatus[cart.status])}
                         </h3>
                         {
-                            (cart.status >= rcartStatus.placed && cart.status < rcartStatus.completed)
+                            (cart.status >= rcartStatus.placed && cart.status < rcartStatus.completed && isSuperAdmin(this.props.user))
                                 ? <div className='btn btn-outline-danger mr-4 align-self-center'
                                        onClick={this.openCancelModal}>
                                     Cancel

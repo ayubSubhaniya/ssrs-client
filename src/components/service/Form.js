@@ -73,7 +73,7 @@ function Form(props) {
                                               name={'parameter'}
                                               handleOptionChange={props.handleArrayUpdate}/>
                 <div className="form-group d-flex">
-                    <label>Is Special Service?</label>
+                    <label>Is Service Application Specific?</label>
                     <div className="form-group col-md-6 d-flex">
                         <div className="form-check form-check-inline">
                             <label className="form-check-label">
@@ -81,8 +81,9 @@ function Form(props) {
                                        style={{display: "inline"}}
                                        type="radio"
                                        value={true}
-                                       checked={props.state.isSpecialService == 'true'}
-                                       onClick={props.makeServiceSpecial}/>
+                                       name='isApplicationSpecific'
+                                       checked={props.state.isApplicationSpecific === 'true'}
+                                       onClick={props.changeRadioButtonState}/>
                                 Yes
                             </label>
                         </div>
@@ -92,60 +93,164 @@ function Form(props) {
                                        style={{display: "inline"}}
                                        type="radio"
                                        value={false}
-                                       checked={props.state.isSpecialService == 'false'}
-                                       onClick={props.makeServiceSpecial}/>
+                                       name='isApplicationSpecific'
+                                       checked={props.state.isApplicationSpecific === 'false'}
+                                       onClick={props.changeRadioButtonState}/>
                                 No
                             </label>
                         </div>
                     </div>
                 </div>
             </div>
-            <div className="form-group col-md-6 mb-0">
-                <div>
-                    <label>Who can apply for this service?</label>
-                    <div className="form-group col-md-6 d-flex mb-0 p-2">
-                        <div className="form-check form-check-inline">
-                            <label className="form-check-label">
-                                <input className="form-check-input"
-                                       style={{display: "inline"}}
-                                       type="radio"
-                                       value={false}
-                                       checked={props.state.isApplicationSpecific === 'false'}
-                                       onClick={props.makeServiceApplicationSpecific}/>
-                                All
-                            </label>
-                        </div>
+            <div className="col-md-6">
+                <div className="form-group d-flex mb-0">
+                    <label>Is Special Service?</label>
+                    <div className="form-group col-md-6 d-flex">
                         <div className="form-check form-check-inline">
                             <label className="form-check-label">
                                 <input className="form-check-input"
                                        style={{display: "inline"}}
                                        type="radio"
                                        value={true}
-                                       checked={props.state.isApplicationSpecific === 'true'}
-                                       onClick={props.makeServiceApplicationSpecific}/>
-                                Selected Users
+                                       name='isSpecialService'
+                                       checked={props.state.isSpecialService === 'true'}
+                                       onClick={props.changeRadioButtonState}/>
+                                Yes
+                            </label>
+                        </div>
+                        <div className="form-check form-check-inline">
+                            <label className="form-check-label">
+                                <input className="form-check-input"
+                                       style={{display: "inline"}}
+                                       type="radio"
+                                       value={false}
+                                       name='isSpecialService'
+                                       checked={props.state.isSpecialService === 'false'}
+                                       onClick={props.changeRadioButtonState}/>
+                                No
                             </label>
                         </div>
                     </div>
                 </div>
                 {
-                    props.state.isApplicationSpecific == 'true' ?
+                    props.state.isSpecialService === 'false' ?
                         <div>
-                            <ApllicationSpecificDropDown label={'User Types'}
-                                                         btnLabel={"Select"}
-                                                         options={props.state.userTypes}
-                                                         name={'userTypes'}
-                                                         handleOptionChange={props.handleArrayUpdate}/>
-                            <ApllicationSpecificDropDown label={'Batches'}
-                                                         btnLabel={"Select"}
-                                                         options={props.state.batches}
-                                                         name={'batches'}
-                                                         handleOptionChange={props.handleArrayUpdate}/>
-                            <ApllicationSpecificDropDown label={'Programmes'}
-                                                         btnLabel={"Select"}
-                                                         options={props.state.programmes}
-                                                         name={'programmes'}
-                                                         handleOptionChange={props.handleArrayUpdate}/>
+                            <div className="form-group d-flex mb-0">
+                                <label>Available For Batches:</label>
+                                <div className="form-group col-md-6 d-flex">
+                                    <div className="form-check form-check-inline">
+                                        <label className="form-check-label">
+                                            <input className="form-check-input"
+                                                   style={{display: "inline"}}
+                                                   type="radio"
+                                                   value={true}
+                                                   name='allBatches'
+                                                   checked={props.state.allBatches === 'true'}
+                                                   onClick={props.changeRadioButtonState}/>
+                                            All
+                                        </label>
+                                    </div>
+                                    <div className="form-check form-check-inline">
+                                        <label className="form-check-label">
+                                            <input className="form-check-input"
+                                                   style={{display: "inline"}}
+                                                   type="radio"
+                                                   value={false}
+                                                   name='allBatches'
+                                                   checked={props.state.allBatches === 'false'}
+                                                   onClick={props.changeRadioButtonState}/>
+                                            Selected
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            {
+                                props.state.allBatches === 'false'
+                                    ? <ApllicationSpecificDropDown label={'Batches'}
+                                                                   btnLabel={"Select"}
+                                                                   options={props.state.batches}
+                                                                   name={'batches'}
+                                                                   handleOptionChange={props.handleArrayUpdate}/>
+                                    : ''
+                            }
+
+                            <div className="form-group d-flex mb-0">
+                                <label>Available For UserType:</label>
+                                <div className="form-group col-md-6 d-flex">
+                                    <div className="form-check form-check-inline">
+                                        <label className="form-check-label">
+                                            <input className="form-check-input"
+                                                   style={{display: "inline"}}
+                                                   type="radio"
+                                                   value={true}
+                                                   name='allUserTypes'
+                                                   checked={props.state.allUserTypes === 'true'}
+                                                   onClick={props.changeRadioButtonState}/>
+                                            All
+                                        </label>
+                                    </div>
+                                    <div className="form-check form-check-inline">
+                                        <label className="form-check-label">
+                                            <input className="form-check-input"
+                                                   style={{display: "inline"}}
+                                                   type="radio"
+                                                   value={false}
+                                                   name='allUserTypes'
+                                                   checked={props.state.allUserTypes === 'false'}
+                                                   onClick={props.changeRadioButtonState}/>
+                                            Selected
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            {
+                                props.state.allUserTypes === 'false'
+                                    ? <ApllicationSpecificDropDown label={'User Types'}
+                                                                   btnLabel={"Select"}
+                                                                   options={props.state.userTypes}
+                                                                   name={'userTypes'}
+                                                                   handleOptionChange={props.handleArrayUpdate}/>
+                                    : ''
+                            }
+
+                            <div className="form-group d-flex mb-0">
+                                <label>Available For Programmes:</label>
+                                <div className="form-group col-md-6 d-flex">
+                                    <div className="form-check form-check-inline">
+                                        <label className="form-check-label">
+                                            <input className="form-check-input"
+                                                   style={{display: "inline"}}
+                                                   type="radio"
+                                                   value={true}
+                                                   name='allProgrammes'
+                                                   checked={props.state.allProgrammes === 'true'}
+                                                   onClick={props.changeRadioButtonState}/>
+                                            All
+                                        </label>
+                                    </div>
+                                    <div className="form-check form-check-inline">
+                                        <label className="form-check-label">
+                                            <input className="form-check-input"
+                                                   style={{display: "inline"}}
+                                                   type="radio"
+                                                   value={false}
+                                                   name='allProgrammes'
+                                                   checked={props.state.allProgrammes === 'false'}
+                                                   onClick={props.changeRadioButtonState}/>
+                                            Selected
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            {
+                                props.state.allProgrammes === 'false'
+                                    ? <ApllicationSpecificDropDown label={'Programmes'}
+                                                                   btnLabel={"Select"}
+                                                                   options={props.state.programmes}
+                                                                   name={'programmes'}
+                                                                   handleOptionChange={props.handleArrayUpdate}/>
+                                    : ''
+                            }
                         </div>
                         : ''
                 }
