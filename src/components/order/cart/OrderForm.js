@@ -140,8 +140,8 @@ class OrderForm extends Component {
                                 </form>
                             </div>
                             <div className="modal-footer">
-                                <button type="submit" className="btn btn-primary" onClick={this.handleSubmit}>Add To Cart</button>
-                                <button type="button" className="btn btn-danger" data-dismiss="modal">Close</button>
+                                <button type="submit" className="btn btn-outline-success" onClick={this.handleSubmit}>Add To Cart</button>
+                                <button type="button" className="btn btn-outline-danger" data-dismiss="modal">Close</button>
                             </div>
                         </div>
                     </div>
