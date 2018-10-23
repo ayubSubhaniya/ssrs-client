@@ -29,10 +29,9 @@ class Service extends Component {
                 <td data-th="Parameter Cost" className="text-center">{`₹ ${order.parameterCost}`}</td>
                 <td data-th="Subtotal" className="text-center">{`₹ ${order.totalCost}`}</td>
                 <td className="actions">
-                    <button type="button" className="btn btn-light" data-toggle="modal"
+                    <button type="button" className="btn btn-outline-primary" data-toggle="modal"
                             data-target={"#myModal" + order._id}>
-                        <i className="fa fa-pencil"
-                           style={{"fontSize": "24px", "color": "black"}}></i>
+                    Edit
                     </button>
                     <EditCartForm id={order._id}
                                   service={service}
