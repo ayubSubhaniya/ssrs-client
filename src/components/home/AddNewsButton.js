@@ -3,10 +3,9 @@ import {Link} from "react-router-dom";
 
 function AddNewsButton(props) {
     return (
-        <div className={'d-flex justify-content-center mt-3'}>
-            <button className="btn btn-default btn-light btn-sm" onClick={props.openAddModal}>
-                <i className="fa fa-plus"
-                   style={{"fontSize": "24px", "color": "black"}}/>Add News
+        <div className={'d-flex justify-content-end mt-3 mb-3'}>
+            <button className="btn btn-outline-dark" onClick={props.openAddModal}>
+                + Add News
             </button>
         </div>
     );

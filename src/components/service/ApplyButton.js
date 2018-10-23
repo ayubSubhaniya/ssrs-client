@@ -7,7 +7,7 @@ class ApplyButton extends React.Component {
         return (
             <div>
                 <button type="button"
-                        className="btn btn-success btn-large ml-2 mr-2"
+                        className="btn btn-outline-success ml-2 mr-2"
                         data-toggle="modal"
                         data-target={"#myModal" + service._id}>
                     Apply

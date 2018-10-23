@@ -259,11 +259,15 @@ function Form(props) {
         </div>
 
         <div className={'d-flex justify-content-center mt-4'}>
-            <input
+            {/* <input
                 className='submit'
                 type="submit"
                 value="Save"
-                onSubmit={props.handleSubmit}/>
+                style={{"backgroundColor": "#343a40", "fontSize": "13x"}}
+                onSubmit={props.handleSubmit}/> */}
+            <button className="btn btn-outline-success btn-lg" onSubmit={props.handleSubmit}>
+            <span>Save</span>
+            </button>
         </div>
     </form>
 }

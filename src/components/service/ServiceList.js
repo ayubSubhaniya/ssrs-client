@@ -101,16 +101,16 @@ class ServiceList extends Component {
                                                                  service={service}
                                                                  permission={isStudent(this.props.user)}/>
                                             <AuthorizedComponent
-                                                component={EditButton}
-                                                permission={isSuperAdmin(this.props.user)}
-                                                data={service}
-                                                path={'/service/edit/' + i}/>
-                                            <AuthorizedComponent
                                                 component={Switch}
                                                 handleClick={this.toggleService}
                                                 index={i}
                                                 isChecked={service.isActive ? true : false}
                                                 permission={isSuperAdmin(this.props.user)}/>
+                                            <AuthorizedComponent
+                                                component={EditButton}
+                                                permission={isSuperAdmin(this.props.user)}
+                                                data={service}
+                                                path={'/service/edit/' + i}/>
                                             <AuthorizedComponent
                                                 permission={isSuperAdmin(this.props.user)}
                                                 handleClick={this.deleteService}

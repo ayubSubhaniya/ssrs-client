@@ -9,9 +9,9 @@ function EditButton({data, path}) {
                 pathname: path,
                 state: data
             }}>
-            <button className="btn btn-default btn-light btn-sm">
-                <i className="fa fa-pencil"
-                   style={{"fontSize": "24px", "color": "black"}}></i></button>
+            <button className="btn btn-outline-primary">
+            <span>Edit</span>
+            </button>
         </Link>
     );
 }
