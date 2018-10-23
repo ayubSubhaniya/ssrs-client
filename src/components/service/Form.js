@@ -4,7 +4,6 @@ import MultiSelectDropDownControled from "./MultiSelectDropDownControled";
 import ApllicationSpecificDropDown from "./ApllicationSpecificDropDown";
 
 function Form(props) {
-    console.log(props);
     return <form autoComplete="off" onSubmit={props.handleSubmit}>
         <div className="form-row col-md-12">
             <div className="form-group col-md-6">
@@ -72,35 +71,6 @@ function Form(props) {
                                               options={props.state.parameter}
                                               name={'parameter'}
                                               handleOptionChange={props.handleArrayUpdate}/>
-                <div className="form-group d-flex">
-                    <label>Is Service Application Specific?</label>
-                    <div className="form-group col-md-6 d-flex">
-                        <div className="form-check form-check-inline">
-                            <label className="form-check-label">
-                                <input className="form-check-input"
-                                       style={{display: "inline"}}
-                                       type="radio"
-                                       value={true}
-                                       name='isApplicationSpecific'
-                                       checked={props.state.isApplicationSpecific === 'true'}
-                                       onClick={props.changeRadioButtonState}/>
-                                Yes
-                            </label>
-                        </div>
-                        <div className="form-check form-check-inline">
-                            <label className="form-check-label">
-                                <input className="form-check-input"
-                                       style={{display: "inline"}}
-                                       type="radio"
-                                       value={false}
-                                       name='isApplicationSpecific'
-                                       checked={props.state.isApplicationSpecific === 'false'}
-                                       onClick={props.changeRadioButtonState}/>
-                                No
-                            </label>
-                        </div>
-                    </div>
-                </div>
             </div>
             <div className="col-md-6">
                 <div className="form-group d-flex mb-0">

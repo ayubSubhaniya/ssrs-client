@@ -19,7 +19,6 @@ function setSelecteProperty(arr1, arr2) {
 function setSelectedPropertyByName(arr1, arr2) {
     return _.map(arr1, (x) => {
         const newElement = {name: x}
-        console.log(arr1, arr2)
         if (_.some(arr2, (o) => o === x))
             newElement.isSelected = true
         else
@@ -76,7 +75,6 @@ class EditForm extends Component {
 
     setService = (service) => {
         this.setState({
-            isApplicationSpecific: service.isApplicationSpecific.toString(),
             isSpecialService: service.isSpecialService.toString(),
             name: service.name,
             description: service.description,

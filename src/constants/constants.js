@@ -43,7 +43,6 @@ export const defaultCart = {
 }
 
 export const defaultService = {
-    isApplicationSpecific: "false",
     isSpecialService: "false",
     name: '',
     description: '',

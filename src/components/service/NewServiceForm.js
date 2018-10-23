@@ -71,19 +71,6 @@ class NewServiceForm extends Component {
             })
     }
 
-    makeServiceApplicationSpecific = ({target}) => {
-        console.log(target);
-        this.setState({
-            isApplicationSpecific: target.value
-        })
-    }
-
-    makeServiceSpecial = ({target}) => {
-        this.setState({
-            isSpecialService: target.value
-        })
-    }
-
     handleSubmit = (event) => {
         event.preventDefault();
         this.addService()
@@ -106,9 +93,7 @@ class NewServiceForm extends Component {
                           handleChange={this.handleChange}
                           handleArrayUpdate={this.handleArrayUpdate}
                           handleSubmit={this.handleSubmit}
-                          makeServiceSpecial={this.makeServiceSpecial}
                           changeRadioButtonState={this.changeRadioButtonState}
-                          makeServiceApplicationSpecific={this.makeServiceApplicationSpecific}
                           handlePaymentModeChange={this.handlePaymentModeChange}/>
                 </div>
             </div>

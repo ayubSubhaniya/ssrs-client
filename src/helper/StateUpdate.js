@@ -32,7 +32,6 @@ export function getServiceFromState(){
     const updatedService = {
         name: this.state.name,
         description: this.state.description,
-        isApplicationSpecific: this.state.isApplicationSpecific,
         isSpecialService: this.state.isSpecialService,
         maxUnits: this.state.maxUnits,
         baseCharge: this.state.baseCharge,
