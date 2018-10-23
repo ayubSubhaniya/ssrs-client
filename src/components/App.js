@@ -34,6 +34,7 @@ import HelpAdmin from './helpAdmin/HelpAdmin';
 import HelpUser from './helpUser/HelpUser';
 import {makeCall} from "../helper/caller";
 import {defaultUser} from "../constants/constants";
+import dashboard from "./Dashboard/dashboard";
 
 export const Context = React.createContext();
 
@@ -273,6 +274,10 @@ class App extends Component {
                                 exact path='/helpUser'
                                 component={HelpUser}
                                 permission={isStudent(this.state.user)}/>
+                            <AuthorizedRoute
+                                exact path='/dashboard'
+                                component={dashboard}
+                                permission={isSuperAdmin(this.state.user)}/>
                             <Route render={() => <Redirect to='/'/>}/>
                         </Switch>
                     </React.Fragment>

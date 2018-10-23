@@ -98,7 +98,13 @@ class NavigationBar extends Component {
                                                              currPath={this.props.location.pathname}
                                                              text={'Help'}
                                                              icon={'question-circle'}
-                                                             component={NavLink}/>                                                             
+                                                             component={NavLink}/>
+                                        <AuthorizedComponent permission={isSuperAdmin(value.user)}
+                                                             path='/dashboard'
+                                                             currPath={this.props.location.pathname}
+                                                             text={'Dashboard'}
+                                                             icon={'line-chart'}
+                                                             component={NavLink}/>
                                         <NavLink text={'Logout'}
                                                  icon={'sign-out'}
                                                  className={"ml-auto"}
