@@ -12,14 +12,15 @@ import Switch from "../Switch";
 import FileUpload from "../FileUpload/FileUpload";
 
 function UserDetails(props) {
+    const userInfo = props.user.userInfo
     return (
         <React.Fragment>
             <td>{props.user.daiictId}</td>
-            <td>{props.user.name.firstName + ' ' + props.user.name.lastName}</td>
-            <td>{props.user.userType}</td>
+            <td>{userInfo.user_first_name + ' ' + userInfo.user_last_name}</td>
+            <td>{userInfo.user_type}</td>
             <td>
                 <div className={'d-flex flex-direction-col'}>
-                    <EditUserModal detail={props.user} index={props.index} updateUser={props.updateUser} />
+                    {/*<EditUserModal detail={props.user} index={props.index} updateUser={props.updateUser} />*/}
                     <Switch
                         handleClick={() => props.toggleUserActiveStatus(props.index)}
                         index={props.index}
