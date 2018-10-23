@@ -1,6 +1,7 @@
 import React from 'react'
 import Modal from "react-bootstrap4-modal";
 import {handleChange} from "../../helper/StateUpdate";
+import ErrorMessage from "../error/ErrorMessage";
 
 class TextInput extends React.Component{
     constructor(){
@@ -37,6 +38,7 @@ class TextInput extends React.Component{
                                    placeholder={this.props.text}
                                    aria-describedby="basic-addon"/>
                         </div>
+                        <ErrorMessage message={this.props.errorMessage}/>
                         <button type="submit" className="btn btn-primary mt-3">Submit</button>
                     </form>
                 </div>

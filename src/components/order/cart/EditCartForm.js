@@ -5,6 +5,7 @@ import MultiSelectDropDownControled from "../../service/MultiSelectDropDownContr
 import {handleArrayUpdate, handleChange} from "../../../helper/StateUpdate"
 import {domainUrl} from "../../../config/configuration";
 import * as HttpStatus from "http-status-codes";
+import ErrorMessage from "../../error/ErrorMessage";
 
 function setSelecteProperty(arr1, arr2) {
     return _.map(arr1, (x) => {
@@ -37,11 +38,12 @@ function syncFetch(dataName, key) {
 class EditCartForm extends Component {
     constructor(props) {
         super(props);
-        const availableParameters = _.map(this.props.service.availableParameters,(id) => syncFetch(`parameter/${id}`,'parameter'))
+        const availableParameters = _.map(this.props.service.availableParameters, (id) => syncFetch(`parameter/${id}`, 'parameter'))
         this.state = {
             units: props.units,
             comments: props.comment,
             parameter: setSelecteProperty(availableParameters, this.props.parameter),
+            errorMessage: (props.validityErrors ? props.validityErrors.join('\n') : '')
         }
         this.handleChange = handleChange.bind(this)
         this.handleArrayUpdate = handleArrayUpdate.bind(this)
@@ -51,7 +53,8 @@ class EditCartForm extends Component {
         const order = {
             parameters: _.map(_.filter(state.parameter, ({isSelected}) => isSelected), '_id'),
             unitsRequested: state.units,
-            comment: state.comments ? state.comments : undefined
+            comment: state.comments ? state.comments : undefined,
+            errorMessage: state.validityErrors.join('\n')
         }
         return order;
     }
@@ -63,6 +66,12 @@ class EditCartForm extends Component {
     handleSubmit = () => {
         this.props.updateOrder(this.getOrderDetails(this.state), this.props.index, this.modal);
     }
+
+    cleanErrorMessage=()=>{
+        this.setState({
+            errorMessage:''
+        })
+    };
 
     render() {
         const {service} = this.props;
@@ -83,25 +92,33 @@ class EditCartForm extends Component {
                         <div className={'modal-body'}>
                             <form autoComplete="on">
                                 <div className="card bg-light p-4">
-                                    <div className="form-group form-inline">
-                                        <label>Select No. Of Units:</label>
-                                        <input
-                                            className={'form-control text-center ml-2 col-6'}
-                                            type="number"
-                                            min={1}
-                                            max={service.maxUnits}
-                                            name="units"
-                                            value={this.state.units}
-                                            placeholder="Enter Maximum Allowed Unit"
-                                            onChange={this.handleChange}
-                                            required
-                                        />
-                                    </div>
-                                    <MultiSelectDropDownControled label={'Parameters'}
-                                                                  btnLabel={parameterBtnLabel}
-                                                                  options={this.state.parameter}
-                                                                  name={'parameter'}
-                                                                  handleOptionChange={this.handleArrayUpdate}/>
+                                    {
+                                        this.props.hide
+                                            ? ''
+                                            : <div className="form-group form-inline">
+                                                <label>Select No. Of Units:</label>
+                                                <input
+                                                    className={'form-control text-center ml-2 col-6'}
+                                                    type="number"
+                                                    min={1}
+                                                    max={service.maxUnits}
+                                                    name="units"
+                                                    value={this.state.units}
+                                                    placeholder="Enter Maximum Allowed Unit"
+                                                    onChange={this.handleChange}
+                                                    required
+                                                />
+                                            </div>
+                                    }
+                                    {
+                                        this.props.hide
+                                            ? ' '
+                                            : <MultiSelectDropDownControled label={'Parameters'}
+                                                                            btnLabel={parameterBtnLabel}
+                                                                            options={this.state.parameter}
+                                                                            name={'parameter'}
+                                                                            handleOptionChange={this.handleArrayUpdate}/>
+                                    }
                                     <div className={'form-group'}>
                                         <label>Comments:</label>
                                         <textarea
@@ -114,6 +131,7 @@ class EditCartForm extends Component {
                                         />
                                     </div>
                                 </div>
+                                <ErrorMessage message={this.state.errorMessage} clearMessage={this.cleanErrorMessage}/>
                             </form>
                         </div>
                         <div className="modal-footer">

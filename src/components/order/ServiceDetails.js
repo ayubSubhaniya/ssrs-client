@@ -90,7 +90,9 @@ class ServiceDetails extends Component {
         makeCall({
             jobType: 'PATCH',
             urlParams: '/order/' + oldOrder._id,
-            params: editedOrder
+            params: {
+                comment: editedOrder.comment
+            }
         })
             .then((response) => {
                 $(modal).modal('hide');
@@ -150,15 +152,15 @@ class ServiceDetails extends Component {
                         <div className=''>
                             {
                                 order.status === rorderStatus.processing && isSuperAdmin(this.props.user)
-                                    ? (<div className='btn btn-success mr-3'
+                                    ? (<div className='btn btn-outline-success mr-3'
                                             onClick={() => this.statusUpdateToReady(order._id)}>
                                         Ready
                                     </div>)
                                     : ''
                             }
                             {
-                                order.status > rorderStatus.placed && order.status < rorderStatus.completed && isSuperAdmin(this.props.user)
-                                    ? (<div className='btn btn-success mr-3'
+                                order.status > rorderStatus.placed && order.status < rorderStatus.completed && order.status!==rorderStatus.ready && isSuperAdmin(this.props.user)
+                                    ? (<div className='btn btn-outline-warning mr-3'
                                             onClick={this.openHoldModal}>
                                         Hold
                                     </div>)
@@ -190,6 +192,7 @@ class ServiceDetails extends Component {
                               units={order.unitsRequested}
                               comment={order.comment}
                               index={this.props.index}
+                              hide={true}
                               updateOrder={this.edit}/>
                 <TextInput visible={this.state.isHoldModalOpen}
                            text={'Enter Reason Holding Of Order'}

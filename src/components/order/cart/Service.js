@@ -10,7 +10,7 @@ class Service extends Component {
         const service = order.service;
         const parameters = order.parameters;
         return (
-            <tr class={order.status == orderStatus.invalidOrder ? "border border-danger rounded" : ""}>
+            <tr class={order.status === orderStatus.invalidOrder ? "table-danger" : ""}>
                 <td data-th="Service">
                     <div className="row">
                         <div className="col-sm-10">
@@ -40,7 +40,8 @@ class Service extends Component {
                                   units={order.unitsRequested}
                                   comment={order.comment}
                                   index={this.props.index}
-                                  updateOrder={this.props.updateOrder}/>
+                                  updateOrder={this.props.updateOrder}
+                                  validityErrors={order.validityErrors}/>
                     <DeleteButton handleClick={this.props.deleteOrder}
                                   index={this.props.index}/>
                 </td>
