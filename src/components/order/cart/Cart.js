@@ -132,7 +132,7 @@ class Cart extends Component {
                         <tr>
                             <td>
                                 <Link to={'/service'}>
-                                    <div className="btn btn-warning">
+                                    <div className="btn btn-secondary btn-lg">
                                         <i className="fa fa-angle-left"></i>
                                         {" Add More Services"} </div>
                                 </Link>
@@ -142,7 +142,7 @@ class Cart extends Component {
                                 <Link to={{pathname:'/info',state: {
                                     avilableCollectionTypes: avilableCollectionTypes
                                 }}} className={`${avilableCollectionTypes.length==0?'disabled-link':''}`}>
-                                    <div className={`btn btn-success`}>
+                                    <div className={`btn btn-success btn-lg`}>
                                         {"Checkout "}
                                         <i className="fa fa-angle-right"></i>
                                     </div>

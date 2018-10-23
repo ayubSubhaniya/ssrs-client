@@ -5,26 +5,30 @@ function Stapes({active}) {
         <div className="container shopping-steps">
         <div className="steps-box">
             <ul className="steps-list">
-                <li className={active==1?"current":''}>
+                <li className={active==1 ? "current":''}>
                     <div className="steps-detail">
-                        <span className="steps-num">1</span>
-                        <h3 className="steps-name">Cart</h3>
+                        {/* <button className={"btn " + (active==1 ? "btn-dark" : "btn-outline-dark") + " btn-lg"}> */}
+                        <button className={"btn " + (active==1 ? "temp-active" : "temp-inactive") + " btn-lg"}>
+                        1. Shopping Cart
+                        </button>
                     </div>
                 </li>
-                <li>
-                <i className="fa fa-arrow-right icon-arrow" aria-hidden="true"></i>
-                </li>
+                <i className="fa fa-chevron-right" ></i>
                 <li className={active==2?"current":''}>
                     <div className="steps-detail">
-                        <span className="steps-num">2</span>
-                        <h3 className="steps-name">Order Information</h3>
+                        {/* <button className={"btn " + (active==2 ? "btn-dark" : "btn-outline-dark") + " btn-lg"}> */}
+                        <button className={"btn " + (active==2 ? "temp-active" : "temp-inactive") + " btn-lg"}>
+                        2. Order Information
+                        </button>
                     </div>
                 </li>
-                <li><i className="fa fa-arrow-right icon-arrow" aria-hidden="true"></i></li>
+                <i className="fa fa-chevron-right" ></i>
                 <li className={active==3?"current":''}>
                     <div className="steps-detail">
-                        <span className="steps-num">3</span>
-                        <h3 className="steps-name">Complete Payment</h3>
+                        {/* <button className={"btn " + (active==3 ? "btn-dark" : "btn-outline-dark") + " btn-lg"}> */}
+                        <button className={"btn " + (active==3 ? "temp-active" : "temp-inactive") + " btn-lg"}>
+                        3. Complete Payment
+                        </button>
                     </div>
                 </li>
             </ul>

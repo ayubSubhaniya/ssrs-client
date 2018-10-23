@@ -520,7 +520,19 @@ input:checked + .slider:before {
 }
 
 .current .steps-detail {
-    color: #472bff;
+    color: #343a40;
+}
+
+.temp-active {
+    color: #fff;
+    background-color: #343a40;
+    border-color: #343a40;
+}
+
+.temp-inactive {
+    color: #343a40;
+    background-color: #fff;
+    border-color: #343a40;
 }
 
 @media screen and (max-width: 600px) {
