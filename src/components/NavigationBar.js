@@ -86,10 +86,10 @@ class NavigationBar extends Component {
                                                              currPath={this.props.location.pathname}
                                                              text={'Permissions'}
                                                              component={NavLink}/>
-                                         <AuthorizedComponent permission={!isSuperAdmin(value.user)}
-                                                            icon={'question-circle'}
-                                                             path='/HelpUser'
-                                                             text={'Help'}
+                                            <AuthorizedComponent permission={isSuperAdmin(value.user)}
+                                                            icon={'line-chart'}
+                                                             path='/dashboard'
+                                                             text={'Dashboard'}
                                                              component={NavLink}/>
                                             <NavLink path={'/AboutUs'}
                                                  icon={'info-circle'}

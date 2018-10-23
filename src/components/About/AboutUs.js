@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import NavigationBar from '../NavigationBar';
-import Header from '../Header';
 
 class AboutUs extends Component {
 
