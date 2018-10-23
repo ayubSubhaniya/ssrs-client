@@ -54,7 +54,7 @@ class EditCartForm extends Component {
             parameters: _.map(_.filter(state.parameter, ({isSelected}) => isSelected), '_id'),
             unitsRequested: state.units,
             comment: state.comments ? state.comments : undefined,
-            errorMessage: state.validityErrors.join('\n')
+            errorMessage: (state.validityErrors ? state.validityErrors.join('\n') : '')
         }
         return order;
     }
