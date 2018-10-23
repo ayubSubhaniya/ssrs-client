@@ -27,16 +27,18 @@ class DeleteButton extends React.Component {
     }
 
     render() {
-        const {index} = this.props;
+        const { index } = this.props;
         return (
-            <div className="btn btn-outline-danger ml-2"
+            <div>
+                <button className="btn btn-outline-danger ml-2"
                     data-index={index}
-                    style={{"textAlign": "justify", "fontSize": "12px", "fontWeight": "550"}}
+                    style={{ "textAlign": "justify", "fontSize": "12px", "fontWeight": "550" }}
                     onClick={this.openConfirmationModal}>
-                X
+                    X
+                </button>
                 <ConfirmModal open={this.state.isModalOpen}
-                              onYes={(event) => this.onYes(index, event)}
-                              close={this.closeConfirmationModal}/>
+                    onYes={(event) => this.onYes(index, event)}
+                    close={this.closeConfirmationModal} />
             </div>
         );
     }

@@ -43,8 +43,8 @@ class EditCartForm extends Component {
             units: props.units,
             comments: props.comment,
             parameter: setSelecteProperty(availableParameters, this.props.parameter),
-            errorMessage: (props.validityErrors ? props.validityErrors.join('\n') : '')
         }
+        this.errorMessage = (props.validityErrors ? props.validityErrors.join('\n') : '');
         this.handleChange = handleChange.bind(this)
         this.handleArrayUpdate = handleArrayUpdate.bind(this)
     }
@@ -54,8 +54,8 @@ class EditCartForm extends Component {
             parameters: _.map(_.filter(state.parameter, ({isSelected}) => isSelected), '_id'),
             unitsRequested: state.units,
             comment: state.comments ? state.comments : undefined,
-            errorMessage: (state.validityErrors ? state.validityErrors.join('\n') : '')
         }
+        this.errorMessage = (state.validityErrors ? state.validityErrors.join('\n') : '');
         return order;
     }
 
@@ -68,9 +68,7 @@ class EditCartForm extends Component {
     }
 
     cleanErrorMessage=()=>{
-        this.setState({
-            errorMessage:''
-        })
+        this.errorMessage = '';
     };
 
     render() {
@@ -131,7 +129,7 @@ class EditCartForm extends Component {
                                         />
                                     </div>
                                 </div>
-                                <ErrorMessage message={this.state.errorMessage} clearMessage={this.cleanErrorMessage}/>
+                                <ErrorMessage message={this.errorMessage} clearMessage={this.cleanErrorMessage}/>
                             </form>
                         </div>
                         <div className="modal-footer">

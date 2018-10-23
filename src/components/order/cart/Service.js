@@ -1,6 +1,6 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import _ from "lodash"
-import {orderStatus} from "../../../config/configuration";
+import { orderStatus } from "../../../config/configuration";
 import EditCartForm from "./EditCartForm";
 import DeleteButton from "../../DeleteButton";
 
@@ -29,20 +29,22 @@ class Service extends Component {
                 <td data-th="Parameter Cost" className="text-center">{`₹ ${order.parameterCost}`}</td>
                 <td data-th="Subtotal" className="text-center">{`₹ ${order.totalCost}`}</td>
                 <td className="actions">
-                    <button type="button" className="btn btn-outline-primary" data-toggle="modal"
+                    <div className="d-flex">
+                        <button type="button" className="btn btn-outline-primary" data-toggle="modal"
                             data-target={"#myModal" + order._id}>
-                    Edit
-                    </button>
-                    <EditCartForm id={order._id}
-                                  service={service}
-                                  parameter={parameters}
-                                  units={order.unitsRequested}
-                                  comment={order.comment}
-                                  index={this.props.index}
-                                  updateOrder={this.props.updateOrder}
-                                  validityErrors={order.validityErrors}/>
-                    <DeleteButton handleClick={this.props.deleteOrder}
-                                  index={this.props.index}/>
+                            Edit
+                        </button>
+                        <EditCartForm id={order._id}
+                            service={service}
+                            parameter={parameters}
+                            units={order.unitsRequested}
+                            comment={order.comment}
+                            index={this.props.index}
+                            updateOrder={this.props.updateOrder}
+                            validityErrors={order.validityErrors} />
+                        <DeleteButton handleClick={this.props.deleteOrder}
+                            index={this.props.index} />
+                    </div>
                 </td>
             </tr>
         );
