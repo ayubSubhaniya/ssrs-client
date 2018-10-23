@@ -253,13 +253,13 @@ class App extends Component {
                             <AuthorizedRoute
                                 exact path="/Myprofile"
                                 component={Myprofile}
-                                permission={true}
+                                permission={isAuthenticated}
                                 user={this.state.user}
                                 updateUser={this.updateUser}/>
                             <AuthorizedRoute
                                 exact path="/order/*"
                                 component={CartWithOrders}
-                                permission={true}
+                                permission={isAuthenticated}
                                 user={this.state.user}/>
                             <AuthorizedRoute
                                 exact path='/Permission'

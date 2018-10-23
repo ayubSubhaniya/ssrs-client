@@ -36,6 +36,7 @@ function Form(props) {
                 <textarea
                     className={'form-control'}
                     name="description"
+                    required={true}
                     placeholder="Write Service Description"
                     value={props.state.description}
                     onChange={props.handleChange}>

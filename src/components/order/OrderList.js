@@ -24,9 +24,16 @@ class OrderList extends Component {
         }
     }
 
+    sortByDate = (carts) => {
+        return _.sortBy(carts,(cart) => {
+            return new Date(cart.statusChangeTime.placed.time).getTime();
+        })
+    }
+
     render() {
         const {carts, ...others} = this.props;
-        const filteredCarts = this.filterByOrderId(carts);
+        let filteredCarts = this.filterByOrderId(carts);
+        filteredCarts = _.reverse(this.sortByDate(filteredCarts));
         return (
             <section className={`orders cd-gallery ${this.props.isFilterVisible ? 'filter-is-visible' : ''}`}>
                 <div className='container mb-3 pb-0 d-flex flex-row'>
