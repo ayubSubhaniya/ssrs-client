@@ -520,7 +520,7 @@ input:checked + .slider:before {
 }
 
 .current .steps-detail {
-    color: #472bff;
+    color: #343a40;
 }
 
 @media screen and (max-width: 600px) {
