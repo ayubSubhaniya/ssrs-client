@@ -1,34 +1,18 @@
 import React, {Component} from 'react';
 import "../../styles/ViewProfile.css";
+import {handleChange} from "../../helper/StateUpdate";
 
 class EditProfile extends Component {
     constructor(props) {
         super();
         this.state = {
-            name: {
-                firstName: props.user.name.firstName,
-                lastName: props.user.name.lastName
-            },
-            contactNo: props.user.contactNo,
-            gender: props.user.gender,
-            programme: props.user.programme,
+            contactNo: props.user.contactNo
         }
-    }
-
-    changeProgramme = (e) => {
-        console.dir(e.target);
-        this.setState({
-            programme: e.target.value
-        })
-    }
-    changeGender = (e) => {
-        this.setState({
-            gender: e.target.value
-        })
+        this.handleChange = handleChange.bind(this);
     }
 
     render() {
-        console.log(this.props);
+        const userInfo = this.props.user.userInfo;
         return (
             <div>
                 <form class="edit-profile" onSubmit={(e) => {
@@ -39,152 +23,43 @@ class EditProfile extends Component {
                     <table class="table table-striped ">
                         <tbody>
                         <tr>
-                            <td>
-                                Daiict Id
-                            </td>
-                            <td>
-                                {this.props.user.daiictId}
-                            </td>
+                            <td>Daiict Id </td>
+                            <td> {this.props.user.daiictId} </td>
                         </tr>
                         <tr>
-                            <td>
-                                First Name
-                            </td>
-                            <td>
-                                <input type="text" value={this.state.name.firstName} onChange={(e) => {
-                                    this.setState({
-                                        name: {
-                                            firstName: e.target.value,
-                                            lastName: this.state.name.lastName
-                                        }
-                                    })
-                                }}
-                                required={true}/>
-                            </td>
+                            <td> First Name</td>
+                            <td> {userInfo.user_first_name ? userInfo.user_first_name : ''} </td>
                         </tr>
                         <tr>
-                            <td>
-                                Last Name
-                            </td>
-                            <td>
-                                <input type="text" value={this.state.name.lastName} onChange={(e) => {
-                                    this.setState({
-                                        name: {
-                                            firstName: this.state.name.firstName,
-                                            lastName: e.target.value
-                                        }
-                                    })
-
-                                }}
-                                required={true}/>
-                            </td>
+                            <td> Last Name</td>
+                            <td> {userInfo.user_last_name ? userInfo.user_last_name : ''} </td>
                         </tr>
                         <tr>
-                            <td>
-                                Primary Email
-                            </td>
-                            <td>
-                                {this.props.user.primaryEmail}
-                            </td>
+                            <td>Primary Email</td>
+                            <td>{this.props.user.primaryEmail}</td>
                         </tr>
                         <tr>
+                            <td> Contact No </td>
                             <td>
-                                Contact No
-                            </td>
-                            <td>
-                                <input type="text" value={this.state.contactNo} onChange={(e) => {
-                                    this.setState({
-                                        contactNo: e.target.value
-                                    })
-                                }}
+                                <input type="text"
+                                       value={this.state.contactNo}
+                                       name='contactNo'
+                                       onChange={this.handleChange}
                                        required='true'
-                                       pattern="[0-9]{10}"
-                                />
+                                       pattern="[0-9]{10}" />
                             </td>
                         </tr>
                         <tr>
-                            <td>
-                                Gender
-                            </td>
-                            <td>
-                                <div className="col-9" style={{display: 'flex'}}>
-
-                                    <div className="form-check form-check-inline">
-
-                                        <label className="form-check-label">
-
-                                            <input className="form-check-input"
-
-                                                   style={{display: "inline"}}
-
-                                                   type="radio"
-
-                                                   value="Male"
-
-                                                   checked={this.state.gender === "Male" ? true : false}
-
-                                                   onClick={this.changeGender}
-
-                                            />
-
-                                            Male
-
-                                        </label>
-
-                                    </div>
-
-                                    <div className="form-check form-check-inline">
-
-                                        <label className="form-check-label">
-
-                                            <input className="form-check-input"
-
-                                                   style={{display: "inline"}}
-
-                                                   type="radio"
-
-                                                   value="Female"
-
-                                                   checked={this.state.gender === "Female" ? true : false}
-
-                                                   onClick={this.changeGender}/>
-
-                                            Female
-
-                                        </label>
-
-                                    </div>
-
-                                </div>
-                            </td>
+                            <td> Gender</td>
+                            <td> {userInfo.user_sex} </td>
                         </tr>
                         <tr>
-                            <td>
-                                Programme
-                            </td>
-                            <td>
-                                <select onClick={this.changeProgramme}>
-
-                                    <option hidden>{this.state.programme}</option>
-
-                                    <option value="B.Tech (ICT)">B.Tech (ICT)</option>
-
-                                    <option value="B.Tech (ICT+CS)">B.Tech (ICT+CS)</option>
-
-                                    <option value="M.Tech">M.Tech</option>
-
-                                    <option value="M.Sc.IT">M.Sc.IT</option>
-
-                                    <option value="M.Des">M.Des</option>
-
-                                    <option value="Ph.D">Ph.D</option>
-
-                                </select>
-                            </td>
+                            <td> Programme</td>
+                            <td> {userInfo.user_programme} </td>
                         </tr>
                         </tbody>
                     </table>
-                    <input type="submit" class="btn btn-primary style-btn" value="Save" />
+                    <input type="submit" class="btn btn-primary style-btn" value="Save"/>
                 </form>
             </div>
         );

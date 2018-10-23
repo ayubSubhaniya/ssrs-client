@@ -6,16 +6,15 @@ import 'font-awesome/css/font-awesome.min.css'
 import '../styles/filter/reset.css'
 import '../styles/filter/style.css'
 import '../styles/App.css';
-import {BrowserRouter as Router, Switch, Route, Redirect} from "react-router-dom";
+import {BrowserRouter as Router, Redirect, Route, Switch} from "react-router-dom";
 import Home from './home/Home';
 import Services from "./service/Services";
 import NewServiceForm from "./service/NewServiceForm";
 import EditForm from "./service/EditForm";
 import AuthorizedRoute from './AuthorizedRoute'
-import {domainUrl, errorMessages} from "../config/configuration";
+import {errorMessages} from "../config/configuration";
 import * as HttpStatus from "http-status-codes";
 import PublicPage from "./public-page/PublicPage";
-import Spinner from "./Spinner";
 import Parameters from "./parameter/Parameters";
 import ParameterEditForm from "./parameter/ParameterEditForm";
 import NewParameterForm from "./parameter/NewParameterForm";
@@ -33,6 +32,8 @@ import Permission from './Permission/Permission';
 import NewCollectionTypeForm from "./collectionType/NewCollectionTypeForm";
 import HelpAdmin from './helpAdmin/HelpAdmin';
 import HelpUser from './helpUser/HelpUser';
+import {makeCall} from "../helper/caller";
+import {defaultUser} from "../constants/constants";
 
 export const Context = React.createContext();
 
@@ -41,68 +42,61 @@ class App extends Component {
         super(props);
         this.state = {
             showSpinner: false,
-            isAuthenticated: false,
+            isAuthenticated: -1,
             loginMessage: '',
-            user: {}
-        };
+            user: defaultUser
+        }
         this.getUserData();
     }
 
-    updateUser = (updatedUser) => {
-        const that = this;
-        var url = domainUrl + '/user';
-        var request = new XMLHttpRequest();
-        request.open('PATCH', url, false);
-        request.withCredentials = true;
-        request.setRequestHeader("Content-type", "application/json");
-        request.onload = function () {
-            if (this.status === HttpStatus.OK) {
-                var res = JSON.parse(request.response);
-                that.setState({
-                    user: res.user
-                });
-            } else if (this.status === HttpStatus.FORBIDDEN) {
-                that.setState({
-                    signupMessage: errorMessages.userAlreadyExist
-                })
-            } else if (this.status === HttpStatus.INTERNAL_SERVER_ERROR) {
-                that.setState({
-                    signupMessage: errorMessages.internalServerError
-                })
-            }
-            else {
-                that.setState({
-                    signupMessage: errorMessages.somethingsWrong
-                })
-            }
-        };
-        try {
-            request.send(JSON.stringify(updatedUser));
-        } catch (e) {
-            console.log(e);
+    onUpdateUserError = (response) => {
+        if (response.status === HttpStatus.FORBIDDEN) {
+            this.setState({
+                signupMessage: errorMessages.userAlreadyExist
+            })
+        } else if (response.status === HttpStatus.INTERNAL_SERVER_ERROR) {
+            this.setState({
+                signupMessage: errorMessages.internalServerError
+            })
         }
+        else {
+            this.setState({
+                signupMessage: errorMessages.somethingsWrong
+            })
+        }
+    }
 
+    updateUser = (updatedUser) => {
+        makeCall({
+            jobType: 'PATCH',
+            urlParams: '/user',
+            params: updatedUser
+        })
+            .then(() => {
+                const user = this.state.user;
+                user.contactNo = updatedUser.contactNo;
+                this.setState({
+                    user: user
+                })
+            })
+            .catch((response) => this.onUpdateUserError(response))
     };
     getUserData = () => {
-        const that = this;
-        var url = domainUrl + '/user';
-        var request = new XMLHttpRequest();
-        request.open('GET', url, false);
-        request.withCredentials = true;
-        request.onload = function () {
-            if (this.status === HttpStatus.OK) {
-                var res = JSON.parse(request.response)
-                that.state = Object.assign({}, that.state, {
+        makeCall({
+            jobType: 'GET',
+            urlParams: '/user'
+        })
+            .then((response) => {
+                this.setState({
                     isAuthenticated: true,
-                    user: res.user
+                    user: response.user
                 })
-            }
-        }
-        try {
-            request.send();
-        } catch (e) {
-            console.log(e);
-        }
+            })
+            .catch(() => {
+                this.setState({
+                    isAuthenticated: false
+                })
+            })
     }
 
     showSpinner = () => {
@@ -117,61 +111,54 @@ class App extends Component {
         })
     }
 
+    handleLoginError = (response) => {
+        if (response.status === HttpStatus.FORBIDDEN) {
+            this.setState({
+                loginMessage: response.statusText
+            })
+        } else if (response.status === HttpStatus.UNAUTHORIZED) {
+            this.setState({
+                loginMessage: errorMessages.incorrectUserNameOrPassword
+            })
+        } else if (response.status === HttpStatus.INTERNAL_SERVER_ERROR) {
+            this.setState({
+                loginMessage: errorMessages.internalServerError
+            })
+        } else {
+            this.setState({
+                loginMessage: errorMessages.somethingsWrong
+            })
+        }
+    }
+
     logIn = (logInDetails) => {
-        const that = this;
-        this.showSpinner();
-        var url = domainUrl + '/account/signin';
-        var request = new XMLHttpRequest();
-        request.open('POST', url, true);
-        request.withCredentials = true;
-        request.setRequestHeader("Content-type", "application/json");
-        request.onload = function () {
-            if (this.status === HttpStatus.OK) {
-                var res = JSON.parse(request.response);
-                that.setState({
+        makeCall({
+            jobType: 'POST',
+            urlParams: '/account/signin',
+            params: logInDetails
+        })
+            .then((response) => {
+                this.setState({
                     isAuthenticated: true,
-                    user: res.user
+                    user: response.user
                 })
-            } else if (this.status === HttpStatus.FORBIDDEN) {
-                that.setState({
-                    loginMessage: request.responseText
-                })
-            }  else if (this.status === HttpStatus.UNAUTHORIZED) {
-                that.setState({
-                    loginMessage: errorMessages.incorrectUserNameOrPassword
-                })
-            } else if (this.status === HttpStatus.INTERNAL_SERVER_ERROR) {
-                that.setState({
-                    loginMessage: errorMessages.internalServerError
-                })
-            } else {
-                that.setState({
-                    loginMessage: errorMessages.somethingsWrong
-                })
-            }
-            that.hideSpinner();
-        };
-        request.send(JSON.stringify(logInDetails));
-    };
+            })
+            .catch((response) => this.handleLoginError(response))
+    }
 
     logOut = () => {
-        this.showSpinner();
-        const url = domainUrl + '/account/signout'
-        var request = new XMLHttpRequest();
-        request.open('GET', url, true);
-        request.withCredentials = true;
-        request.onload = function () {
-            if (this.status === HttpStatus.OK) {
-                window.location = '/'
-            }
-        };
-        request.send();
-    };
+        makeCall({
+            jobType: 'GET',
+            urlParams: '/account/signout'
+        })
+            .then(() => window.location = '/')
+    }
+
     clearLoginMessage = () => {
         this.setState({
             loginMessage: ''
         })
-    };
+    }
 
     render() {
         const {isAuthenticated, loginMessage} = this.state;
@@ -191,7 +178,6 @@ class App extends Component {
                 }}>
                 <Router>
                     <React.Fragment>
-                        <Spinner open={this.state.showSpinner}/>
                         <Switch>
                             <AuthorizedRoute
                                 permission={true}
@@ -200,7 +186,8 @@ class App extends Component {
                                 showSpinner={this.showSpinner}
                                 clearLoginMessage={this.clearLoginMessage}
                                 user={this.state.user}
-                                component={isAuthenticated ? Home : PublicPage}/>
+                                component={isAuthenticated === -1
+                                    ? () => '' : isAuthenticated ? Home : PublicPage}/>
                             <AuthorizedRoute
                                 exact path="/service"
                                 component={Services}
@@ -286,7 +273,7 @@ class App extends Component {
                                 exact path='/helpUser'
                                 component={HelpUser}
                                 permission={isStudent(this.state.user)}/>
-                            <Route render={()=> <Redirect to='/' />} />
+                            <Route render={() => <Redirect to='/'/>}/>
                         </Switch>
                     </React.Fragment>
                 </Router>

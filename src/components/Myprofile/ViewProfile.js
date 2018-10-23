@@ -1,91 +1,68 @@
-import React, { Component } from "react";
+import React from "react";
 import "../../styles/ViewProfile.css";
 import Avatar from 'react-avatar';
 import Address from './Address.js'
 import AuthorizedComponent from "../AuthorizedComponent";
-import { isSuperAdmin } from "../../helper/userType";
+import {isStudent} from "../../helper/userType";
 
-const color = ['red', 'green', 'purple', 'cyan', 'teal','blue'];
+const color = ['red', 'green', 'purple', 'cyan', 'teal', 'blue'];
 const getcolor = () => {
     return color[Math.floor(Math.random() * 8)];
 }
 export default function ViewProfile(props) {
-    console.log(props.user);
+    const userInfo = props.user.userInfo;
     return (
         <div className="container">
             <div className="parent">
                 <div className="quick-view">
-                    <Avatar color={getcolor()} round={true} size={120} name={props.user.name.firstName + " " + props.user.name.lastName} />
-                    <div className="name-style">{props.user.name.firstName} {props.user.name.lastName}</div>
+                    <Avatar color={getcolor()} round={true} size={120}
+                            name={userInfo.user_first_name + " " + userInfo.user_last_name}/>
+                    <div className="name-style">{userInfo.user_first_name} {userInfo.user_last_name}</div>
                 </div>
                 <div className="info-table">
                     <table className="table table-striped">
                         <tbody>
-                            <tr>
-                                <td>
-                                    Daiict Id
-                        </td>
-                                <td>
-                                    {props.user.daiictId}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    First Name
-                        </td>
-                                <td>
-                                    {props.user.name.firstName?props.user.name.firstName:''}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    Last Name
-                        </td>
-                                <td>
-                                    {props.user.name.lastName?props.user.name.lastName:''}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    Primary Email
-                        </td>
-                                <td>
-                                    {props.user.primaryEmail}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    Contact No
-                        </td>
-                                <td>
-                                    {props.user.contactNo}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    Gender
-                        </td>
-                                <td>
-                                    {props.user.gender}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    Programme
-                                </td>
-                                <td>
-                                    {props.user.programme}
-                                </td>
-                            </tr>
+                        <tr>
+                            <td> Daiict Id</td>
+                            <td> {props.user.daiictId} </td>
+                        </tr>
+                        <tr>
+                            <td> First Name</td>
+                            <td> {userInfo.user_first_name ? userInfo.user_first_name : ''} </td>
+                        </tr>
+                        <tr>
+                            <td> Last Name</td>
+                            <td> {userInfo.user_last_name ? userInfo.user_last_name : ''} </td>
+                        </tr>
+                        <tr>
+                            <td> Primary Email</td>
+                            <td> {props.user.primaryEmail} </td>
+                        </tr>
+                        <tr>
+                            <td> Contact No</td>
+                            <td> {props.user.contactNo} </td>
+                        </tr>
+                        <tr>
+                            <td> Gender</td>
+                            <td> {userInfo.user_sex} </td>
+                        </tr>
+                        <tr>
+                            <td> Programme</td>
+                            <td> {userInfo.user_programme} </td>
+                        </tr>
                         </tbody>
                     </table>
-                    <button type="button" className="btn btn-primary style-btn" onClick={props.changeIsEdit.bind(this)}>Edit</button>
+                    <button type="button"
+                            className="btn btn-primary style-btn"
+                            onClick={props.changeIsEdit}>
+                        Edit
+                    </button>
                 </div>
             </div>
             <div className="parent">
                 <AuthorizedComponent
                     component={Address}
-                    permission={!isSuperAdmin(props.user)}/>
+                    permission={isStudent(props.user)}/>
             </div>
         </div>
     );

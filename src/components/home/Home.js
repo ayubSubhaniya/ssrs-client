@@ -3,127 +3,103 @@ import React, {Component} from 'react';
 import Header from "../Header";
 import Tab from "./Tab";
 import NavigationBar from "../NavigationBar";
-import {asyncFetch} from '../../helper/FetchData'
-import Spinner from "../Spinner";
-import {domainUrl} from "../../config/configuration";
-import * as HttpStatus from "http-status-codes";
 import _ from "lodash"
+import {makeCall} from "../../helper/caller";
 
 class Home extends Component {
     constructor() {
         super();
         this.state = {
             news: [],
-            notification: [],
-            showSpinner: false
+            notification: []
         };
-        this.asyncFetch = asyncFetch.bind(this);
     }
 
-    componentDidMount(){
-        this.asyncFetch('news');
-        this.asyncFetch('notification');
+    componentDidMount() {
+        this.getNews();
+        this.getNotification()
     }
+
+    getNews = () => {
+        makeCall({
+            jobType: 'GET',
+            urlParams: '/news'
+        })
+            .then((response) => {
+                this.setState({
+                    news: response.news
+                })
+            })
+    }
+
+    getNotification = () => {
+        makeCall({
+            jobType: 'GET',
+            urlParams: '/notification'
+        })
+            .then((response) => {
+                this.setState({
+                    notification: response.notification
+                })
+            })
+    }
+
 
     deleteNews = (index) => {
-        this.setState({
-            showSpinner: true
-        });
-        const that = this;
-        const url = domainUrl + '/news/' + this.state.news[index]._id;
-        const request = new XMLHttpRequest();
-        request.open('DELETE', url, true);
-        request.withCredentials = true;
-        request.setRequestHeader("Content-type", "application/json");
-        request.onload = function () {
-            if (this.status === HttpStatus.OK) {
-                that.setState({
-                    news: [...that.state.news.slice(0, index), ...that.state.news.slice(index + 1)]
+        makeCall({
+            jobType: 'DELETE',
+            urlParams: '/news/' + this.state.news[index]._id
+        })
+            .then(() => {
+                this.setState({
+                    news: [...this.state.news.slice(0, index), ...this.state.news.slice(index + 1)]
                 })
-            }
-            that.setState({
-                showSpinner: false
             })
-        };
-        request.send();
     };
 
     deleteNotification = (index) => {
-        console.log(index);
-        this.setState({
-            showSpinner: true
-        });
-        const that = this;
-        const url = domainUrl + '/notification/' + this.state.notification[index]._id;
-        const request = new XMLHttpRequest();
-        request.open('DELETE', url, true);
-        request.withCredentials = true;
-        request.setRequestHeader("Content-type", "application/json");
-        request.onload = function () {
-            if (this.status === HttpStatus.OK) {
-                that.setState({
-                    notification: [...that.state.notification.slice(0, index), ...that.state.notification.slice(index + 1)]
+        makeCall({
+            jobType: 'DELETE',
+            urlParams: '/notification/' + this.state.notification[index]._id
+        })
+            .then(() => {
+                this.setState({
+                    notification: [...this.state.notification.slice(0, index), ...this.state.notification.slice(index + 1)]
                 })
-            }
-            that.setState({
-                showSpinner: false
             })
-        };
-        request.send();
     };
 
     updateNews = (id, message) => {
-        this.setState({
-            showSpinner: true
-        });
-        const that = this;
-        const url = domainUrl + '/news/' + id;
-        const request = new XMLHttpRequest();
-        request.open('PATCH', url, true);
-        request.withCredentials = true;
-        request.setRequestHeader("Content-type", "application/json");
-        request.onload = function () {
-            if (this.status === HttpStatus.OK) {
-                const response = JSON.parse(request.response);
-                const index = _.findIndex(that.state.news,(o) => o._id===id);
-                const news = that.state.news;
+        makeCall({
+            jobType: 'PATCH',
+            urlParams: '/news/' + id,
+            params: {
+                message: message
+            }
+        })
+            .then((response) => {
+                const index = _.findIndex(this.state.news, (o) => o._id === id);
+                const news = this.state.news;
                 news[index] = response.news;
-                that.setState({
+                this.setState({
                     news: news
                 })
-            }
-            that.setState({
-                showSpinner: false
             })
-        };
-        request.send(JSON.stringify({message}));
     };
 
     addNews = (message) => {
-        this.setState({
-            showSpinner: true
-        });
-
-        const that = this;
-        const url = domainUrl + '/news/';
-        const request = new XMLHttpRequest();
-        request.open('POST', url, true);
-        request.withCredentials = true;
-        request.setRequestHeader("Content-type", "application/json");
-        request.onload = function () {
-            if (this.status === HttpStatus.OK) {
-                const response = JSON.parse(request.response);
-                const news = that.state.news;
-                news.push(response.news);
-                that.setState({
-                    news
-                })
+        makeCall({
+            jobType: 'POST',
+            urlParams: '/news',
+            params: {
+                message: message
             }
-            that.setState({
-                showSpinner: false
+        })
+            .then((response) => {
+                this.setState({
+                    news: [...this.state.news, response.news]
+                })
             })
-        };
-        request.send(JSON.stringify({message}));
     };
 
     render() {
@@ -138,7 +114,6 @@ class Home extends Component {
                      updateNews={this.updateNews}
                      notification={this.state.notification}
                      deleteNotification={this.deleteNotification}/>
-                <Spinner open={this.state.showSpinner}/>
             </React.Fragment>
         );
     }

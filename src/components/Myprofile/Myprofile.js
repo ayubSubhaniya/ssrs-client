@@ -4,26 +4,31 @@ import ViewProfile from "./ViewProfile";
 import EditProfile from "./EditProfile";
 import "../../styles/ViewProfile.css";
 
-function changeIsEdit(){
-    this.setState({
-        isEdit : !this.state.isEdit
-    });
-}
-
-class Myprofile extends Component{
-    constructor(props) {
+class Myprofile extends Component {
+    constructor() {
         super();
-        this.state = { 
-            isEdit : false
+        this.state = {
+            isEdit: false
         }
     }
-    render(){
-        console.log(this.props.user);
+
+    changeIsEdit = () => {
+        this.setState({
+            isEdit: !this.state.isEdit
+        });
+    }
+
+    render() {
         return (
             <div>
                 <NavigationBar/>
                 <div>
-                    {this.state.isEdit ? <EditProfile user={this.props.user} updateUser={this.props.updateUser} changeIsEdit={changeIsEdit.bind(this)}/> :<ViewProfile user={this.props.user} changeIsEdit={changeIsEdit.bind(this)} />}
+                    {this.state.isEdit
+                        ? <EditProfile user={this.props.user}
+                                       updateUser={this.props.updateUser}
+                                       changeIsEdit={this.changeIsEdit}/>
+                        : <ViewProfile user={this.props.user}
+                                       changeIsEdit={this.changeIsEdit}/>}
                 </div>
             </div>
         );
