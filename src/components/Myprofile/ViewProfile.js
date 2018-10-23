@@ -40,7 +40,7 @@ export default function ViewProfile(props) {
                         </tr>
                         <tr>
                             <td> Contact No</td>
-                            <td> {props.user.contactNo} </td>
+                            <td> {props.user.contactNo ? props.user.contactNo : userInfo.user_adr_mobileno} </td>
                         </tr>
                         <tr>
                             <td> Gender</td>
@@ -49,6 +49,14 @@ export default function ViewProfile(props) {
                         <tr>
                             <td> Programme</td>
                             <td> {userInfo.user_programme} </td>
+                        </tr>
+                        <tr>
+                            <td> Batch</td>
+                            <td> {userInfo.user_batch} </td>
+                        </tr>
+                        <tr>
+                            <td> User Type</td>
+                            <td> {userInfo.user_type} </td>
                         </tr>
                         </tbody>
                     </table>
