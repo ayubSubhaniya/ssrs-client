@@ -3,7 +3,7 @@ import _ from "lodash"
 import {orderStatus, rorderStatus} from "../../constants/status";
 import {camelCaseToWords} from "../../helper/String";
 import {makeCall} from "../../helper/caller";
-import {isStudent, isSuperAdmin} from "../../helper/userType";
+import {isStudent, isAdmin} from "../../helper/userType";
 import TextInput from "./TextInput";
 import EditCartForm from "./cart/EditCartForm";
 import $ from "jquery";
@@ -151,7 +151,7 @@ class ServiceDetails extends Component {
                         </div>
                         <div className=''>
                             {
-                                order.status === rorderStatus.processing && isSuperAdmin(this.props.user)
+                                order.status === rorderStatus.processing && isAdmin(this.props.user)
                                     ? (<div className='btn btn-outline-success mr-3'
                                             onClick={() => this.statusUpdateToReady(order._id)}>
                                         Ready
@@ -159,7 +159,7 @@ class ServiceDetails extends Component {
                                     : ''
                             }
                             {
-                                order.status > rorderStatus.placed && order.status < rorderStatus.completed && order.status!==rorderStatus.ready && isSuperAdmin(this.props.user)
+                                order.status > rorderStatus.placed && order.status < rorderStatus.completed && order.status!==rorderStatus.ready && isAdmin(this.props.user)
                                     ? (<div className='btn btn-outline-warning mr-3'
                                             onClick={this.openHoldModal}>
                                         Hold
@@ -167,7 +167,7 @@ class ServiceDetails extends Component {
                                     : ''
                             }
                             {
-                                order.status > rorderStatus.placed && order.status < rorderStatus.completed && isSuperAdmin(this.props.user)
+                                order.status > rorderStatus.placed && order.status < rorderStatus.completed && isAdmin(this.props.user)
                                     ? (<div className='btn btn-outline-danger mr-3'
                                             onClick={this.openCancelModal}>
                                         Cancel

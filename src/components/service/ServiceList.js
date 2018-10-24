@@ -6,7 +6,7 @@ import Switch from "../Switch";
 import AuthorizedComponent from "../AuthorizedComponent";
 import ButtonLink from "./ButtonLink";
 import DeleteButton from "../DeleteButton";
-import {isStudent, isSuperAdmin} from "../../helper/userType";
+import {isStudent, isAdmin, isSuperAdmin} from "../../helper/userType";
 import ApplyButton from "./ApplyButton";
 import {makeCall} from "../../helper/caller";
 

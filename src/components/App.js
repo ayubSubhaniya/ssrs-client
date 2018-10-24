@@ -21,7 +21,7 @@ import NewParameterForm from "./parameter/NewParameterForm";
 import CollectionType from "./collectionType/CollectionType";
 import CollectionTypeEditForm from "./collectionType/CollectionTypeEditForm";
 import Cart from './order/cart/Cart'
-import {isStudent, isSuperAdmin} from "../helper/userType";
+import {isStudent, isAdmin, isSuperAdmin} from "../helper/userType";
 import Payment from "./order/payment/Payment";
 import Info from "./order/info/Info";
 import Myprofile from './Myprofile/Myprofile'
@@ -212,29 +212,29 @@ class App extends Component {
                             <AuthorizedRoute
                                 exact path="/parameter"
                                 component={Parameters}
-                                permission={isSuperAdmin(this.state.user)}
+                                permission={isAdmin(this.state.user)}
                                 user={this.state.user}/>
                             <AuthorizedRoute
                                 path="/parameter/edit"
                                 component={ParameterEditForm}
-                                permission={isSuperAdmin(this.state.user)}/>
+                                permission={isAdmin(this.state.user)}/>
                             <AuthorizedRoute
                                 exact path="/parameter/add"
                                 component={NewParameterForm}
-                                permission={isSuperAdmin(this.state.user)}/>
+                                permission={isAdmin(this.state.user)}/>
                             <AuthorizedRoute
                                 exact path="/collectionType"
                                 component={CollectionType}
-                                permission={isSuperAdmin(this.state.user)}
+                                permission={isAdmin(this.state.user)}
                                 user={this.state.user}/>
                             <AuthorizedRoute
                                 path="/collectionType/edit"
                                 component={CollectionTypeEditForm}
-                                permission={isSuperAdmin(this.state.user)}/>
+                                permission={isAdmin(this.state.user)}/>
                             <AuthorizedRoute
                                 path="/collectionType/add"
                                 component={NewCollectionTypeForm}
-                                permission={isSuperAdmin(this.state.user)}/>
+                                permission={isAdmin(this.state.user)}/>
                             <AuthorizedRoute
                                 path="/cart"
                                 component={Cart}
@@ -269,7 +269,7 @@ class App extends Component {
                             <AuthorizedRoute
                                 exact path='/helpAdmin'
                                 component={HelpAdmin}
-                                permission={isSuperAdmin(this.state.user)}/>
+                                permission={isAdmin(this.state.user)}/>
                             <AuthorizedRoute
                                 exact path='/helpUser'
                                 component={HelpUser}

@@ -13,7 +13,7 @@ import CourierForm from "./CourierForm";
 import OrderStatusBar from "./OrderStatusBar"
 import ServiceList from "./ServiceList";
 import {DeliveryInfo, PickupInfo} from './Info'
-import {isSuperAdmin} from "../../helper/userType";
+import {isAdmin} from "../../helper/userType";
 
 function PaymentInfo({cart}) {
     return (
@@ -215,7 +215,7 @@ class OrderInfo extends Component {
                             {camelCaseToWords(cartStatus[cart.status])}
                         </h3>
                         {
-                            (cart.status >= rcartStatus.placed && cart.status < rcartStatus.completed && isSuperAdmin(this.props.user))
+                            (cart.status >= rcartStatus.placed && cart.status < rcartStatus.completed && isAdmin(this.props.user))
                                 ? <div className='btn btn-outline-danger mr-4 align-self-center'
                                        onClick={this.openCancelModal}>
                                     Cancel

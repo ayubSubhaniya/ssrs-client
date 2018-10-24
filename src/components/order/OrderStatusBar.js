@@ -1,6 +1,6 @@
 import {rcartStatus} from "../../constants/status";
 import React from "react";
-import {isSuperAdmin} from "../../helper/userType";
+import {isAdmin} from "../../helper/userType";
 import {formatDate} from "../../helper/String";
 
 function getStatus(x, y) {
@@ -43,7 +43,7 @@ function OrderStatusBar({status, isDelivery, openPaymentCodeModal, statusChangeT
                   label={'Placed'}/>
             <Step curStatus={status}
                   status={rcartStatus.processing}
-                  showButton={status === rcartStatus.placed && isSuperAdmin(user)}
+                  showButton={status === rcartStatus.placed && isAdmin(user)}
                   handleClick={openPaymentCodeModal}
                   time={formatDate(statusChangeTime.processing.time)}
                   btnLabel={'Accept Payment'}
@@ -67,7 +67,7 @@ function OrderStatusBar({status, isDelivery, openPaymentCodeModal, statusChangeT
                             label={'Cancelled'}/>
                     : <Step curStatus={status}
                             time={formatDate(statusChangeTime.completed.time)}
-                            showButton={(status === rcartStatus.readyToDeliver || status === rcartStatus.readyToPickup) && isSuperAdmin(user)}
+                            showButton={(status === rcartStatus.readyToDeliver || status === rcartStatus.readyToPickup) && isAdmin(user)}
                             handleClick={status === rcartStatus.readyToDeliver ? openCourierDetailsModal : openCollectionCodeModal}
                             btnLabel={'Complete'}
                             status={rcartStatus.completed}

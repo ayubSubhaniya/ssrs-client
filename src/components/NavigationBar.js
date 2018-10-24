@@ -4,17 +4,16 @@ import Image from "./Image";
 import logo from "../images/daiict.png";
 import {Link, withRouter} from "react-router-dom";
 import AuthorizedComponent from "./AuthorizedComponent";
-import {isSuperAdmin, isStudent} from "../helper/userType";
+import {isAdmin, isStudent, isSuperAdmin} from "../helper/userType";
 
-function NavLink({path, text, onClick, className, currPath,icon}) {
-
+function NavLink({path, text, onClick, className, currPath, icon}) {
     if (currPath) {
         currPath = "/" + currPath.split('/')[1];
     }
 
     return (
         <li className={"nav-item " + (currPath === path ? "active" : "") + " " + className}
-            style={{marginLeft:"10px", marginRight:"10px"}}>
+            style={{marginLeft: "10px", marginRight: "10px"}}>
             <Link className="nav-link" onClick={onClick} to={{
                 pathname: path,
             }}>
@@ -49,11 +48,11 @@ class NavigationBar extends Component {
                                                  text={'Services'}
                                                  icon={'handshake-o'}
                                                  currPath={this.props.location.pathname}/>
-                                        <NavLink text={isSuperAdmin(value.user) ? "All Orders" : "My Orders"}
-                                                 icon={isSuperAdmin(value.user)?'list-ul':'shopping-basket'}
+                                        <NavLink text={isAdmin(value.user) ? "All Orders" : "My Orders"}
+                                                 icon={isAdmin(value.user) ? 'list-ul' : 'shopping-basket'}
                                                  path={'/order'}
                                                  currPath={this.props.location.pathname}/>
-                                        <AuthorizedComponent permission={!isSuperAdmin(value.user)}
+                                        <AuthorizedComponent permission={isStudent(value.user)}
                                                              path={'/cart'}
                                                              currPath={this.props.location.pathname}
                                                              component={NavLink}
@@ -69,13 +68,13 @@ class NavigationBar extends Component {
                                                  icon={'user'}
                                                  currPath={this.props.location.pathname}
                                                  text={'My Profile'}/>
-                                        <AuthorizedComponent permission={isSuperAdmin(value.user)}
+                                        <AuthorizedComponent permission={isAdmin(value.user)}
                                                              path={'/parameter'}
                                                              icon={'cog'}
                                                              currPath={this.props.location.pathname}
                                                              text={'Parameters'}
                                                              component={NavLink}/>
-                                        <AuthorizedComponent permission={isSuperAdmin(value.user)}
+                                        <AuthorizedComponent permission={isAdmin(value.user)}
                                                              path='/collectionType'
                                                              icon='archive'
                                                              currPath={this.props.location.pathname}
@@ -87,7 +86,7 @@ class NavigationBar extends Component {
                                                              currPath={this.props.location.pathname}
                                                              text={'Permissions'}
                                                              component={NavLink}/>
-                                        <AuthorizedComponent permission={isSuperAdmin(value.user)}
+                                        <AuthorizedComponent permission={isAdmin(value.user)}
                                                              path='/helpAdmin'
                                                              currPath={this.props.location.pathname}
                                                              text={'Help'}

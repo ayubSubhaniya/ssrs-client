@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import _ from "lodash"
 import CartDetails from "./OrderDetails";
-import {isStudent} from "../../helper/userType";
+import {isAdmin, isStudent} from "../../helper/userType";
 import {handleChange} from "../../helper/StateUpdate";
 
 class OrderList extends Component {
@@ -56,7 +56,7 @@ class OrderList extends Component {
                                         <th className="text-center">Status</th>
                                         <th className="text-center">Price</th>
                                         {
-                                            !isStudent(others.user)
+                                            isAdmin(others.user)
                                                 ? <th className="text-center">Requested By</th>
                                                 : ''
                                         }

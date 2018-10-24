@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {withRouter} from 'react-router-dom'
 import {cartStatus} from "../../constants/status";
 import {camelCaseToWords} from "../../helper/String";
-import {isSuperAdmin} from "../../helper/userType";
+import {isAdmin} from "../../helper/userType";
 import {formatDate} from "../../helper/String";
 
 class OrderDetails extends Component {
@@ -48,7 +48,7 @@ class OrderDetails extends Component {
                 <td data-th="Price" className="text-center">{`₹ ${cart.ordersCost}`}</td>
 
                 {
-                    isSuperAdmin(others.user)
+                    isAdmin(others.user)
                         ? <td data-th="Requested By" className="text-center">{cart.requestedBy}</td>
                         : ''
                 }

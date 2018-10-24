@@ -1,7 +1,13 @@
+import {userType} from "../constants/constants";
+
 export function isSuperAdmin(user) {
-    return user.userType === 'superAdmin' || user.userType === 'admin'
+    return (user.userType ===  userType.SUPERADMIN)
+}
+
+export function isAdmin(user) {
+    return (user.userType === userType.ADMIN || user.userType === userType.SUPERADMIN)
 }
 
 export function isStudent(user) {
-    return user.userType === 'student'
+    return (user.userType === userType.STUDENT)
 }

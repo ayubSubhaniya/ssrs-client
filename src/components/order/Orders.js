@@ -5,7 +5,7 @@ import Spinner from "../Spinner";
 import _ from "lodash"
 import {camelCaseToWords} from "../../helper/String";
 import OrderList from "./OrderList";
-import {isSuperAdmin} from "../../helper/userType";
+import {isAdmin} from "../../helper/userType";
 import {makeCall} from "../../helper/caller";
 
 const filterKey = ['-10', 30, 50, 60, 70, 80, 90, 100, 110, 0];
@@ -28,7 +28,7 @@ class Filter extends Component {
         this.state = {
             showSpinner: false,
             isFilterVisible: false,
-            filterState: (isSuperAdmin(this.props.user) ? 50 : '-10'),
+            filterState: (isAdmin(this.props.user) ? 50 : '-10'),
             cart: [],
         }
     }

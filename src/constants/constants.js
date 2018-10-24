@@ -14,6 +14,12 @@ export const collectionTypeCategory = {
     PICKUP: "Pickup"
 }
 
+export const userType = {
+    STUDENT: 'student',
+    SUPERADMIN: 'superAdmin',
+    ADMIN: 'admin'
+}
+
 export const defaultCart = {
     collectionType: {},
     collectionTypeCost: 0,
