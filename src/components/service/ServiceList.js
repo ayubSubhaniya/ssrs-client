@@ -93,7 +93,7 @@ class ServiceList extends Component {
                                                 component={EditButton}
                                                 permission={isSuperAdmin(this.props.user)}
                                                 data={service}
-                                                path={'/service/edit/' + i}/>
+                                                path={'/service/edit/' + service._id}/>
                                             <AuthorizedComponent
                                                 permission={isSuperAdmin(this.props.user)}
                                                 handleClick={this.deleteService}
