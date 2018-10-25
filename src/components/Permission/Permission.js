@@ -51,14 +51,14 @@ class Permission extends Component {
                         </div>
                     </div>
                     <div className="modal-footer">
-                        <button type="button" className="btn btn-danger" onClick={() => {
+                        <button type="button" className="btn btn-danger mb-4" onClick={() => {
                             this.setState({
                                 open: false,
                                 adminAdd: false,
                                 userAdd: false
                             })
                         }}>Close</button>
-                        <button type="submit" className="btn btn-primary" onClick={(e) => {
+                        <button type="submit" className="btn btn-primary mb-4" onClick={(e) => {
                             e.preventDefault();
                             this.handleSubmit(role);
                         }}>Save

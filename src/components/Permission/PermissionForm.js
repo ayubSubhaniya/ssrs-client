@@ -4,7 +4,8 @@ import _ from "lodash"
 import * as HttpStatus from "http-status-codes";
 import { domainUrl } from "../../config/configuration";
 import Spinner from "../Spinner"
-
+import ConfirmModal from "../ConfirmModal";
+ 
 class PermissionForm extends React.Component {
     constructor(props) {
         super(props);
@@ -12,11 +13,13 @@ class PermissionForm extends React.Component {
         if (data) {
             this.state = {
                 data: this.props.data,
-                showSpinner : false
+                showSpinner : false,
+                confirm : false
             } 
         } else {
             this.state = {
                 showSpinner : false,
+                confirm : false,
                 data: {
                     User: {
                         read: 'none',
@@ -124,6 +127,11 @@ class PermissionForm extends React.Component {
             showSpinner: true
         })
     }
+    onConfirmModal  = () => {
+        this.setState({
+            confirm : false
+        })
+    }
     hideSpinner = () => {
         console.log("outside spinner");
         this.setState({
@@ -150,6 +158,7 @@ class PermissionForm extends React.Component {
         request.send();
     }
     postRoleData = () => {
+        this.onConfirmModal();
         const userData = { "userType":`${this.props.userType}`, "permissions" : {...this.state.data} }
         console.log(userData)
         const that = this;
@@ -395,7 +404,7 @@ class PermissionForm extends React.Component {
                             {this.getList()}
                         </tbody>
                     </table>
-                    <div class="d-flex justify-content-left flex-row-reverse">
+                    <div class="d-flex justify-content-left flex-row-reverse mb-4">
 
                         <input type="submit" value="Close" class="btn btn-danger mr-5" onClick={(e) => {
                              e.preventDefault();
@@ -403,9 +412,15 @@ class PermissionForm extends React.Component {
                             }}/>                     
                         <input type="submit" value="Save" class="btn btn-primary mr-5" onClick={(e) => {
                              e.preventDefault();
-                            this.postRoleData()}}/>   
+                            this.setState({
+                                confirm :true
+                            })
+                            }}/>   
                         </div>
                 </form>
+                {this.state.confirm  ? <ConfirmModal open={true} onYes={(e) => {
+                    e.preventDefault();
+                    this.postRoleData()}} close={this.onConfirmModal}/> : "" } 
             </div>
         );
     }
