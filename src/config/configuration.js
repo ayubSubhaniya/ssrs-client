@@ -1,4 +1,5 @@
-export const domainUrl = "https://ssrs-daiict-api.herokuapp.com";
+export const domainUrl = "https://10.100.81.42:3001";
+// export const domainUrl = "https://ssrs-daiict-api.herokuapp.com";
 //export const domainUrl = "http://localhost:3001";
 export const errorMessages = {
     internalServerError: "Internal server error. Please try again later!",
