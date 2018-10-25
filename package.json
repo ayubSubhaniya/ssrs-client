@@ -51,7 +51,8 @@
         "useBuiltIns": true
       }],
       "react",
-      "stage-1"
+      "stage-1",
+      "es2015"
     ],
     "ignore": [
       "node_modules"
