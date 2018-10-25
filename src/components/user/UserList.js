@@ -58,7 +58,6 @@ class UserList extends Component {
             if (this.status == HttpStatus.ACCEPTED || this.status === HttpStatus.OK || this.status === HttpStatus.NOT_MODIFIED) {
                 try {
                     const obj = JSON.parse(request.responseText);
-                    console.log(obj);
                     that.setState({
                         'user': obj['user'],
                     })

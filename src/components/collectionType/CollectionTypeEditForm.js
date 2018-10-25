@@ -1,12 +1,10 @@
 import React, {Component} from 'react';
-import {domainUrl} from '../../config/configuration'
 import {Redirect, withRouter} from "react-router-dom";
 import Header from "../Header";
-import * as HttpStatus from "http-status-codes";
 import NavigationBar from "../NavigationBar";
-import Spinner from "../Spinner";
 import {handleChange} from "../../helper/StateUpdate";
 import CollectionTypeForm from "./CollectionTypeForm";
+import {makeCall} from "../../helper/caller";
 
 class CollectionTypeEditForm extends Component {
     constructor(props) {
@@ -43,26 +41,15 @@ class CollectionTypeEditForm extends Component {
 
 
     updateCollectionType = () => {
-        this.setState({
-            showSpinner: true
+        makeCall({
+            jobType: 'PATCH',
+            urlParams: '/collectionType/' + this.collectionType._id,
+            params: this.getCollectionTypeFromState()
         })
-        const that = this;
-        const url = domainUrl + '/collectionType/' + this.collectionType._id;
-        const request = new XMLHttpRequest();
-        request.open('PATCH', url, true);
-        request.withCredentials = true;
-        request.setRequestHeader("Content-type", "application/json");
-        request.onload = function () {
-            if (this.status == HttpStatus.OK) {
-                const response = JSON.parse(request.response)
-
-                that.props.history.push('/collectionType');
-            }
-            that.setState({
-                showSpinner: false
+            .then(() => {
+                this.props.history.push('/collectionType');
             })
-        };
-        request.send(JSON.stringify(this.getCollectionTypeFromState()));
+
     }
 
     handleSubmit = (event) => {
@@ -83,7 +70,6 @@ class CollectionTypeEditForm extends Component {
                                             handleSubmit={this.handleSubmit}
                                             handleCategoryChange={this.handleCategoryChange}/>
                     </div>
-                    <Spinner open={this.state.showSpinner}/>
                 </div>
             );
         } else {

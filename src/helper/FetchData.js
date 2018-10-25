@@ -24,7 +24,6 @@ export function asyncFetch(dataName) {
         if (this.status == HttpStatus.ACCEPTED || this.status === HttpStatus.OK || this.status === HttpStatus.NOT_MODIFIED) {
             try {
                 const obj = JSON.parse(request.responseText);
-                console.log(obj);
                 that.setState({
                     [dataName]: obj[dataName],
                 })
@@ -41,7 +40,6 @@ export function asyncFetch(dataName) {
 
 export function syncFetch(dataName) {
     const url = domainUrl + '/' + dataName
-    console.log(url);
     let fetchedData;
     var request = new XMLHttpRequest();
     request.open('GET', url, false);

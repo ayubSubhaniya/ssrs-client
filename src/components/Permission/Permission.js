@@ -83,7 +83,6 @@ class Permission extends Component {
         request.onload = function () {
             if (this.status == HttpStatus.OK) {
                 var res = request.response;
-                console.log(res);
                 if (role === "user") {
                     that.setState({
                         userTypes: [...that.state.userTypes, `${that.state.name}`]
@@ -102,7 +101,6 @@ class Permission extends Component {
                 });
             }
         }
-        console.log(newUser);
         request.send(JSON.stringify(newUser));
     }
     getAdminRoleData = (role) => {
@@ -114,7 +112,6 @@ class Permission extends Component {
         request.onload = function () {
             if (this.status == HttpStatus.OK) {
                 var res = JSON.parse(request.response);
-                console.log(res);
                 that.setState({
                     adminRoleData: res.permission
                 })
@@ -141,7 +138,6 @@ class Permission extends Component {
         request.setRequestHeader("Content-type", "application/json");
         request.onload = function () {
             if (this.status == HttpStatus.OK) {
-                console.log(request.response);
                 if (userType === 'user') {
                     that.setState({
                         userTypes: [...that.state.userTypes.slice(0, index), ...that.state.userTypes.slice(index + 1)]
@@ -157,7 +153,6 @@ class Permission extends Component {
                 that.closeModal();
             }
         }
-        console.log(delData);
         request.send(JSON.stringify(delData));
     }
     getUserList = (data) => {
@@ -247,7 +242,6 @@ class Permission extends Component {
         request.onload = function () {
             if (this.status == HttpStatus.OK) {
                 var res = JSON.parse(request.response);
-                console.log(res);
                 that.setState({
                     userTypes: res.userTypes,
                     adminTypes: res.adminTypes
@@ -257,7 +251,6 @@ class Permission extends Component {
         request.send();
     }
     componentDidMount() {
-        console.log('GrandChild did mount.');
         this.getRoles();
     }
     showSpinner = () => {
@@ -271,8 +264,6 @@ class Permission extends Component {
         })
     }
     render() {
-        console.log("Permission Updated");
-        console.log(this.state.name);
         return (
             <div>
                 <NavigationBar />

@@ -13,7 +13,7 @@ class PermissionForm extends React.Component {
             this.state = {
                 data: this.props.data,
                 showSpinner : false
-            } 
+            }
         } else {
             this.state = {
                 showSpinner : false,
@@ -119,13 +119,11 @@ class PermissionForm extends React.Component {
         }
     }
     showSpinner = () => {
-        console.log("Inside spinner");
         this.setState({
             showSpinner: true
         })
     }
     hideSpinner = () => {
-        console.log("outside spinner");
         this.setState({
             showSpinner: false
         })
@@ -140,7 +138,6 @@ class PermissionForm extends React.Component {
         request.onload = function () {
             if (this.status == HttpStatus.OK) {
                 var res = JSON.parse(request.response);
-                console.log(res);
                 that.setState({
                     data : res.permissions
                 })
@@ -151,7 +148,6 @@ class PermissionForm extends React.Component {
     }
     postRoleData = () => {
         const userData = { "userType":`${this.props.userType}`, "permissions" : {...this.state.data} }
-        console.log(userData)
         const that = this;
         this.showSpinner();
         var url = domainUrl + '/access/'+this.props.role;
@@ -161,7 +157,6 @@ class PermissionForm extends React.Component {
         request.setRequestHeader("Content-type", "application/json");
         request.onload = function () {
             if (this.status == HttpStatus.OK) {
-                console.log(request.response);
             }
             that.hideSpinner();
             that.props.closeModal();
@@ -176,9 +171,7 @@ class PermissionForm extends React.Component {
         })
     };
     changeStatus = (e, key, d) => {
-        console.log("clicked");
         let value = e.target.value
-        console.log(d);
         this.setState(function (state) {
             state.data[`${key}`][`${d}`] = `${value}`
             return { data: state.data };
@@ -238,7 +231,7 @@ class PermissionForm extends React.Component {
                     </tr>
                     <tr>
                         <td>update</td>
-                        
+
                             <td>
                             <div className={'d-flex flex-row'}>
                                 <div style={{ display: 'flex' }}>
@@ -284,7 +277,7 @@ class PermissionForm extends React.Component {
                             </td>
                     </tr>
                     <tr>
-                        <td>create</td>          
+                        <td>create</td>
                             <td>
                             <div className={'d-flex flex-row'}>
                                 <div style={{ display: 'flex' }}>
@@ -330,7 +323,7 @@ class PermissionForm extends React.Component {
                             </td>
                     </tr>
                     <tr>
-                        <td>delete</td>          
+                        <td>delete</td>
                             <td>
                             <div className={'d-flex flex-row'}>
                                 <div style={{ display: 'flex' }}>
@@ -383,7 +376,6 @@ class PermissionForm extends React.Component {
         this.getRoleData();
     }
     render() {
-        console.log(this.state.data);
         return (
             <div>
                 <Spinner open={this.state.showSpinner}/>
@@ -400,10 +392,10 @@ class PermissionForm extends React.Component {
                         <input type="submit" value="Close" class="btn btn-danger mr-5" onClick={(e) => {
                              e.preventDefault();
                              this.props.closeModal();
-                            }}/>                     
+                            }}/>
                         <input type="submit" value="Save" class="btn btn-primary mr-5" onClick={(e) => {
                              e.preventDefault();
-                            this.postRoleData()}}/>   
+                            this.postRoleData()}}/>
                         </div>
                 </form>
             </div>

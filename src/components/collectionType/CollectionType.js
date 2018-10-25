@@ -2,72 +2,59 @@ import React, {Component} from 'react';
 import NavigationBar from "../NavigationBar";
 import Header from "../Header";
 import CollectionTypeList from "./CollectionTypeList";
-import {asyncFetch} from "../../helper/FetchData";
-import Spinner from "../Spinner";
-import {domainUrl} from "../../config/configuration";
-import * as HttpStatus from "http-status-codes";
+import {makeCall} from "../../helper/caller";
 
 class CollectionType extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            showSpinner: false,
             collectionType: []
         };
-        this.asyncFetch = asyncFetch.bind(this);
     }
 
-    componentDidMount(){
-        this.asyncFetch('collectionType');
+    componentDidMount() {
+        this.getAllCollectionType();
+    }
+
+    getAllCollectionType = () => {
+        makeCall({
+            jobType: "GET",
+            urlParams: '/collectionType'
+        })
+            .then((response) => {
+                this.setState({
+                    collectionType: response.collectionType
+                })
+            })
     }
 
     toggleCollectionType = (index) => {
-        this.setState({
-            showSpinner: true
-        });
         const collectionType = this.state.collectionType[index];
-        const that = this;
-        const url = domainUrl + '/collectionType/changeStatus/' + collectionType._id;
-        const request = new XMLHttpRequest();
-        request.open('PATCH', url, true);
-        request.withCredentials = true;
-        request.setRequestHeader("Content-type", "application/json");
-        request.onload = function () {
-            if (this.status === HttpStatus.OK) {
-                const response = JSON.parse(request.response);
-                const collectionTypeList = that.state.collectionType;
+        makeCall({
+            jobType: 'PATCH',
+            urlParams: '/collectionType/' + this.collectionType._id,
+            params: {isActive: !collectionType.isActive}
+        })
+            .then((response) => {
+                const collectionTypeList = this.state.collectionType;
                 collectionTypeList[index] = response.collectionType;
-                that.setState({
+                this.setState({
                     collectionType: collectionTypeList,
-                    showSpinner: false
                 });
-            }
-        };
-        request.send(JSON.stringify({isActive: !collectionType.isActive}));
+            })
     };
 
     deleteCollectionType = (index) => {
-        this.setState({
-            showSpinner: true
-        });
-        const that = this;
-        const url = domainUrl + '/collectionType/' + this.state.collectionType[index]._id;
-        const request = new XMLHttpRequest();
-        request.open('DELETE', url, true);
-        request.withCredentials = true;
-        request.setRequestHeader("Content-type", "application/json");
-        request.onload = function () {
-            if (this.status === HttpStatus.OK) {
-                const collectionType = that.state.collectionType;
-                that.setState({
-                    collectionType: [...collectionType.slice(0,index),...collectionType.slice(index+1)]
+        makeCall({
+            jobType: 'DELETE',
+            urlParams: '/collectionType/' + this.state.collectionType[index]._id
+        })
+            .then(() => {
+                const collectionType = this.state.collectionType;
+                this.setState({
+                    collectionType: [...collectionType.slice(0, index), ...collectionType.slice(index + 1)]
                 })
-            }
-            that.setState({
-                showSpinner: false
             })
-        };
-        request.send();
     };
 
     render() {
@@ -79,7 +66,6 @@ class CollectionType extends Component {
                                     user={this.props.user}
                                     deleteCollectionType={this.deleteCollectionType}
                                     toggleCollectionType={this.toggleCollectionType}/>
-                <Spinner open={this.state.showSpinner}/>
             </div>
 
         );
