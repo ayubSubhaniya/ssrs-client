@@ -65,7 +65,6 @@ class OrderForm extends Component {
         request.onload = function () {
             if (this.status === HttpStatus.CREATED) {
                 const response = JSON.parse(request.response);
-                console.log(response);
                 $(that.modal).modal('hide');
             } else if (this.status === HttpStatus.PRECONDITION_FAILED){
                 that.setState({

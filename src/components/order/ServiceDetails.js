@@ -57,7 +57,6 @@ class ServiceDetails extends Component {
 
 
     hold = (reason, id) => {
-        console.log(reason)
         makeCall({
             jobType: 'PATCH',
             urlParams: '/order/changeStatus/' + id,

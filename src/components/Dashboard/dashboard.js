@@ -3,10 +3,9 @@ import NavigationBar from '../NavigationBar';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import _ from "lodash"
-
 import 'react-datepicker/dist/react-datepicker.css';
 import {makeCall} from '../../helper/caller';
-import {domainUrl} from "../../config/configuration";
+import {handleError} from "../../helper/error";
 
 class dashboard extends Component {
 
@@ -43,42 +42,10 @@ class dashboard extends Component {
         this.setState({
             endDate: date
         });
-
     };
-
-
-    // componentDidMount() {
-    //     this.asyncFetch();
-    // }
-
-    // asyncFetch = () => {
-    //     const that = this;
-    //     const url = domainUrl + '/' + 'user/all'
-    //     var request = new XMLHttpRequest();
-    //     request.open('GET', url, true);
-    //     request.withCredentials = true;
-    //     request.onload = function () {
-    //         if (this.status == HttpStatus.ACCEPTED || this.status === HttpStatus.OK || this.status === HttpStatus.NOT_MODIFIED) {
-    //             try {
-    //                 const obj = JSON.parse(request.responseText);
-    //                 console.log(obj);
-    //                 that.setState({
-    //                     'user': obj['user'],
-    //                 })
-    //             } catch (e) {
-    //                 console.error(e);
-    //             }
-    //         }
-    //         that.setState({
-    //             showSpinner: false
-    //         })
-    //     };
-    //     request.send();
-    // }
 
     dateToString = (date) => {
         date = new Date(date.toString());
-        console.log(date)
         return date.getFullYear() + '-' + (date.getMonth() + 1) + "-" + date.getDate();
     }
 
@@ -88,16 +55,17 @@ class dashboard extends Component {
     }
 
     getCartStatistics = () => {
-        console.log(this.state.todayDate)
         makeCall({
             jobType: 'GET',
             urlParams: '/dashboard/cart?' + this.getUrlQuery()
         })
             .then((response) => {
-                console.log(response)
                 this.setState({
                     pastService: response
                 })
+            })
+            .catch((error) => {
+                handleError(error);
             })
 
     }
@@ -110,22 +78,23 @@ class dashboard extends Component {
 
 
     getDailyCartStatistics = () => {
-        console.log(this.state.todayDate)
         makeCall({
             jobType: 'GET',
             urlParams: '/dashboard/cart?' + this.getInitialUrlQuery()
         })
             .then((response) => {
-                console.log(response)
-                _.forEach(response.paymentType,(e) => {
+                _.forEach(response.paymentType, (e) => {
                     this.setState({
                         ["total" + e.paymentType]: e.revenue
                     })
                 })
                 this.setState({
                     todayService: response,
-                    totalOrders: response.order.count
+                    totalOrders: response.order ? response.order.count : 0
                 })
+            })
+            .catch((error) => {
+                handleError(error);
             })
     }
 
@@ -137,38 +106,39 @@ class dashboard extends Component {
                 <p className="text-center"
                    style={{fontFamily: "Courier New", fontSize: "60px", color: "blue", marginTop: "2%"}}>
                     <strong>Dashboard</strong></p>
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-12" style={{marginTop: "5%"}}>
-                            <div class="row card d-flex flex-row p-4 dash" style={{backgroundColor: "#aec5c1"}}>
-                                <p class="w-100 mb-4 text-center" style={{color: "black", fontSize: "25px"}}><strong>Daily
-                                    Statistics</strong></p>
-                                <div class="col-sm-3">
-                                    <div class="card p-4 dash" style={{backgroundColor: "#ff140f"}}>
+                <div className="container">
+                    <div className="row">
+                        <div className="col-md-12" style={{marginTop: "5%"}}>
+                            <div className="row card d-flex flex-row p-4 dash" style={{backgroundColor: "#aec5c1"}}>
+                                <p className="w-100 mb-4 text-center" style={{color: "black", fontSize: "25px"}}>
+                                    <strong>Daily
+                                        Statistics</strong></p>
+                                <div className="col-sm-3">
+                                    <div className="card p-4 dash" style={{backgroundColor: "#ff140f"}}>
                                         <h4 className="text-center" style={{fontSize: "30px", color: "white"}}>
-                                            <strong>₹ {this.state.totalonline+this.state.totaloffline}</strong></h4>
+                                            <strong>₹ {this.state.totalonline + this.state.totaloffline}</strong></h4>
                                         <p className="text-center" style={{fontSize: "15px", color: "black"}}><strong>Total
                                             Payment</strong></p>
                                     </div>
                                 </div>
-                                <div class="col-sm-3">
-                                    <div class="card p-4 dash" style={{backgroundColor: "#ff140f"}}>
+                                <div className="col-sm-3">
+                                    <div className="card p-4 dash" style={{backgroundColor: "#ff140f"}}>
                                         <h4 className="text-center" style={{fontSize: "30px", color: "white"}}>
                                             <strong>₹ {this.state.totalonline}</strong></h4>
                                         <p className="text-center" style={{fontSize: "15px", color: "black"}}><strong>Online
                                             Payment</strong></p>
                                     </div>
                                 </div>
-                                <div class="col-sm-3">
-                                    <div class="card p-4 dash" style={{backgroundColor: "#ff140f"}}>
+                                <div className="col-sm-3">
+                                    <div className="card p-4 dash" style={{backgroundColor: "#ff140f"}}>
                                         <h4 className="text-center" style={{fontSize: "30px", color: "white"}}>
                                             <strong>₹ {this.state.totaloffline}</strong></h4>
                                         <p className="text-center" style={{fontSize: "15px", color: "black"}}><strong>Offline
                                             Payment</strong></p>
                                     </div>
                                 </div>
-                                <div class="col-sm-3">
-                                    <div class="card p-4 dash" style={{backgroundColor: "#ff140f"}}>
+                                <div className="col-sm-3">
+                                    <div className="card p-4 dash" style={{backgroundColor: "#ff140f"}}>
                                         <h4 className="text-center" style={{fontSize: "30px", color: "white"}}>
                                             <strong>{this.state.totalOrders}</strong></h4>
                                         <p className="text-center" style={{fontSize: "15px", color: "black"}}><strong>Total
@@ -176,34 +146,34 @@ class dashboard extends Component {
                                     </div>
                                 </div>
                             </div>
-                            <div class="row card d-flex flex-row p-4 dash"
+                            <div className="row card d-flex flex-row p-4 dash"
                                  style={{backgroundColor: "#aec5c1", marginTop: "5%"}}>
-                                <p class="w-100 mb-4 text-center" style={{color: "black", fontSize: "25px"}}><strong>Service
-                                    Revenue</strong></p>
-                                <div class="col-sm-6">
-                                    <div class="card p-4 dash" style={{backgroundColor: "#f1f1f1"}}>
-                                        <p class="w-100 mb-2 text-center"
+                                <p className="w-100 mb-4 text-center" style={{color: "black", fontSize: "25px"}}>
+                                    <strong>Service
+                                        Revenue</strong></p>
+                                <div className="col-sm-6">
+                                    <div className="card p-4 dash" style={{backgroundColor: "#f1f1f1"}}>
+                                        <p className="w-100 mb-2 text-center"
                                            style={{color: "black", fontSize: "15px", borderBottom: "3px solid red"}}>
                                             <strong>Daily</strong></p>
-                                        <table class="table table-hover">
+                                        <table className="table table-hover">
                                             <tbody>
                                             {/*<tr>*/}
-                                                {/*<td style={{borderRight: "1px solid #e1e1e1"}}><strong>Service1</strong>*/}
-                                                {/*</td>*/}
-                                                {/*<td style={{borderRight: "1px solid #e1e1e1"}}>100</td>*/}
-                                                {/*<td>₹ 100,000</td>*/}
+                                            {/*<td style={{borderRight: "1px solid #e1e1e1"}}><strong>Service1</strong>*/}
+                                            {/*</td>*/}
+                                            {/*<td style={{borderRight: "1px solid #e1e1e1"}}>100</td>*/}
+                                            {/*<td>₹ 100,000</td>*/}
                                             {/*</tr>*/}
                                             {/*<tr>*/}
-                                                {/*<td style={{borderRight: "1px solid #e1e1e1"}}>Service2</td>*/}
-                                                {/*<td style={{borderRight: "1px solid #e1e1e1"}}>100</td>*/}
-                                                {/*<td>₹ 100,000</td>*/}
+                                            {/*<td style={{borderRight: "1px solid #e1e1e1"}}>Service2</td>*/}
+                                            {/*<td style={{borderRight: "1px solid #e1e1e1"}}>100</td>*/}
+                                            {/*<td>₹ 100,000</td>*/}
                                             {/*</tr>*/}
                                             {/*<tr>*/}
-                                                {/*<td style={{borderRight: "1px solid #e1e1e1"}}>Service3</td>*/}
-                                                {/*<td style={{borderRight: "1px solid #e1e1e1"}}>100</td>*/}
-                                                {/*<td>₹ 100,000</td>*/}
+                                            {/*<td style={{borderRight: "1px solid #e1e1e1"}}>Service3</td>*/}
+                                            {/*<td style={{borderRight: "1px solid #e1e1e1"}}>100</td>*/}
+                                            {/*<td>₹ 100,000</td>*/}
                                             {/*</tr>*/}
-
 
 
                                             {
@@ -224,10 +194,10 @@ class dashboard extends Component {
                                         </table>
                                     </div>
                                 </div>
-                                <div class="col-sm-6">
-                                    <div class="card p-4 dash" style={{backgroundColor: "#f1f1f1"}}>
-                                        <div class="row">
-                                            <div class="col-sm-5">
+                                <div className="col-sm-6">
+                                    <div className="card p-4 dash" style={{backgroundColor: "#f1f1f1"}}>
+                                        <div className="row">
+                                            <div className="col-sm-5">
                                                 <DatePicker
                                                     dateFormat="YYYY/MM/DD"
 
@@ -235,7 +205,7 @@ class dashboard extends Component {
                                                     onChange={this.handleChange}
                                                     placeholderText="Start Date"/>
                                             </div>
-                                            <div class="col-sm-4">
+                                            <div className="col-sm-4">
                                                 <DatePicker
                                                     dateFormat="YYYY/MM/DD"
                                                     selected={this.state.endDate}
@@ -243,9 +213,9 @@ class dashboard extends Component {
                                                     placeholderText="End Date"/>
                                             </div>
 
-                                            <div class="col-sm-3">
+                                            <div className="col-sm-3">
                                                 <input type="submit"
-                                                       class="btn btn-primary style-btn"
+                                                       className="btn btn-primary style-btn"
                                                        value="Submit"
                                                        onClick={this.getCartStatistics}/>
                                             </div>

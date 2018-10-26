@@ -228,15 +228,15 @@ class App extends Component {
                                 permission={isAdmin(this.state.user)}
                                 user={this.state.user}/>
                             <AuthorizedRoute
-                                path="/collectionType/edit"
+                                exact path="/collectionType/edit/*"
                                 component={CollectionTypeEditForm}
                                 permission={isAdmin(this.state.user)}/>
                             <AuthorizedRoute
-                                path="/collectionType/add"
+                                exact path="/collectionType/add"
                                 component={NewCollectionTypeForm}
                                 permission={isAdmin(this.state.user)}/>
                             <AuthorizedRoute
-                                path="/cart"
+                                exact path="/cart"
                                 component={Cart}
                                 permission={isStudent(this.state.user)}/>
                             <AuthorizedRoute

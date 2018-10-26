@@ -6,14 +6,13 @@ import {errorMessages} from "../../../config/configuration";
 import * as HttpStatus from "http-status-codes";
 import CartDetails from "./CartDetails";
 import ErrorMessage from "../../error/ErrorMessage";
-import {DEBITCARD, NETBANKING, PAYTM, OFFLINE, ONLINE, paymentMode} from '../../../constants/constants'
+import {DEBITCARD, NETBANKING, OFFLINE, ONLINE, paymentMode} from '../../../constants/constants'
 import {makeCall} from "../../../helper/caller";
 
 class Payment extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            showSpinner: false,
             paymentType: "0",
             isPaymentDone: false,
             errorMessage: '',
@@ -140,7 +139,7 @@ class Payment extends React.Component {
                                     <div className="btn btn-success m-4 p-4" onClick={this.payOffline}>
                                         {"Pay Offline"}
                                     </div>
-                                   </div>
+                                </div>
                                 <div className={`${this.state.paymentType !== "1" ? 'd-none' : ''}`}>
                                     <div className="btn btn-success m-4 p-4" onClick={this.payOnline}>
                                         {"Pay Online    "}
@@ -152,8 +151,6 @@ class Payment extends React.Component {
                                 <div className={`${this.state.paymentType !== "3" ? 'd-none' : ''}`}>
                                     {DEBITCARD}
                                 </div>
-
-
                             </div>
                         </div>
                     </div>

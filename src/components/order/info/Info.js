@@ -101,7 +101,6 @@ class Info extends React.Component {
                     addresses: [...this.state.addresses, response.address]
                 })
             })
-            .catch((error) => console.log(error));
     }
 
     handleCollectionTypeChange = ({target}) => {

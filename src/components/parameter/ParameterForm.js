@@ -32,6 +32,7 @@ function ParameterForm(props) {
             <textarea
                 className={'form-control'}
                 name="description"
+                required={true}
                 placeholder="Write Parameter Description"
                 value={props.state.description}
                 onChange={props.handleChange}>
@@ -41,8 +42,7 @@ function ParameterForm(props) {
             <input
                 className='submit'
                 type="submit"
-                value="Save"
-                onSubmit={props.handleSubmit}/>
+                value="Save"/>
         </div>
     </form>
 }

@@ -86,6 +86,12 @@ class NavigationBar extends Component {
                                                              currPath={this.props.location.pathname}
                                                              text={'Permissions'}
                                                              component={NavLink}/>
+                                        <AuthorizedComponent permission={isSuperAdmin(value.user)}
+                                                             path='/dashboard'
+                                                             currPath={this.props.location.pathname}
+                                                             text={'Dashboard'}
+                                                             icon={'line-chart'}
+                                                             component={NavLink}/>
                                         <AuthorizedComponent permission={isAdmin(value.user)}
                                                              path='/helpAdmin'
                                                              currPath={this.props.location.pathname}
@@ -97,12 +103,6 @@ class NavigationBar extends Component {
                                                              currPath={this.props.location.pathname}
                                                              text={'Help'}
                                                              icon={'question-circle'}
-                                                             component={NavLink}/>
-                                        <AuthorizedComponent permission={isSuperAdmin(value.user)}
-                                                             path='/dashboard'
-                                                             currPath={this.props.location.pathname}
-                                                             text={'Dashboard'}
-                                                             icon={'line-chart'}
                                                              component={NavLink}/>
                                         <NavLink text={'Logout'}
                                                  icon={'sign-out'}

@@ -8,7 +8,7 @@ const AuthorizedRoute = ({component: Component, ...rest, permission}) => (
             permission ? (
                 <Component {...props} {...rest}/>
             ) : (
-                <Redirect to="/"/>
+               ''
             )
         }
     />

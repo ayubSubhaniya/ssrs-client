@@ -10,6 +10,8 @@ import Header from '../Header';
 import $ from "jquery";
 import Switch from "../Switch";
 import FileUpload from "../FileUpload/FileUpload";
+import {makeCall} from "../../helper/caller";
+import {handleError} from "../../helper/error";
 
 function UserDetails(props) {
     const userInfo = props.user.userInfo
@@ -58,7 +60,6 @@ class UserList extends Component {
             if (this.status == HttpStatus.ACCEPTED || this.status === HttpStatus.OK || this.status === HttpStatus.NOT_MODIFIED) {
                 try {
                     const obj = JSON.parse(request.responseText);
-                    console.log(obj);
                     that.setState({
                         'user': obj['user'],
                     })
