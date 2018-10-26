@@ -36,7 +36,7 @@ class Parameters extends Component {
         const parameter = this.state.parameter[index];
         makeCall({
             jobType: 'PATCH',
-            urlParams: '/parameter/' + this.parameter._id,
+            urlParams: '/parameter/changeStatus/' + parameter._id,
             params: {isActive: !parameter.isActive}
         })
             .then((response) => {
