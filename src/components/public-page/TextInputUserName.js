@@ -12,9 +12,6 @@ export default function TextInputUserName({daiictId,handleChange}) {
                    onChange={handleChange}
                    name="daiictId"
                    aria-describedby="basic-addon"/>
-            <div className="input-group-append">
-                <span className="input-group-text" id="basic-addon">@daiict.ac.in</span>
-            </div>
         </div>
     </div>)
 }

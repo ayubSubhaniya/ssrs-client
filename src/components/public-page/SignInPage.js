@@ -29,7 +29,7 @@ export default function SignInPage({ daiictId, handleChange, password, loginMess
                             password: password
                         })
                     }} /></div>
-                <input type="button" className={'page-link-cstm'} value="Forgot Password"
+                <input type="button" className={'page-link-cstm mt-2'} value="Forgot Password?"
                     onClick={openModal} />
             </form>
         </div>
