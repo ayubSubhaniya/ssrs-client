@@ -33,6 +33,36 @@
     "deploy": "gh-pages -d build"
   },
   "devDependencies": {
+    "@babel/cli": "^7.1.2",
+    "@babel/core": "^7.1.2",
+    "@babel/preset-env": "^7.1.0",
     "gh-pages": "^1.2.0"
+  },
+  "babel" : {
+    "presets": [
+      ["env", {
+        "targets": {
+          "browsers": [
+            "Chrome >= 59",
+            "FireFox >= 44",
+            "Safari >= 7",
+            "Explorer 11",
+            "last 4 Edge versions"
+          ]
+        },
+        "useBuiltIns": true
+      }],
+      "react",
+      "stage-1",
+      "es2015"
+    ],
+    "ignore": [
+      "node_modules"
+    ],
+    "plugins": [
+      "transform-es2015-arrow-functions",
+      "transform-class-properties",
+      "syntax-class-properties"
+    ]
   }
 }
