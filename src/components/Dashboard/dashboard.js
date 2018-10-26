@@ -5,6 +5,7 @@ import moment from 'moment';
 import _ from "lodash"
 import 'react-datepicker/dist/react-datepicker.css';
 import {makeCall} from '../../helper/caller';
+import {handleError} from "../../helper/error";
 
 class dashboard extends Component {
 
@@ -63,6 +64,9 @@ class dashboard extends Component {
                     pastService: response
                 })
             })
+            .catch((error) => {
+                handleError(error);
+            })
 
     }
 
@@ -88,6 +92,9 @@ class dashboard extends Component {
                     todayService: response,
                     totalOrders: response.order ? response.order.count : 0
                 })
+            })
+            .catch((error) => {
+                handleError(error);
             })
     }
 

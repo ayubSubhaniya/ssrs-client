@@ -10,6 +10,8 @@ import Header from '../Header';
 import $ from "jquery";
 import Switch from "../Switch";
 import FileUpload from "../FileUpload/FileUpload";
+import {makeCall} from "../../helper/caller";
+import {handleError} from "../../helper/error";
 
 function UserDetails(props) {
     const userInfo = props.user.userInfo

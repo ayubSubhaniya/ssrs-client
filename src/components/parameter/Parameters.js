@@ -3,7 +3,7 @@ import NavigationBar from "../NavigationBar";
 import Header from "../Header";
 import ParameterList from "./ParameterList";
 import {makeCall} from "../../helper/caller";
-
+import {handleError} from "../../helper/error";
 
 class Parameters extends Component {
     constructor(props) {
@@ -56,6 +56,10 @@ class Parameters extends Component {
                     parameter: [...parameter.slice(0, index), ...parameter.slice(index + 1)]
                 })
             })
+            .catch((error) => {
+                handleError(error);
+            })
+
     }
 
     render() {

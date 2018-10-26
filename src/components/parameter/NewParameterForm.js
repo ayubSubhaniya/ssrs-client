@@ -5,6 +5,7 @@ import NavigationBar from "../NavigationBar";
 import {handleChange} from "../../helper/StateUpdate";
 import ParameterForm from "./ParameterForm";
 import {makeCall} from "../../helper/caller";
+import {handleError} from "../../helper/error";
 
 class NewParameterForm extends Component {
     constructor(props) {
@@ -35,6 +36,9 @@ class NewParameterForm extends Component {
         })
             .then(() => {
                 this.props.history.push('/parameter');
+            })
+            .catch((error) => {
+                handleError(error);
             })
     }
 
