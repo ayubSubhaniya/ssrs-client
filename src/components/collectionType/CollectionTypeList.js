@@ -22,13 +22,13 @@ class CollectionTypeList extends Component {
                                                 <p className="mb-1">{collectionType.description}</p>
                                             </div>
                                             <div className={'d-flex flex-direction-col'} style={{'alignItems': "center"}}>
-                                                <EditButton
-                                                    data={collectionType}
-                                                    path={'/collectionType/edit/' + i} />
                                                 <Switch
                                                     handleClick={this.props.toggleCollectionType}
                                                     index={i}
                                                     isChecked={collectionType.isActive ? true : false} />
+                                                <EditButton
+                                                    data={collectionType}
+                                                    path={'/collectionType/edit/' + i} />
                                                 <DeleteButton
                                                     handleClick={this.props.deleteCollectionType}
                                                     index={i} />

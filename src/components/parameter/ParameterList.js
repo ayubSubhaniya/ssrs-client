@@ -22,13 +22,13 @@ class ParameterList extends Component {
                                                 <p className="mb-1">{parameter.description}</p>
                                             </div>
                                             <div className={'d-flex flex-direction-col'} style={{'alignItems': "center"}}>
-                                                <EditButton
-                                                    data={parameter}
-                                                    path={'/parameter/edit/' + i} />
                                                 <Switch
                                                     handleClick={this.props.toggleParameter}
                                                     index={i}
                                                     isChecked={parameter.isActive ? true : false} />
+                                                <EditButton
+                                                    data={parameter}
+                                                    path={'/parameter/edit/' + i} />
                                                 <DeleteButton handleClick={this.props.deleteParameter}
                                                     index={i} />
                                             </div>
