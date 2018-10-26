@@ -84,8 +84,8 @@ class Cart extends Component {
                     <div className="container cart-empty mt-4">
                         <h1> Your cart is empty! </h1>
                         <Link to={'/service'} className='mt-4'>
-                            <div className="btn btn-primary">
-                                {"GO, ADD SERVICES"} </div>
+                            <button className="btn btn-outline-dark btn-lg">
+                                {"Go, Add Services"} </button>
                         </Link>
                     </div>
                     <Spinner open={this.state.showSpinner}/>

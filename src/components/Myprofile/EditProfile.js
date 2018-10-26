@@ -59,7 +59,7 @@ class EditProfile extends Component {
                         </tr>
                         </tbody>
                     </table>
-                    <input type="submit" class="btn btn-primary style-btn" value="Save"/>
+                    <input type="submit" class="btn btn-outline-success style-btn" value="Save"/>
                 </form>
             </div>
         );
