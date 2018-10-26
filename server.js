@@ -13,7 +13,7 @@ app.get('/ping', function (req, res) {
 app.get('/', function (req, res) {
     res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 8080;
 https.createServer({
     key: fs.readFileSync('../SSL/commercial.key'),
     cert: fs.readFileSync('../SSL/f2e066dddbc1a42e.crt'),
