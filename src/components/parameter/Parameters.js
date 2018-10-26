@@ -27,6 +27,9 @@ class Parameters extends Component {
                     parameter: response.parameter
                 })
             })
+            .catch((error) => {
+                handleError(error);
+            })
     }
 
     toggleParameter = (index) => {
@@ -42,6 +45,9 @@ class Parameters extends Component {
                 this.setState({
                     parameter: parameterList,
                 });
+            })
+            .catch((error) => {
+                handleError(error);
             })
     };
 

@@ -1,16 +1,14 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import '../../styles/table.css';
-import EditUserModal from './EditUserModal';
 import _ from "lodash"
 import Spinner from "../Spinner";
-import { domainUrl } from "../../config/configuration";
+import {domainUrl} from "../../config/configuration";
 import * as HttpStatus from "http-status-codes";
 import NavigationBar from '../NavigationBar';
 import Header from '../Header';
 import $ from "jquery";
 import Switch from "../Switch";
 import FileUpload from "../FileUpload/FileUpload";
-import {makeCall} from "../../helper/caller";
 import {handleError} from "../../helper/error";
 
 function UserDetails(props) {
@@ -26,7 +24,7 @@ function UserDetails(props) {
                     <Switch
                         handleClick={() => props.toggleUserActiveStatus(props.index)}
                         index={props.index}
-                        isChecked={props.user.isActive ? true : false} />
+                        isChecked={props.user.isActive ? true : false}/>
                 </div>
             </td>
         </React.Fragment>
@@ -58,14 +56,12 @@ class UserList extends Component {
         request.withCredentials = true;
         request.onload = function () {
             if (this.status == HttpStatus.ACCEPTED || this.status === HttpStatus.OK || this.status === HttpStatus.NOT_MODIFIED) {
-                try {
-                    const obj = JSON.parse(request.responseText);
-                    that.setState({
-                        'user': obj['user'],
-                    })
-                } catch (e) {
-                    console.error(e);
-                }
+                const obj = JSON.parse(request.responseText);
+                that.setState({
+                    'user': obj['user'],
+                })
+            } else {
+                handleError(request)
             }
             that.setState({
                 showSpinner: false
@@ -94,6 +90,8 @@ class UserList extends Component {
                     showSpinner: false
                 });
                 $(modal).modal('hide');
+            } else {
+                handleError(request)
             }
         }
         request.send(JSON.stringify(user));
@@ -119,9 +117,11 @@ class UserList extends Component {
                     user: user,
                     showSpinner: false
                 });
+            } else {
+                handleError(request)
             }
         };
-        request.send(JSON.stringify({ isActive: !user.isActive }));
+        request.send(JSON.stringify({isActive: !user.isActive}));
     };
 
     uploadHandler = (data) => {
@@ -144,11 +144,11 @@ class UserList extends Component {
                 });
                 alert("data updated successfully")
             }
-            else{
+            else {
                 that.setState({
                     showSpinner: false
                 });
-                alert("please check the file again for format issues");
+                alert(request.responseText + " Please check the file again for format issues");
             }
         };
         request.send(JSON.stringify(data));
@@ -157,44 +157,44 @@ class UserList extends Component {
     render() {
         return (
             <React.Fragment>
-                <NavigationBar />
-                <Header title={'User Management'} />
+                <NavigationBar/>
+                <Header title={'User Management'}/>
                 <table id="table" className='mb-4'>
                     <thead>
-                        <tr>
-                            <th>User ID</th>
-                            <th>User Name</th>
-                            <th>User Type</th>
-                            <th>Actions</th>
-                        </tr>
+                    <tr>
+                        <th>User ID</th>
+                        <th>User Name</th>
+                        <th>User Type</th>
+                        <th>Actions</th>
+                    </tr>
                     </thead>
                     <tbody>
-                        {
-                            _.map(this.state.user, (user, i) => {
-                                user.name.firstName = user.name.firstName ? user.name.firstName : '';
-                                user.name.lastName = user.name.lastName ? user.name.lastName : '';
-                                return (
-                                    <tr key={i}>
-                                        <UserDetails user={user}
-                                            index={i}
-                                            updateUser={this.updateUser}
-                                            toggleUserActiveStatus={this.toggleUserActiveStatus} />
-                                    </tr>
-                                )
-                            })
-                        }
+                    {
+                        _.map(this.state.user, (user, i) => {
+                            user.name.firstName = user.name.firstName ? user.name.firstName : '';
+                            user.name.lastName = user.name.lastName ? user.name.lastName : '';
+                            return (
+                                <tr key={i}>
+                                    <UserDetails user={user}
+                                                 index={i}
+                                                 updateUser={this.updateUser}
+                                                 toggleUserActiveStatus={this.toggleUserActiveStatus}/>
+                                </tr>
+                            )
+                        })
+                    }
                     </tbody>
                 </table>
-                <Spinner open={this.state.showSpinner} />
+                <Spinner open={this.state.showSpinner}/>
                 <div className={'d-flex justify-content-center mb-4'}>
-                <div class="card d-flex justify-content-center" style={{
-                    width : "30em"
-                }}>
-                    <div class="card-body mx-auto">
-                        <h5 class="card-title">Upload New User Data!</h5>
-                        <p class="card-text"><FileUpload handleSubmit={this.uploadHandler}/></p>
+                    <div class="card d-flex justify-content-center" style={{
+                        width: "30em"
+                    }}>
+                        <div class="card-body mx-auto">
+                            <h5 class="card-title">Upload New User Data!</h5>
+                            <p class="card-text"><FileUpload handleSubmit={this.uploadHandler}/></p>
+                        </div>
                     </div>
-                </div>
                 </div>
             </React.Fragment>
         );

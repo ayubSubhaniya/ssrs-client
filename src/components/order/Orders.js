@@ -7,6 +7,7 @@ import {camelCaseToWords} from "../../helper/String";
 import OrderList from "./OrderList";
 import {isAdmin} from "../../helper/userType";
 import {makeCall} from "../../helper/caller";
+import {handleError} from "../../helper/error";
 
 const filterKey = ['-10', 30, 50, 60, 70, 80, 90, 100, 110, 0];
 const orders = {
@@ -46,6 +47,9 @@ class Filter extends Component {
                 this.setState({
                     cart: _.filter(response.cart, (o) => o.status != 20),
                 })
+            })
+            .catch((error) => {
+                handleError(error);
             })
     }
 

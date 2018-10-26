@@ -37,7 +37,7 @@ p {
     width: 50%;
     height: auto;
     margin: auto;
-    /* margin-top: 2%; */
+    margin-top: 2%;
     display: block;
 }
 
@@ -542,71 +542,6 @@ input:checked + .slider:before {
 }
 
 /*Order Info*/
-.address-box {
-    width: 100%;
-    margin-top: 2%;
-    background: #fff;
-}
-
-.empty-box {
-    border: 1px solid gray;
-    width: 250px;
-    height: 220px;
-    display: flex;
-    cursor: pointer;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    color: gray;
-    margin: 5px;
-    padding: 20px;
-}
-
-.address {
-    border: 1px solid gray;
-    width: 250px;
-    height: 220px;
-    color: gray;
-    margin: 5px;
-    padding: 20px;
-    cursor: pointer;
-}
-
-.address-selected{
-    outline: 2px solid black;
-}
-
-.address:hover, .empty-box:hover {
-    border: 1px solid #472bff;
-}
-
-.icon-add {
-    font-size: 2rem;
-    margin: 0px;
-    padding: 0px;
-}
-
-.address-title {
-    position: relative;
-}
-
-.item-address {
-    align-items: flex-start;
-    text-overflow: ellipsis;
-    margin: 0px;
-    margin-bottom: 5px;
-}
-
-.address-edit-btn {
-    position: relative;
-    cursor: pointer;
-    float: right;
-    bottom: 0px;
-}
-
-.address-edit-btn:hover {
-    color: #000000;
-}
 
 .total-price {
     display: flex;

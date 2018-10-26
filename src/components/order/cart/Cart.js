@@ -9,11 +9,12 @@ import Spinner from "../../Spinner";
 import {domainUrl} from "../../../config/configuration";
 import * as HttpStatus from "http-status-codes";
 import $ from "jquery";
+import {handleError} from "../../../helper/error";
 
 class Cart extends Component {
     constructor(props) {
         super(props);
-        this.state={
+        this.state = {
             showSpinner: false,
             cart: []
         };
@@ -24,19 +25,19 @@ class Cart extends Component {
         this.syncFetch = syncFetch.bind(this);
         let collectionType = this.syncFetch('collectionType');
         const orders = this.state.cart.orders;
-        let availableCollectionType = _.map(collectionType,'_id');
-        _.forEach(orders,(order)=>{
-            availableCollectionType = _.intersection(availableCollectionType,order.service.collectionTypes)
+        let availableCollectionType = _.map(collectionType, '_id');
+        _.forEach(orders, (order) => {
+            availableCollectionType = _.intersection(availableCollectionType, order.service.collectionTypes)
         })
-        collectionType = _.filter(collectionType,(o) => _.some(availableCollectionType,(x) => x===o._id));
+        collectionType = _.filter(collectionType, (o) => _.some(availableCollectionType, (x) => x === o._id));
         return collectionType;
     }
 
-    componentDidMount(){
+    componentDidMount() {
         this.asyncFetch('cart');
     }
 
-    updateOrder = (newOrder,index,modal) => {
+    updateOrder = (newOrder, index, modal) => {
         this.setState({
             showSpinner: true
         });
@@ -51,6 +52,8 @@ class Cart extends Component {
             if (this.status == HttpStatus.OK) {
                 $(modal).modal('hide');
                 that.asyncFetch('cart');
+            } else {
+                handleError(request)
             }
         };
         request.send(JSON.stringify(newOrder));
@@ -69,6 +72,8 @@ class Cart extends Component {
         request.onload = function () {
             if (this.status === HttpStatus.OK) {
                 that.asyncFetch('cart');
+            } else {
+                handleError(request)
             }
         }
         request.send();
@@ -76,7 +81,7 @@ class Cart extends Component {
 
     render() {
 
-        if(this.state.cart.length==0 || this.state.cart.orders.length===0){
+        if (this.state.cart.length == 0 || this.state.cart.orders.length === 0) {
             return (
                 <div>
                     <NavigationBar/>
@@ -113,18 +118,20 @@ class Cart extends Component {
                         </thead>
                         <tbody>
                         {
-                            _.map(this.state.cart.orders,(o,i) => <Service key={o._id}
-                                                                           order={o}
-                                                                           index={i}
-                                                                           updateOrder={this.updateOrder}
-                                                                           deleteOrder={this.deleteOrder}/>)
+                            _.map(this.state.cart.orders, (o, i) => <Service key={o._id}
+                                                                             order={o}
+                                                                             index={i}
+                                                                             updateOrder={this.updateOrder}
+                                                                             deleteOrder={this.deleteOrder}/>)
                         }
                         </tbody>
                         <tfoot>
                         <tr className="visible-xs">
                             <td colSpan="5" className="hidden-xs">
-                                <div className={"alert alert-danger p-2 mt-2 mb-2" + (avilableCollectionTypes.length>0?' d-none':'')}>
-                                    <strong>{'Collection Type Not matching for this Services, Please Order Separately!'}</strong></div>
+                                <div
+                                    className={"alert alert-danger p-2 mt-2 mb-2" + (avilableCollectionTypes.length > 0 ? ' d-none' : '')}>
+                                    <strong>{'Collection Type Not matching for this Services, Please Order Separately!'}</strong>
+                                </div>
                             </td>
                             <td className="text-center"><strong>{`Total: ₹ ${this.state.cart.totalCost}`}</strong></td>
                             <td className="hidden-xs"></td>
@@ -139,15 +146,17 @@ class Cart extends Component {
                             </td>
                             <td colSpan="5" className="hidden-xs"></td>
                             <td>
-                                <Link to={{pathname:'/info',state: {
-                                    avilableCollectionTypes: avilableCollectionTypes
-                                }}} className={`${avilableCollectionTypes.length==0?'disabled-link':''}`}>
+                                <Link to={{
+                                    pathname: '/info', state: {
+                                        avilableCollectionTypes: avilableCollectionTypes
+                                    }
+                                }} className={`${avilableCollectionTypes.length == 0 ? 'disabled-link' : ''}`}>
                                     <div className={`btn btn-success btn-lg`}>
                                         {"Checkout "}
                                         <i className="fa fa-angle-right"></i>
                                     </div>
                                 </Link>
-                                </td>
+                            </td>
                         </tr>
                         </tfoot>
                     </table>

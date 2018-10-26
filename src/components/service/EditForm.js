@@ -7,6 +7,7 @@ import Form from "./Form";
 import _ from "lodash"
 import {makeCall} from "../../helper/caller"
 import {defaultService} from "../../constants/constants";
+import {handleError} from "../../helper/error";
 
 function setSelecteProperty(arr1, arr2) {
     return _.map(arr1, (x) => {
@@ -59,6 +60,9 @@ class EditForm extends Component {
                     collectionType: setSelecteProperty(response.collectionType, this.state.collectionType)
                 })
             })
+            .catch((error) => {
+                handleError(error);
+            })
     }
 
     getAllParameter = () => {
@@ -70,6 +74,9 @@ class EditForm extends Component {
                 this.setState({
                     parameter: setSelecteProperty(response.parameter, this.state.parameter)
                 })
+            })
+            .catch((error) => {
+                handleError(error);
             })
     }
 
@@ -103,6 +110,10 @@ class EditForm extends Component {
                 this.getAllParameter();
                 this.getUserInfoDistinct();
             })
+            .catch((error) => {
+                handleError(error);
+            })
+
     }
 
     getUserInfoDistinct = () => {
@@ -117,6 +128,9 @@ class EditForm extends Component {
                     programmes: setSelectedPropertyByName(response.programmes, this.state.programmes)
                 })
             })
+            .catch((error) => {
+                handleError(error);
+            })
     }
 
 
@@ -127,6 +141,9 @@ class EditForm extends Component {
             params: this.getServiceFromState()
         })
             .then(() => this.props.history.push('/service'))
+            .catch((error) => {
+                handleError(error);
+            })
     }
 
     handleSubmit = (event) => {

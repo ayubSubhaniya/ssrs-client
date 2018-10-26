@@ -1,4 +1,9 @@
 
 export const handleError = (error) => {
-    alert(error.statusText);
+    if(error.statusText)
+        alert(error.statusText);
+    else if(error.responseText)
+        alert(error.responseText);
+    else
+        alert("Something Went Wrong!");
 }

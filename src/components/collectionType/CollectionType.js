@@ -3,6 +3,7 @@ import NavigationBar from "../NavigationBar";
 import Header from "../Header";
 import CollectionTypeList from "./CollectionTypeList";
 import {makeCall} from "../../helper/caller";
+import {handleError} from "../../helper/error";
 
 class CollectionType extends Component {
     constructor(props) {
@@ -26,6 +27,9 @@ class CollectionType extends Component {
                     collectionType: response.collectionType
                 })
             })
+            .catch((error) => {
+                handleError(error);
+            })
     }
 
     toggleCollectionType = (index) => {
@@ -42,6 +46,9 @@ class CollectionType extends Component {
                     collectionType: collectionTypeList,
                 });
             })
+            .catch((error) => {
+                handleError(error);
+            })
     };
 
     deleteCollectionType = (index) => {
@@ -54,6 +61,9 @@ class CollectionType extends Component {
                 this.setState({
                     collectionType: [...collectionType.slice(0, index), ...collectionType.slice(index + 1)]
                 })
+            })
+            .catch((error) => {
+                handleError(error);
             })
     };
 
