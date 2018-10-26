@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
-import {domainUrl} from '../../config/configuration'
 import {Redirect, withRouter} from "react-router-dom";
 import Header from "../Header";
-import * as HttpStatus from "http-status-codes";
 import NavigationBar from "../NavigationBar";
 import Spinner from "../Spinner";
 import {handleChange} from "../../helper/StateUpdate";
 import ParameterForm from "./ParameterForm";
+import {makeCall} from "../../helper/caller";
+import {handleError} from "../../helper/error";
 
 class ParameterEditForm extends Component {
     constructor(props) {
@@ -17,7 +17,6 @@ class ParameterEditForm extends Component {
 
         this.parameter = props.location.state;
         this.state = {
-            showSpinner: false,
             name: this.parameter.name,
             description: this.parameter.description,
             baseCharge: this.parameter.baseCharge,
@@ -35,26 +34,17 @@ class ParameterEditForm extends Component {
 
 
     updateParameter = () => {
-        this.setState({
-            showSpinner: true
+        makeCall({
+            jobType: 'PATCH',
+            urlParams: '/parameter/' + this.parameter._id,
+            params: this.getParameterFromState()
         })
-        const that = this;
-        const url = domainUrl + '/parameter/' + this.parameter._id;
-        const request = new XMLHttpRequest();
-        request.open('PATCH', url, true);
-        request.withCredentials = true;
-        request.setRequestHeader("Content-type", "application/json");
-        request.onload = function () {
-            if (this.status == HttpStatus.OK) {
-                const response = JSON.parse(request.response)
-
-                that.props.history.push('/parameter');
-            }
-            that.setState({
-                showSpinner: false
+            .then(() => {
+                this.props.history.push('/parameter');
             })
-        };
-        request.send(JSON.stringify(this.getParameterFromState()));
+            .catch((error) => {
+                handleError(error);
+            })
     }
 
     handleSubmit = (event) => {
@@ -71,10 +61,9 @@ class ParameterEditForm extends Component {
                     <Header title={"Edit Parameter"}/>
                     <div className="container container-custom">
                         <ParameterForm state={this.state}
-                              handleChange={this.handleChange}
-                              handleSubmit={this.handleSubmit}/>
+                                       handleChange={this.handleChange}
+                                       handleSubmit={this.handleSubmit}/>
                     </div>
-                    <Spinner open={this.state.showSpinner}/>
                 </div>
             );
         } else {

@@ -2,18 +2,19 @@ import React, {Component} from 'react';
 import {withRouter} from 'react-router-dom'
 import NavigationBar from "../NavigationBar";
 import '../../styles/orderstatus.css'
-import {cartStatus, rcartStatus, rorderStatus} from "../../constants/status";
+import {cartStatus, rcartStatus} from "../../constants/status";
 import {camelCaseToWords} from "../../helper/String";
 import TextInput from "./TextInput";
 import {makeCall} from "../../helper/caller";
 import {defaultCart} from "../../constants/constants";
-import {paymentCode, collectionCode} from "../../constants/errorMessage";
+import {collectionCode, paymentCode} from "../../constants/errorMessage";
 import TextInfo from "./TextInfo"
 import CourierForm from "./CourierForm";
 import OrderStatusBar from "./OrderStatusBar"
 import ServiceList from "./ServiceList";
 import {DeliveryInfo, PickupInfo} from './Info'
 import {isAdmin} from "../../helper/userType";
+import {handleError} from "../../helper/error";
 
 function PaymentInfo({cart}) {
     return (
@@ -74,6 +75,9 @@ class OrderInfo extends Component {
                 })
                 this.getCollection(response.cart.collectionType);
             })
+            .catch((error) => {
+                handleError(error);
+            })
     }
 
     getCollection = (id) => {
@@ -85,6 +89,9 @@ class OrderInfo extends Component {
                 this.setState({
                     collectionType: response.collectionType
                 })
+            })
+            .catch((error) => {
+                handleError(error);
             })
     }
 
@@ -104,6 +111,9 @@ class OrderInfo extends Component {
                 .then(() => {
                     this.getCart();
                     this.closePaymentCodeModal();
+                })
+                .catch((error) => {
+                    handleError(error);
                 })
         }
     }
@@ -167,6 +177,9 @@ class OrderInfo extends Component {
                 this.closeColletionCodeModal();
                 this.getCart()
             })
+            .catch((error) => {
+                handleError(error);
+            })
     }
 
 
@@ -177,10 +190,14 @@ class OrderInfo extends Component {
             params: {
                 cancelReason: reason
             }
-        }).then(() => {
-            this.closeCancelModal();
-            this.getCart();
         })
+            .then(() => {
+                this.closeCancelModal();
+                this.getCart();
+            })
+            .catch((error) => {
+                handleError(error);
+            })
     }
 
     compareCollectionCode = (collectionCode) => {
@@ -261,12 +278,12 @@ class OrderInfo extends Component {
                                onSubmit={this.cancelCart}/>
                     <TextInput visible={this.state.isCollectionCodeModalOpen}
                                text={'Enter Collection Code'}
-                               errorMessage={this.state.isCollectionCodeWrong?collectionCode.wrong:''}
+                               errorMessage={this.state.isCollectionCodeWrong ? collectionCode.wrong : ''}
                                closeModal={this.closeColletionCodeModal}
                                onSubmit={this.compareCollectionCode}/>
                     <TextInput visible={this.state.isPaymentCodeModalOpen}
                                text={'Enter Payment Code'}
-                               errorMessage={this.state.isPaymentCodeWrong?paymentCode.wrong:''}
+                               errorMessage={this.state.isPaymentCodeWrong ? paymentCode.wrong : ''}
                                onSubmit={this.makePayment}
                                closeModal={this.closePaymentCodeModal}/>
                 </div>

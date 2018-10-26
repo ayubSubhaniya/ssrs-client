@@ -18,7 +18,6 @@ class HrefComponent extends Component {
                 isEnvelopeOpen : !state.isEnvelopeOpen,
             }
         });
-        console.log(this.state.name);
     }
 
     render() {

@@ -2,13 +2,28 @@ import {domainUrl} from "../config/configuration";
 import * as HttpStatus from "http-status-codes";
 import React from "react";
 import {makeCall} from "./caller";
+import {handleError} from "./error";
 
-export function getCart(callback){
+export function getCart(callback) {
     makeCall({
         jobType: 'GET',
         urlParams: '/cart'
     })
         .then(callback)
+        .catch((error) => {
+            handleError(error);
+        })
+}
+
+export function deleteAddress(id, index){
+    makeCall({jobType: 'DELETE', urlParams: '/user/address/' + id}).then((response) => {
+        this.setState({
+            addresses: [...this.state.addresses.slice(0, index), ...this.state.addresses.slice(index + 1)]
+        })
+    })
+        .catch((error) => {
+            handleError(error);
+        })
 }
 
 export function asyncFetch(dataName) {
@@ -22,15 +37,12 @@ export function asyncFetch(dataName) {
     request.withCredentials = true;
     request.onload = function () {
         if (this.status == HttpStatus.ACCEPTED || this.status === HttpStatus.OK || this.status === HttpStatus.NOT_MODIFIED) {
-            try {
-                const obj = JSON.parse(request.responseText);
-                console.log(obj);
-                that.setState({
-                    [dataName]: obj[dataName],
-                })
-            } catch (e) {
-                console.error(e);
-            }
+            const obj = JSON.parse(request.responseText);
+            that.setState({
+                [dataName]: obj[dataName],
+            })
+        } else {
+            handleError(request)
         }
         that.setState({
             showSpinner: false
@@ -41,19 +53,16 @@ export function asyncFetch(dataName) {
 
 export function syncFetch(dataName) {
     const url = domainUrl + '/' + dataName
-    console.log(url);
     let fetchedData;
     var request = new XMLHttpRequest();
     request.open('GET', url, false);
     request.withCredentials = true;
     request.onload = function () {
         if (this.status == HttpStatus.ACCEPTED || this.status === HttpStatus.OK || this.status === HttpStatus.NOT_MODIFIED) {
-            try {
-                const obj = JSON.parse(request.responseText);
-                fetchedData = obj[dataName];
-            } catch (e) {
-                console.error(e);
-            }
+            const obj = JSON.parse(request.responseText);
+            fetchedData = obj[dataName];
+        } else {
+            handleError(request)
         }
     };
     request.send();

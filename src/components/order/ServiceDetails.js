@@ -3,10 +3,11 @@ import _ from "lodash"
 import {orderStatus, rorderStatus} from "../../constants/status";
 import {camelCaseToWords} from "../../helper/String";
 import {makeCall} from "../../helper/caller";
-import {isStudent, isAdmin} from "../../helper/userType";
+import {isAdmin, isStudent} from "../../helper/userType";
 import TextInput from "./TextInput";
 import EditCartForm from "./cart/EditCartForm";
 import $ from "jquery";
+import {handleError} from "../../helper/error";
 
 class ServiceDetails extends Component {
     constructor() {
@@ -52,12 +53,14 @@ class ServiceDetails extends Component {
         })
             .then((response) => {
                 this.props.getCart()
-            });
+            })
+            .catch((error) => {
+                handleError(error);
+            })
     }
 
 
     hold = (reason, id) => {
-        console.log(reason)
         makeCall({
             jobType: 'PATCH',
             urlParams: '/order/changeStatus/' + id,
@@ -70,6 +73,9 @@ class ServiceDetails extends Component {
                 this.props.getCart();
                 this.closeHoldModal();
             })
+            .catch((error) => {
+                handleError(error);
+            })
     }
 
     cancel = (reason, id) => {
@@ -79,10 +85,14 @@ class ServiceDetails extends Component {
             params: {
                 cancelReason: reason
             }
-        }).then(() => {
-            this.props.getCart();
-            this.closeCancelModal();
         })
+            .then(() => {
+                this.props.getCart();
+                this.closeCancelModal();
+            })
+            .catch((error) => {
+                handleError(error);
+            })
     }
 
     edit = (editedOrder, index, modal) => {
@@ -97,6 +107,9 @@ class ServiceDetails extends Component {
             .then((response) => {
                 $(modal).modal('hide');
                 this.props.getCart();
+            })
+            .catch((error) => {
+                handleError(error);
             })
     };
 
@@ -131,58 +144,58 @@ class ServiceDetails extends Component {
                 <tr>
                     <td colSpan={7} className='border-top-0'>
                         <div className='d-flex justify-content-between align-content-center'>
-                        <div className='w-50'>
-                            {
-                                order.status === rorderStatus.onHold
-                                    ? <span>
+                            <div className='w-50'>
+                                {
+                                    order.status === rorderStatus.onHold
+                                        ? <span>
                                         <strong>Hold Reason: </strong>
-                                        {order.holdReason}
+                                            {order.holdReason}
                                     </span>
-                                    : ''
-                            }
-                            {
-                                order.status === rorderStatus.cancelled
-                                    ? <div>
-                                        <strong>Cancellation Reason: </strong>
-                                        {order.cancelReason}
-                                    </div>
-                                    : ''
-                            }
-                        </div>
-                        <div className=''>
-                            {
-                                order.status === rorderStatus.processing && isAdmin(this.props.user)
-                                    ? (<div className='btn btn-outline-success mr-3'
-                                            onClick={() => this.statusUpdateToReady(order._id)}>
-                                        Ready
-                                    </div>)
-                                    : ''
-                            }
-                            {
-                                order.status > rorderStatus.placed && order.status < rorderStatus.completed && order.status!==rorderStatus.ready && isAdmin(this.props.user)
-                                    ? (<div className='btn btn-outline-warning mr-3'
-                                            onClick={this.openHoldModal}>
-                                        Hold
-                                    </div>)
-                                    : ''
-                            }
-                            {
-                                order.status > rorderStatus.placed && order.status < rorderStatus.completed && isAdmin(this.props.user)
-                                    ? (<div className='btn btn-outline-danger mr-3'
-                                            onClick={this.openCancelModal}>
-                                        Cancel
-                                    </div>)
-                                    : ''
-                            }
-                            {
-                                order.status === rorderStatus.onHold && isStudent(this.props.user)
-                                    ? <button type="button" className="btn btn-primary" data-toggle="modal"
-                                           data-target={"#myModal" + order._id}>
-                                        EDIT
-                                    </button>
-                                    : ''
-                            }
-                        </div>
+                                        : ''
+                                }
+                                {
+                                    order.status === rorderStatus.cancelled
+                                        ? <div>
+                                            <strong>Cancellation Reason: </strong>
+                                            {order.cancelReason}
+                                        </div>
+                                        : ''
+                                }
+                            </div>
+                            <div className=''>
+                                {
+                                    order.status === rorderStatus.processing && isAdmin(this.props.user)
+                                        ? (<div className='btn btn-outline-success mr-3'
+                                                onClick={() => this.statusUpdateToReady(order._id)}>
+                                            Ready
+                                        </div>)
+                                        : ''
+                                }
+                                {
+                                    order.status > rorderStatus.placed && order.status < rorderStatus.completed && order.status !== rorderStatus.ready && isAdmin(this.props.user)
+                                        ? (<div className='btn btn-outline-warning mr-3'
+                                                onClick={this.openHoldModal}>
+                                            Hold
+                                        </div>)
+                                        : ''
+                                }
+                                {
+                                    order.status > rorderStatus.placed && order.status < rorderStatus.completed && isAdmin(this.props.user)
+                                        ? (<div className='btn btn-outline-danger mr-3'
+                                                onClick={this.openCancelModal}>
+                                            Cancel
+                                        </div>)
+                                        : ''
+                                }
+                                {
+                                    order.status === rorderStatus.onHold && isStudent(this.props.user)
+                                        ? <button type="button" className="btn btn-primary" data-toggle="modal"
+                                                  data-target={"#myModal" + order._id}>
+                                            EDIT
+                                        </button>
+                                        : ''
+                                }
+                            </div>
                         </div>
                     </td>
                 </tr>

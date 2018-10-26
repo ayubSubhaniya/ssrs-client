@@ -1,19 +1,17 @@
 import React, {Component} from 'react';
-import {domainUrl} from '../../config/configuration'
 import {withRouter} from "react-router-dom";
 import Header from "../Header";
-import * as HttpStatus from "http-status-codes";
 import NavigationBar from "../NavigationBar";
-import Spinner from "../Spinner";
 import {handleChange} from "../../helper/StateUpdate";
 import ParameterForm from "./ParameterForm";
+import {makeCall} from "../../helper/caller";
+import {handleError} from "../../helper/error";
 
 class NewParameterForm extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            showSpinner: false,
             name: '',
             description: '',
             baseCharge: '',
@@ -31,26 +29,17 @@ class NewParameterForm extends Component {
 
 
     addParameter = () => {
-        this.setState({
-            showSpinner: true
+        makeCall({
+            jobType: 'POST',
+            urlParams: '/parameter/',
+            params: this.getParameterFromState()
         })
-        const that = this;
-        const url = domainUrl + '/parameter/';
-        const request = new XMLHttpRequest();
-        request.open('POST', url, true);
-        request.withCredentials = true;
-        request.setRequestHeader("Content-type", "application/json");
-        request.onload = function () {
-            if (this.status == HttpStatus.CREATED) {
-                const response = JSON.parse(request.response)
-
-                that.props.history.push('/parameter');
-            }
-            that.setState({
-                showSpinner: false
+            .then(() => {
+                this.props.history.push('/parameter');
             })
-        };
-        request.send(JSON.stringify(this.getParameterFromState()));
+            .catch((error) => {
+                handleError(error);
+            })
     }
 
     handleSubmit = (event) => {
@@ -69,7 +58,6 @@ class NewParameterForm extends Component {
                                    handleChange={this.handleChange}
                                    handleSubmit={this.handleSubmit}/>
                 </div>
-                <Spinner open={this.state.showSpinner}/>
             </div>
         );
     }

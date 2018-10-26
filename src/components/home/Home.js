@@ -5,6 +5,7 @@ import Tab from "./Tab";
 import NavigationBar from "../NavigationBar";
 import _ from "lodash"
 import {makeCall} from "../../helper/caller";
+import {handleError} from "../../helper/error";
 
 class Home extends Component {
     constructor() {
@@ -30,6 +31,9 @@ class Home extends Component {
                     news: response.news
                 })
             })
+            .catch((error) => {
+                handleError(error);
+            })
     }
 
     getNotification = () => {
@@ -41,6 +45,9 @@ class Home extends Component {
                 this.setState({
                     notification: response.notification
                 })
+            })
+            .catch((error) => {
+                handleError(error);
             })
     }
 
@@ -55,6 +62,9 @@ class Home extends Component {
                     news: [...this.state.news.slice(0, index), ...this.state.news.slice(index + 1)]
                 })
             })
+            .catch((error) => {
+                handleError(error);
+            })
     };
 
     deleteNotification = (index) => {
@@ -66,6 +76,9 @@ class Home extends Component {
                 this.setState({
                     notification: [...this.state.notification.slice(0, index), ...this.state.notification.slice(index + 1)]
                 })
+            })
+            .catch((error) => {
+                handleError(error);
             })
     };
 
@@ -85,6 +98,9 @@ class Home extends Component {
                     news: news
                 })
             })
+            .catch((error) => {
+                handleError(error);
+            })
     };
 
     addNews = (message) => {
@@ -99,6 +115,9 @@ class Home extends Component {
                 this.setState({
                     news: [...this.state.news, response.news]
                 })
+            })
+            .catch((error) => {
+                handleError(error);
             })
     };
 

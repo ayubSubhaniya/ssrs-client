@@ -12,14 +12,12 @@ export default class FileUpload extends Component {
     }
     onChange = (e) => {
         e.preventDefault();
-        console.log(e.target.files[0]);
         this.setState({
             filesToBeSent: [...this.state.filesToBeSent, e.target.files[0]]
         })
     }
     FileUploadHandler = (e) => {
         e.preventDefault();
-        console.log("fileUploadHandler")
         var rABS = true; // true: readAsBinaryString ; false: readAsArrayBuffer
         if (this.state.filesToBeSent.length == 0) {
             alert("Please Select File to Upload")
@@ -29,7 +27,6 @@ export default class FileUpload extends Component {
             var reader = new FileReader();
             const that = this;
             reader.onload = function (e) {
-                console.log("inside onload")
                 var data = e.target.result;
                 if (!rABS) data = new Uint8Array(data);
                 var workbook = XLSX.read(data, { type: rABS ? 'binary' : 'array' });
@@ -37,14 +34,12 @@ export default class FileUpload extends Component {
                 const worksheet = workbook.Sheets[first_sheet_name];
                 const something = XLSX.utils.sheet_to_json(worksheet);
                 let keys = Object.keys(something);
-                console.log(something);
                 keys.forEach((e) => {
 
                     Object.keys(something[`${e}`]).forEach((ele) => {
                         something[`${e}`][`${ele}`] = `${something[`${e}`][`${ele}`]}`
                     })
                 })
-                console.log(something);
                 that.props.handleSubmit(something);
             };
             if (rABS) {

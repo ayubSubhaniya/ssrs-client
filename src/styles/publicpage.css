@@ -41,6 +41,7 @@
 
 .imagelogo {
     min-width: 100%;
+    margin-bottom: -1px;
     padding-top: 2%;
     background: linear-gradient(to left, #bfcaca, #003366);
 

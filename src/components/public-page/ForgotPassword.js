@@ -10,8 +10,6 @@ function ForgotPassword(props) {
 
             <div className="modal-header">
                 <h5 className="modal-title">Forgot Password!</h5>
-                <button type="button" className="close" onClick={props.closeModal}><span
-                    aria-hidden="true">&times;</span></button>
             </div>
 
             <div className="modal-body">
@@ -24,13 +22,12 @@ function ForgotPassword(props) {
                                onChange={props.handleChange}
                                placeholder={"Enter DA-IICT ID"}
                                aria-describedby="basic-addon"/>
-                        <div className="input-group-append">
-                                                            <span className="input-group-text"
-                                                                  id="basic-addon">@daiict.ac.in</span>
-                        </div>
                     </div>
                     <ErrorMessage message={props.errorMessage} clearMessage={props.clearErrorMessage}/>
-                    <button type="button" className="btn btn-primary mt-3" onClick={props.onSubmit}>Submit</button>
+                    <div className={"d-flex justify-content-center"}>
+                        <button type="button" className="btn btn-outline-primary mt-3" onClick={props.onSubmit}>Submit</button>
+                        <button type="button" className="btn btn-outline-danger mt-3 ml-2" onClick={props.closeModal}>Close</button>
+                    </div>
                 </form>
             </div>
         </Modal>

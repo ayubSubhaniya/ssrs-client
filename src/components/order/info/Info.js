@@ -4,7 +4,7 @@ import NavigationBar from "../../NavigationBar";
 import AddressForm from "../../Myprofile/AddressForm";
 import {withRouter} from "react-router-dom"
 import CollectionTypesDropDown from "../../service/CollectionTypesDropDown"
-import AddressList from "../AddressList";
+import AddressList from "../../Myprofile/AddressList";
 import PickUpDetails from "../PickUpDetails";
 import PickupForm from "../PickupForm";
 import {errorMessages} from '../../../config/configuration'
@@ -14,6 +14,9 @@ import {makeCall} from "../../../helper/caller";
 import _ from "lodash"
 import {collectionTypeCategory} from "../../../constants/constants";
 import {getCart} from "../../../helper/FetchData";
+import {handleError} from "../../../helper/error";
+import {deleteAddress} from "../../../helper/FetchData";
+
 const {DELIVERY, PICKUP} = collectionTypeCategory
 
 
@@ -31,6 +34,7 @@ class Info extends React.Component {
             selectedCollectionTypeIndex: 0,
             isCollectionTypeInfoProvided: false
         };
+        this.deleteAddress = deleteAddress.bind(this);
     }
 
     componentDidMount() {
@@ -54,6 +58,9 @@ class Info extends React.Component {
                 addresses: response.addresses
             })
         })
+            .catch((error) => {
+                handleError(error);
+            })
     }
 
     updateSelectedAddress = (index) => {
@@ -101,7 +108,9 @@ class Info extends React.Component {
                     addresses: [...this.state.addresses, response.address]
                 })
             })
-            .catch((error) => console.log(error));
+            .catch((error) => {
+                handleError(error);
+            })
     }
 
     handleCollectionTypeChange = ({target}) => {
@@ -137,7 +146,7 @@ class Info extends React.Component {
     handleDeliveryDataSubmit = () => {
         const selectedCollectionType = this.state.collectionTypes[this.state.selectedCollectionTypeIndex];
 
-        if(selectedCollectionType.category === PICKUP){
+        if (selectedCollectionType.category === PICKUP) {
             this.redirect(selectedCollectionType)
             return;
         }
@@ -206,10 +215,14 @@ class Info extends React.Component {
                             </div>
                             {
                                 selectedCollectionType.category === DELIVERY
-                                    ? <AddressList data={this.state.addresses}
-                                                   selected={this.state.selectedAddress}
-                                                   handleClick={this.updateSelectedAddress}
-                                                   openAddressModal={this.openAddressModal}/>
+                                    ? <div className="address-view">
+                                        <AddressList addresses={this.state.addresses}
+                                                     selected={this.state.selectedAddress}
+                                                     deleteAddress={this.deleteAddress}
+                                                     selected={this.state.selectedAddress}
+                                                     handleClick={this.updateSelectedAddress}
+                                                     openNewAddressModal={this.openAddressModal}/>
+                                    </div>
                                     : <PickUpDetails data={this.state.cart.pickup}
                                                      openAddressModal={this.openAddressModal}/>
                             }

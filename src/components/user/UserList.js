@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import '../../styles/table.css';
 import _ from "lodash"
 import Spinner from "../Spinner";
-import { domainUrl } from "../../config/configuration";
+import {domainUrl} from "../../config/configuration";
 import * as HttpStatus from "http-status-codes";
 import NavigationBar from '../NavigationBar';
 import Header from '../Header';
@@ -11,6 +11,7 @@ import Switch from "../Switch";
 import FileUpload from "../FileUpload/FileUpload";
 import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
 import '../../../node_modules/react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
+import {handleError} from "../../helper/error";
 
 function UserDetails(props) {
     const userInfo = props.user.userInfo
@@ -25,7 +26,7 @@ function UserDetails(props) {
                     <Switch
                         handleClick={() => props.toggleUserActiveStatus(props.index)}
                         index={props.index}
-                        isChecked={props.user.isActive ? true : false} />
+                        isChecked={props.user.isActive ? true : false}/>
                 </div>
             </td>
         </React.Fragment>
@@ -105,15 +106,12 @@ class UserList extends Component {
         request.withCredentials = true;
         request.onload = function () {
             if (this.status == HttpStatus.ACCEPTED || this.status === HttpStatus.OK || this.status === HttpStatus.NOT_MODIFIED) {
-                try {
-                    const obj = JSON.parse(request.responseText);
-                    console.log(obj);
-                    that.setState({
-                        'user': obj['user'],
-                    })
-                } catch (e) {
-                    console.error(e);
-                }
+                const obj = JSON.parse(request.responseText);
+                that.setState({
+                    'user': obj['user'],
+                })
+            } else {
+                handleError(request)
             }
             that.setState({
                 showSpinner: false
@@ -208,9 +206,11 @@ class UserList extends Component {
                     user: user,
                     showSpinner: false
                 });
+            } else {
+                handleError(request)
             }
         };
-        request.send(JSON.stringify({ isActive: !user.isActive }));
+        request.send(JSON.stringify({isActive: !user.isActive}));
     };
 
     uploadHandler = (data) => {
@@ -233,11 +233,11 @@ class UserList extends Component {
                 });
                 alert("data updated successfully")
             }
-            else{
+            else {
                 that.setState({
                     showSpinner: false
                 });
-                alert("please check the file again for format issues");
+                alert(request.responseText + " Please check the file again for format issues");
             }
         };
         request.send(JSON.stringify(data));
@@ -357,11 +357,9 @@ class UserList extends Component {
                         <TableHeaderColumn dataField='type' dataSort={ true } thStyle={{textAlign:"center"}}>User Type</TableHeaderColumn>
                         <TableHeaderColumn dataField='batch' dataSort={ true } thStyle={{textAlign:"center"}}>User Batch</TableHeaderColumn>
                         <TableHeaderColumn dataField='programme' dataSort={ true } thStyle={{textAlign:"center"}}>User Programme</TableHeaderColumn>
-                    </BootstrapTable>
-                    
+                    </BootstrapTable> 
                 </div>                
                 <Spinner open={this.state.showSpinner} />
-
             </React.Fragment>
         );
     }

@@ -1,22 +1,25 @@
 import React from "react"
-import Modal from "react-bootstrap4-modal";
 import _ from "lodash"
 import * as HttpStatus from "http-status-codes";
-import { domainUrl } from "../../config/configuration";
+import {domainUrl} from "../../config/configuration";
 import Spinner from "../Spinner"
+import ConfirmModal from "../ConfirmModal";
+import {handleError} from "../../helper/error";
 
 class PermissionForm extends React.Component {
     constructor(props) {
         super(props);
-        let { data } = props;
+        let {data} = props;
         if (data) {
             this.state = {
                 data: this.props.data,
-                showSpinner : false
-            } 
+                showSpinner: false,
+                confirm: false
+            }
         } else {
             this.state = {
-                showSpinner : false,
+                showSpinner: false,
+                confirm: false,
                 data: {
                     User: {
                         read: 'none',
@@ -118,10 +121,16 @@ class PermissionForm extends React.Component {
             }
         }
     }
+
     showSpinner = () => {
         console.log("Inside spinner");
         this.setState({
             showSpinner: true
+        })
+    }
+    onConfirmModal = () => {
+        this.setState({
+            confirm: false
         })
     }
     hideSpinner = () => {
@@ -133,7 +142,7 @@ class PermissionForm extends React.Component {
     getRoleData = () => {
         const that = this;
         this.showSpinner();
-        var url = domainUrl + '/access/'+this.props.role;
+        var url = domainUrl + '/access/' + this.props.role;
         var request = new XMLHttpRequest();
         request.open('GET', url, true);
         request.withCredentials = true;
@@ -142,19 +151,22 @@ class PermissionForm extends React.Component {
                 var res = JSON.parse(request.response);
                 console.log(res);
                 that.setState({
-                    data : res.permissions
+                    data: res.permissions
                 })
+            } else {
+                handleError(request)
             }
-           that.hideSpinner();
+            that.hideSpinner();
         }
         request.send();
     }
     postRoleData = () => {
-        const userData = { "userType":`${this.props.userType}`, "permissions" : {...this.state.data} }
+        this.onConfirmModal();
+        const userData = {"userType": `${this.props.userType}`, "permissions": {...this.state.data}}
         console.log(userData)
         const that = this;
         this.showSpinner();
-        var url = domainUrl + '/access/'+this.props.role;
+        var url = domainUrl + '/access/' + this.props.role;
         var request = new XMLHttpRequest();
         request.open('POST', url, true);
         request.withCredentials = true;
@@ -162,6 +174,8 @@ class PermissionForm extends React.Component {
         request.onload = function () {
             if (this.status == HttpStatus.OK) {
                 console.log(request.response);
+            } else {
+                handleError(request)
             }
             that.hideSpinner();
             that.props.closeModal();
@@ -170,7 +184,7 @@ class PermissionForm extends React.Component {
     }
 
 
-    handleChange = ({ target }) => {
+    handleChange = ({target}) => {
         this.setState({
             [target.name]: target.value
         })
@@ -181,7 +195,7 @@ class PermissionForm extends React.Component {
         console.log(d);
         this.setState(function (state) {
             state.data[`${key}`][`${d}`] = `${value}`
-            return { data: state.data };
+            return {data: state.data};
         });
     }
     getList = () => {
@@ -192,220 +206,230 @@ class PermissionForm extends React.Component {
                     <tr>
                         <th rowspan="4">{key}</th>
                         <td>read</td>
-                            <td>
+                        <td>
                             <div className={'d-flex flex-row'}>
-                                <div style={{ display: 'flex' }}>
+                                <div style={{display: 'flex'}}>
                                     <div className="form-check form-check-inline">
                                         <label className="form-check-label">
                                             <input className="form-check-input"
-                                                style={{ display: "inline" }}
-                                                type="radio"
-                                                value="any"
-                                                checked={this.state.data[`${key}`].read === "any"}
-                                                onClick={(e) => this.changeStatus(e, `${key}`, "read")} />
+                                                   style={{display: "inline"}}
+                                                   type="radio"
+                                                   value="any"
+                                                   checked={this.state.data[`${key}`].read === "any"}
+                                                   onClick={(e) => this.changeStatus(e, `${key}`, "read")}/>
                                             any
-                                                </label>
+                                        </label>
                                     </div>
                                 </div>
-                                <div style={{ display: 'flex' }}>
+                                <div style={{display: 'flex'}}>
                                     <div className="form-check form-check-inline">
                                         <label className="form-check-label">
                                             <input className="form-check-input"
-                                                style={{ display: "inline" }}
-                                                type="radio"
-                                                value="own"
-                                                checked={this.state.data[`${key}`].read === "own"}
-                                                onClick={(e) => this.changeStatus(e, `${key}`, "read")} />
+                                                   style={{display: "inline"}}
+                                                   type="radio"
+                                                   value="own"
+                                                   checked={this.state.data[`${key}`].read === "own"}
+                                                   onClick={(e) => this.changeStatus(e, `${key}`, "read")}/>
                                             own
-                                                </label>
+                                        </label>
                                     </div>
                                 </div>
-                                <div style={{ display: 'flex' }}>
+                                <div style={{display: 'flex'}}>
                                     <div className="form-check form-check-inline">
                                         <label className="form-check-label">
                                             <input className="form-check-input"
-                                                style={{ display: "inline" }}
-                                                type="radio"
-                                                value="none"
-                                                checked={this.state.data[`${key}`].read === "none"}
-                                                onClick={(e) => this.changeStatus(e, `${key}`, "read")} />
+                                                   style={{display: "inline"}}
+                                                   type="radio"
+                                                   value="none"
+                                                   checked={this.state.data[`${key}`].read === "none"}
+                                                   onClick={(e) => this.changeStatus(e, `${key}`, "read")}/>
                                             none
-                                                </label>
+                                        </label>
                                     </div>
                                 </div>
                             </div>
-                            </td>
+                        </td>
                     </tr>
                     <tr>
                         <td>update</td>
-                        
-                            <td>
+
+                        <td>
                             <div className={'d-flex flex-row'}>
-                                <div style={{ display: 'flex' }}>
+                                <div style={{display: 'flex'}}>
                                     <div className="form-check form-check-inline">
                                         <label className="form-check-label">
                                             <input className="form-check-input"
-                                                style={{ display: "inline" }}
-                                                type="radio"
-                                                value="any"
-                                                checked={this.state.data[`${key}`].update === "any"}
-                                                onClick={(e) => this.changeStatus(e, `${key}`, "update")} />
+                                                   style={{display: "inline"}}
+                                                   type="radio"
+                                                   value="any"
+                                                   checked={this.state.data[`${key}`].update === "any"}
+                                                   onClick={(e) => this.changeStatus(e, `${key}`, "update")}/>
                                             any
-                                                </label>
+                                        </label>
                                     </div>
                                 </div>
-                                <div style={{ display: 'flex' }}>
+                                <div style={{display: 'flex'}}>
                                     <div className="form-check form-check-inline">
                                         <label className="form-check-label">
                                             <input className="form-check-input"
-                                                style={{ display: "inline" }}
-                                                type="radio"
-                                                value="own"
-                                                checked={this.state.data[`${key}`].update === "own"}
-                                                onClick={(e) => this.changeStatus(e, `${key}`, "update")} />
+                                                   style={{display: "inline"}}
+                                                   type="radio"
+                                                   value="own"
+                                                   checked={this.state.data[`${key}`].update === "own"}
+                                                   onClick={(e) => this.changeStatus(e, `${key}`, "update")}/>
                                             own
-                                                </label>
+                                        </label>
                                     </div>
                                 </div>
-                                <div style={{ display: 'flex' }}>
+                                <div style={{display: 'flex'}}>
                                     <div className="form-check form-check-inline">
                                         <label className="form-check-label">
                                             <input className="form-check-input"
-                                                style={{ display: "inline" }}
-                                                type="radio"
-                                                value="none"
-                                                checked={this.state.data[`${key}`].update === "none"}
-                                                onClick={(e) => this.changeStatus(e, `${key}`, "update")} />
+                                                   style={{display: "inline"}}
+                                                   type="radio"
+                                                   value="none"
+                                                   checked={this.state.data[`${key}`].update === "none"}
+                                                   onClick={(e) => this.changeStatus(e, `${key}`, "update")}/>
                                             none
-                                                </label>
+                                        </label>
                                     </div>
                                 </div>
                             </div>
-                            </td>
+                        </td>
                     </tr>
                     <tr>
-                        <td>create</td>          
-                            <td>
+                        <td>create</td>
+                        <td>
                             <div className={'d-flex flex-row'}>
-                                <div style={{ display: 'flex' }}>
+                                <div style={{display: 'flex'}}>
                                     <div className="form-check form-check-inline">
                                         <label className="form-check-label">
                                             <input className="form-check-input"
-                                                style={{ display: "inline" }}
-                                                type="radio"
-                                                value="any"
-                                                checked={this.state.data[`${key}`].delete === "any"}
-                                                onClick={(e) => this.changeStatus(e, `${key}`, "create")} />
+                                                   style={{display: "inline"}}
+                                                   type="radio"
+                                                   value="any"
+                                                   checked={this.state.data[`${key}`].delete === "any"}
+                                                   onClick={(e) => this.changeStatus(e, `${key}`, "create")}/>
                                             any
-                                                </label>
+                                        </label>
                                     </div>
                                 </div>
-                                <div style={{ display: 'flex' }}>
+                                <div style={{display: 'flex'}}>
                                     <div className="form-check form-check-inline">
                                         <label className="form-check-label">
                                             <input className="form-check-input"
-                                                style={{ display: "inline" }}
-                                                type="radio"
-                                                value="own"
-                                                checked={this.state.data[`${key}`].delete === "own"}
-                                                onClick={(e) => this.changeStatus(e, `${key}`, "create")} />
+                                                   style={{display: "inline"}}
+                                                   type="radio"
+                                                   value="own"
+                                                   checked={this.state.data[`${key}`].delete === "own"}
+                                                   onClick={(e) => this.changeStatus(e, `${key}`, "create")}/>
                                             own
-                                                </label>
+                                        </label>
                                     </div>
                                 </div>
-                                <div style={{ display: 'flex' }}>
+                                <div style={{display: 'flex'}}>
                                     <div className="form-check form-check-inline">
                                         <label className="form-check-label">
                                             <input className="form-check-input"
-                                                style={{ display: "inline" }}
-                                                type="radio"
-                                                value="none"
-                                                checked={this.state.data[`${key}`].delete === "none"}
-                                                onClick={(e) => this.changeStatus(e, `${key}`, "create")} />
+                                                   style={{display: "inline"}}
+                                                   type="radio"
+                                                   value="none"
+                                                   checked={this.state.data[`${key}`].delete === "none"}
+                                                   onClick={(e) => this.changeStatus(e, `${key}`, "create")}/>
                                             none
-                                                </label>
+                                        </label>
                                     </div>
                                 </div>
                             </div>
-                            </td>
+                        </td>
                     </tr>
                     <tr>
-                        <td>delete</td>          
-                            <td>
+                        <td>delete</td>
+                        <td>
                             <div className={'d-flex flex-row'}>
-                                <div style={{ display: 'flex' }}>
+                                <div style={{display: 'flex'}}>
                                     <div className="form-check form-check-inline">
                                         <label className="form-check-label">
                                             <input className="form-check-input"
-                                                style={{ display: "inline" }}
-                                                type="radio"
-                                                value="any"
-                                                checked={this.state.data[`${key}`].delete === "any"}
-                                                onClick={(e) => this.changeStatus(e, `${key}`, "delete")} />
+                                                   style={{display: "inline"}}
+                                                   type="radio"
+                                                   value="any"
+                                                   checked={this.state.data[`${key}`].delete === "any"}
+                                                   onClick={(e) => this.changeStatus(e, `${key}`, "delete")}/>
                                             any
-                                                </label>
+                                        </label>
                                     </div>
                                 </div>
-                                <div style={{ display: 'flex' }}>
+                                <div style={{display: 'flex'}}>
                                     <div className="form-check form-check-inline">
                                         <label className="form-check-label">
                                             <input className="form-check-input"
-                                                style={{ display: "inline" }}
-                                                type="radio"
-                                                value="own"
-                                                checked={this.state.data[`${key}`].delete === "own"}
-                                                onClick={(e) => this.changeStatus(e, `${key}`, "delete")} />
+                                                   style={{display: "inline"}}
+                                                   type="radio"
+                                                   value="own"
+                                                   checked={this.state.data[`${key}`].delete === "own"}
+                                                   onClick={(e) => this.changeStatus(e, `${key}`, "delete")}/>
                                             own
-                                                </label>
+                                        </label>
                                     </div>
                                 </div>
-                                <div style={{ display: 'flex' }}>
+                                <div style={{display: 'flex'}}>
                                     <div className="form-check form-check-inline">
                                         <label className="form-check-label">
                                             <input className="form-check-input"
-                                                style={{ display: "inline" }}
-                                                type="radio"
-                                                value="none"
-                                                checked={this.state.data[`${key}`].delete === "none"}
-                                                onClick={(e) => this.changeStatus(e, `${key}`, "delete")} />
+                                                   style={{display: "inline"}}
+                                                   type="radio"
+                                                   value="none"
+                                                   checked={this.state.data[`${key}`].delete === "none"}
+                                                   onClick={(e) => this.changeStatus(e, `${key}`, "delete")}/>
                                             none
-                                                </label>
+                                        </label>
                                     </div>
                                 </div>
                             </div>
-                            </td>
+                        </td>
                     </tr>
                 </React.Fragment>
             );
         })
     }
-    componentDidMount(){
+
+    componentDidMount() {
         this.getRoleData();
     }
+
     render() {
         console.log(this.state.data);
         return (
             <div>
                 <Spinner open={this.state.showSpinner}/>
                 <form onSubmit={(e) => {
-                     e.preventDefault();
-                    this.postRoleData()}}>
+                    e.preventDefault();
+                    this.postRoleData()
+                }}>
                     <table class="table table-striped">
                         <tbody>
-                            {this.getList()}
+                        {this.getList()}
                         </tbody>
                     </table>
-                    <div class="d-flex justify-content-left flex-row-reverse">
+                    <div class="d-flex justify-content-left flex-row-reverse mb-4">
 
                         <input type="submit" value="Close" class="btn btn-danger mr-5" onClick={(e) => {
-                             e.preventDefault();
-                             this.props.closeModal();
-                            }}/>                     
+                            e.preventDefault();
+                            this.props.closeModal();
+                        }}/>
                         <input type="submit" value="Save" class="btn btn-primary mr-5" onClick={(e) => {
-                             e.preventDefault();
-                            this.postRoleData()}}/>   
-                        </div>
+                            e.preventDefault();
+                            this.setState({
+                                confirm: true
+                            })
+                        }}/>
+                    </div>
                 </form>
+                {this.state.confirm ? <ConfirmModal open={true} onYes={(e) => {
+                    e.preventDefault();
+                    this.postRoleData()
+                }} close={this.onConfirmModal}/> : ""}
             </div>
         );
     }
