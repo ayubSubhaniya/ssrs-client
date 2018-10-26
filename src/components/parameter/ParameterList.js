@@ -1,8 +1,8 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import _ from "lodash"
 import EditButton from "../EditButton";
 import Switch from "../Switch";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import DeleteButton from "../DeleteButton";
 
 class ParameterList extends Component {
@@ -15,22 +15,25 @@ class ParameterList extends Component {
                             return (
                                 <React.Fragment>
                                     <div key={i}
-                                         className="list-group-item list-group-item-action flex-column align-items-start">
+                                        className="list-group-item list-group-item-action flex-column align-items-start">
                                         <div className="d-flex w-100 justify-content-between">
-                                            <h5 className="m-0">{parameter.name + " ( ₹ " + parameter.baseCharge + " )"}</h5>
-                                            <div className={'d-flex flex-direction-col'}>
+                                            <div>
+                                                <h5 className="mb-2">{parameter.name + " ( ₹ " + parameter.baseCharge + " )"}</h5>
+                                                <p className="mb-1">{parameter.description}</p>
+                                            </div>
+                                            <div className={'d-flex flex-direction-col'} style={{'alignItems': "center"}}>
                                                 <EditButton
                                                     data={parameter}
-                                                    path={'/parameter/edit/' + i}/>
+                                                    path={'/parameter/edit/' + i} />
                                                 <Switch
                                                     handleClick={this.props.toggleParameter}
                                                     index={i}
-                                                    isChecked={parameter.isActive ? true : false}/>
+                                                    isChecked={parameter.isActive ? true : false} />
                                                 <DeleteButton handleClick={this.props.deleteParameter}
-                                                              index={i}/>
+                                                    index={i} />
                                             </div>
                                         </div>
-                                        <p className="mb-1">{parameter.description}</p>
+
                                     </div>
                                 </React.Fragment>
                             )
@@ -38,11 +41,12 @@ class ParameterList extends Component {
                     }
                 </div>
                 <div className={'d-flex justify-content-center mt-3'}>
-                    <Link to={'/parameter/add'} style={{textDecoration: 'none'}}>
-                        <input
-                            className='submit'
-                            type="submit"
-                            value="Add New Parameter"/>
+                    <Link to={'/parameter/add'}>
+                        <button
+                            className='btn btn-outline-dark btn-lg mt-3'
+                            type="button">
+                            Add New Parameter
+                        </button>
                     </Link>
                 </div>
             </div>
