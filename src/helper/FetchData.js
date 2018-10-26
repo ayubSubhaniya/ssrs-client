@@ -15,6 +15,17 @@ export function getCart(callback) {
         })
 }
 
+export function deleteAddress(id, index){
+    makeCall({jobType: 'DELETE', urlParams: '/user/address/' + id}).then((response) => {
+        this.setState({
+            addresses: [...this.state.addresses.slice(0, index), ...this.state.addresses.slice(index + 1)]
+        })
+    })
+        .catch((error) => {
+            handleError(error);
+        })
+}
+
 export function asyncFetch(dataName) {
     const that = this;
     that.setState({
