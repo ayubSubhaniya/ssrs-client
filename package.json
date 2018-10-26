@@ -38,20 +38,23 @@
     "@babel/preset-env": "^7.1.0",
     "gh-pages": "^1.2.0"
   },
-  "babel" : {
+  "babel": {
     "presets": [
-      ["env", {
-        "targets": {
-          "browsers": [
-            "Chrome >= 59",
-            "FireFox >= 44",
-            "Safari >= 7",
-            "Explorer 11",
-            "last 4 Edge versions"
-          ]
-        },
-        "useBuiltIns": true
-      }],
+      [
+        "env",
+        {
+          "targets": {
+            "browsers": [
+              "Chrome >= 59",
+              "FireFox >= 44",
+              "Safari >= 7",
+              "Explorer 11",
+              "last 4 Edge versions"
+            ]
+          },
+          "useBuiltIns": true
+        }
+      ],
       "react",
       "stage-1",
       "es2015"
