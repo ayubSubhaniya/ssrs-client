@@ -21,7 +21,7 @@ import NewParameterForm from "./parameter/NewParameterForm";
 import CollectionType from "./collectionType/CollectionType";
 import CollectionTypeEditForm from "./collectionType/CollectionTypeEditForm";
 import Cart from './order/cart/Cart'
-import {isStudent, isAdmin, isSuperAdmin} from "../helper/userType";
+import {isAdmin, isStudent, isSuperAdmin} from "../helper/userType";
 import Payment from "./order/payment/Payment";
 import Info from "./order/info/Info";
 import Myprofile from './Myprofile/Myprofile'
@@ -35,6 +35,7 @@ import HelpUser from './helpUser/HelpUser';
 import {makeCall} from "../helper/caller";
 import {defaultUser} from "../constants/constants";
 import dashboard from "./Dashboard/dashboard";
+import {handleError} from "../helper/error";
 
 export const Context = React.createContext();
 
@@ -153,6 +154,9 @@ class App extends Component {
             urlParams: '/account/signout'
         })
             .then(() => window.location = '/')
+            .catch((error) => {
+                handleError(error);
+            })
     }
 
     clearLoginMessage = () => {

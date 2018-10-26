@@ -6,6 +6,7 @@ import {handleArrayUpdate, handleChange} from "../../../helper/StateUpdate"
 import {domainUrl} from "../../../config/configuration";
 import * as HttpStatus from "http-status-codes";
 import ErrorMessage from "../../error/ErrorMessage";
+import {handleError} from "../../../helper/error";
 
 function setSelecteProperty(arr1, arr2) {
     return _.map(arr1, (x) => {
@@ -23,12 +24,10 @@ function syncFetch(dataName, key) {
     request.withCredentials = true;
     request.onload = function () {
         if (this.status == HttpStatus.ACCEPTED || this.status === HttpStatus.OK || this.status === HttpStatus.NOT_MODIFIED) {
-            try {
-                const obj = JSON.parse(request.responseText);
-                fetchedData = obj[key];
-            } catch (e) {
-                console.error(e);
-            }
+            const obj = JSON.parse(request.responseText);
+            fetchedData = obj[key];
+        } else {
+            handleError(request)
         }
     };
     request.send();
@@ -67,7 +66,7 @@ class EditCartForm extends Component {
         this.props.updateOrder(this.getOrderDetails(this.state), this.props.index, this.modal);
     }
 
-    cleanErrorMessage=()=>{
+    cleanErrorMessage = () => {
         this.errorMessage = '';
     };
 

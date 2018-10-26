@@ -8,26 +8,90 @@
     flex-wrap: wrap;
 }
 .address-bx{
-    height : 18em;
-    width : 18em;
-    border: 1px solid #CCCCCC;
-    margin-right : 5px;
-    margin-bottom: 5px;
+    height : 200px;
+    width : 257px;
+    border: 1px solid rgba(0, 0, 0, 0.24);
+    border-radius: 4px;
+    margin: 10px 10px 0px 0;
     padding-left : 5px;
     padding-top : 5px;
+    padding:15px;
+    transition: 0.3s;
 }
+.address-bx button{
+    display: none;
+}
+
+.address-bx:hover button{
+    display: inline-block;
+}
+
+.address-bx:hover{
+    border: 1px solid #343a40;
+    cursor: pointer;
+}
+
 .add-bx:hover{
+    border: 1px dashed #343a40;
+    cursor: pointer;
+}
+
+.add-bx{
+    height : 200px;
+    width : 257px;
+    border: 1px solid rgba(0, 0, 0, 0.24);
+    border-radius: 4px;
+    margin: 10px 10px 0px 0;
+    padding: 20px 0 0;
+    text-align: center;
+}
+
+.add-bx div {
+    color: rgba(0, 0, 0, 0.24);
+}
+
+.add-plus {
+    border-radius: 50%;
+    border: 1px solid rgba(0, 0, 0, 0.24);
+    color: #828282;
+    font-size: 30px;
+    margin: 20% auto 0;
+    width: 45px;
+    text-align: center;
+}
+
+.add-bx:hover div {
+    color: black;
+}
+.add-bx:hover .add-plus{
+    border: 1px solid black;
+}
+
+.address-cross{
+    display: none;
+}
+
+.address-bx:hover .address-cross{
+    display: block;
+    position: absolute;
+    margin: -26px 0 0 228px;
+    background: #fff;
+    color: black;
+    font-size: 15px;
+    text-align: center;
+    height: 24px;
+    width: 24px;
+    font-weight: 600;
+    border: 1px solid black;
     border-radius: 50%;
 }
-.add-bx{
-    height: 18em;
-    width : 18em;
-    border: 5px solid #CCCCCC;
-    transition: 0.3s;
-    display: flex;
-    align-items : center;
-    justify-content: center;
-    text-align: center;
-    color : white;
-    background-color: rgb(11, 150, 243);
+
+.address-bx:hover .address-cross:hover {
+    background-color: black;
+    color: white;
+}
+
+.address-edit{
+    position: absolute;
+    margin: 4px 0 0 194px;
 }

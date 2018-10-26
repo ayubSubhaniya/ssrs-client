@@ -6,9 +6,10 @@ import Switch from "../Switch";
 import AuthorizedComponent from "../AuthorizedComponent";
 import ButtonLink from "./ButtonLink";
 import DeleteButton from "../DeleteButton";
-import {isStudent, isAdmin, isSuperAdmin} from "../../helper/userType";
+import {isStudent, isSuperAdmin} from "../../helper/userType";
 import ApplyButton from "./ApplyButton";
 import {makeCall} from "../../helper/caller";
+import {handleError} from "../../helper/error";
 
 class ServiceList extends Component {
     constructor(props, context) {
@@ -32,6 +33,9 @@ class ServiceList extends Component {
                     service: response.service,
                 });
             })
+            .catch((error) => {
+                handleError(error);
+            })
     }
 
     deleteService = (index) => {
@@ -44,6 +48,9 @@ class ServiceList extends Component {
                 this.setState({
                     service: [...service.slice(0, index), ...service.slice(index + 1)]
                 })
+            })
+            .catch((error) => {
+                handleError(error);
             })
     }
 
@@ -62,6 +69,9 @@ class ServiceList extends Component {
                 this.setState({
                     service: serviceList,
                 });
+            })
+            .catch((error) => {
+                handleError(error);
             })
     }
 

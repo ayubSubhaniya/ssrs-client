@@ -5,6 +5,7 @@ import NavigationBar from "../NavigationBar";
 import {handleChange} from "../../helper/StateUpdate";
 import CollectionTypeForm from "./CollectionTypeForm";
 import {makeCall} from "../../helper/caller";
+import {handleError} from "../../helper/error";
 
 class CollectionTypeEditForm extends Component {
     constructor(props) {
@@ -48,6 +49,9 @@ class CollectionTypeEditForm extends Component {
         })
             .then(() => {
                 this.props.history.push('/collectionType');
+            })
+            .catch((error) => {
+                handleError(error);
             })
 
     }

@@ -2,13 +2,17 @@ import {domainUrl} from "../config/configuration";
 import * as HttpStatus from "http-status-codes";
 import React from "react";
 import {makeCall} from "./caller";
+import {handleError} from "./error";
 
-export function getCart(callback){
+export function getCart(callback) {
     makeCall({
         jobType: 'GET',
         urlParams: '/cart'
     })
         .then(callback)
+        .catch((error) => {
+            handleError(error);
+        })
 }
 
 export function asyncFetch(dataName) {
@@ -22,14 +26,12 @@ export function asyncFetch(dataName) {
     request.withCredentials = true;
     request.onload = function () {
         if (this.status == HttpStatus.ACCEPTED || this.status === HttpStatus.OK || this.status === HttpStatus.NOT_MODIFIED) {
-            try {
-                const obj = JSON.parse(request.responseText);
-                that.setState({
-                    [dataName]: obj[dataName],
-                })
-            } catch (e) {
-                console.error(e);
-            }
+            const obj = JSON.parse(request.responseText);
+            that.setState({
+                [dataName]: obj[dataName],
+            })
+        } else {
+            handleError(request)
         }
         that.setState({
             showSpinner: false
@@ -46,12 +48,10 @@ export function syncFetch(dataName) {
     request.withCredentials = true;
     request.onload = function () {
         if (this.status == HttpStatus.ACCEPTED || this.status === HttpStatus.OK || this.status === HttpStatus.NOT_MODIFIED) {
-            try {
-                const obj = JSON.parse(request.responseText);
-                fetchedData = obj[dataName];
-            } catch (e) {
-                console.error(e);
-            }
+            const obj = JSON.parse(request.responseText);
+            fetchedData = obj[dataName];
+        } else {
+            handleError(request)
         }
     };
     request.send();

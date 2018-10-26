@@ -14,6 +14,8 @@ import {makeCall} from "../../../helper/caller";
 import _ from "lodash"
 import {collectionTypeCategory} from "../../../constants/constants";
 import {getCart} from "../../../helper/FetchData";
+import {handleError} from "../../../helper/error";
+
 const {DELIVERY, PICKUP} = collectionTypeCategory
 
 
@@ -54,6 +56,9 @@ class Info extends React.Component {
                 addresses: response.addresses
             })
         })
+            .catch((error) => {
+                handleError(error);
+            })
     }
 
     updateSelectedAddress = (index) => {
@@ -101,6 +106,9 @@ class Info extends React.Component {
                     addresses: [...this.state.addresses, response.address]
                 })
             })
+            .catch((error) => {
+                handleError(error);
+            })
     }
 
     handleCollectionTypeChange = ({target}) => {
@@ -136,7 +144,7 @@ class Info extends React.Component {
     handleDeliveryDataSubmit = () => {
         const selectedCollectionType = this.state.collectionTypes[this.state.selectedCollectionTypeIndex];
 
-        if(selectedCollectionType.category === PICKUP){
+        if (selectedCollectionType.category === PICKUP) {
             this.redirect(selectedCollectionType)
             return;
         }

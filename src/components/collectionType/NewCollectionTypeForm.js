@@ -6,6 +6,7 @@ import {handleChange} from "../../helper/StateUpdate";
 import CollectionTypeForm from "./CollectionTypeForm";
 import {collectionTypeCategory} from "../../constants/constants";
 import {makeCall} from "../../helper/caller";
+import {handleError} from "../../helper/error";
 
 class NewCollectionTypeForm extends Component {
     constructor(props) {
@@ -44,6 +45,9 @@ class NewCollectionTypeForm extends Component {
         })
             .then(() => {
                 this.props.history.push('/collectionType');
+            })
+            .catch((error) => {
+                handleError(error);
             })
     }
 

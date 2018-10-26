@@ -7,6 +7,7 @@ import {getServiceFromState, handleArrayUpdate, handleChange, handlePaymentModeC
 import Form from "./Form";
 import {makeCall} from "../../helper/caller";
 import _ from 'lodash'
+import {handleError} from "../../helper/error";
 
 class NewServiceForm extends Component {
     constructor(props) {
@@ -34,6 +35,9 @@ class NewServiceForm extends Component {
                     collectionType: response.collectionType
                 })
             })
+            .catch((error) => {
+                handleError(error);
+            })
     }
 
     getAllParameter = () => {
@@ -46,6 +50,9 @@ class NewServiceForm extends Component {
                     parameter: response.parameter
                 })
             })
+            .catch((error) => {
+                handleError(error);
+            })
     }
 
     addService = () => {
@@ -55,6 +62,9 @@ class NewServiceForm extends Component {
             params: this.getServiceFromState()
         })
             .then(() => this.props.history.push('/service'))
+            .catch((error) => {
+                handleError(error);
+            })
     }
 
     getUserInfoDistinct = () => {
@@ -68,6 +78,9 @@ class NewServiceForm extends Component {
                     userTypes: _.map(response.userTypes, (o) => ({name: o, isSelected: true})),
                     programmes: _.map(response.programmes, (o) => ({name: o, isSelected: true}))
                 })
+            })
+            .catch((error) => {
+                handleError(error);
             })
     }
 
