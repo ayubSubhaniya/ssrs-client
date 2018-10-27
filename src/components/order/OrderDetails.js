@@ -21,7 +21,7 @@ class OrderDetails extends Component {
     render() {
         const {cart, ...others} = this.props;
         return (
-            <tr onClick={this.redirect}>
+            <tr onClick={this.redirect} className='animated fadeIn'>
                 <td data-th="Order No" className="text-center">
                     {cart.orderId}
                 </td>
