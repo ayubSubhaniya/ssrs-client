@@ -1,9 +1,8 @@
 import React, {Component} from 'react';
 import {withRouter} from 'react-router-dom'
 import {cartStatus} from "../../constants/status";
-import {camelCaseToWords} from "../../helper/String";
+import {camelCaseToWords, formatDate} from "../../helper/String";
 import {isAdmin} from "../../helper/userType";
-import {formatDate} from "../../helper/String";
 
 class OrderDetails extends Component {
     constructor(props) {
@@ -19,28 +18,19 @@ class OrderDetails extends Component {
         })
     }
 
-    formatMatched = (match, id) => {
-        if (id) {
-            const regex = new RegExp(id, 'gi')
-            const str = match.replace(regex, `<span class="hl">${id}</span>`)
-            return str;
-        } else
-            return match;
-    }
-
     render() {
         const {cart, ...others} = this.props;
         return (
             <tr onClick={this.redirect}>
-                <td data-th="Order No" className="text-center"
-                    dangerouslySetInnerHTML={{__html: this.formatMatched(cart.orderId, this.props.searchedId)}}>
+                <td data-th="Order No" className="text-center">
+                    {cart.orderId}
                 </td>
                 <td data-th="Service" className='pt-3 pb-3'>
                     {cart.orders[0].serviceName} <br/>
                     {formatDate(cart.statusChangeTime.placed.time)}
                     {
                         cart.orders.length > 1
-                            ? <div className='more-items'> + {cart.orders.length - 1} More Items</div>
+                            ? <div className='more-items'> + {cart.orders.length - 1} More Item(s)</div>
                             : ''
                     }
                 </td>
