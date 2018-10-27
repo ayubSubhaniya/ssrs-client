@@ -37,7 +37,7 @@ p {
     width: 50%;
     height: auto;
     margin: auto;
-    /* margin-top: 2%; */
+    margin-top: 2%;
     display: block;
 }
 
@@ -89,6 +89,18 @@ p {
     #navbarNavDropdown ul {
         width: 100%;
     }
+}
+
+.my-sticky-top {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 100;
+}
+
+.my-sticky-top + .content {
+    display: block;
+    padding-top: 48px;
 }
 
 /*service list*/
@@ -344,8 +356,8 @@ tbody tr:hover {
 .switch {
     position: relative;
     display: inline-block;
-    width: 60px;
-    height: 34px;
+    width: 45px;
+    height: 24px;
 }
 
 .switch input {
@@ -367,8 +379,8 @@ tbody tr:hover {
 .slider:before {
     position: absolute;
     content: "";
-    height: 26px;
-    width: 26px;
+    height: 17px;
+    width: 17px;
     left: 4px;
     bottom: 4px;
     background-color: white;
@@ -377,17 +389,17 @@ tbody tr:hover {
 }
 
 input:checked + .slider {
-    background-color: #2b2b7b;
+    background-color: #28a745;
 }
 
 input:focus + .slider {
-    box-shadow: 0 0 1px #2b2b7b;
+    box-shadow: 0 0 1px #28a745;
 }
 
 input:checked + .slider:before {
-    -webkit-transform: translateX(26px);
-    -ms-transform: translateX(26px);
-    transform: translateX(26px);
+    -webkit-transform: translateX(20px);
+    -ms-transform: translateX(20px);
+    transform: translateX(21px);
 }
 
 /* Rounded sliders */
@@ -426,7 +438,6 @@ input:checked + .slider:before {
 
 @media screen and (max-width: 600px) {
     table#cart tbody td .form-control {
-        width: 20%;
         display: inline !important;
     }
 

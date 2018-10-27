@@ -36,7 +36,7 @@ class CollectionType extends Component {
         const collectionType = this.state.collectionType[index];
         makeCall({
             jobType: 'PATCH',
-            urlParams: '/collectionType/' + this.collectionType._id,
+            urlParams: '/collectionType/changeStatus/' + collectionType._id,
             params: {isActive: !collectionType.isActive}
         })
             .then((response) => {

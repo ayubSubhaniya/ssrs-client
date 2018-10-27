@@ -1,8 +1,8 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import _ from "lodash"
 import EditButton from "../EditButton";
 import Switch from "../Switch";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import DeleteButton from "../DeleteButton";
 
 class CollectionTypeList extends Component {
@@ -15,23 +15,25 @@ class CollectionTypeList extends Component {
                             return (
                                 <React.Fragment>
                                     <div key={i}
-                                         className="list-group-item list-group-item-action flex-column align-items-start">
+                                        className="list-group-item list-group-item-action flex-column align-items-start">
                                         <div className="d-flex w-100 justify-content-between">
-                                            <h5 className="m-0">{collectionType.name + " ( ₹ " + collectionType.baseCharge + " )"}</h5>
-                                            <div className={'d-flex flex-direction-col'}>
-                                                <EditButton
-                                                    data={collectionType}
-                                                    path={'/collectionType/edit/' + i}/>
+                                            <div>
+                                                <h5 className="mb-2">{collectionType.name + " ( ₹ " + collectionType.baseCharge + " )"}</h5>
+                                                <p className="mb-1">{collectionType.description}</p>
+                                            </div>
+                                            <div className={'d-flex flex-direction-col'} style={{'alignItems': "center"}}>
                                                 <Switch
                                                     handleClick={this.props.toggleCollectionType}
                                                     index={i}
-                                                    isChecked={collectionType.isActive ? true : false}/>
+                                                    isChecked={collectionType.isActive ? true : false} />
+                                                <EditButton
+                                                    data={collectionType}
+                                                    path={'/collectionType/edit/' + i} />
                                                 <DeleteButton
                                                     handleClick={this.props.deleteCollectionType}
-                                                    index={i}/>
+                                                    index={i} />
                                             </div>
                                         </div>
-                                        <p className="mb-1">{collectionType.description}</p>
                                     </div>
                                 </React.Fragment>
                             )
@@ -39,11 +41,12 @@ class CollectionTypeList extends Component {
                     }
                 </div>
                 <div className={'d-flex justify-content-center mt-3'}>
-                    <Link to={'/collectionType/add'} style={{textDecoration: 'none'}}>
-                        <input
-                            className='submit'
-                            type="submit"
-                            value="Add New Collection Type"/>
+                    <Link to={'/collectionType/add'}>
+                        <button
+                            className='btn btn-outline-dark btn-lg mt-3'
+                            type="button">
+                            Add New Collection Type
+                        </button>
                     </Link>
                 </div>
             </div>
