@@ -9,7 +9,7 @@ import Header from '../Header';
 import $ from "jquery";
 import Switch from "../Switch";
 import FileUpload from "../FileUpload/FileUpload";
-import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
+import {BootstrapTable, TableHeaderColumn, ExportCSVButton,SizePerPageDropDown} from 'react-bootstrap-table';
 import '../../../node_modules/react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
 import {handleError} from "../../helper/error";
 
@@ -29,19 +29,6 @@ function UserDetails(props) {
                         isChecked={props.user.isActive ? true : false}/>
                 </div>
             </td>
-        </React.Fragment>
-    )
-}
-
-function UserInfoDetails(props) {
-    const userInfo = props.userInfo
-    return (
-        <React.Fragment>
-            <td>{userInfo.user_inst_id}</td>
-            <td>{userInfo.user_first_name + ' ' + userInfo.user_middle_name + userInfo.user_last_name}</td>
-            <td>{userInfo.user_type}</td>
-            <td>{userInfo.user_batch}</td>
-            <td>{userInfo.user_programme}</td>
         </React.Fragment>
     )
 }
@@ -82,6 +69,7 @@ class UserList extends Component {
         super(props, context);
         this.state = {
             user: [],
+            fetchedUser: [],
             userInfo: [],
             tableInfo: [],
             showSpinner: false,
@@ -107,8 +95,48 @@ class UserList extends Component {
         request.onload = function () {
             if (this.status == HttpStatus.ACCEPTED || this.status === HttpStatus.OK || this.status === HttpStatus.NOT_MODIFIED) {
                 const obj = JSON.parse(request.responseText);
+                console.log(obj);
+                var allUsers = [];
+                for(var i = 0; i < obj['user'].length; i++) {
+                    var userInfo = {
+                        sr_no: i,
+                        id: obj['user'][i].daiictId,
+                        name: obj['user'][i].userInfo.user_first_name 
+                                            + " " + (obj['user'][i].userInfo.user_middle_name ? obj['user'][i].userInfo.user_middle_name : "") 
+                                            + " " + obj['user'][i].userInfo.user_last_name,
+                        type: obj['user'][i].userInfo.user_type,
+                        batch: obj['user'][i].userInfo.user_batch,
+                        programme: obj['user'][i].userInfo.user_programme,
+                        expand: {
+                            id: obj['user'][i].userInfo.user_inst_id, 
+                            name: obj['user'][i].userInfo.user_first_name 
+                                    + " " + (obj['user'][i].userInfo.user_middle_name ? obj['user'][i].userInfo.user_middle_name : "") 
+                                    + " " + obj['user'][i].userInfo.user_last_name,
+                            type: obj['user'][i].userInfo.user_type,
+                            uni_email_id: obj['user'][i].userInfo.user_email_id,
+                            batch: obj['user'][i].userInfo.user_batch,
+                            programme: obj['user'][i].userInfo.user_programme,
+                            mobileno: obj['user'][i].userInfo.user_adr_mobileno,
+                            address: obj['user'][i].userInfo.user_adr_line1 + ', ' + obj['user'][i].userInfo.user_adr_line2
+                                        + ', ' + obj['user'][i].userInfo.user_adr_line3 
+                                        + ', ' + obj['user'][i].userInfo.user_adr_district
+                                        + ', ' + obj['user'][i].userInfo.user_adr_city
+                                        + ', ' + obj['user'][i].userInfo.user_adr_state
+                                        + ', ' + obj['user'][i].userInfo.user_adr_country
+                                        + ' - ' + obj['user'][i].userInfo.user_adr_pincode,
+                            telno: obj['user'][i].userInfo.user_adr_telno,
+                            personal_email_id : obj['user'][i].userInfo.user_adr_emailid,
+                            sex: obj['user'][i].userInfo.user_sex === 'M' ? "Male" : "Female",
+                            status: obj['user'][i].userInfo.user_status
+                        }
+                    }
+                    allUsers.push(userInfo);
+                }
+            
+      //          console.log(allUsers);
                 that.setState({
-                    'user': obj['user'],
+                    'user': allUsers,
+                    fetchedUser: obj['user']
                 })
             } else {
                 handleError(request)
@@ -133,6 +161,7 @@ class UserList extends Component {
             if (this.status == HttpStatus.ACCEPTED || this.status === HttpStatus.OK || this.status === HttpStatus.NOT_MODIFIED) {
                 try {
                     const obj = JSON.parse(request.responseText);
+                    console.log(obj);
                     var allUsers = [];
                     for(var i = 0; i < obj['userInfo'].length; i++) {
                         var userInfo = {
@@ -174,7 +203,7 @@ class UserList extends Component {
                         totalUsers : obj['userInfo'].length,
                         userInfo : obj['userInfo']
                     })
-                    console.log(that.state.tableInfo);
+                 //   console.log(that.state.tableInfo);
                 } catch (e) {
                     console.error(e);
                 }
@@ -190,7 +219,7 @@ class UserList extends Component {
         this.setState({
             showSpinner: true
         });
-        const user = this.state.user[index];
+        const user = this.state.fetchedUser[index];
         const that = this;
         const url = domainUrl + '/user/changeStatus/' + user.daiictId;
         const request = new XMLHttpRequest();
@@ -200,10 +229,10 @@ class UserList extends Component {
         request.onload = function () {
             if (this.status == HttpStatus.OK) {
                 const response = JSON.parse(request.response);
-                const user = that.state.user;
+                const user = that.state.fetchedUser;
                 user[index] = response.user;
                 that.setState({
-                    user: user,
+                    fetchedUser: user,
                     showSpinner: false
                 });
             } else {
@@ -214,6 +243,7 @@ class UserList extends Component {
     };
 
     uploadHandler = (data) => {
+        console.log(data);
         data = {
             "userInfo": data
         }
@@ -252,11 +282,49 @@ class UserList extends Component {
           <BSTable data={ row.expand } />
         );
     }
+    handleExportCSVButtonClick = (onClick) => {
+        onClick();
+    }
+    createCustomExportCSVButton = (onClick) => {
+        return (
+          <ExportCSVButton
+            btnText='Download CSV'
+            btnContextual='btn-primary'
+            className='my-custom-class'
+            btnGlyphicon='fa fa-edit'
+            onClick={ e => this.handleExportCSVButtonClick(onClick) }/>
+        );
+
+    }
+
+    onToggleDropDown = (toggleDropDown) => {
+        toggleDropDown();
+    }   
+    
+    renderSizePerPageDropDown = (props) => {
+        return (
+          <SizePerPageDropDown
+            className='my-size-per-page'
+            btnContextual='btn-warning'
+            variation='dropup'
+            onClick={ () => this.onToggleDropDown(props.toggleDropDown) }/>
+        );
+    }    
+
+    actionFormatter = (cell, row) => {
+        const that = this;
+        return <Switch
+        handleClick={() => that.toggleUserActiveStatus(row.sr_no)}
+        index={row.sr_no}
+        isChecked={that.state.fetchedUser[row.sr_no].isActive ? true : false}/>;
+    }
 
     render() {
         const tableInfo = this.state.tableInfo;
         const options = {
-            expandRowBgColor: 'rgb(242, 255, 163)'
+            expandRowBgColor: 'rgb(242, 255, 163)',
+            exportCSVBtn: this.createCustomExportCSVButton,
+            sizePerPageDropDown: this.renderSizePerPageDropDown
         };
         return (
             <React.Fragment>
@@ -303,8 +371,26 @@ class UserList extends Component {
                 </div>
             
                 {/* {(this.state.userDataRecord === "allUsers") ? <RegisteredList user = {this.state.user}/>:<div></div>} */}
-                <div id="registered" style={{display:"block"}}>
-                    <table id="table" className='mb-4'>
+                <div id="registered" style={{display:"block",paddingRight:"5%", paddingLeft:"5%"}}>
+                    <BootstrapTable  
+                        data={this.state.user} 
+                        options={options}
+                        expandableRow={ this.isExpandableRow }
+                        expandComponent={ this.expandComponent }
+                        search
+                        headerStyle={{background:"#2b2b7b", color:"#fff"}}
+                        pagination
+                        
+                        >
+                        <TableHeaderColumn dataField='sr_no' isKey={true} dataSort={ true } thStyle={{textAlign:"center"}}>Sr. no</TableHeaderColumn>
+                        <TableHeaderColumn dataField='id' dataSort={ true } thStyle={{textAlign:"center"}}>User ID</TableHeaderColumn>
+                        <TableHeaderColumn dataField='name' dataSort={ true } thStyle={{textAlign:"center"}}>User Name</TableHeaderColumn>
+                        <TableHeaderColumn dataField='type' dataSort={ true } thStyle={{textAlign:"center"}}>User Type</TableHeaderColumn>
+                        <TableHeaderColumn dataField='batch' dataSort={ true } thStyle={{textAlign:"center"}}>User Batch</TableHeaderColumn>
+                        <TableHeaderColumn dataField='programme' dataSort={ true } thStyle={{textAlign:"center"}}>User Programme</TableHeaderColumn>
+                        <TableHeaderColumn dataField="actions" dataFormat={this.actionFormatter}>Actions</TableHeaderColumn>
+                    </BootstrapTable>
+                    {/* <table id="table" className='mb-4'>
                         <thead>
                             <tr>
                                 <th>User ID</th>
@@ -329,7 +415,7 @@ class UserList extends Component {
                                 })
                             }
                         </tbody>
-                    </table>
+                    </table> */}
                     <div className={'d-flex justify-content-center mb-4'}>
                         <div class="card d-flex justify-content-center" style={{
                                 width : "30em"
@@ -344,12 +430,13 @@ class UserList extends Component {
                 <div id="all" style={{display:"none", paddingRight:"5%", paddingLeft:"5%"}}>
                     <BootstrapTable  
                         data={tableInfo} 
-                        options={ options }
+                        options={options}
                         expandableRow={ this.isExpandableRow }
                         expandComponent={ this.expandComponent }
                         search
                         headerStyle={{background:"#2b2b7b", color:"#fff"}}
                         pagination
+                        exportCSV
                         >
                         <TableHeaderColumn dataField='sr_no' isKey={true} dataSort={ true } thStyle={{textAlign:"center"}}>Sr. no</TableHeaderColumn>
                         <TableHeaderColumn dataField='id' dataSort={ true } thStyle={{textAlign:"center"}}>User ID</TableHeaderColumn>
