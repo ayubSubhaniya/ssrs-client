@@ -91,6 +91,18 @@ p {
     }
 }
 
+.my-sticky-top {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 100;
+}
+
+.my-sticky-top + .content {
+    display: block;
+    padding-top: 48px;
+}
+
 /*service list*/
 
 .submit {
