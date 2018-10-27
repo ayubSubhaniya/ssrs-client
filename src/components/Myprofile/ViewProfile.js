@@ -67,10 +67,14 @@ export default function ViewProfile(props) {
                     </button>
                 </div>
             </div>
-            <div className="add-header">
-                <h2 style={{"margin-left": "8px"}}>Saved Addresses</h2>
-                <hr style={{"borderWidth": "3px", "background": "#343a42"}}/>
-            </div>
+            {
+                isStudent(props.user)
+                ?   <div className="add-header">
+                        <h2 style={{"margin-left": "8px"}}>Saved Addresses</h2>
+                        <hr style={{"borderWidth": "3px", "background": "#343a42"}}/>
+                    </div>
+                : <div></div>
+            }
             <div className="container">
                 <AuthorizedComponent
                     component={Address}
