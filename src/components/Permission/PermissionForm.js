@@ -6,7 +6,7 @@ import { domainUrl } from "../../config/configuration";
 import Spinner from "../Spinner"
 import ConfirmModal from "../ConfirmModal";
  
-class PermissionForm extends React.Component {
+class PermissionForm extends React.Component { 
     constructor(props) {
         super(props);
         let { data } = props;
