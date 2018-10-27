@@ -209,7 +209,9 @@ input[type=submit] {
 .limiter table {
     border-collapse: collapse;
     background: white;
-    /*border-radius: 10px;*/
+    border-radius: 5px;
+    /*border-left: 1px solid black;*/
+    border-right: 1px solid black;
     overflow: hidden;
     width: 100%;
     margin: 0 auto;
@@ -265,7 +267,7 @@ input[type=submit] {
 }
 
 .limiter tbody tr:nth-child(even) {
-    background-color: #f5f5f5;
+    /*background-color: #f5f5f5;*/
 }
 
 .limiter tbody tr {
@@ -277,8 +279,8 @@ input[type=submit] {
 }
 
 tbody tr:hover {
-    color: #555555;
-    background-color: #f5f5f5;
+    color: black;
+    box-shadow:0 0 3pt 2pt #191c5d;
     cursor: pointer;
 }
 

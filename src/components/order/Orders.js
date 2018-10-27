@@ -1,13 +1,13 @@
 import React, {Component} from 'react';
 import NavigationBar from "../NavigationBar";
 import Header from "../Header";
-import Spinner from "../Spinner";
 import _ from "lodash"
 import {camelCaseToWords} from "../../helper/String";
 import OrderList from "./OrderList";
-import {isAdmin} from "../../helper/userType";
+import {isAdmin, isStudent} from "../../helper/userType";
 import {makeCall} from "../../helper/caller";
 import {handleError} from "../../helper/error";
+import {rcartStatus} from "../../constants/status";
 
 const filterKey = ['-10', 30, 50, 60, 70, 80, 90, 100, 110, 0];
 const orders = {
@@ -27,25 +27,39 @@ class Filter extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            showSpinner: false,
             isFilterVisible: false,
-            filterState: (isAdmin(this.props.user) ? 50 : '-10'),
+            filterState: -1,
             cart: [],
         }
     }
 
     componentDidMount() {
-        this.getAllCart();
+        this.getCart(isAdmin(this.props.user)
+            ? rcartStatus.processing
+            : isStudent(this.props.user) ? '-10' : -1)
     }
 
-    getAllCart = () => {
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.userType !== this.props.user.userType) {
+            this.getCart((isAdmin(nextProps.user) ? rcartStatus.processing : '-10'))
+        }
+    }
+
+    getCart = (filterState) => {
+        if (filterState === -1)
+            return [];
+        const params = filterState === '-10'
+            ? undefined
+            : {"status": filterState}
         makeCall({
             jobType: 'GET',
-            urlParams: '/cart/all'
+            urlParams: '/cart/all',
+            params: params
         })
             .then((response) => {
                 this.setState({
-                    cart: _.filter(response.cart, (o) => o.status != 20),
+                    cart: response.cart,
+                    filterState: filterState
                 })
             })
             .catch((error) => {
@@ -53,26 +67,14 @@ class Filter extends Component {
             })
     }
 
-    filterOrder = (order) => {
-        return _.filter(order, (o) => o.status == this.state.filterState);
-    }
-
-    filterCart = (cart) => {
-        if (this.state.filterState === '-10') {
-            return cart;
-        } else
-            return _.filter(cart, (o) => o.status == this.state.filterState);
-    }
-
     toggleFilter = () => {
         this.setState({
             isFilterVisible: !this.state.isFilterVisible
         })
     }
+
     updateFilter = ({target}) => {
-        this.setState({
-            filterState: target.dataset.filter
-        })
+        this.getCart(target.dataset.filter);
     }
 
     render() {
@@ -82,7 +84,7 @@ class Filter extends Component {
                 <Header title={'Orders'}/>
                 <main className="cd-main-content">
 
-                    <OrderList carts={this.filterCart(this.state.cart)}
+                    <OrderList carts={this.state.cart}
                                isFilterVisible={this.state.isFilterVisible}
                                user={this.props.user}/>
 
@@ -116,7 +118,6 @@ class Filter extends Component {
                          onClick={this.toggleFilter}>Filters
                     </div>
                 </main>
-                <Spinner open={this.state.showSpinner}/>
             </div>
         );
     }
