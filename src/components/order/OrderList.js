@@ -45,7 +45,7 @@ class OrderList extends Component {
                        placeholder="Search By Order No."/>
                 </div>
                 <div className="limiter">
-                    <div className="container-table100">
+                    <div className="container-table100 mb-5">
                         <div className="wrap-table100">
                             <div className="table100">
                                 <table>
