@@ -17,6 +17,7 @@
     padding-top : 5px;
     padding:15px;
     transition: 0.3s;
+    position: relative;
 }
 .address-bx button{
     display: none;
@@ -34,6 +35,7 @@
 .add-bx:hover{
     border: 1px dashed #343a40;
     cursor: pointer;
+    border-radius: 5%;
 }
 
 .add-bx{
@@ -44,6 +46,7 @@
     margin: 10px 10px 0px 0;
     padding: 20px 0 0;
     text-align: center;
+    transition: 0.3s;
 }
 
 .add-bx div {
@@ -93,9 +96,22 @@
 
 .address-edit{
     position: absolute;
-    margin: 4px 0 0 194px;
+    bottom: 6px;
+    right: 6px;
 }
 
 .address-selected{
     box-shadow: 0 0 3pt 2pt #191c5d;
+}
+
+.address-line1 {
+    width: 100%;
+}
+
+.address-line2 {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    display: inline-block;
+    width: 100%;
 }
