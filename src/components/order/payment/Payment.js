@@ -77,15 +77,13 @@ class Payment extends React.Component {
     payOnline = () => {
         makeCall({
             jobType: 'PATCH',
-            urlParams: '/cart/addPayment',
+            urlParams: '/cart/addPayment/EasyPay',
             params: {
                 paymentType: ONLINE
             }
         })
             .then((response) => {
-                this.setState({
-                    isPaymentDone: true
-                });
+                window.open(response.url,"_self");
             })
             .catch((error) => this.onError(error))
     };
