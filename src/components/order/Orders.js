@@ -9,9 +9,9 @@ import {makeCall} from "../../helper/caller";
 import {handleError} from "../../helper/error";
 import {rcartStatus} from "../../constants/status";
 
-const filterKey = ['-10', 30, 50, 60, 70, 80, 90, 100, 110, 0];
 const orders = {
     '-10': "all",
+    25: "processingPayment",
     0: "failed",
     30: "placed",
     50: "processing",
@@ -27,6 +27,7 @@ class Filter extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            filterKey: ['-10', 25, 30, 50, 60, 70, 80, 90, 100, 110, 0],
             isFilterVisible: false,
             filterState: -1,
             cart: [],
@@ -78,13 +79,19 @@ class Filter extends Component {
     }
 
     render() {
+        let cart = this.state.cart;
+        let filterKey = this.state.filterKey;
+        if(isAdmin(this.props.user)){
+            cart = _.filter(this.state.cart, (x) => (x.status!==rcartStatus.placed && x.status!==rcartStatus.processingPayment))
+            filterKey = _.filter(this.state.filterKey, (x) => (x!==rcartStatus.processingPayment))
+        }
         return (
             <div>
                 <NavigationBar/>
                 <Header title={'Orders'}/>
                 <main className="cd-main-content">
 
-                    <OrderList carts={this.state.cart}
+                    <OrderList carts={cart}
                                isFilterVisible={this.state.isFilterVisible}
                                user={this.props.user}/>
 

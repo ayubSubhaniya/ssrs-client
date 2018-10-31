@@ -200,6 +200,17 @@ class OrderInfo extends Component {
             })
     }
 
+    downloadInvoice = () => {
+        makeCall({
+            jobType: 'GET',
+            urlParams: '/cart/invoice/' + this.state.cart._id
+        })
+            .then((response) => {
+                console.log(response);
+            })
+            .catch((error) => handleError(error))
+    }
+
     compareCollectionCode = (collectionCode) => {
         if (collectionCode !== this.state.cart.pickup.collectionCode) {
             this.setState({
@@ -236,6 +247,14 @@ class OrderInfo extends Component {
                                 ? <div className='btn btn-outline-danger mr-4 align-self-center'
                                        onClick={this.openCancelModal}>
                                     Cancel
+                                </div>
+                                : ''
+                        }
+                        {
+                            (cart.status===rcartStatus.completed)
+                                ? <div className='btn btn-outline-primary mr-4 align-self-center'
+                                       onClick={this.downloadInvoice}>
+                                    Invoice
                                 </div>
                                 : ''
                         }
