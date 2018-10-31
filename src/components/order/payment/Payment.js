@@ -122,15 +122,6 @@ class Payment extends React.Component {
                                      className={`tab-payment ${this.state.paymentType === "1" ? 'tab-payment-active' : ''}`}>
                                     {"Online"}
                                 </div>
-                                <div data-type="2"
-                                     onClick={this.changePaymentType}
-                                     className={`tab-payment ${this.state.paymentType === "2" ? 'tab-payment-active' : ''}`}>Net
-                                    Banking
-                                </div>
-                                <div data-type="3"
-                                     onClick={this.changePaymentType}
-                                     className={`tab-payment ${this.state.paymentType === "3" ? 'tab-payment-active' : ''}`}>Paytm
-                                </div>
                             </div>
                             <div className='payment-method-body'>
                                 <div className={`${this.state.paymentType !== "0" ? 'd-none' : ''}`}>
@@ -142,12 +133,6 @@ class Payment extends React.Component {
                                     <div className="btn btn-success m-4 p-4" onClick={this.payOnline}>
                                         {"Pay Online    "}
                                     </div>
-                                </div>
-                                <div className={`${this.state.paymentType !== "2" ? 'd-none' : ''}`}>
-                                    {NETBANKING}
-                                </div>
-                                <div className={`${this.state.paymentType !== "3" ? 'd-none' : ''}`}>
-                                    {DEBITCARD}
                                 </div>
                             </div>
                         </div>
