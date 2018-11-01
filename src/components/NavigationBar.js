@@ -28,7 +28,7 @@ function NavLink({path, text, onClick, className, currPath, icon}) {
 class NavigationBar extends Component {
 
     stickyTop = (e) => {
-        
+
         let imageHeight = 120;
         if (window.pageYOffset >= imageHeight){
             this.input.classList.add('my-sticky-top');
@@ -111,6 +111,12 @@ class NavigationBar extends Component {
                                                              currPath={this.props.location.pathname}
                                                              text={'Dashboard'}
                                                              icon={'line-chart'}
+                                                             component={NavLink}/>
+                                        <AuthorizedComponent permission={isSuperAdmin(value.user)}
+                                                             path='/email'
+                                                             currPath={this.props.location.pathname}
+                                                             text={'Email'}
+                                                             icon={'envelope'}
                                                              component={NavLink}/>
                                         <AuthorizedComponent permission={isAdmin(value.user)}
                                                              path='/helpAdmin'
