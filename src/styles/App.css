@@ -209,9 +209,7 @@ input[type=submit] {
 .limiter table {
     border-collapse: collapse;
     background: white;
-    border-radius: 5px;
-    /*border-left: 1px solid black;*/
-    border-right: 1px solid black;
+    /*border-radius: 10px;*/
     overflow: hidden;
     width: 100%;
     margin: 0 auto;
@@ -278,13 +276,14 @@ input[type=submit] {
     font-weight: unset;
 }
 
-tbody tr:hover {
+.limiter tbody tr:hover {
     color: black;
-    box-shadow:0 0 3pt 2pt #191c5d;
+    box-shadow: 0 10px 6px -6px #777;
+    transition: all 0.3s;
     cursor: pointer;
 }
 
-.more-items {
+.limiter .more-items {
     font-weight: bold;
     padding-top: 4px;
 }

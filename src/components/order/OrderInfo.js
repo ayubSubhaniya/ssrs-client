@@ -15,6 +15,10 @@ import ServiceList from "./ServiceList";
 import {DeliveryInfo, PickupInfo} from './Info'
 import {isAdmin} from "../../helper/userType";
 import {handleError} from "../../helper/error";
+import {payOnline} from "../../helper/FetchData";
+import {domainUrl, errorMessages} from "../../config/configuration";
+import * as HttpStatus from "http-status-codes";
+import ErrorMessage from "../error/ErrorMessage";
 
 function PaymentInfo({cart}) {
     return (
@@ -23,7 +27,7 @@ function PaymentInfo({cart}) {
             <div className='container p-1'>
                 <TextInfo lable="Payment Mode" data={camelCaseToWords(cart.paymentType)}/>
                 {
-                    cart.status === rcartStatus.placed
+                    cart.status < rcartStatus.processing
                         ? (
                             <React.Fragment>
                                 <TextInfo lable="Payment Code" data={cart.paymentCode}/>
@@ -31,7 +35,6 @@ function PaymentInfo({cart}) {
                                     <div className='col-3'>Payment Status</div>
                                     <div className='col-9'>: Pending</div>
                                 </div>
-
                             </React.Fragment>
                         )
                         : (<React.Fragment>
@@ -49,6 +52,7 @@ class OrderInfo extends Component {
         super(props);
         this.state = {
             cart: defaultCart,
+            errorMessage: '',
             collectionType: {},
             isCancelModalOpen: false,
             isPaymentCodeModalOpen: false,
@@ -57,10 +61,38 @@ class OrderInfo extends Component {
             isCollectionCodeWrong: false,
             isCourierDetailsModalOpen: false,
         }
+        this.payOnline = payOnline.bind(this);
     }
 
     componentDidMount() {
         this.getCart();
+    }
+
+
+    cleanErrorMessage = () => {
+        this.setState({
+            errorMessage: ''
+        })
+    };
+
+    setErrorMessage = (message) => {
+        this.setState({
+            errorMessage: message
+        })
+    }
+
+    onError = (response) => {
+        if (response.status === HttpStatus.PRECONDITION_FAILED) {
+            this.setErrorMessage(response.statusText);
+        } else if (response.status === HttpStatus.INTERNAL_SERVER_ERROR) {
+            this.setErrorMessage(errorMessages.internalServerError);
+        } else if (response.status === HttpStatus.FORBIDDEN) {
+            this.setErrorMessage(errorMessages.forbidden);
+        } else if (response.status === HttpStatus.NOT_FOUND) {
+            this.setErrorMessage('Cart not found');
+        } else {
+            this.setErrorMessage(errorMessages.somethingsWrong);
+        }
     }
 
     getCart = () => {
@@ -200,15 +232,8 @@ class OrderInfo extends Component {
             })
     }
 
-    downloadInvoice = () => {
-        makeCall({
-            jobType: 'GET',
-            urlParams: '/cart/invoice/' + this.state.cart._id
-        })
-            .then((response) => {
-                console.log(response);
-            })
-            .catch((error) => handleError(error))
+    giveRefund = () => {
+        // TODO: send request for refund
     }
 
     compareCollectionCode = (collectionCode) => {
@@ -252,9 +277,30 @@ class OrderInfo extends Component {
                         }
                         {
                             (cart.status===rcartStatus.completed)
-                                ? <div className='btn btn-outline-primary mr-4 align-self-center'
-                                       onClick={this.downloadInvoice}>
+                                ? <a href={domainUrl + '/cart/invoice/' + cart._id}
+                                     target="_blank"
+                                     download={`invoice_${cart.orderId}.pdf`}
+                                     className='btn btn-outline-primary mr-4 align-self-center'>
+                                    <i className="fa fa-download mr-2" aria-hidden="true"></i>
                                     Invoice
+                                </a>
+                                : ''
+                        }
+                        {
+                            (cart.status===rcartStatus.cancelled)
+                                ? <div className='btn btn-outline-primary mr-4 align-self-center'
+                                       onClick={this.giveRefund}>
+                                    <i className="fa fa-undo mr-2"></i>
+                                    Refund
+                                </div>
+                                : ''
+                        }
+                        {
+                            (cart.status===rcartStatus.failed)
+                                ? <div className='btn btn-outline-primary mr-4 align-self-center'
+                                       onClick={this.payOnline}>
+                                    <i className="fa fa-redo"></i>
+                                    Retry
                                 </div>
                                 : ''
                         }
@@ -273,6 +319,7 @@ class OrderInfo extends Component {
                                  collectionType={this.state.collectionType}
                                  user={this.props.user}
                                  getCart={this.getCart}/>
+                    <ErrorMessage message={this.state.errorMessage} clearMessage={this.cleanErrorMessage}/>
                     <div className="total-price">
                         <div><span className={'total'}>Total: ₹ </span><span
                             className='price'>{cart.totalCost}</span></div>

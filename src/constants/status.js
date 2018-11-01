@@ -25,6 +25,7 @@ export const cartStatus = {
     90: 'onHold',
     100: 'cancelled',
     110: 'refunded',
+    500: 'Loading...'
 }
 
 export const rcartStatus = {
