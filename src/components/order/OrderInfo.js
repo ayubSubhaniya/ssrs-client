@@ -296,7 +296,7 @@ class OrderInfo extends Component {
                                 : ''
                         }
                         {
-                            (cart.status===rcartStatus.failed)
+                            (cart.status===rcartStatus.paymentFailed)
                                 ? <div className='btn btn-outline-primary mr-4 align-self-center'
                                        onClick={this.payOnline}>
                                     <i className="fa fa-redo"></i>

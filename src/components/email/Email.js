@@ -6,48 +6,39 @@ import _ from 'lodash'
 import Header from "../Header";
 import {makeCall} from "../../helper/caller";
 import {handleError} from "../../helper/error";
+import {defaultEmails} from "../../constants/constants";
+import {handleChange} from "../../helper/StateUpdate";
 
 class Email extends Component {
     constructor() {
         super();
         this.state = {
-            emails: {
-                "signUp": {
-                    "templateId": "5bhfnj67kcndhrknz25gdhctn",
-                    "templateName": "Sign up",
-                    "subject": "Verify your Email account",
-                    "cc": [],
-                    "bcc": [],
-                    "body": "Welcome to Student Service Request System - DAIICT! <br><br> Please click on the below mentioned link to verify your email."
-                },
-                "forgetPassword": {
-                    "templateId": "6bhjnkolcdswxlz85co4h7c2b0p",
-                    "templateName": "Forget Password",
-                    "subject": "Password Reset Link",
-                    "cc": [],
-                    "bcc": [],
-                    "body": "Hello, <br>Please click on the link below to reset your password."
-                },
-                "passwordChanged": {
-                    "templateId": "c8ks30lck7cjkrknz25c4l0dh",
-                    "templateName": "Password successfully changed",
-                    "subject": "Password successfully changed",
-                    "cc": [],
-                    "bcc": [],
-                    "body": "Hello,\n \tThis is a confirmation mail for successful change in password for your account - "
-                }
-            },
+            emails: defaultEmails,
+            body: '',
+            cc: '',
+            bcc: '',
+            subject: '',
             selectedEmail: 'signUp'
         }
+        this.handleChange = handleChange.bind(this);
     }
 
     componentDidMount() {
-        // this.getEmails();
+        this.getEmails();
+    }
+
+    trim(arr){
+        return _.filter(_.map(arr, (x) => x.trim()), (x) => x);
     }
 
     selectEmailType = ({target}) => {
+        const email = this.state.emails[target.value]
         this.setState({
-            selectedEmail: target.value
+            selectedEmail: target.value,
+            body: email.body,
+            cc: email.cc.join(', '),
+            bcc: email.bcc.join(', '),
+            subject: email.subject,
         })
     }
 
@@ -58,26 +49,34 @@ class Email extends Component {
         })
             .then((response) => {
                 console.log(response);
+                const email = response.template[this.state.selectedEmail];
                 this.setState({
-                    emails: response.template
+                    emails: response.template,
+                    body: email.body,
+                    cc: email.cc.join(", "),
+                    bcc: email.bcc.join(", "),
+                    subject: email.subject,
                 })
             })
             .catch((error) => handleError(error))
     }
 
-    updateEmails = (updateTemplate) => {
+    getEmailFromState(){
+        return {
+            body: this.state.body,
+            cc: this.trim(this.state.cc.split(',')),
+            bcc: this.trim(this.state.bcc.split(',')),
+            subject: this.state.subject
+        }
+    }
+
+    updateEmails = () => {
         makeCall({
             jobType: 'PATCH',
-            urlParams: '/template/email',
-            params: updateTemplate
+            urlParams: '/template/email/' + this.state.selectedEmail,
+            params: this.getEmailFromState()
         })
             .then((response) => {
-                console.log(response);
-                const emails = this.state.emails;
-                emails[this.state.selectedEmail] = updateTemplate;
-                this.setState({
-                    emails: emails
-                })
             })
             .catch((error) => handleError(error))
     }
@@ -104,24 +103,40 @@ class Email extends Component {
                     </div>
                     <div className="modal-content">
                         <div className="modal-body">
-                            <form role="form" className="form-horizontal">
+                            <form role="form"
+                                  autoComplete='off'
+                                  onSubmit={(e) => {
+                                      e.preventDefault();
+                                      this.updateEmails();
+                                  }}
+                                  className="form-horizontal">
                                 <div className="form-group">
-                                    <label className="col-lg-2 control-label">To</label>
+                                    <label className="col-lg-10 control-label">Cc (Enter email ids separated by ',')</label>
                                     <div className="col-lg-10">
-                                        <input type="text" placeholder="" id="inputEmail1"
+                                        <input type="text"
+                                               value={this.state.cc}
+                                               name={'cc'}
+                                               onChange={this.handleChange}
                                                className="form-control"/>
                                     </div>
                                 </div>
                                 <div className="form-group">
-                                    <label className="col-lg-2 control-label">Cc / Bcc</label>
+                                    <label className="col-lg-10 control-label">Bcc (Enter email ids separated by ',')</label>
                                     <div className="col-lg-10">
-                                        <input type="text" placeholder="" id="cc" className="form-control"/>
+                                        <input type="text"
+                                               name={'bcc'}
+                                               value={this.state.bcc}
+                                               onChange={this.handleChange}
+                                               className="form-control"/>
                                     </div>
                                 </div>
                                 <div className="form-group">
                                     <label className="col-lg-2 control-label">Subject</label>
                                     <div className="col-lg-10">
-                                        <input type="text" placeholder="" id="inputPassword1"
+                                        <input type="text"
+                                               name={'subject'}
+                                               value={this.state.subject}
+                                               onChange={this.handleChange}
                                                className="form-control"/>
                                     </div>
                                 </div>
@@ -130,19 +145,18 @@ class Email extends Component {
                                     <div className="col-lg-10">
                                         <CKEditor
                                             editor={ClassicEditor}
-                                            data={email.body}
-                                            onInit={editor => {
-                                                // You can store the "editor" and use when it is needed.
-                                                console.log('Email Templacte Here!', editor);
-                                            }}
+                                            data={this.state.body}
                                             onChange={(event, editor) => {
                                                 const data = editor.getData();
-                                                console.log({event, editor, data});
+                                                this.setState({
+                                                    body: data
+                                                })
                                             }}
                                         />
                                     </div>
                                 </div>
-                                <button className="btn btn-send" type="submit">Send</button>
+                                <button className="btn btn-send"
+                                        type="submit" >Send</button>
                             </form>
                         </div>
                     </div>

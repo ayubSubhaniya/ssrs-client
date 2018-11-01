@@ -12,9 +12,9 @@ export const orderStatus = {
 }
 
 export const cartStatus = {
-    0: 'failed',
     10: 'invalid',
     20: 'unplaced',
+    23: 'paymentFailed',
     25: "processingPayment",
     30: 'placed',
     40: 'paymentComplete',
@@ -29,11 +29,11 @@ export const cartStatus = {
 }
 
 export const rcartStatus = {
-    failed: 0,
     invalid: 10,
     unplaced: 20,
-    placed: 30,
+    paymentFailed: 23,
     processingPayment: 25,
+    placed: 30,
     paymentComplete: 40,
     processing: 50,
     readyToDeliver: 60,

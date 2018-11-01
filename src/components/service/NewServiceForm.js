@@ -76,7 +76,8 @@ class NewServiceForm extends Component {
                 this.setState({
                     batches: _.map(response.batches, (o) => ({name: o, isSelected: true})),
                     userTypes: _.map(response.userTypes, (o) => ({name: o, isSelected: true})),
-                    programmes: _.map(response.programmes, (o) => ({name: o, isSelected: true}))
+                    programmes: _.map(response.programmes, (o) => ({name: o, isSelected: true})),
+                    userStatus: _.map(response.userStatus, (o) => ({name: o, isSelected: true}))
                 })
             })
             .catch((error) => {
