@@ -16,22 +16,6 @@ export const errorMessages = {
 export const infoMessages = {
     verificationLinkSent: "Verification link sent. Please check you mail!"
 };
-
-export const cartStatus: {
-        invalid: 10,
-        unplaced: 20,
-        paymentFailed: 23,
-        processingPayment: 25,
-        placed: 30,
-        paymentComplete: 40,
-        processing: 50,
-        readyToDeliver: 60,
-        readyToPickup: 70,
-        completed: 80,
-        onHold: 90,
-        cancelled: 100,
-        refunded: 110,
-    };
 export const orderStatus = {
     failed: 0,
     invalidOrder: 10,
