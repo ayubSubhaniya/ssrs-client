@@ -91,6 +91,7 @@ class EditForm extends Component {
             batches: service.allowedBatches,
             userTypes: service.allowedUserTypes,
             programmes: service.allowedProgrammes,
+            userStatus: service.allowedUserStatus,
             allBatches: _.some(service.allowedBatches, (x) => x === '*') ? 'true' : 'false',
             allUserTypes: _.some(service.allowedUserTypes, (x) => x === '*') ? 'true' : 'false',
             allProgrammes: _.some(service.allowedProgrammes, (x) => x === '*') ? 'true' : 'false',
@@ -125,6 +126,7 @@ class EditForm extends Component {
                 this.setState({
                     batches: setSelectedPropertyByName(response.batches, this.state.batches),
                     userTypes: setSelectedPropertyByName(response.userTypes, this.state.userTypes),
+                    userStatus: setSelectedPropertyByName(response.userStatus, this.state.userStatus),
                     programmes: setSelectedPropertyByName(response.programmes, this.state.programmes)
                 })
             })

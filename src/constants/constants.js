@@ -96,3 +96,14 @@ export const defaultUser = {
         _id: "Loading"
     }
 }
+
+export const defaultEmails = {
+    "signUp": {
+        "templateId": "",
+        "templateName": "",
+        "subject": "",
+        "cc": [],
+        "bcc": [],
+        "body": ""
+    }
+}

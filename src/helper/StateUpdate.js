@@ -39,6 +39,7 @@ export function getServiceFromState(){
         collectionTypes: getSelectedID(this.state.collectionType),
         availableParameters: getSelectedID(this.state.parameter),
         allowedUserTypes: this.state.allUserTypes==='true' ? ['*'] : getSelectedName(this.state.userTypes),
+        allowedUserStatus: this.state.allUserTypes==='true' ? ['*'] : getSelectedName(this.state.userStatus),
         allowedProgrammes: this.state.allProgrammes==='true' ? ['*'] : getSelectedName(this.state.programmes),
         allowedBatches: this.state.allBatches==='true' ? ['*'] : getSelectedName(this.state.batches)
     }
