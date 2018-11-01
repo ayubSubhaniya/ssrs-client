@@ -82,7 +82,7 @@ class Filter extends Component {
         let cart = this.state.cart;
         let filterKey = this.state.filterKey;
         if(isAdmin(this.props.user)){
-            cart = _.filter(this.state.cart, (x) => (x.status!==rcartStatus.placed && x.status!==rcartStatus.processingPayment))
+            cart = _.filter(this.state.cart, (x) => (x.status!==rcartStatus.processingPayment))
             filterKey = _.filter(this.state.filterKey, (x) => (x!==rcartStatus.processingPayment))
         }
         return (

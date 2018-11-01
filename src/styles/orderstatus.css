@@ -24,4 +24,5 @@
 .cancelled > .bs-wizard-step > .bs-wizard-dot {background: #c90003;}
 .cancelled > .bs-wizard-step > .bs-wizard-dot:after{ background: #e6584d}
 .cancelled > .bs-wizard-step > .progress > .progress-bar { background: #c90003;}
+
 /*END Form Wizard*/

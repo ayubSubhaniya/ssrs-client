@@ -24,7 +24,7 @@ function Step({curStatus, status, label, showButton, handleClick, btnLabel, time
                 <br/>
                 {
                     showButton
-                        ? (<div className={'btn btn-success ml-2'} onClick={handleClick}>
+                        ? (<div className={'btn btn-outline-success ml-2'} onClick={handleClick}>
                             {btnLabel}
                         </div>)
                         : ''
@@ -36,7 +36,7 @@ function Step({curStatus, status, label, showButton, handleClick, btnLabel, time
 
 function OrderStatusBar({status, isDelivery, openPaymentCodeModal, statusChangeTime, openCollectionCodeModal, openCourierDetailsModal, user}) {
     return (
-        <div className={"row bs-wizard "+ (status===rcartStatus.cancelled?'cancelled':'')} style={{"borderBottom": "0"}}>
+        <div className={"row bs-wizard " + (status === rcartStatus.cancelled ? 'cancelled' : '')} style={{"borderBottom": "0"}}>
             <Step curStatus={status}
                   status={rcartStatus.placed}
                   time={formatDate(statusChangeTime.placed.time)}
@@ -65,6 +65,11 @@ function OrderStatusBar({status, isDelivery, openPaymentCodeModal, statusChangeT
                             time={formatDate(statusChangeTime.cancelled.time)}
                             status={rcartStatus.cancelled}
                             label={'Cancelled'}/>
+                    : status === rcartStatus.refunded
+                    ? <Step curStatus={status}
+                            time={formatDate(statusChangeTime.refunded.time)}
+                            status={rcartStatus.refunded}
+                            label={'Refunded'}/>
                     : <Step curStatus={status}
                             time={formatDate(statusChangeTime.completed.time)}
                             showButton={(status === rcartStatus.readyToDeliver || status === rcartStatus.readyToPickup) && isAdmin(user)}

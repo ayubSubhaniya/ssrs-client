@@ -40,6 +40,9 @@ export default class FileUpload extends Component {
                         something[`${e}`][`${ele}`] = `${something[`${e}`][`${ele}`]}`
                     })
                 })
+                that.setState({
+                    filesToBeSent : []
+                })
                 that.props.handleSubmit(something);
             };
             if (rABS) {

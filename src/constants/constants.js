@@ -1,6 +1,3 @@
-import _ from "lodash";
-import {syncFetch} from "../helper/FetchData";
-
 export const DEBITCARD = 'debitCard';
 export const NETBANKING = 'netBanking';
 export const PAYTM = 'paytm';
@@ -23,13 +20,13 @@ export const userType = {
 export const defaultCart = {
     collectionType: {},
     collectionTypeCost: 0,
-    orderId: "",
+    orderId: "Loading...",
     orders: [],
-    ordersCost: 0,
+    ordersCost: "Loading...",
     requestedBy: "",
-    status: 20,
+    status: 500,
     totalCost: 0,
-    _id: "1",
+    _id: "Loading...",
     pickup: '',
     delivery: '',
     statusChangeTime: {

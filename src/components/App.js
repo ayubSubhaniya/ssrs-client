@@ -36,6 +36,7 @@ import {makeCall} from "../helper/caller";
 import {defaultUser} from "../constants/constants";
 import dashboard from "./Dashboard/dashboard";
 import {handleError} from "../helper/error";
+import Email from "./email/Email"
 
 export const Context = React.createContext();
 
@@ -282,7 +283,10 @@ class App extends Component {
                                 exact path='/dashboard'
                                 component={dashboard}
                                 permission={isSuperAdmin(this.state.user)}/>
-                            <Route render={() => <Redirect to='/'/>}/>
+                            <AuthorizedRoute
+                                exact path='/email'
+                                component={Email}
+                                permission={isSuperAdmin(this.state.user)}/>                            <Route render={() => <Redirect to='/'/>}/>
                         </Switch>
                     </React.Fragment>
                 </Router>

@@ -3,6 +3,7 @@ import * as HttpStatus from "http-status-codes";
 import React from "react";
 import {makeCall} from "./caller";
 import {handleError} from "./error";
+import {OFFLINE, ONLINE} from "../constants/constants";
 
 export function getCart(callback) {
     makeCall({
@@ -25,6 +26,36 @@ export function deleteAddress(id, index){
             handleError(error);
         })
 }
+
+export function payOnline(){
+    makeCall({
+        jobType: 'PATCH',
+        urlParams: '/cart/addPayment/EasyPay',
+        params: {
+            paymentType: ONLINE
+        }
+    })
+        .then((response) => {
+            window.open(response.url,"_self");
+        })
+        .catch((error) => this.onError(error))
+};
+
+export function payOffline(){
+    makeCall({
+        jobType: 'PATCH',
+        urlParams: '/cart/addPayment',
+        params: {
+            paymentType: OFFLINE
+        }
+    })
+        .then((response) => {
+            this.setState({
+                isPaymentDone: true
+            });
+        })
+        .catch((error) => this.onError(error))
+};
 
 export function asyncFetch(dataName) {
     const that = this;

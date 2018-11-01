@@ -416,17 +416,20 @@ class UserList extends Component {
                             }
                         </tbody>
                     </table> */}
+                   { /*dhaval-lila file upload starts here */} 
                     <div className={'d-flex justify-content-center mb-4'}>
                         <div class="card d-flex justify-content-center" style={{
                                 width : "30em"
                             }}>
                             <div class="card-body mx-auto">
                                 <h5 class="card-title">Upload New User Data!</h5>
+                                <h6 class="card-title">Allowed formate : .xlsx (excel file) </h6>
                                 <p class="card-text"><FileUpload handleSubmit={this.uploadHandler}/></p>
                             </div>
                         </div>
                     </div>
                 </div>
+                { /*dhaval-lila file upload ends here */}
                 <div id="all" style={{display:"none", paddingRight:"5%", paddingLeft:"5%"}}>
                     <BootstrapTable  
                         data={tableInfo} 
