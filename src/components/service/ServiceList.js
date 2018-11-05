@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import _ from "lodash"
 import ServiceDetails from "./ServiceDetails";
 import EditButton from "../EditButton";
@@ -6,10 +6,11 @@ import Switch from "../Switch";
 import AuthorizedComponent from "../AuthorizedComponent";
 import ButtonLink from "./ButtonLink";
 import DeleteButton from "../DeleteButton";
-import {isStudent, isSuperAdmin} from "../../helper/userType";
+import { isStudent, isSuperAdmin } from "../../helper/userType";
 import ApplyButton from "./ApplyButton";
-import {makeCall} from "../../helper/caller";
-import {handleError} from "../../helper/error";
+import { makeCall } from "../../helper/caller";
+import { handleError } from "../../helper/error";
+import GoToCart from "./GoToCart";
 
 class ServiceList extends Component {
     constructor(props, context) {
@@ -85,35 +86,35 @@ class ServiceList extends Component {
                                 <div key={service._id} className="card">
                                     <div className="card-header d-flex justify-content-between align-items-center p-0">
                                         <a className="collapsed card-link text-dark w-100 h-100 p-3 ml-2"
-                                           data-toggle="collapse"
-                                           href={"#collapse" + i}>
+                                            data-toggle="collapse"
+                                            href={"#collapse" + i}>
                                             <h4 className={'m-0'}> {service.name}</h4>
                                         </a>
                                         <div className='d-flex p-2 align-items-center justify-content-center'>
                                             <AuthorizedComponent component={ApplyButton}
-                                                                 service={service}
-                                                                 permission={isStudent(this.props.user)}/>
+                                                service={service}
+                                                permission={isStudent(this.props.user)} />
                                             <AuthorizedComponent
                                                 component={Switch}
                                                 handleClick={this.toggleService}
                                                 index={i}
                                                 isChecked={service.isActive ? true : false}
-                                                permission={isSuperAdmin(this.props.user)}/>
+                                                permission={isSuperAdmin(this.props.user)} />
                                             <AuthorizedComponent
                                                 component={EditButton}
                                                 permission={isSuperAdmin(this.props.user)}
                                                 data={service}
-                                                path={'/service/edit/' + service._id}/>
+                                                path={'/service/edit/' + service._id} />
                                             <AuthorizedComponent
                                                 permission={isSuperAdmin(this.props.user)}
                                                 handleClick={this.deleteService}
                                                 index={i}
-                                                component={DeleteButton}/>
+                                                component={DeleteButton} />
                                         </div>
                                     </div>
                                     <div id={'collapse' + i} className="collapse" data-parent="#accordion">
                                         <div className="card-body">
-                                            <ServiceDetails service={service}/>
+                                            <ServiceDetails service={service} />
                                         </div>
                                     </div>
                                 </div>
@@ -124,6 +125,10 @@ class ServiceList extends Component {
                 <AuthorizedComponent
                     component={ButtonLink}
                     permission={isSuperAdmin(this.props.user)}
+                />
+                <AuthorizedComponent
+                    component={GoToCart}
+                    permission={isStudent(this.props.user)}
                 />
             </div>
         );
