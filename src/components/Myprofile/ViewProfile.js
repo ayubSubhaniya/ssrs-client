@@ -16,7 +16,7 @@ export default function ViewProfile(props) {
             <div className="parent">
                 <div className="quick-view">
                     <Avatar color={getcolor()} round={true} size={120}
-                        name={userInfo.user_first_name + " " + userInfo.user_last_name} />
+                        name={userInfo.user_first_name + (userInfo.user_last_name ? " " + userInfo.user_last_name : "")} />
                     <div className="name-style">{userInfo.user_first_name} {userInfo.user_last_name}</div>
                 </div>
                 <div className="info-table">
