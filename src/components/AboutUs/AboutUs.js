@@ -13,7 +13,7 @@ class AboutUs extends Component{
                 <NavigationBar/>
                 <div>    
                     <h1 class="my-header deepshadow" style={{textAlign:"center"}}>Meet Our Team<br/>                    
-                    <h2><span style={{color:"red"}}>"</span>None Of Us Is As Smart As All Of Us<span style={{color:"red"}}>"</span></h2></h1>
+                    <h2 class="my-header2"><span style={{color:"red"}}>"</span>None Of Us Is As Smart As All Of Us<span style={{color:"red"}}>"</span></h2></h1>
 
                     <img src={require('./group1_1.jpg')} style={{width:"100%"}}/>
                     <div class="row about-back" style={{marginLeft:"0%", marginRight:"0.2%",paddingTop:"40px"}}>

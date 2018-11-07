@@ -741,7 +741,7 @@ hr.style14 {
       0 15px 0 #121212, 
       0 22px 30px rgba(0, 0, 0, 0.9);
   }
-h2 {
+.my-header2 {
     font-family: 'cursive';
     text-align: center;
     margin-top: 1%;
