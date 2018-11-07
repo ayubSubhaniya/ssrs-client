@@ -136,6 +136,13 @@ class NavigationBar extends Component {
                                                  path={this.props.location.pathname}
                                                  currPath={""}
                                                  onClick={value.logOut}/>
+                                        <AuthorizedComponent permission={isAdmin(value.user) || isStudent(value.user) ||
+                                                                            isSuperAdmin(value.user)}
+                                                             path='/aboutUs'
+                                                             currPath={this.props.location.pathname}
+                                                             text={'About Us'}
+                                                             icon={'angellist'}
+                                                             component={NavLink}/>         
                                     </ul>
                                 </div>
                             </nav>
