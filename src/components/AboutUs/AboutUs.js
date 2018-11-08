@@ -151,19 +151,24 @@ class AboutUs extends Component{
         shuffle();
     }
 
+    goBack = () => {
+        window.history.back()
+    }
+
     render() {
 
         return(
             <div>
-                <NavigationBar/>
+                <div style={{background:"#333"}}>
+                    <button className="btn btn-outline-primary" onClick={this.goBack} style={{marginLeft:"1%", marginTop:"1%"}}>
+                                <i className="fa fa-hand-o-left" style={{marginRight:"5px"}}/>Back</button>
                     <h1 class="my-header deepshadow" style={{textAlign:"center"}}>Meet Our Team<br/>                    
                     <h2 class="my-header2"><span style={{color:"red"}}>"</span>None Of Us Is As Smart As All Of Us<span style={{color:"red"}}>"</span></h2></h1>
-
-                    <img src={require('./group1_1.jpg')} style={{width:"100%"}}/>
-                    <div class="row about-back" style={{marginLeft:"0%", marginRight:"0.2%",paddingTop:"40px"}}>
-                        <ShowDevs />
-                    </div>
-
+                </div>
+                <img src={require('./group1_1.jpg')} style={{width:"100%"}}/>
+                <div class="row about-back" style={{marginLeft:"0%", marginRight:"0.2%",paddingTop:"40px"}}>
+                    <ShowDevs />        
+                </div>
           </div>
         );
     }

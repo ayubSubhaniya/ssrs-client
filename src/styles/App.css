@@ -676,7 +676,7 @@ hr.style14 {
 .my-header {
     font-family: "Avant Garde", Avantgarde, "Century Gothic", CenturyGothic, "AppleGothic", sans-serif;
     font-size: 60px;
-    padding: 50px 50px;
+    padding: 10px 50px 50px 50px;
     text-align: center;
     margin:0%;
     text-transform: uppercase;
