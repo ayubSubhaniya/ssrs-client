@@ -291,7 +291,7 @@ class App extends Component {
                             <AuthorizedRoute
                                 exact path="/aboutUs"
                                 component={AboutUs}
-                                permission={isAuthenticated}/>                                                            
+                                permission={true}/>
                             <Route render={() => <Redirect to='/'/>}/>
                         </Switch>
                     </React.Fragment>
