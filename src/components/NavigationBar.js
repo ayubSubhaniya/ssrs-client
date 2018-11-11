@@ -13,8 +13,7 @@ function NavLink({path, text, onClick, className, currPath, icon}) {
     }
 
     return (
-        <li className={"nav-item " + (currPath === path ? "active" : "") + " " + className}
-            style={{marginLeft: "10px", marginRight: "10px"}}>
+        <li className={"nav-item " + (currPath === path ? "active" : "") + " " + className}>
             <Link className="nav-link" onClick={onClick} to={{
                 pathname: path,
             }}>
@@ -130,19 +129,16 @@ class NavigationBar extends Component {
                                                              text={'Help'}
                                                              icon={'question-circle'}
                                                              component={NavLink}/>
+                                        <NavLink text={'About Us'}
+                                                 path={'/aboutUs'}
+                                                 icon={'angellist'}
+                                                 className={"ml-auto"}
+                                                 currPath={this.props.location.pathname} />
                                         <NavLink text={'Logout'}
                                                  icon={'sign-out'}
-                                                 className={"ml-auto"}
                                                  path={this.props.location.pathname}
                                                  currPath={""}
                                                  onClick={value.logOut}/>
-                                        <AuthorizedComponent permission={isAdmin(value.user) || isStudent(value.user) ||
-                                                                            isSuperAdmin(value.user)}
-                                                             path='/aboutUs'
-                                                             currPath={this.props.location.pathname}
-                                                             text={'About Us'}
-                                                             icon={'angellist'}
-                                                             component={NavLink}/>         
                                     </ul>
                                 </div>
                             </nav>
