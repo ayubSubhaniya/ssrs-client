@@ -13,11 +13,6 @@ import AuthorizedComponent from "../AuthorizedComponent";
 import {isSuperAdmin} from "../../helper/userType";
 
 class HelpAdmin extends Component {
-
-    constructor(props, context) {
-        super(props, context);
-    }
-
     render() {
         return (
             <React.Fragment>

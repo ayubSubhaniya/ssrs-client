@@ -3,7 +3,6 @@ import {timeSince} from "../../helper/Time";
 import AuthorizedComponent from "../AuthorizedComponent";
 import {isSuperAdmin} from "../../helper/userType";
 import DeleteButton from "../DeleteButton";
-import ConfirmModal from "../ConfirmModal";
 import EditNews from "./EditNews";
 import EditNewsButton from "./EditNewsButton";
 import _ from "lodash"
@@ -100,7 +99,8 @@ class DataList extends Component {
                                 )
                             })
                             :
-                            <li className="list-group-item list-group-item-action flex-column align-items-start"> Nothing to
+                            <li className="list-group-item list-group-item-action flex-column align-items-start"> Nothing
+                                to
                                 show </li>
                     }
                     {

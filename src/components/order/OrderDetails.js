@@ -5,10 +5,6 @@ import {camelCaseToWords, formatDate} from "../../helper/String";
 import {isAdmin} from "../../helper/userType";
 
 class OrderDetails extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     redirect = () => {
         this.props.history.push({
             pathname: this.props.location.pathname + "/" + this.props.cart._id,
