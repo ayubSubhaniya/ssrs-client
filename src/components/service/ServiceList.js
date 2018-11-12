@@ -100,7 +100,7 @@ class ServiceList extends Component {
                                                 index={i}
                                                 isChecked={service.isActive ? true : false}
                                                 permission={isAdmin(this.props.user)}
-                                                isDisabled={isAdmin(this.props.user)} />
+                                                isDisabled={!isSuperAdmin(this.props.user)} />
                                             <AuthorizedComponent
                                                 component={EditButton}
                                                 permission={isSuperAdmin(this.props.user)}

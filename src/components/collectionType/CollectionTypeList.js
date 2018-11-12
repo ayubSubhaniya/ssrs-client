@@ -30,7 +30,7 @@ class CollectionTypeList extends Component {
                                                     isDisabled={!isSuperAdmin(this.props.user)} />
                                                 {
                                                     isSuperAdmin(this.props.user)
-                                                    ?   <div>
+                                                    ?   <div className="d-flex flex-direction-col">
                                                         <EditButton
                                                             data={collectionType}
                                                             path={'/collectionType/edit/' + i} />
