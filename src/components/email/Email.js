@@ -1,11 +1,11 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import NavigationBar from "../NavigationBar";
 import _ from 'lodash'
 import Header from "../Header";
-import {makeCall} from "../../helper/caller";
-import {handleError} from "../../helper/error";
-import {defaultEmails} from "../../constants/constants";
-import {handleChange} from "../../helper/StateUpdate";
+import { makeCall } from "../../helper/caller";
+import { handleError } from "../../helper/error";
+import { defaultEmails } from "../../constants/constants";
+import { handleChange } from "../../helper/StateUpdate";
 import RichTextEditor from 'react-rte';
 
 class Email extends Component {
@@ -30,7 +30,7 @@ class Email extends Component {
         return _.filter(_.map(arr, (x) => x.trim()), (x) => x);
     }
 
-    selectEmailType = ({target}) => {
+    selectEmailType = ({ target }) => {
         const email = this.state.emails[target.value]
         this.setState({
             selectedEmail: target.value,
@@ -42,7 +42,7 @@ class Email extends Component {
     }
 
     onChange = (value) => {
-        this.setState({body: value});
+        this.setState({ body: value });
     };
 
     getEmails = () => {
@@ -79,7 +79,7 @@ class Email extends Component {
             params: this.getEmailFromState()
         })
             .then((response) => {
-                alert("updated successfully");
+                alert("Template updated successfully");
             })
             .catch((error) => handleError(error))
     }
@@ -87,13 +87,13 @@ class Email extends Component {
     render() {
         return (
             <div>
-                <NavigationBar/>
-                <Header title={'Email Templates'}/>
+                <NavigationBar />
+                <Header title={'Email Templates'} />
                 <div className='container'>
-                    <div className="form-group row">
-                        <label className="col-1 col-form-label">Email</label>
+                    <div className="form-group row" style={{ "marginTop": "5%" }}>
+                        <label className="col-1.5 col-form-label form-control-lg">Template Name:</label>
                         <div className="col-4">
-                            <select className="form-control" onClick={this.selectEmailType}>
+                            <select className="form-control form-control-lg" onClick={this.selectEmailType}>
                                 <option hidden>{this.state.selectedEmail}</option>
                                 {
                                     _.map(Object.keys(this.state.emails), (x, i) => {
@@ -103,59 +103,62 @@ class Email extends Component {
                             </select>
                         </div>
                     </div>
-                    <div className="modal-content">
+                    <div className="modal-content" style={{"borderWidth": "2px"}}>
                         <div className="modal-body">
                             <form role="form"
-                                  autoComplete='off'
-                                  onSubmit={(e) => {
-                                      e.preventDefault();
-                                      this.updateEmails();
-                                  }}
-                                  className="form-horizontal">
-                                <div className="form-group">
-                                    <label className="col-lg-10 control-label">Cc (Enter email ids separated by
-                                        ',')</label>
-                                    <div className="col-lg-10">
+                                autoComplete='off'
+                                onSubmit={(e) => {
+                                    e.preventDefault();
+                                    this.updateEmails();
+                                }}
+                                className="form-horizontal">
+                                <div className="form-group row ml-0">
+                                    <label className="col-lg-1 col-form-label">Cc</label>
+                                    <div className="col-lg-11">
                                         <input type="text"
-                                               value={this.state.cc}
-                                               name={'cc'}
-                                               onChange={this.handleChange}
-                                               className="form-control"/>
+                                            value={this.state.cc}
+                                            name={'cc'}
+                                            placeholder={'Example: mail1, mail2, mail3'}
+                                            onChange={this.handleChange}
+                                            className="form-control" />
                                     </div>
                                 </div>
-                                <div className="form-group">
-                                    <label className="col-lg-10 control-label">Bcc (Enter email ids separated by
-                                        ',')</label>
-                                    <div className="col-lg-10">
+                                <div className="form-group row ml-0">
+                                    <label className="col-lg-1 col-form-label">Bcc</label>
+                                    <div className="col-lg-11">
                                         <input type="text"
-                                               name={'bcc'}
-                                               value={this.state.bcc}
-                                               onChange={this.handleChange}
-                                               className="form-control"/>
+                                            name={'bcc'}
+                                            value={this.state.bcc}
+                                            placeholder={'Example: mail1, mail2, mail3'}
+                                            onChange={this.handleChange}
+                                            className="form-control" />
                                     </div>
                                 </div>
-                                <div className="form-group">
-                                    <label className="col-lg-2 control-label">Subject</label>
-                                    <div className="col-lg-10">
+                                <hr style={{"borderWidth": "2px"}}/>
+                                <div className="form-group row ml-0">
+                                    <label className="col-lg-1 col-form-label">Subject</label>
+                                    <div className="col-lg-11">
                                         <input type="text"
-                                               name={'subject'}
-                                               value={this.state.subject}
-                                               onChange={this.handleChange}
-                                               className="form-control"/>
+                                            name={'subject'}
+                                            value={this.state.subject}
+                                            onChange={this.handleChange}
+                                            className="form-control" />
                                     </div>
                                 </div>
-                                <div className="form-group">
-                                    <label className="col-lg-2 control-label">Body</label>
-                                    <div className="col-lg-10">
+                                <div className="form-group row ml-0">
+                                    <label className="col-lg-1 col-form-label">Body</label>
+                                    <div className="col-lg-11">
                                         <RichTextEditor
                                             value={this.state.body}
                                             onChange={this.onChange}
                                         />
                                     </div>
                                 </div>
-                                <button className="btn btn-send"
-                                        type="submit">Send
-                                </button>
+                                <div className="d-flex justify-content-center mt-5">
+                                    <button className="btn btn-outline-success btn-lg"
+                                        type="submit">Save
+                                    </button>
+                                </div>
                             </form>
                         </div>
                     </div>
