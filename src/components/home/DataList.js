@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {timeSince} from "../../helper/Time";
 import AuthorizedComponent from "../AuthorizedComponent";
-import {isAdmin} from "../../helper/userType";
+import {isSuperAdmin} from "../../helper/userType";
 import DeleteButton from "../DeleteButton";
 import ConfirmModal from "../ConfirmModal";
 import EditNews from "./EditNews";
@@ -66,7 +66,7 @@ class DataList extends Component {
                 <AuthorizedComponent
                     component={AddNewsButton}
                     openAddModal={this.openAddModal}
-                    permission={isAdmin(this.props.user) && this.props.createPermission}
+                    permission={isSuperAdmin(this.props.user) && this.props.createPermission}
                 />
                 <div className={'list-group'}>
                     {
@@ -87,11 +87,11 @@ class DataList extends Component {
                                                     openEditModal={this.openEditModal}
                                                     index={data._id}
                                                     message={data.message}
-                                                    permission={isAdmin(this.props.user) && this.props.editPermission}
+                                                    permission={isSuperAdmin(this.props.user) && this.props.editPermission}
                                                 />
                                                 <AuthorizedComponent
                                                     index={i}
-                                                    permission={isAdmin(this.props.user) || this.props.deletePermission}
+                                                    permission={isSuperAdmin(this.props.user) || this.props.deletePermission}
                                                     handleClick={this.props.onDelete}
                                                     component={DeleteButton}/>
                                             </div>

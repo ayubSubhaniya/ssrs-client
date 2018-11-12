@@ -6,7 +6,7 @@ import Switch from "../Switch";
 import AuthorizedComponent from "../AuthorizedComponent";
 import ButtonLink from "./ButtonLink";
 import DeleteButton from "../DeleteButton";
-import { isStudent, isSuperAdmin } from "../../helper/userType";
+import { isStudent, isSuperAdmin, isAdmin } from "../../helper/userType";
 import ApplyButton from "./ApplyButton";
 import { makeCall } from "../../helper/caller";
 import { handleError } from "../../helper/error";
@@ -99,7 +99,8 @@ class ServiceList extends Component {
                                                 handleClick={this.toggleService}
                                                 index={i}
                                                 isChecked={service.isActive ? true : false}
-                                                permission={isSuperAdmin(this.props.user)} />
+                                                permission={isAdmin(this.props.user)}
+                                                isDisabled={isAdmin(this.props.user)} />
                                             <AuthorizedComponent
                                                 component={EditButton}
                                                 permission={isSuperAdmin(this.props.user)}

@@ -4,6 +4,7 @@ import EditButton from "../EditButton";
 import Switch from "../Switch";
 import { Link } from "react-router-dom";
 import DeleteButton from "../DeleteButton";
+import {isSuperAdmin} from "../../helper/userType";
 
 class ParameterList extends Component {
     render() {
@@ -25,12 +26,19 @@ class ParameterList extends Component {
                                                 <Switch
                                                     handleClick={this.props.toggleParameter}
                                                     index={i}
-                                                    isChecked={parameter.isActive ? true : false} />
-                                                <EditButton
-                                                    data={parameter}
-                                                    path={'/parameter/edit/' + i} />
-                                                <DeleteButton handleClick={this.props.deleteParameter}
-                                                    index={i} />
+                                                    isChecked={parameter.isActive ? true : false}
+                                                    isDisabled={!isSuperAdmin(this.props.user)} />
+                                                {
+                                                    isSuperAdmin(this.props.user)
+                                                    ?   <div>
+                                                        <EditButton
+                                                            data={parameter}
+                                                            path={'/parameter/edit/' + i} />
+                                                        <DeleteButton handleClick={this.props.deleteParameter}
+                                                            index={i} />
+                                                        </div>
+                                                    : ""
+                                                }
                                             </div>
                                         </div>
 
@@ -40,15 +48,19 @@ class ParameterList extends Component {
                         })
                     }
                 </div>
-                <div className={'d-flex justify-content-center mt-3'}>
-                    <Link to={'/parameter/add'}>
-                        <button
-                            className='btn btn-outline-dark btn-lg mt-3'
-                            type="button">
-                            Add New Parameter
-                        </button>
-                    </Link>
-                </div>
+                {
+                    isSuperAdmin(this.props.user)
+                    ?   <div className={'d-flex justify-content-center mt-3'}>
+                            <Link to={'/parameter/add'}>
+                                <button
+                                    className='btn btn-outline-dark btn-lg mt-3'
+                                    type="button">
+                                    Add New Parameter
+                                </button>
+                            </Link>
+                        </div>
+                    :   ""
+                }
             </div>
         );
     }
