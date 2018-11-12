@@ -275,10 +275,12 @@ class App extends Component {
                             <AuthorizedRoute
                                 exact path='/helpAdmin'
                                 component={HelpAdmin}
+                                user={this.state.user}
                                 permission={isAdmin(this.state.user)}/>
                             <AuthorizedRoute
                                 exact path='/helpUser'
                                 component={HelpUser}
+                                user={this.state.user}
                                 permission={isStudent(this.state.user)}/>
                             <AuthorizedRoute
                                 exact path='/dashboard'
