@@ -334,7 +334,7 @@ xfilter
   left: 0;
   height: 50px;
   width: 100%;
-  background-color: #41307c;
+  background-color: #34363a;
   z-index: 2;
 }
 .cd-filter form {
@@ -346,11 +346,11 @@ xfilter
   right: 0;
   height: 50px;
   line-height: 50px;
-  width: 60px;
+  width: 50px;
   color: #ffffff;
-  font-size: 1.3rem;
+  font-size: 35px;
   text-align: center;
-  background: #37296a;
+  background: #34363a;
   opacity: 0;
   cursor: pointer;
   -webkit-transition: opacity 0.3s;
@@ -383,7 +383,7 @@ xfilter
 
 .cd-filter-trigger {
   position: absolute;
-  top: -50px;
+  top: -47px;
   left: 0;
   height: 50px;
   line-height: 50px;
@@ -610,7 +610,7 @@ xcustom form elements
 .cd-filter-block input[type=radio]:checked + label::before,
 .cd-filter-block input[type=checkbox]:checked + label::before {
   border-color: #41307c;
-  background-color: #41307c;
+  background-color: #343630;
 }
 .cd-filter-block input[type=radio]:checked + label::after,
 .cd-filter-block input[type=checkbox]:checked + label::after {

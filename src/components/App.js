@@ -36,6 +36,8 @@ import {makeCall} from "../helper/caller";
 import {defaultUser} from "../constants/constants";
 import dashboard from "./Dashboard/dashboard";
 import {handleError} from "../helper/error";
+import Email from "./email/Email"
+import AboutUs from './AboutUs/AboutUs';
 
 export const Context = React.createContext();
 
@@ -273,15 +275,25 @@ class App extends Component {
                             <AuthorizedRoute
                                 exact path='/helpAdmin'
                                 component={HelpAdmin}
+                                user={this.state.user}
                                 permission={isAdmin(this.state.user)}/>
                             <AuthorizedRoute
                                 exact path='/helpUser'
                                 component={HelpUser}
+                                user={this.state.user}
                                 permission={isStudent(this.state.user)}/>
                             <AuthorizedRoute
                                 exact path='/dashboard'
                                 component={dashboard}
                                 permission={isSuperAdmin(this.state.user)}/>
+                            <AuthorizedRoute
+                                exact path='/email'
+                                component={Email}
+                                permission={isSuperAdmin(this.state.user)}/>
+                            <AuthorizedRoute
+                                exact path="/aboutUs"
+                                component={AboutUs}
+                                permission={true}/>
                             <Route render={() => <Redirect to='/'/>}/>
                         </Switch>
                     </React.Fragment>

@@ -67,12 +67,12 @@ class PublicPage extends Component {
                 })
             } else if (this.status === HttpStatus.INTERNAL_SERVER_ERROR) {
                 that.setState({
-                    signupMessage: errorMessages.internalServerError
+                    signupMessage: request.responseText
                 })
             }
             else {
                 that.setState({
-                    signupMessage: errorMessages.somethingsWrong
+                    signupMessage: request.responseText
                 })
             }
             that.props.hideSpinner();
@@ -116,16 +116,16 @@ class PublicPage extends Component {
                 that.setState({modalIsOpen: false});
             }  else if (this.status === HttpStatus.FORBIDDEN) {
                 that.setState({
-                    forgotPasswordMessage: errorMessages.userNotExist
+                    forgotPasswordMessage: request.responseText
                 })
             } else if (this.status === HttpStatus.INTERNAL_SERVER_ERROR) {
                 that.setState({
-                    forgotPasswordMessage: errorMessages.internalServerError
+                    forgotPasswordMessage: request.responseText
                 })
             }
             else {
                 that.setState({
-                    forgotPasswordMessage: errorMessages.somethingsWrong
+                    forgotPasswordMessage: request.responseText
                 })
             }
             that.props.hideSpinner();

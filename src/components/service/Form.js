@@ -176,11 +176,19 @@ function Form(props) {
                             </div>
                             {
                                 props.state.allUserTypes === 'false'
-                                    ? <ApllicationSpecificDropDown label={'User Types'}
-                                                                   btnLabel={"Select"}
-                                                                   options={props.state.userTypes}
-                                                                   name={'userTypes'}
-                                                                   handleOptionChange={props.handleArrayUpdate}/>
+                                    ?
+                                    <React.Fragment>
+                                        <ApllicationSpecificDropDown label={'User Types'}
+                                                                     btnLabel={"Select"}
+                                                                     options={props.state.userTypes}
+                                                                     name={'userTypes'}
+                                                                     handleOptionChange={props.handleArrayUpdate}/>
+                                        <ApllicationSpecificDropDown label={'User Status'}
+                                                                     btnLabel={"Select"}
+                                                                     options={props.state.userStatus}
+                                                                     name={'userStatus'}
+                                                                     handleOptionChange={props.handleArrayUpdate}/>
+                                    </React.Fragment>
                                     : ''
                             }
 
@@ -237,7 +245,7 @@ function Form(props) {
                 style={{"backgroundColor": "#343a40", "fontSize": "13x"}}
                 onSubmit={props.handleSubmit}/> */}
             <button className="btn btn-outline-success btn-lg" onSubmit={props.handleSubmit}>
-            <span>Save</span>
+                <span>Save</span>
             </button>
         </div>
     </form>

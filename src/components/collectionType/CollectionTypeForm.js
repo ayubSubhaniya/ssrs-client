@@ -74,7 +74,7 @@ function CollectionTypeForm(props) {
         </div>
         <div className={'d-flex justify-content-center mt-4'}>
             <input
-                className='submit'
+                className='btn btn-outline-success btn-lg'
                 type="submit"
                 value="Save"
                 onSubmit={props.handleSubmit}/>

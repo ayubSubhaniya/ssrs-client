@@ -2,10 +2,6 @@ import React, {Component} from 'react';
 import _ from "lodash"
 
 class ServiceDetails extends Component {
-    constructor() {
-        super();
-    }
-
     render() {
         const order = this.props.order;
         const service = order.service;
@@ -23,7 +19,8 @@ class ServiceDetails extends Component {
                         </div>
                     </div>
                 </td>
-                <td data-th="Parameters" className="text-center">{parameters.length>0?_.map(parameters, 'name').join(", "):'None'}</td>
+                <td data-th="Parameters"
+                    className="text-center">{parameters.length > 0 ? _.map(parameters, 'name').join(", ") : 'None'}</td>
                 <td data-th="Price" className="text-center">{order.serviceCost}</td>
                 <td data-th="Quantity" className="text-center">{order.unitsRequested}</td>
                 <td data-th="Service Cost" className="text-center">{`₹ ${order.serviceCost}`}</td>

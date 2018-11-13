@@ -6,8 +6,8 @@ import {errorMessages} from "../../../config/configuration";
 import * as HttpStatus from "http-status-codes";
 import CartDetails from "./CartDetails";
 import ErrorMessage from "../../error/ErrorMessage";
-import {DEBITCARD, NETBANKING, OFFLINE, ONLINE, paymentMode} from '../../../constants/constants'
-import {makeCall} from "../../../helper/caller";
+import {paymentMode} from '../../../constants/constants'
+import {payOffline, payOnline} from "../../../helper/FetchData";
 
 class Payment extends React.Component {
     constructor(props) {
@@ -17,6 +17,8 @@ class Payment extends React.Component {
             isPaymentDone: false,
             errorMessage: '',
         };
+        this.payOnline = payOnline.bind(this);
+        this.payOffline = payOffline.bind(this);
     }
 
     changePaymentType = ({target}) => {
@@ -58,35 +60,6 @@ class Payment extends React.Component {
         }
     }
 
-    payOffline = () => {
-        makeCall({
-            jobType: 'PATCH',
-            urlParams: '/cart/addPayment',
-            params: {
-                paymentType: OFFLINE
-            }
-        })
-            .then((response) => {
-                this.setState({
-                    isPaymentDone: true
-                });
-            })
-            .catch((error) => this.onError(error))
-    };
-
-    payOnline = () => {
-        makeCall({
-            jobType: 'PATCH',
-            urlParams: '/cart/addPayment/EasyPay',
-            params: {
-                paymentType: ONLINE
-            }
-        })
-            .then((response) => {
-                window.open(response.url,"_self");
-            })
-            .catch((error) => this.onError(error))
-    };
 
     render() {
         if (this.state.isPaymentDone) {

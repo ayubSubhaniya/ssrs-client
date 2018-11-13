@@ -9,27 +9,28 @@ import GuideForUsers from './GuideForUsers';
 import GuideForProfile from './GuideForProfile';
 import GuideForOrders from './GuideForOrders';
 import GuideForPermissions from './GuideForPermissions';
+import AuthorizedComponent from "../AuthorizedComponent";
+import {isSuperAdmin} from "../../helper/userType";
 
 class HelpAdmin extends Component {
-
-    constructor(props, context) {
-        super(props, context);
-    }
-
     render() {
         return (
             <React.Fragment>
                 <NavigationBar/>
                 <Header title={'Guide for Admin'}/>
-                <div className="card card-body" style = {{marginLeft:"30px", marginRight:"30px", marginBottom:"30px", background:"#e4e4e4"}}>
+                <div className="card card-body"
+                     style={{marginLeft: "30px", marginRight: "30px", marginBottom: "30px", background: "#e4e4e4"}}>
                     <GettingStarted/>
+                    <AuthorizedComponent permission={isSuperAdmin(this.props.user)}
+                                         component={GuideForServices}/>
+                    <AuthorizedComponent permission={isSuperAdmin(this.props.user)}
+                                         component={GuideForUsers}/>
+                    <GuideForOrders/>
+                    <AuthorizedComponent permission={isSuperAdmin(this.props.user)}
+                                         component={GuideForPermissions}/>
                     <GuideForCollectionType/>
                     <GuideForParameters/>
-                    <GuideForServices/>
-                    <GuideForUsers/>
                     <GuideForProfile/>
-                    <GuideForOrders/>
-                    <GuideForPermissions/>
                 </div>
             </React.Fragment>
         );
