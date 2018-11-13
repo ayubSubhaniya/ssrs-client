@@ -24,7 +24,7 @@ export const defaultCart = {
     orders: [],
     ordersCost: "Loading...",
     requestedBy: "",
-    status: 500,
+    status: 0,
     totalCost: 0,
     _id: "Loading...",
     pickup: '',
