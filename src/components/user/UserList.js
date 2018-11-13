@@ -262,12 +262,14 @@ class UserList extends Component {
                     showSpinner: false
                 });
                 alert("data updated successfully")
+                window.location.reload()
             }
             else {
                 that.setState({
                     showSpinner: false
                 });
                 alert(request.responseText + " Please check the file again for format issues");
+                window.location.reload()
             }
         };
         request.send(JSON.stringify(data));

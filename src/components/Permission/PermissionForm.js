@@ -162,7 +162,7 @@ class PermissionForm extends React.Component {
     }
     postRoleData = () => {
         this.onConfirmModal();
-        const userData = {"userType": `${this.props.userType}`, "permissions": {...this.state.data}}
+        const userData = {"roleType": `${this.props.userType}`, "permissions": {...this.state.data}}
         console.log(userData)
         const that = this;
         this.showSpinner();
@@ -403,7 +403,7 @@ class PermissionForm extends React.Component {
         return (
             <div>
                 <Spinner open={this.state.showSpinner}/>
-                <form onSubmit={(e) => {
+                <form class="animated slideInUp" onSubmit={(e) => {
                     e.preventDefault();
                     this.postRoleData()
                 }}>
