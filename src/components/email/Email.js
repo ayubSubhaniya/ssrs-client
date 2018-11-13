@@ -97,7 +97,8 @@ class Email extends Component {
                                 <option hidden>{this.state.selectedEmail}</option>
                                 {
                                     _.map(Object.keys(this.state.emails), (x, i) => {
-                                        return <option key={i} value={x}>{x}</option>
+                                        let y = this.state.emails[x]['templateName'];
+                                        return <option key={i} value={x}>{y}</option>
                                     })
                                 }
                             </select>
