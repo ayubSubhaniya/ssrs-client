@@ -118,7 +118,7 @@ class Filter extends Component {
                             </div>
                         </form>
 
-                        <div className="cd-close" onClick={this.toggleFilter}>Close</div>
+                        <div className="cd-close" style={{"fontSize": "35px"}} onClick={this.toggleFilter}>&times;</div>
                     </div>
 
                     <div className={`cd-filter-trigger ${this.state.isFilterVisible ? 'filter-is-visible' : ''}`}

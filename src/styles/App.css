@@ -234,7 +234,7 @@ input[type=submit] {
 
 .limiter table thead tr {
     height: 60px;
-    background: #36304a;
+    background: #34363a;
 }
 
 .limiter table tbody tr {
@@ -286,7 +286,7 @@ input[type=submit] {
 
 .limiter tbody tr:hover {
     color: black;
-    box-shadow: 0 10px 6px -6px #777;
+    box-shadow: 5px 2px 6px 2px #777777;
     transition: all 0.3s;
     cursor: pointer;
 }
