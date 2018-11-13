@@ -5,7 +5,6 @@ import logo from "../images/daiict.png";
 import {Link, withRouter} from "react-router-dom";
 import AuthorizedComponent from "./AuthorizedComponent";
 import {isAdmin, isStudent, isSuperAdmin} from "../helper/userType";
-import _ from 'lodash';
 
 function NavLink({path, text, onClick, className, currPath, icon}) {
     if (currPath) {
@@ -13,8 +12,7 @@ function NavLink({path, text, onClick, className, currPath, icon}) {
     }
 
     return (
-        <li className={"nav-item " + (currPath === path ? "active" : "") + " " + className}
-            style={{marginLeft: "10px", marginRight: "10px"}}>
+        <li className={"nav-item " + (currPath === path ? "active" : "") + " " + className}>
             <Link className="nav-link" onClick={onClick} to={{
                 pathname: path,
             }}>
@@ -30,7 +28,7 @@ class NavigationBar extends Component {
     stickyTop = (e) => {
 
         let imageHeight = 120;
-        if (window.pageYOffset >= imageHeight){
+        if (window.pageYOffset >= imageHeight) {
             this.input.classList.add('my-sticky-top');
         } else {
             this.input.classList.remove('my-sticky-top');
@@ -52,7 +50,9 @@ class NavigationBar extends Component {
                     return (
                         <div>
                             <Image src={logo} className={'logo'}/>
-                            <nav ref={(input) => {this.input = input}} className="navbar navbar-expand-lg navbar-dark bg-dark">
+                            <nav ref={(input) => {
+                                this.input = input
+                            }} className="navbar navbar-expand-lg navbar-dark bg-dark">
                                 <button className="navbar-toggler" type="button" data-toggle="collapse"
                                         data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown"
                                         aria-expanded="false" aria-label="Toggle navigation">
@@ -130,9 +130,13 @@ class NavigationBar extends Component {
                                                              text={'Help'}
                                                              icon={'question-circle'}
                                                              component={NavLink}/>
+                                        <NavLink text={'About Us'}
+                                                 path={'/aboutUs'}
+                                                 icon={'angellist'}
+                                                 className={"ml-auto"}
+                                                 currPath={this.props.location.pathname}/>
                                         <NavLink text={'Logout'}
                                                  icon={'sign-out'}
-                                                 className={"ml-auto"}
                                                  path={this.props.location.pathname}
                                                  currPath={""}
                                                  onClick={value.logOut}/>

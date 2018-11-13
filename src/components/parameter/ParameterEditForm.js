@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {Redirect, withRouter} from "react-router-dom";
 import Header from "../Header";
 import NavigationBar from "../NavigationBar";
-import Spinner from "../Spinner";
 import {handleChange} from "../../helper/StateUpdate";
 import ParameterForm from "./ParameterForm";
 import {makeCall} from "../../helper/caller";

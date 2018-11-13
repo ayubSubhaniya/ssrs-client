@@ -1,9 +1,10 @@
+import _ from "lodash";
 import React, { Component } from 'react';
-import _ from "lodash"
+import { Link } from "react-router-dom";
+import { isSuperAdmin } from "../../helper/userType";
+import DeleteButton from "../DeleteButton";
 import EditButton from "../EditButton";
 import Switch from "../Switch";
-import { Link } from "react-router-dom";
-import DeleteButton from "../DeleteButton";
 
 class CollectionTypeList extends Component {
     render() {
@@ -25,13 +26,20 @@ class CollectionTypeList extends Component {
                                                 <Switch
                                                     handleClick={this.props.toggleCollectionType}
                                                     index={i}
-                                                    isChecked={collectionType.isActive ? true : false} />
-                                                <EditButton
-                                                    data={collectionType}
-                                                    path={'/collectionType/edit/' + i} />
-                                                <DeleteButton
-                                                    handleClick={this.props.deleteCollectionType}
-                                                    index={i} />
+                                                    isChecked={collectionType.isActive ? true : false}
+                                                    isDisabled={!isSuperAdmin(this.props.user)} />
+                                                {
+                                                    isSuperAdmin(this.props.user)
+                                                    ?   <div className="d-flex flex-direction-col">
+                                                        <EditButton
+                                                            data={collectionType}
+                                                            path={'/collectionType/edit/' + i} />
+                                                        <DeleteButton
+                                                            handleClick={this.props.deleteCollectionType}
+                                                            index={i} />
+                                                        </div>
+                                                    :   ""
+                                                }
                                             </div>
                                         </div>
                                     </div>
@@ -40,15 +48,19 @@ class CollectionTypeList extends Component {
                         })
                     }
                 </div>
-                <div className={'d-flex justify-content-center mt-3'}>
-                    <Link to={'/collectionType/add'}>
-                        <button
-                            className='btn btn-outline-dark btn-lg mt-3'
-                            type="button">
-                            Add New Collection Type
-                        </button>
-                    </Link>
-                </div>
+                {
+                    isSuperAdmin(this.props.user)
+                        ? <div className={'d-flex justify-content-center mt-3'}>
+                            <Link to={'/collectionType/add'}>
+                                <button
+                                    className='btn btn-outline-dark btn-lg mt-3'
+                                    type="button">
+                                    Add New Collection Type
+                                </button>
+                            </Link>
+                        </div>
+                        : ""
+                }
             </div>
         );
     }

@@ -1,60 +1,60 @@
-export const orderStatus = {
-    0: "failed",
-    10: "invalidOrder",
-    20: "unplaced",
-    30: "placed",
-    40: "processing",
-    50: "ready",
-    60: "completed",
-    70: "onHold",
-    80: "cancelled",
-    90: "refunded"
-}
-
 export const cartStatus = {
     10: 'invalid',
     20: 'unplaced',
-    23: 'paymentFailed',
-    25: "processingPayment",
-    30: 'placed',
-    40: 'paymentComplete',
-    50: 'processing',
-    60: 'readyToDeliver',
-    70: 'readyToPickup',
-    80: 'completed',
-    90: 'onHold',
-    100: 'cancelled',
+    30: 'paymentFailed',
+    40: "processingPayment",
+    50: 'placed',
+    60: 'paymentComplete',
+    70: 'processing',
+    80: 'readyToDeliver',
+    90: 'readyToPickup',
+    100: 'onHold',
     110: 'refunded',
-    500: 'Loading...'
+    120: 'completed',
+    130: 'cancelled',
+    0: 'Loading...'
 }
 
 export const rcartStatus = {
     invalid: 10,
     unplaced: 20,
-    paymentFailed: 23,
-    processingPayment: 25,
-    placed: 30,
-    paymentComplete: 40,
-    processing: 50,
-    readyToDeliver: 60,
-    readyToPickup: 70,
-    completed: 80,
-    onHold: 90,
-    cancelled: 100,
+    paymentFailed: 30,
+    processingPayment: 40,
+    placed: 50,
+    paymentComplete: 60,
+    processing: 70,
+    readyToDeliver: 80,
+    readyToPickup: 90,
+    onHold: 100,
     refunded: 110,
+    completed: 120,
+    cancelled: 130,
+}
+
+export const orderStatus = {
+    0: "paymentFailed",
+    10: "invalidOrder",
+    20: "unplaced",
+    30: "placed",
+    40: "processing",
+    50: "ready",
+    60: "onHold",
+    70: "refunded",
+    80: "completed",
+    90: "cancelled"
 }
 
 export const rorderStatus = {
-    failed: 0,
+    paymentFailed: 0,
     invalidOrder: 10,
     unplaced: 20,
     placed: 30,
     processing: 40,
     ready: 50,
-    completed: 60,
-    onHold: 70,
-    cancelled: 80,
-    refunded: 90,
+    onHold: 60,
+    refunded: 70,
+    completed: 80,
+    cancelled: 90,
 }
 
 export const rcollectionStatus = {

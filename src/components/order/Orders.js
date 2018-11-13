@@ -11,23 +11,23 @@ import {rcartStatus} from "../../constants/status";
 
 const orders = {
     '-10': "all",
-    25: "processingPayment",
-    0: "failed",
-    30: "placed",
-    50: "processing",
-    60: "readyToDeliver",
-    70: "readyToPickup",
-    80: "completed",
-    90: "onHold",
-    100: "cancelled",
-    110: "refunded"
+    30: "paymentFailed",
+    40: "processingPayment",
+    50: "placed",
+    70: "processing",
+    80: "readyToDeliver",
+    90: "readyToPickup",
+    100: "onHold",
+    110: "refunded",
+    120: "completed",
+    130: "cancelled"
 }
 
 class Filter extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            filterKey: ['-10', 25, 30, 50, 60, 70, 80, 90, 100, 110, 0],
+            filterKey: Object.keys(orders),
             isFilterVisible: false,
             filterState: -1,
             cart: [],
@@ -118,7 +118,7 @@ class Filter extends Component {
                             </div>
                         </form>
 
-                        <div className="cd-close" onClick={this.toggleFilter}>Close</div>
+                        <div className="cd-close" style={{"fontSize": "35px"}} onClick={this.toggleFilter}>&times;</div>
                     </div>
 
                     <div className={`cd-filter-trigger ${this.state.isFilterVisible ? 'filter-is-visible' : ''}`}

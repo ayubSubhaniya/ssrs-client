@@ -4,7 +4,7 @@ import {isAdmin} from "../../helper/userType";
 import {formatDate} from "../../helper/String";
 
 function getStatus(x, y) {
-    if (x == y) {
+    if (x === y) {
         return 'active'
     } else if (x > y) {
         return 'complete'
@@ -36,7 +36,8 @@ function Step({curStatus, status, label, showButton, handleClick, btnLabel, time
 
 function OrderStatusBar({status, isDelivery, openPaymentCodeModal, statusChangeTime, openCollectionCodeModal, openCourierDetailsModal, user}) {
     return (
-        <div className={"row bs-wizard " + (status === rcartStatus.cancelled ? 'cancelled' : '')} style={{"borderBottom": "0"}}>
+        <div className={"row bs-wizard " + (status === rcartStatus.cancelled ? 'cancelled' : '')}
+             style={{"borderBottom": "0"}}>
             <Step curStatus={status}
                   status={rcartStatus.placed}
                   time={formatDate(statusChangeTime.placed.time)}
