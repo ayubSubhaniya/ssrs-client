@@ -66,6 +66,7 @@ class OrderForm extends Component {
             if (this.status === HttpStatus.CREATED) {
                 const response = JSON.parse(request.response);
                 $(that.modal).modal('hide');
+                alert("Order added to the cart!");
             } else if (this.status === HttpStatus.PRECONDITION_FAILED){
                 that.setState({
                     errorMessage: request.responseText
