@@ -250,7 +250,7 @@ class App extends Component {
                                 component={Info}
                                 permission={isStudent(this.state.user)}/>
                             <AuthorizedRoute
-                                exact path='/payment'
+                                path='/payment'
                                 component={Payment}
                                 permission={isStudent(this.state.user)}/>
                             <AuthorizedRoute
