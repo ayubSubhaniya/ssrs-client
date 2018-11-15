@@ -38,6 +38,7 @@ import dashboard from "./Dashboard/dashboard";
 import {handleError} from "../helper/error";
 import Email from "./email/Email"
 import AboutUs from './AboutUs/AboutUs';
+import {loadSpinner, unloadSpinner} from "../helper/spinner";
 
 export const Context = React.createContext();
 
@@ -152,6 +153,7 @@ class App extends Component {
     }
 
     logOut = () => {
+        loadSpinner();
         const that = this;
         var url = domainUrl + '/account/signout';
         var request = new XMLHttpRequest();
@@ -168,6 +170,7 @@ class App extends Component {
             } else {
                 handleError(request)
             }
+            unloadSpinner();
         }
         request.send();
     }
@@ -261,7 +264,7 @@ class App extends Component {
                                 component={Info}
                                 permission={isStudent(this.state.user)}/>
                             <AuthorizedRoute
-                                exact path='/payment'
+                                path='/payment/'
                                 component={Payment}
                                 permission={isStudent(this.state.user)}/>
                             <AuthorizedRoute

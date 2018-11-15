@@ -1,10 +1,13 @@
 import React, {Component} from 'react';
+import {withRouter} from "react-router-dom"
 import {getCart} from "../../../helper/FetchData";
 import _ from "lodash"
 import ServiceDetails from "./ServiceDetails";
 import {defaultCart} from "../../../constants/constants";
 import TextInfo from "../TextInfo"
 import {DeliveryInfo,PickupInfo} from "../Info";
+import {makeCall} from "../../../helper/caller";
+import {handleError} from "../../../helper/error";
 
 class CartDetails extends Component {
     constructor(props) {
@@ -12,16 +15,34 @@ class CartDetails extends Component {
         this.state = {
             cart: defaultCart
         };
+        this.id = props.location.pathname.split('/')[2];
     }
 
     componentDidMount() {
-        getCart(this.setCart)
+        console.log(this.id);
+        getCart(this.setCart,this.id)
     }
 
     setCart = (response) => {
         this.setState({
             cart: response.cart
         })
+        this.getCollection(response.cart.collectionType);
+    }
+
+    getCollection = (id) => {
+        makeCall({
+            jobType: 'GET',
+            urlParams: '/collectionType/' + id
+        })
+            .then((response) => {
+                this.setState({
+                    collectionType: response.collectionType
+                })
+            })
+            .catch((error) => {
+                handleError(error);
+            })
     }
 
     render() {
@@ -71,7 +92,7 @@ class CartDetails extends Component {
 
                     <h5><strong>COLLECTION INFORMATION</strong></h5>
                     <div className='container p-1'>
-                        <TextInfo lable="Collection Type" data={this.props.collectionType.name}/>
+                        <TextInfo lable="Collection Type" data={this.state.collectionType.name}/>
                         {
                            delivery
                                 ? <DeliveryInfo delivery={delivery}/>
@@ -84,5 +105,5 @@ class CartDetails extends Component {
     }
 }
 
-export default CartDetails;
+export default withRouter(CartDetails);
 

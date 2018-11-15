@@ -5,17 +5,16 @@ import Stapes from "../../service/Stapes";
 import {Link} from "react-router-dom";
 import {asyncFetch, syncFetch} from "../../../helper/FetchData";
 import _ from "lodash"
-import Spinner from "../../Spinner";
 import {domainUrl} from "../../../config/configuration";
 import * as HttpStatus from "http-status-codes";
 import $ from "jquery";
 import {handleError} from "../../../helper/error";
+import {loadSpinner, unloadSpinner} from "../../../helper/spinner";
 
 class Cart extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            showSpinner: false,
             cart: []
         };
         this.asyncFetch = asyncFetch.bind(this);
@@ -38,9 +37,7 @@ class Cart extends Component {
     }
 
     updateOrder = (newOrder, index, modal) => {
-        this.setState({
-            showSpinner: true
-        });
+        loadSpinner();
         const oldOrder = this.state.cart.orders[index];
         const that = this;
         const url = domainUrl + '/order/' + oldOrder._id;
@@ -49,6 +46,7 @@ class Cart extends Component {
         request.withCredentials = true;
         request.setRequestHeader("Content-type", "application/json");
         request.onload = function () {
+            unloadSpinner();
             if (this.status == HttpStatus.OK) {
                 $(modal).modal('hide');
                 that.asyncFetch('cart');
@@ -60,9 +58,7 @@ class Cart extends Component {
     };
 
     deleteOrder = (index) => {
-        this.setState({
-            showSpinner: true
-        });
+        loadSpinner();
         const that = this;
         const url = domainUrl + '/order/' + this.state.cart.orders[index]._id;
         const request = new XMLHttpRequest();
@@ -70,6 +66,7 @@ class Cart extends Component {
         request.withCredentials = true;
         request.setRequestHeader("Content-type", "application/json");
         request.onload = function () {
+            unloadSpinner();
             if (this.status === HttpStatus.OK) {
                 that.asyncFetch('cart');
             } else {
@@ -93,7 +90,6 @@ class Cart extends Component {
                                 {"Go, Add Services"} </button>
                         </Link>
                     </div>
-                    <Spinner open={this.state.showSpinner}/>
                 </div>
             )
         }
@@ -148,7 +144,8 @@ class Cart extends Component {
                             <td>
                                 <Link to={{
                                     pathname: '/info', state: {
-                                        avilableCollectionTypes: avilableCollectionTypes
+                                        avilableCollectionTypes: avilableCollectionTypes,
+                                        id: this.state.cart._id
                                     }
                                 }} className={`${avilableCollectionTypes.length == 0 ? 'disabled-link' : ''}`}>
                                     <div className={`btn btn-success btn-lg`}>
@@ -161,7 +158,6 @@ class Cart extends Component {
                         </tfoot>
                     </table>
                 </div>
-                <Spinner open={this.state.showSpinner}/>
             </div>
         );
     }

@@ -1,21 +1,12 @@
-import { domainUrl } from "../config/configuration";
-import ReactDOM from "react-dom";
+import {domainUrl} from "../config/configuration";
 import React from "react";
-import Spinner from "../components/Spinner";
+import {loadSpinner, unloadSpinner} from "./spinner";
 
-const loadSpinner = () => {
-    ReactDOM.render(<Spinner open={true}/>, document.getElementById('spinner'));
-}
-
-const unloadSpinner = () => {
-    ReactDOM.unmountComponentAtNode(document.getElementById('spinner'));
-}
-
-export const makeCall = ({jobType, urlParams, params={}}) => {
+export const makeCall = ({jobType, urlParams, params = {}}) => {
 
     loadSpinner();
 
-    let endpointUrl = domainUrl +  urlParams;
+    let endpointUrl = domainUrl + urlParams;
 
     const requestObject = {
         method: jobType,
@@ -47,6 +38,6 @@ export const makeCall = ({jobType, urlParams, params={}}) => {
             // tslint:disable-next-line:no-console
             unloadSpinner();
             console.error(error);
-                return Promise.reject(error);
+            return Promise.reject(error);
         });
 };

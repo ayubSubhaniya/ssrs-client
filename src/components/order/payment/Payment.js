@@ -1,7 +1,6 @@
 import React from 'react'
 import NavigationBar from "../../NavigationBar";
 import Stapes from "../../service/Stapes";
-import {Redirect} from "react-router-dom";
 import {errorMessages} from "../../../config/configuration";
 import * as HttpStatus from "http-status-codes";
 import CartDetails from "./CartDetails";
@@ -14,7 +13,6 @@ class Payment extends React.Component {
         super(props);
         this.state = {
             paymentType: "0",
-            isPaymentDone: false,
             errorMessage: '',
         };
         this.payOnline = payOnline.bind(this);
@@ -62,20 +60,12 @@ class Payment extends React.Component {
 
 
     render() {
-        if (this.state.isPaymentDone) {
-            return (
-                <Redirect to={{
-                    pathname: "/order"
-                }}/>
-            )
-        }
-        const collectionType = this.props.location.state;
         return (
             <div>
                 <NavigationBar/>
                 <div className={'container'}>
                     <Stapes active={3}/>
-                    <CartDetails collectionType={collectionType}/>
+                    <CartDetails/>
                     <hr/>
                     <ErrorMessage message={this.state.errorMessage} clearMessage={this.cleanErrorMessage}/>
                     <div className={'payment-operation'}>

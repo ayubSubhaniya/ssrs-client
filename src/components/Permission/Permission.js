@@ -3,11 +3,11 @@ import {domainUrl} from "../../config/configuration";
 import NavigationBar from "../NavigationBar";
 import * as HttpStatus from "http-status-codes";
 import _ from 'lodash';
-import Spinner from '../Spinner';
 import PermissionForm from './PermissionForm'
 import Modal from "react-bootstrap4-modal";
 import ConfirmModal from "../ConfirmModal";
 import {handleError} from "../../helper/error";
+import {loadSpinner, unloadSpinner} from "../../helper/spinner";
 
 class Permission extends Component {
     constructor(props) {
@@ -75,7 +75,7 @@ class Permission extends Component {
             "role": `${this.state.name}`,
             "roleType": `${role}`
         }
-
+        loadSpinner();
         const that = this;
         var url = domainUrl + '/access/roles';
         var request = new XMLHttpRequest();
@@ -83,6 +83,7 @@ class Permission extends Component {
         request.withCredentials = true;
         request.setRequestHeader("Content-type", "application/json");
         request.onload = function () {
+            unloadSpinner();
             if (this.status == HttpStatus.OK) {
                 var res = request.response;
                 if (role === "user") {
@@ -108,12 +109,14 @@ class Permission extends Component {
         request.send(JSON.stringify(newUser));
     }
     getAdminRoleData = (role) => {
+        loadSpinner();
         const that = this;
         var url = domainUrl + '/access/' + role;
         var request = new XMLHttpRequest();
         request.open('GET', url, true);
         request.withCredentials = true;
         request.onload = function () {
+            unloadSpinner();
             if (this.status == HttpStatus.OK) {
                 var res = JSON.parse(request.response);
                 that.setState({
@@ -132,6 +135,7 @@ class Permission extends Component {
         });
     }
     onConfirm = (index, userType, roleType) => {
+        loadSpinner();
         const that = this;
         var url = domainUrl + '/access/roles';
         var request = new XMLHttpRequest();
@@ -143,6 +147,7 @@ class Permission extends Component {
         request.withCredentials = true;
         request.setRequestHeader("Content-type", "application/json");
         request.onload = function () {
+            unloadSpinner();
             if (this.status == HttpStatus.OK) {
                 if (userType === 'user') {
                     that.setState({
@@ -274,22 +279,10 @@ class Permission extends Component {
         this.getRoles();
     }
 
-    showSpinner = () => {
-        this.setState({
-            showSpinner: true
-        })
-    }
-    hideSpinner = () => {
-        this.setState({
-            showSpinner: false
-        })
-    }
-
     render() {
         return (
             <div>
                 <NavigationBar/>
-                <Spinner open={this.state.showSpinner}/>
                 <div class="container bg-light mt-5">
                     <h1 class="text-muted text-center">UserTypes</h1>
                     <ul className={'list-group mt-4'}>
