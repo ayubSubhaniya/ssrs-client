@@ -22,7 +22,7 @@ class Myprofile extends Component {
         return (
             <div>
                 <NavigationBar/>
-                <div>
+                <div class="animated fadeIn">
                     {this.state.isEdit
                         ? <EditProfile user={this.props.user}
                                        updateUser={this.props.updateUser}

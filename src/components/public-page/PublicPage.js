@@ -7,6 +7,7 @@ import logo from "../../images/dalogo.jpg";
 import ForgotPassword from "./ForgotPassword";
 import SignUpPage from "./SignUpPage"
 import SignInPage from "./SignInPage"
+import { withAlert } from "react-alert";
 
 class PublicPage extends Component {
     constructor() {
@@ -112,7 +113,7 @@ class PublicPage extends Component {
         request.setRequestHeader("Content-type", "application/json");
         request.onload = function () {
             if (this.status == HttpStatus.OK) {
-                alert(infoMessages.verificationLinkSent);
+                this.props.alert.show(infoMessages.verificationLinkSent);
                 that.setState({modalIsOpen: false});
             } else if (this.status === HttpStatus.FORBIDDEN) {
                 that.setState({
@@ -203,4 +204,4 @@ class PublicPage extends Component {
     }
 }
 
-export default PublicPage;
+export default withAlert(PublicPage);

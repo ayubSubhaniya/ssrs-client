@@ -7,16 +7,20 @@ import CartDetails from "./CartDetails";
 import ErrorMessage from "../../error/ErrorMessage";
 import {paymentMode} from '../../../constants/constants'
 import {payOffline, payOnline} from "../../../helper/FetchData";
+import {Redirect} from "react-router-dom"
 
 class Payment extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             paymentType: "0",
-            errorMessage: '',
+            isPaymentDone: false,
+            errorMessage: ''
         };
         this.payOnline = payOnline.bind(this);
         this.payOffline = payOffline.bind(this);
+        const path = props.location.pathname.split('/');
+        this.id = path.length>2 ? path[2] : '';
     }
 
     changePaymentType = ({target}) => {
@@ -60,6 +64,13 @@ class Payment extends React.Component {
 
 
     render() {
+        if (this.state.isPaymentDone) {
+            return (
+                <Redirect to={{
+                    pathname: "/order"
+                }}/>
+            )
+        }
         return (
             <div>
                 <NavigationBar/>
@@ -88,12 +99,12 @@ class Payment extends React.Component {
                             </div>
                             <div className='payment-method-body'>
                                 <div className={`${this.state.paymentType !== "0" ? 'd-none' : ''}`}>
-                                    <div className="btn btn-success m-4 p-4" onClick={this.payOffline}>
+                                    <div className="btn btn-success m-4 p-4" onClick={() => this.payOffline(this.id)}>
                                         {"Pay Offline"}
                                     </div>
                                 </div>
                                 <div className={`${this.state.paymentType !== "1" ? 'd-none' : ''}`}>
-                                    <div className="btn btn-success m-4 p-4" onClick={this.payOnline}>
+                                    <div className="btn btn-success m-4 p-4" onClick={() => this.payOnline(this.id)}>
                                         {"Pay Online    "}
                                     </div>
                                 </div>

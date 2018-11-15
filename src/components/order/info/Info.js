@@ -135,7 +135,7 @@ class Info extends React.Component {
         }
     }
 
-    redirect = (data) => {
+    redirect = () => {
         this.props.history.push({
             pathname: '/payment'
         });

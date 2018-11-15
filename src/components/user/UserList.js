@@ -12,6 +12,7 @@ import FileUpload from "../FileUpload/FileUpload";
 import {BootstrapTable, TableHeaderColumn, ExportCSVButton,SizePerPageDropDown} from 'react-bootstrap-table';
 import '../../../node_modules/react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
 import {handleError} from "../../helper/error";
+import { withAlert } from "react-alert";
 
 function UserDetails(props) {
     const userInfo = props.user.userInfo
@@ -261,15 +262,20 @@ class UserList extends Component {
                 that.setState({
                     showSpinner: false
                 });
-                alert("data updated successfully")
-                window.location.reload()
+                that.props.alert.success("data updated successfully")
+                setTimeout(function(){ 
+                    window.location.reload()
+                        }, 3000); 
             }
             else {
                 that.setState({
                     showSpinner: false
                 });
-                alert(request.responseText + " Please check the file again for format issues");
-                window.location.reload()
+                that.props.alert.error(" Please check the file again for format issues");
+                setTimeout(function(){ 
+                    window.location.reload()
+                        }, 3000); 
+               
             }
         };
         request.send(JSON.stringify(data));
@@ -457,4 +463,4 @@ class UserList extends Component {
     }
 }
 
-export default UserList;
+export default withAlert(UserList);

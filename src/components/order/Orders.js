@@ -8,6 +8,7 @@ import {isAdmin, isStudent} from "../../helper/userType";
 import {makeCall} from "../../helper/caller";
 import {handleError} from "../../helper/error";
 import {rcartStatus} from "../../constants/status";
+import qs from 'query-string';
 
 const orders = {
     '-10': "all",
@@ -29,20 +30,28 @@ class Filter extends Component {
         this.state = {
             filterKey: ['-10', 30, 40, 50, 70, 80, 90, 100, 110, 120, 130],
             isFilterVisible: false,
-            filterState: -1,
+            filterState: '-1',
             cart: [],
         }
     }
 
     componentDidMount() {
-        this.getCart(isAdmin(this.props.user)
+        this.getCart(this.getDefaultStatus())
+    }
+
+    getDefaultStatus = () => {
+        const params = qs.parse(this.props.location.search);
+        let defaultStatus = isAdmin(this.props.user)
             ? rcartStatus.processing
-            : isStudent(this.props.user) ? '-10' : -1)
+            : isStudent(this.props.user) ? '-10' : -1;
+        if(params.status)
+            defaultStatus = params.status;
+        return defaultStatus;
     }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.userType !== this.props.user.userType) {
-            this.getCart((isAdmin(nextProps.user) ? rcartStatus.processing : '-10'))
+            this.getCart(this.getDefaultStatus())
         }
     }
 
@@ -75,6 +84,10 @@ class Filter extends Component {
     }
 
     updateFilter = ({target}) => {
+        this.props.history.push({
+            pathname: '/order',
+            search: '?status='+ target.dataset.filter
+        })
         this.getCart(target.dataset.filter);
     }
 
