@@ -12,7 +12,7 @@ import Services from "./service/Services";
 import NewServiceForm from "./service/NewServiceForm";
 import EditForm from "./service/EditForm";
 import AuthorizedRoute from './AuthorizedRoute'
-import {errorMessages} from "../config/configuration";
+import {domainUrl, errorMessages} from "../config/configuration";
 import * as HttpStatus from "http-status-codes";
 import PublicPage from "./public-page/PublicPage";
 import Parameters from "./parameter/Parameters";
