@@ -12,7 +12,7 @@ import Services from "./service/Services";
 import NewServiceForm from "./service/NewServiceForm";
 import EditForm from "./service/EditForm";
 import AuthorizedRoute from './AuthorizedRoute'
-import {domainUrl, errorMessages} from "../config/configuration";
+import {errorMessages} from "../config/configuration";
 import * as HttpStatus from "http-status-codes";
 import PublicPage from "./public-page/PublicPage";
 import Parameters from "./parameter/Parameters";
@@ -38,7 +38,6 @@ import dashboard from "./Dashboard/dashboard";
 import {handleError} from "../helper/error";
 import Email from "./email/Email"
 import AboutUs from './AboutUs/AboutUs';
-import {loadSpinner, unloadSpinner} from "../helper/spinner";
 
 export const Context = React.createContext();
 
@@ -136,7 +135,7 @@ class App extends Component {
         }
     }
 
-    logIn = (logInDetails, redirect) => {
+    logIn = (logInDetails) => {
         makeCall({
             jobType: 'POST',
             urlParams: '/account/signin',
@@ -147,32 +146,19 @@ class App extends Component {
                     isAuthenticated: true,
                     user: response.user
                 })
-                redirect();
             })
             .catch((response) => this.handleLoginError(response))
     }
 
     logOut = () => {
-        loadSpinner();
-        const that = this;
-        var url = domainUrl + '/account/signout';
-        var request = new XMLHttpRequest();
-        request.open('GET', url, false);
-        request.withCredentials = true;
-        request.setRequestHeader("Content-type", "application/json");
-        request.onload = function () {
-            if (this.status == HttpStatus.OK) {
-                that.setState({
-                    isAuthenticated: false,
-                    user: defaultUser
-                })
-                window.open("/", "_self");
-            } else {
-                handleError(request)
-            }
-            unloadSpinner();
-        }
-        request.send();
+        makeCall({
+            jobType: 'GET',
+            urlParams: '/account/signout'
+        })
+            .then(() => window.location = '/')
+            .catch((error) => {
+                handleError(error);
+            })
     }
 
     clearLoginMessage = () => {
@@ -264,7 +250,7 @@ class App extends Component {
                                 component={Info}
                                 permission={isStudent(this.state.user)}/>
                             <AuthorizedRoute
-                                path='/payment/'
+                                exact path='/payment'
                                 component={Payment}
                                 permission={isStudent(this.state.user)}/>
                             <AuthorizedRoute
@@ -295,7 +281,8 @@ class App extends Component {
                                 exact path='/helpUser'
                                 component={HelpUser}
                                 user={this.state.user}
-                                permission={isStudent(this.state.user)}/>
+                                permission={isStudent(this.state.user)}
+                                />
                             <AuthorizedRoute
                                 exact path='/dashboard'
                                 component={dashboard}
