@@ -6,6 +6,7 @@ import {domainUrl, errorMessages} from '../../../config/configuration'
 import * as HttpStatus from "http-status-codes";
 import $ from "jquery";
 import ErrorMessage from "../../error/ErrorMessage";
+import { withAlert } from "react-alert";
 
 class OrderForm extends Component {
     constructor(props) {

@@ -7,6 +7,7 @@ import { handleError } from "../../helper/error";
 import { defaultEmails } from "../../constants/constants";
 import { handleChange } from "../../helper/StateUpdate";
 import RichTextEditor from 'react-rte';
+import { withAlert } from "react-alert";
 
 class Email extends Component {
     constructor() {
@@ -79,7 +80,7 @@ class Email extends Component {
             params: this.getEmailFromState()
         })
             .then((response) => {
-                alert("Template updated successfully");
+                this.props.alert.success("Template updated successfully");
             })
             .catch((error) => handleError(error))
     }
@@ -169,4 +170,4 @@ class Email extends Component {
     }
 }
 
-export default Email
+export default withAlert(Email)

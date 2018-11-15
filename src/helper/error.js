@@ -1,4 +1,3 @@
-
 export const handleError = (error) => {
     if(error.statusText)
         alert(error.statusText);

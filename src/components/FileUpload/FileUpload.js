@@ -1,9 +1,11 @@
 import React, { Component } from "react";
 import NavigationBar from "../NavigationBar"
 import { domainUrl, errorMessages } from "../../config/configuration";
+import { withAlert } from 'react-alert'
+
 const XLSX = require('xlsx');
 
-export default class FileUpload extends Component {
+class FileUpload extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -20,7 +22,7 @@ export default class FileUpload extends Component {
         e.preventDefault();
         var rABS = true; // true: readAsBinaryString ; false: readAsArrayBuffer
         if (this.state.filesToBeSent.length == 0) {
-            alert("Please Select File to Upload")
+            this.props.alert.show("Please Select File to Upload");
         }
         else {
             var files = this.state.filesToBeSent, f = this.state.filesToBeSent[0];
@@ -71,3 +73,5 @@ export default class FileUpload extends Component {
         );
     }
 }
+
+export default withAlert(FileUpload)
