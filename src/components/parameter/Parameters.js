@@ -4,6 +4,7 @@ import Header from "../Header";
 import ParameterList from "./ParameterList";
 import {makeCall} from "../../helper/caller";
 import {handleError} from "../../helper/error";
+import _ from 'lodash';
 
 class Parameters extends Component {
     constructor(props) {
@@ -23,8 +24,11 @@ class Parameters extends Component {
             urlParams: '/parameter'
         })
             .then((response) => {
+                let sortedParameters = _.sortBy(response.parameter, (parameter) => {
+                    return parameter.name;
+                });
                 this.setState({
-                    parameter: response.parameter
+                    parameter: sortedParameters
                 })
             })
             .catch((error) => {

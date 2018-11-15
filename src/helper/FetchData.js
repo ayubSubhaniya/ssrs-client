@@ -4,11 +4,12 @@ import React from "react";
 import {makeCall} from "./caller";
 import {handleError} from "./error";
 import {OFFLINE, ONLINE} from "../constants/constants";
+import {loadSpinner, unloadSpinner} from "./spinner";
 
-export function getCart(callback) {
+export function getCart(callback ,id) {
     makeCall({
         jobType: 'GET',
-        urlParams: '/cart'
+        urlParams: '/cart/' + (id?id:'')
     })
         .then(callback)
         .catch((error) => {
@@ -27,10 +28,10 @@ export function deleteAddress(id, index){
         })
 }
 
-export function payOnline(){
+export function payOnline(id){
     makeCall({
         jobType: 'PATCH',
-        urlParams: '/cart/addPayment/EasyPay',
+        urlParams: '/cart/addPayment/EasyPay/' + (id?id:''),
         params: {
             paymentType: ONLINE
         }
@@ -41,10 +42,10 @@ export function payOnline(){
         .catch((error) => this.onError(error))
 };
 
-export function payOffline(){
+export function payOffline(id){
     makeCall({
         jobType: 'PATCH',
-        urlParams: '/cart/addPayment',
+        urlParams: '/cart/addPayment/' + (id?id:''),
         params: {
             paymentType: OFFLINE
         }
@@ -59,9 +60,7 @@ export function payOffline(){
 
 export function asyncFetch(dataName) {
     const that = this;
-    that.setState({
-        showSpinner: true
-    })
+    loadSpinner();
     const url = domainUrl + '/' + dataName
     var request = new XMLHttpRequest();
     request.open('GET', url, true);
@@ -75,9 +74,7 @@ export function asyncFetch(dataName) {
         } else {
             handleError(request)
         }
-        that.setState({
-            showSpinner: false
-        })
+        unloadSpinner();
     };
     request.send();
 }

@@ -13,9 +13,8 @@ import ErrorMessage from "../../error/ErrorMessage";
 import {makeCall} from "../../../helper/caller";
 import _ from "lodash"
 import {collectionTypeCategory} from "../../../constants/constants";
-import {getCart} from "../../../helper/FetchData";
+import {deleteAddress, getCart} from "../../../helper/FetchData";
 import {handleError} from "../../../helper/error";
-import {deleteAddress} from "../../../helper/FetchData";
 
 const {DELIVERY, PICKUP} = collectionTypeCategory
 
@@ -24,11 +23,11 @@ class Info extends React.Component {
     constructor(props) {
         super(props);
         this.avilableCollectionTypes = props.location.state.avilableCollectionTypes;
+        this.id = props.location.state.id;
         this.state = {
             addresses: [],
             cart: [],
             selectedAddress: -1,
-            showSpinner: false,
             editAddress: false,
             collectionTypes: this.avilableCollectionTypes,
             selectedCollectionTypeIndex: 0,
@@ -136,10 +135,9 @@ class Info extends React.Component {
         }
     }
 
-    redirect = (data) => {
+    redirect = () => {
         this.props.history.push({
-            pathname: '/payment',
-            state: data
+            pathname: '/payment'
         });
     }
 

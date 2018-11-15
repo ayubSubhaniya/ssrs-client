@@ -1,7 +1,6 @@
 import React from 'react'
 import NavigationBar from "../../NavigationBar";
 import Stapes from "../../service/Stapes";
-import {Redirect} from "react-router-dom";
 import {errorMessages} from "../../../config/configuration";
 import * as HttpStatus from "http-status-codes";
 import CartDetails from "./CartDetails";
@@ -14,11 +13,12 @@ class Payment extends React.Component {
         super(props);
         this.state = {
             paymentType: "0",
-            isPaymentDone: false,
             errorMessage: '',
         };
         this.payOnline = payOnline.bind(this);
         this.payOffline = payOffline.bind(this);
+        const path = props.location.pathname.split('/');
+        this.id = path.length>2 ? path[2] : '';
     }
 
     changePaymentType = ({target}) => {
@@ -62,20 +62,12 @@ class Payment extends React.Component {
 
 
     render() {
-        if (this.state.isPaymentDone) {
-            return (
-                <Redirect to={{
-                    pathname: "/order"
-                }}/>
-            )
-        }
-        const collectionType = this.props.location.state;
         return (
             <div>
                 <NavigationBar/>
                 <div className={'container'}>
                     <Stapes active={3}/>
-                    <CartDetails collectionType={collectionType}/>
+                    <CartDetails/>
                     <hr/>
                     <ErrorMessage message={this.state.errorMessage} clearMessage={this.cleanErrorMessage}/>
                     <div className={'payment-operation'}>
@@ -98,12 +90,12 @@ class Payment extends React.Component {
                             </div>
                             <div className='payment-method-body'>
                                 <div className={`${this.state.paymentType !== "0" ? 'd-none' : ''}`}>
-                                    <div className="btn btn-success m-4 p-4" onClick={this.payOffline}>
+                                    <div className="btn btn-success m-4 p-4" onClick={() => this.payOffline(this.id)}>
                                         {"Pay Offline"}
                                     </div>
                                 </div>
                                 <div className={`${this.state.paymentType !== "1" ? 'd-none' : ''}`}>
-                                    <div className="btn btn-success m-4 p-4" onClick={this.payOnline}>
+                                    <div className="btn btn-success m-4 p-4" onClick={() => this.payOnline(this.id)}>
                                         {"Pay Online    "}
                                     </div>
                                 </div>

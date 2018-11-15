@@ -1,27 +1,49 @@
 import React, {Component} from 'react';
+import {withRouter} from "react-router-dom"
 import {getCart} from "../../../helper/FetchData";
 import _ from "lodash"
 import ServiceDetails from "./ServiceDetails";
 import {defaultCart} from "../../../constants/constants";
 import TextInfo from "../TextInfo"
 import {DeliveryInfo,PickupInfo} from "../Info";
+import {makeCall} from "../../../helper/caller";
+import {handleError} from "../../../helper/error";
 
 class CartDetails extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            cart: defaultCart
+            cart: defaultCart,
+            collectionType: {name: "Loading..."}
         };
+        const path = props.location.pathname.split('/');
+        this.id = path.length>2 ? path[2] : '';
     }
 
     componentDidMount() {
-        getCart(this.setCart)
+        getCart(this.setCart,this.id)
     }
 
     setCart = (response) => {
         this.setState({
             cart: response.cart
         })
+        this.getCollection(response.cart.collectionType);
+    }
+
+    getCollection = (id) => {
+        makeCall({
+            jobType: 'GET',
+            urlParams: '/collectionType/' + id
+        })
+            .then((response) => {
+                this.setState({
+                    collectionType: response.collectionType
+                })
+            })
+            .catch((error) => {
+                handleError(error);
+            })
     }
 
     render() {
@@ -53,7 +75,7 @@ class CartDetails extends Component {
                             <td data-th="Service">
                                 <div className="row">
                                     <div className="col-sm-10">
-                                        <h4 className="nomargin">{this.props.collectionType.name}</h4>
+                                        <h4 className="nomargin">{this.state.collectionType.name}</h4>
                                     </div>
                                 </div>
                             </td>
@@ -71,7 +93,7 @@ class CartDetails extends Component {
 
                     <h5><strong>COLLECTION INFORMATION</strong></h5>
                     <div className='container p-1'>
-                        <TextInfo lable="Collection Type" data={this.props.collectionType.name}/>
+                        <TextInfo lable="Collection Type" data={this.state.collectionType.name}/>
                         {
                            delivery
                                 ? <DeliveryInfo delivery={delivery}/>
@@ -84,5 +106,5 @@ class CartDetails extends Component {
     }
 }
 
-export default CartDetails;
+export default withRouter(CartDetails);
 
