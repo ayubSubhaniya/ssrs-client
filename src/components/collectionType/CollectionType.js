@@ -4,6 +4,7 @@ import Header from "../Header";
 import CollectionTypeList from "./CollectionTypeList";
 import {makeCall} from "../../helper/caller";
 import {handleError} from "../../helper/error";
+import _ from 'lodash';
 
 class CollectionType extends Component {
     constructor(props) {
@@ -23,8 +24,11 @@ class CollectionType extends Component {
             urlParams: '/collectionType'
         })
             .then((response) => {
+                let sortedData = _.sortBy(response.collectionType, (data) => {
+                    return data.name;
+                });
                 this.setState({
-                    collectionType: response.collectionType
+                    collectionType: sortedData
                 })
             })
             .catch((error) => {
