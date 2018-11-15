@@ -308,7 +308,7 @@ class PermissionForm extends React.Component {
                                                    style={{display: "inline"}}
                                                    type="radio"
                                                    value="any"
-                                                   checked={this.state.data[`${key}`].delete === "any"}
+                                                   checked={this.state.data[`${key}`].create === "any"}
                                                    onClick={(e) => this.changeStatus(e, `${key}`, "create")}/>
                                             any
                                         </label>
@@ -321,7 +321,7 @@ class PermissionForm extends React.Component {
                                                    style={{display: "inline"}}
                                                    type="radio"
                                                    value="own"
-                                                   checked={this.state.data[`${key}`].delete === "own"}
+                                                   checked={this.state.data[`${key}`].create === "own"}
                                                    onClick={(e) => this.changeStatus(e, `${key}`, "create")}/>
                                             own
                                         </label>
@@ -334,7 +334,7 @@ class PermissionForm extends React.Component {
                                                    style={{display: "inline"}}
                                                    type="radio"
                                                    value="none"
-                                                   checked={this.state.data[`${key}`].delete === "none"}
+                                                   checked={this.state.data[`${key}`].create === "none"}
                                                    onClick={(e) => this.changeStatus(e, `${key}`, "create")}/>
                                             none
                                         </label>
