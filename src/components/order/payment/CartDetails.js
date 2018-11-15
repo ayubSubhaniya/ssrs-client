@@ -13,13 +13,14 @@ class CartDetails extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            cart: defaultCart
+            cart: defaultCart,
+            collectionType: {name: "Loading..."}
         };
-        this.id = props.location.pathname.split('/')[2];
+        const path = props.location.pathname.split('/');
+        this.id = path.length>2 ? path[2] : '';
     }
 
     componentDidMount() {
-        console.log(this.id);
         getCart(this.setCart,this.id)
     }
 
@@ -74,7 +75,7 @@ class CartDetails extends Component {
                             <td data-th="Service">
                                 <div className="row">
                                     <div className="col-sm-10">
-                                        <h4 className="nomargin">{this.props.collectionType.name}</h4>
+                                        <h4 className="nomargin">{this.state.collectionType.name}</h4>
                                     </div>
                                 </div>
                             </td>

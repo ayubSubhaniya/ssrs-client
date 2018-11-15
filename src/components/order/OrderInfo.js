@@ -15,32 +15,38 @@ import ServiceList from "./ServiceList";
 import {DeliveryInfo, PickupInfo} from './Info'
 import {isAdmin} from "../../helper/userType";
 import {handleError} from "../../helper/error";
-import {payOnline} from "../../helper/FetchData";
 import {domainUrl, errorMessages} from "../../config/configuration";
 import * as HttpStatus from "http-status-codes";
 import ErrorMessage from "../error/ErrorMessage";
+import _ from "lodash"
 
 function PaymentInfo({cart}) {
+    let paymentStatus = '';
+    if (cart.status === rcartStatus.processingPayment)
+        paymentStatus = 'Processing';
+    else if (cart.paymentStatus)
+        paymentStatus = 'Done';
+    else
+        paymentStatus = 'Failed';
+
     return (
         <div className='w-50'>
             <h5><strong>PAYMENT INFORMATION</strong></h5>
             <div className='container p-1'>
                 <TextInfo lable="Payment Mode" data={camelCaseToWords(cart.paymentType)}/>
+                <TextInfo lable="Payment Code" data={cart.paymentCode}/>
+                <TextInfo lable="Payment Status" data={paymentStatus}/>
+            </div>
+            <div className='container p-1'>
+                <h5><strong>PAYMENT FAIL HISTORY</strong></h5>
                 {
-                    cart.status < rcartStatus.processing
-                        ? (
-                            <React.Fragment>
-                                <TextInfo lable="Payment Code" data={cart.paymentCode}/>
-                                <div className='row'>
-                                    <div className='col-3'>Payment Status</div>
-                                    <div className='col-9'>: Pending</div>
-                                </div>
-                            </React.Fragment>
-                        )
-                        : (<React.Fragment>
-                            <TextInfo lable="Payment Code" data={cart.paymentCode}/>
-                            <TextInfo lable="Payment Status" data={'Successful'}/>
-                        </React.Fragment>)
+                    _.map(cart.paymentFailHistory, (o) => {
+                        <React.Fragment>
+                            <TextInfo lable="Payment ID" data={o.paymentId}/>
+                            <TextInfo lable="Payment Date" data={o.paymentDate}/>
+                            <TextInfo lable="Payment Type" data={camelCaseToWords(o.paymentType)}/>
+                        </React.Fragment>
+                    })
                 }
             </div>
         </div>
@@ -61,7 +67,6 @@ class OrderInfo extends Component {
             isCollectionCodeWrong: false,
             isCourierDetailsModalOpen: false,
         }
-        this.payOnline = payOnline.bind(this);
     }
 
     componentDidMount() {
@@ -251,6 +256,12 @@ class OrderInfo extends Component {
         }
     }
 
+    redirect = (id) => {
+        this.props.history.push({
+            pathname: '/payment/' + id
+        });
+    }
+
     render() {
         const cart = this.state.cart;
         const delivery = cart.delivery;
@@ -276,7 +287,7 @@ class OrderInfo extends Component {
                                 : ''
                         }
                         {
-                            (cart.status===rcartStatus.completed)
+                            (cart.status === rcartStatus.completed)
                                 ? <a href={domainUrl + '/cart/invoice/' + cart._id}
                                      target="_blank"
                                      download={`invoice_${cart.orderId}.pdf`}
@@ -287,7 +298,7 @@ class OrderInfo extends Component {
                                 : ''
                         }
                         {
-                            (cart.status===rcartStatus.cancelled)
+                            (cart.status === rcartStatus.cancelled)
                                 ? <div className='btn btn-outline-primary mr-4 align-self-center'
                                        onClick={this.giveRefund}>
                                     <i className="fa fa-undo mr-2"></i>
@@ -296,9 +307,9 @@ class OrderInfo extends Component {
                                 : ''
                         }
                         {
-                            (cart.status===rcartStatus.paymentFailed)
+                            (cart.status === rcartStatus.paymentFailed)
                                 ? <div className='btn btn-outline-primary mr-4 align-self-center'
-                                       onClick={this.payOnline}>
+                                       onClick={() => this.redirect(cart._id)}>
                                     <i className="fa fa-redo"></i>
                                     Retry
                                 </div>

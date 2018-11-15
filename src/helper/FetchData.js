@@ -28,10 +28,10 @@ export function deleteAddress(id, index){
         })
 }
 
-export function payOnline(){
+export function payOnline(id){
     makeCall({
         jobType: 'PATCH',
-        urlParams: '/cart/addPayment/EasyPay',
+        urlParams: '/cart/addPayment/EasyPay/' + (id?id:''),
         params: {
             paymentType: ONLINE
         }
@@ -42,10 +42,10 @@ export function payOnline(){
         .catch((error) => this.onError(error))
 };
 
-export function payOffline(){
+export function payOffline(id){
     makeCall({
         jobType: 'PATCH',
-        urlParams: '/cart/addPayment',
+        urlParams: '/cart/addPayment/' + (id?id:''),
         params: {
             paymentType: OFFLINE
         }
