@@ -61,6 +61,7 @@ class PublicPage extends Component {
         const that = this;
         request.onload = function () {
             if (this.status == HttpStatus.CREATED) {
+                that.props.alert.show(infoMessages.verificationLinkSent);
                 that.setState({isSignedup: true});
             } else if (this.status === HttpStatus.FORBIDDEN) {
                 that.setState({
@@ -113,7 +114,7 @@ class PublicPage extends Component {
         request.setRequestHeader("Content-type", "application/json");
         request.onload = function () {
             if (this.status == HttpStatus.OK) {
-                this.props.alert.show(infoMessages.verificationLinkSent);
+                that.props.alert.show(infoMessages.verificationLinkSent);
                 that.setState({modalIsOpen: false});
             } else if (this.status === HttpStatus.FORBIDDEN) {
                 that.setState({
