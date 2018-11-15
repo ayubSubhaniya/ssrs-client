@@ -20,7 +20,7 @@ class EditProfile extends Component {
                     this.props.changeIsEdit();
                     this.props.updateUser(this.state);
                 }}>
-                    <table class="table table-striped ">
+                    <table class="table table-striped animated fadeIn">
                         <tbody>
                         <tr>
                             <td>Daiict Id </td>
