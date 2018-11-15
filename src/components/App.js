@@ -12,7 +12,7 @@ import Services from "./service/Services";
 import NewServiceForm from "./service/NewServiceForm";
 import EditForm from "./service/EditForm";
 import AuthorizedRoute from './AuthorizedRoute'
-import {errorMessages} from "../config/configuration";
+import {domainUrl, errorMessages} from "../config/configuration";
 import * as HttpStatus from "http-status-codes";
 import PublicPage from "./public-page/PublicPage";
 import Parameters from "./parameter/Parameters";
@@ -135,7 +135,7 @@ class App extends Component {
         }
     }
 
-    logIn = (logInDetails) => {
+    logIn = (logInDetails, redirect) => {
         makeCall({
             jobType: 'POST',
             urlParams: '/account/signin',
@@ -146,19 +146,30 @@ class App extends Component {
                     isAuthenticated: true,
                     user: response.user
                 })
+                redirect();
             })
             .catch((response) => this.handleLoginError(response))
     }
 
     logOut = () => {
-        makeCall({
-            jobType: 'GET',
-            urlParams: '/account/signout'
-        })
-            .then(() => window.location = '/')
-            .catch((error) => {
-                handleError(error);
-            })
+        const that = this;
+        var url = domainUrl + '/account/signout';
+        var request = new XMLHttpRequest();
+        request.open('GET', url, false);
+        request.withCredentials = true;
+        request.setRequestHeader("Content-type", "application/json");
+        request.onload = function () {
+            if (this.status == HttpStatus.OK) {
+                that.setState({
+                    isAuthenticated: false,
+                    user: defaultUser
+                })
+                window.open("/", "_self");
+            } else {
+                handleError(request)
+            }
+        }
+        request.send();
     }
 
     clearLoginMessage = () => {

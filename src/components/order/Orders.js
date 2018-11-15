@@ -27,7 +27,7 @@ class Filter extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            filterKey: Object.keys(orders),
+            filterKey: ['-10', 30, 40, 50, 70, 80, 90, 100, 110, 120, 130],
             isFilterVisible: false,
             filterState: -1,
             cart: [],
@@ -81,9 +81,9 @@ class Filter extends Component {
     render() {
         let cart = this.state.cart;
         let filterKey = this.state.filterKey;
-        if(isAdmin(this.props.user)){
-            cart = _.filter(this.state.cart, (x) => (x.status!==rcartStatus.processingPayment))
-            filterKey = _.filter(this.state.filterKey, (x) => (x!==rcartStatus.processingPayment))
+        if (isAdmin(this.props.user)) {
+            cart = _.filter(this.state.cart, (x) => (x.status !== rcartStatus.processingPayment))
+            filterKey = _.filter(this.state.filterKey, (x) => (x !== rcartStatus.processingPayment && x !== rcartStatus.paymentFailed))
         }
         return (
             <div>

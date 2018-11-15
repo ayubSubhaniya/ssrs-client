@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import '../../styles/publicpage.css'
 import {Context} from "../App";
-import {domainUrl, errorMessages, infoMessages} from "../../config/configuration";
+import {domainUrl, infoMessages} from "../../config/configuration";
 import * as HttpStatus from "http-status-codes";
 import logo from "../../images/dalogo.jpg";
 import ForgotPassword from "./ForgotPassword";
@@ -114,7 +114,7 @@ class PublicPage extends Component {
             if (this.status == HttpStatus.OK) {
                 alert(infoMessages.verificationLinkSent);
                 that.setState({modalIsOpen: false});
-            }  else if (this.status === HttpStatus.FORBIDDEN) {
+            } else if (this.status === HttpStatus.FORBIDDEN) {
                 that.setState({
                     forgotPasswordMessage: request.responseText
                 })
@@ -156,9 +156,9 @@ class PublicPage extends Component {
                             <React.Fragment>
 
                                 <div className="loginbox">
-                                <div className="imagelogo">
-                                    <img className={"dalogo"} src={logo}/>
-                                </div>
+                                    <div className="imagelogo">
+                                        <img className={"dalogo"} src={logo}/>
+                                    </div>
                                     <input type="radio" name="tab" id="signin" onChange={this.switchTab}
                                            checked={login}/>
                                     <input type="radio" name="tab" id="register" onChange={this.switchTab}
