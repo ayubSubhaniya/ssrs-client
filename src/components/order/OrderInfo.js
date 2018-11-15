@@ -37,15 +37,16 @@ function PaymentInfo({cart}) {
                 <TextInfo lable="Payment Code" data={cart.paymentCode}/>
                 <TextInfo lable="Payment Status" data={paymentStatus}/>
             </div>
+            <hr/>
             <div className='container p-1'>
                 <h5><strong>PAYMENT FAIL HISTORY</strong></h5>
                 {
                     _.map(cart.paymentFailHistory, (o) => {
-                        <React.Fragment>
+                        return (<React.Fragment>
                             <TextInfo lable="Payment ID" data={o.paymentId}/>
                             <TextInfo lable="Payment Date" data={o.paymentDate}/>
                             <TextInfo lable="Payment Type" data={camelCaseToWords(o.paymentType)}/>
-                        </React.Fragment>
+                        </React.Fragment>)
                     })
                 }
             </div>
@@ -335,6 +336,7 @@ class OrderInfo extends Component {
                         <div><span className={'total'}>Total: ₹ </span><span
                             className='price'>{cart.totalCost}</span></div>
                     </div>
+                    <hr/>
                     <div className='d-flex'>
                         <div className='w-50'>
                             <h5><strong>COLLECTION INFORMATION</strong></h5>
