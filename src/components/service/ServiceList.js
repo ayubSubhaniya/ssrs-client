@@ -30,8 +30,13 @@ class ServiceList extends Component {
             urlParams: '/service'
         })
             .then((response) => {
+
+                let sortedServices = _.sortBy(response.service, (service) => {
+                    return service.name;
+                });
+                
                 this.setState({
-                    service: response.service,
+                    service: sortedServices,
                 });
             })
             .catch((error) => {
