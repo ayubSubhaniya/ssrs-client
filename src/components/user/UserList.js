@@ -12,6 +12,7 @@ import '../../../node_modules/react-bootstrap-table/dist/react-bootstrap-table-a
 import {handleError} from "../../helper/error";
 import {loadSpinner, unloadSpinner} from "../../helper/spinner";
 import _ from "lodash"
+import {withAlert} from 'react-alert'
 
 function UserDetails(props) {
     const userInfo = props.user.userInfo
@@ -583,4 +584,4 @@ class UserList extends Component {
     }
 }
 
-export default UserList;
+export default withAlert(UserList);

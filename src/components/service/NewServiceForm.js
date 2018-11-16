@@ -8,6 +8,8 @@ import Form from "./Form";
 import {makeCall} from "../../helper/caller";
 import _ from 'lodash'
 import {handleError} from "../../helper/error";
+import {errorMessages, infoMessages} from "../../config/configuration";
+import {withAlert} from 'react-alert'
 
 class NewServiceForm extends Component {
     constructor(props) {
@@ -87,7 +89,13 @@ class NewServiceForm extends Component {
 
     handleSubmit = (event) => {
         event.preventDefault();
-        this.addService()
+        if(this.getServiceFromState().collectionTypes.length > 0){
+            this.addService();
+            this.props.alert.success(infoMessages.serviceAdded);
+        }
+        else {
+            this.props.alert.error(errorMessages.collectionTypeReq);
+        }
     }
 
     changeRadioButtonState = ({target}) => {
@@ -115,5 +123,5 @@ class NewServiceForm extends Component {
     }
 }
 
-export default withRouter(NewServiceForm);
+export default withAlert(withRouter(NewServiceForm));
 

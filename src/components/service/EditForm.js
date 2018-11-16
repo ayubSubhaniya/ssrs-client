@@ -8,6 +8,8 @@ import _ from "lodash"
 import {makeCall} from "../../helper/caller"
 import {defaultService} from "../../constants/constants";
 import {handleError} from "../../helper/error";
+import {errorMessages, infoMessages} from "../../config/configuration";
+import {withAlert} from 'react-alert'
 
 function setSelecteProperty(arr1, arr2) {
     return _.map(arr1, (x) => {
@@ -150,7 +152,13 @@ class EditForm extends Component {
 
     handleSubmit = (event) => {
         event.preventDefault();
-        this.updateService()
+        if(this.getServiceFromState().collectionTypes.length > 0){
+            this.updateService();
+            this.props.alert.success(infoMessages.savedSuccess);
+        }
+        else {
+            this.props.alert.error(errorMessages.collectionTypeReq);
+        }
     }
 
     changeRadioButtonState = ({target}) => {
@@ -177,5 +185,5 @@ class EditForm extends Component {
     }
 }
 
-export default withRouter(EditForm);
+export default withAlert(withRouter(EditForm));
 
