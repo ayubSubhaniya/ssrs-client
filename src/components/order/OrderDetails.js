@@ -14,6 +14,21 @@ class OrderDetails extends Component {
         })
     }
 
+    getStatusTime = (statusChangeTime) => {
+        let time = []
+
+        if(statusChangeTime.placed.time)
+            time.push(new Date(statusChangeTime.placed.time));
+        if(statusChangeTime.paymentFailed.time)
+            time.push(new Date(statusChangeTime.paymentFailed.time));
+        if(statusChangeTime.processingPayment.time)
+            time.push(new Date(statusChangeTime.processingPayment.time));
+
+        var maxTime = new Date(Math.max.apply(null, time));
+        console.log(maxTime);
+        return maxTime
+    }
+
     render() {
         const {cart, index, ...others} = this.props;
         return (
@@ -26,7 +41,7 @@ class OrderDetails extends Component {
                 </td>
                 <td data-th="Service" className='pt-3 pb-3'>
                     {cart.orders[0].serviceName} <br/>
-                    {formatDate(cart.statusChangeTime.placed.time)}
+                    {formatDate(this.getStatusTime(cart.statusChangeTime))}
                     {
                         cart.orders.length > 1
                             ? <div className='more-items'> + {cart.orders.length - 1} More Item(s)</div>
