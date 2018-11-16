@@ -293,15 +293,20 @@ class UserList extends Component {
                 that.setState({
                     showSpinner: false
                 });
-                alert("data updated successfully")
-                window.location.reload()
+                that.props.alert.success("data updated successfully")
+                setTimeout(function(){
+                    window.location.reload()
+                        }, 1800);
             }
             else {
                 that.setState({
                     showSpinner: false
                 });
-                alert(request.responseText + " Please check the file again for format issues");
-                window.location.reload()
+                that.props.alert.error(" Please check the file again for format issues");
+                setTimeout(function(){
+                    window.location.reload()
+                        }, 1800);
+
             }
         };
         request.send(JSON.stringify(data));
