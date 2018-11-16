@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import _ from "lodash"
-import CartDetails from "./OrderDetails";
+import OrderDetails from "./OrderDetails";
 import {isAdmin} from "../../helper/userType";
 import {handleChange} from "../../helper/StateUpdate";
 import {cartStatus} from "../../constants/status";
@@ -65,6 +65,7 @@ class OrderList extends Component {
                                 <table>
                                     <thead>
                                     <tr className="table100-head">
+                                        <th className="text-center">Sr No.</th>
                                         <th className="text-center">Order No.</th>
                                         <th className="pl-4">Service</th>
                                         <th className="text-center">Status</th>
@@ -82,7 +83,7 @@ class OrderList extends Component {
                                         filteredCarts.length
                                             ? _.map(filteredCarts, (cart, i) => {
                                                 return (
-                                                    <CartDetails key={cart._id}
+                                                    <OrderDetails key={cart._id}
                                                                  cart={cart}
                                                                  index={i}
                                                                  {...others}/>

@@ -15,9 +15,12 @@ class OrderDetails extends Component {
     }
 
     render() {
-        const {cart, ...others} = this.props;
+        const {cart, index, ...others} = this.props;
         return (
             <tr onClick={this.redirect} className='animated fadeIn'>
+                <td data-th="Sr No." className="text-center">
+                    {index + 1}
+                </td>
                 <td data-th="Order No" className="text-center">
                     {cart.orderId}
                 </td>
