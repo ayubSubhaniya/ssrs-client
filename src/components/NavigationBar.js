@@ -59,7 +59,7 @@ class NavigationBar extends Component {
                                     <span className="navbar-toggler-icon"></span>
                                 </button>
                                 <div className="collapse navbar-collapse" id="navbarNavDropdown">
-                                    <ul className="navbar-nav ml-5 mr-3">
+                                    <ul className="navbar-nav ml-3 mr-3">
                                         <NavLink path={'/'}
                                                  text={"Home"}
                                                  icon='home'
