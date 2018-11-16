@@ -2,10 +2,11 @@ import React, {Component} from 'react'
 import _ from "lodash"
 import MultiSelectDropDown from "../../service/MultiSelectDropDown";
 import {withRouter} from "react-router-dom";
-import {domainUrl, errorMessages} from '../../../config/configuration'
+import {domainUrl, errorMessages, infoMessages} from '../../../config/configuration'
 import * as HttpStatus from "http-status-codes";
 import $ from "jquery";
 import ErrorMessage from "../../error/ErrorMessage";
+import { withAlert } from "react-alert";
 
 class OrderForm extends Component {
     constructor(props) {
@@ -66,7 +67,8 @@ class OrderForm extends Component {
             if (this.status === HttpStatus.CREATED) {
                 const response = JSON.parse(request.response);
                 $(that.modal).modal('hide');
-                alert("Order added to the cart!");
+                // alert("Order added to the cart!");
+                that.props.alert.success(infoMessages.orderAddedToCart);
             } else if (this.status === HttpStatus.PRECONDITION_FAILED){
                 that.setState({
                     errorMessage: request.responseText
@@ -151,4 +153,4 @@ class OrderForm extends Component {
     }
 }
 
-export default withRouter(OrderForm)
+export default withAlert(withRouter(OrderForm))

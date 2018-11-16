@@ -14,7 +14,9 @@ export const errorMessages = {
 };
 
 export const infoMessages = {
-    verificationLinkSent: "Verification link sent. Please check you mail!"
+    verificationLinkSent: "Verification link sent. Please check your mail!",
+    orderAddedToCart: "Order added to cart!",
+    orderPlaced: "Order placed!"
 };
 export const orderStatus = {
     failed: 0,

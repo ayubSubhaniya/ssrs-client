@@ -50,10 +50,9 @@ export default function SignUpPage({
                         handleSignUp()
                     }} /></div>
                 <div className={'alert alert-success p-2 mt-2 mb-2' + (isSignedup ? '' : ' d-none')}>
-                    <strong>Verification Link Sent!</strong>
                     <span className={"alert-link"}
                         style={{ "cursor": "pointer" }}
-                        onClick={handleResendVerificationLink}> Resend
+                        onClick={handleResendVerificationLink}> Resend Link
                     </span>
                 </div>
             </form>

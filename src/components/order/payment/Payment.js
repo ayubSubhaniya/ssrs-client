@@ -1,13 +1,14 @@
 import React from 'react'
 import NavigationBar from "../../NavigationBar";
 import Stapes from "../../service/Stapes";
-import {errorMessages} from "../../../config/configuration";
+import {errorMessages, infoMessages} from "../../../config/configuration";
 import * as HttpStatus from "http-status-codes";
 import CartDetails from "./CartDetails";
 import ErrorMessage from "../../error/ErrorMessage";
 import {paymentMode} from '../../../constants/constants'
 import {payOffline, payOnline} from "../../../helper/FetchData";
-import {Redirect} from "react-router-dom"
+import {Redirect} from "react-router-dom";
+import {withAlert} from 'react-alert';
 
 class Payment extends React.Component {
     constructor(props) {
@@ -65,9 +66,10 @@ class Payment extends React.Component {
 
     render() {
         if (this.state.isPaymentDone) {
+            this.props.alert.success(infoMessages.orderPlaced);
             return (
                 <Redirect to={{
-                    pathname: "/order"
+                    pathname: "/order",
                 }}/>
             )
         }
@@ -117,4 +119,4 @@ class Payment extends React.Component {
     }
 }
 
-export default Payment
+export default withAlert(Payment)
