@@ -16,7 +16,6 @@
     "moment": "^2.22.2",
     "popper.js": "^1.14.4",
     "prop-types": "^15.6.2",
-    "query-string": "^6.2.0",
     "react": "^16.4.2",
     "react-alert": "^4.0.4",
     "react-alert-template-basic": "^1.0.0",
