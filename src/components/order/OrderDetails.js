@@ -24,9 +24,7 @@ class OrderDetails extends Component {
         if(statusChangeTime.processingPayment.time)
             time.push(new Date(statusChangeTime.processingPayment.time));
 
-        var maxTime = new Date(Math.max.apply(null, time));
-        console.log(maxTime);
-        return maxTime
+        return new Date(Math.max.apply(null, time));
     }
 
     render() {
