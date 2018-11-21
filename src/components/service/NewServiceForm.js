@@ -3,11 +3,19 @@ import {defaultService} from "../../constants/constants"
 import {withRouter} from "react-router-dom";
 import Header from "../Header";
 import NavigationBar from "../NavigationBar";
-import {getServiceFromState, handleArrayUpdate, handleChange, handlePaymentModeChange} from "../../helper/StateUpdate"
+import {
+    getServiceFromState,
+    handleArrayUpdate,
+    handleChange,
+    handlePaymentModeChange,
+    setIsSelected
+} from "../../helper/StateUpdate"
 import Form from "./Form";
 import {makeCall} from "../../helper/caller";
 import _ from 'lodash'
 import {handleError} from "../../helper/error";
+import {errorMessages, infoMessages} from "../../config/configuration";
+import {withAlert} from 'react-alert'
 
 class NewServiceForm extends Component {
     constructor(props) {
@@ -87,12 +95,30 @@ class NewServiceForm extends Component {
 
     handleSubmit = (event) => {
         event.preventDefault();
-        this.addService()
+        if (this.getServiceFromState().collectionTypes.length > 0) {
+            this.addService();
+            this.props.alert.success(infoMessages.serviceAdded);
+        }
+        else {
+            this.props.alert.error(errorMessages.collectionTypeReq);
+        }
     }
 
     changeRadioButtonState = ({target}) => {
         this.setState({
             [target.name]: target.value
+        })
+    }
+
+    onDeselectAll = ({target}) => {
+        this.setState({
+            [target.dataset.name]: setIsSelected(this.state[target.dataset.name], false)
+        })
+    }
+
+    onSelectAll = ({target}) => {
+        this.setState({
+            [target.dataset.name]: setIsSelected(this.state[target.dataset.name], true)
         })
     }
 
@@ -106,6 +132,8 @@ class NewServiceForm extends Component {
                     <Form state={this.state}
                           handleChange={this.handleChange}
                           handleArrayUpdate={this.handleArrayUpdate}
+                          onSelectAll={this.onSelectAll}
+                          onDeselectAll={this.onDeselectAll}
                           handleSubmit={this.handleSubmit}
                           changeRadioButtonState={this.changeRadioButtonState}
                           handlePaymentModeChange={this.handlePaymentModeChange}/>
@@ -115,5 +143,5 @@ class NewServiceForm extends Component {
     }
 }
 
-export default withRouter(NewServiceForm);
+export default withAlert(withRouter(NewServiceForm));
 

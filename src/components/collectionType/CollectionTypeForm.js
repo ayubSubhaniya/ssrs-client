@@ -1,4 +1,5 @@
 import React from 'react'
+import {Link} from "react-router-dom";
 
 function CollectionTypeForm(props) {
     return <form autoComplete="off" onSubmit={props.handleSubmit}>
@@ -78,6 +79,11 @@ function CollectionTypeForm(props) {
                 type="submit"
                 value="Save"
                 onSubmit={props.handleSubmit}/>
+            <Link to={'/collectionType'}>
+                <button className="btn btn-outline-danger btn-lg ml-3">
+                    <span>Cancel</span>
+                </button>
+            </Link>
         </div>
     </form>
 }

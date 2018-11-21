@@ -9,8 +9,7 @@ devs[0] = (
         </h3>
         <hr class="style14"></hr>
         <p>Front-End Developer</p>
-        <p>Competitive Programmer</p>
-        <p>Intern & FTE At Sprinklr</p>
+        <p>Batch-2015</p>
         <hr class="style14"></hr>
         <div class="wrapper">
             <a target="_blank" href="https://www.facebook.com/sagar.savaliya407"><i class="fa fa-3x fa-facebook-square"></i></a>
@@ -28,8 +27,7 @@ devs[1] = (
         </h3>
         <hr class="style14"></hr>
         <p>Back-End Developer</p>
-        <p>Competitive Programmer</p>
-        <p>Intern & FTE At Sprinklr</p>
+        <p>Batch-2015</p>
         <hr class="style14"></hr>
 
         <div class="wrapper">
@@ -49,8 +47,7 @@ devs[2] = (
         </h3>
         <hr class="style14"></hr>
         <p>Front-End Developer</p>
-        <p>Competitive Programmer</p>
-        <p>Intern & FTE At Goldman Sachs</p>
+        <p>Batch-2015</p>
         <hr class="style14"></hr> 
         {/* <ul class="social-icons" style={{marginLeft:"0%"}}>
             <li style={{marginRight:"2%"}}><a href="https://www.facebook.com/tapanr97" target="_blank" >
@@ -77,9 +74,7 @@ devs[3] = (
         </h3>               
         <hr class="style14"></hr>          
         <p>Front-End Developer</p>
-        <p>Competitive Programmer</p>
-        <p>Intern At Sprinklr</p>
-        <p>FTE At Amadeus Labs</p>
+        <p>Batch-2015</p>
         <hr class="style14"></hr> 
         <div class="wrapper">
             <a target="_blank" href="https://www.facebook.com/dhavaljlila"><i class="fa fa-3x fa-facebook-square"></i></a>
@@ -97,8 +92,7 @@ devs[4] = (
         </h3>
         <hr class="style14"></hr>
         <p>Back-End Developer</p>
-        <p>Competitive Programmer</p>
-        <p>Employee At Prop-Tiger</p>
+        <p>Batch-2015</p>
         <hr class="style14"></hr>
         <div class="wrapper">
             <a target="_blank" href="https://www.facebook.com/harsh.vasoya.083"><i class="fa fa-3x fa-facebook-square"></i></a>
@@ -116,8 +110,7 @@ devs[5] = (
         </h3>
         <hr class="style14"></hr>
         <p>Front-End Developer</p>
-        <p>Competitive Programmer</p>
-        <p>FTE At Oracle</p>
+        <p>Batch-2015</p>
         <hr class="style14"></hr>  
         <div class="wrapper">
             <a target="_blank" href="https://www.facebook.com/profile.php?id=100009951722951"><i class="fa fa-3x fa-facebook-square"></i></a>

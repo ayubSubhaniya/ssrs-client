@@ -2,12 +2,20 @@ import React, {Component} from 'react';
 import {withRouter} from "react-router-dom";
 import Header from "../Header";
 import NavigationBar from "../NavigationBar";
-import {getServiceFromState, handleArrayUpdate, handleChange, handlePaymentModeChange} from "../../helper/StateUpdate"
+import {
+    getServiceFromState,
+    handleArrayUpdate,
+    handleChange,
+    handlePaymentModeChange,
+    setIsSelected
+} from "../../helper/StateUpdate"
 import Form from "./Form";
 import _ from "lodash"
 import {makeCall} from "../../helper/caller"
 import {defaultService} from "../../constants/constants";
 import {handleError} from "../../helper/error";
+import {errorMessages, infoMessages} from "../../config/configuration";
+import {withAlert} from 'react-alert'
 
 function setSelecteProperty(arr1, arr2) {
     return _.map(arr1, (x) => {
@@ -92,9 +100,6 @@ class EditForm extends Component {
             userTypes: service.allowedUserTypes,
             programmes: service.allowedProgrammes,
             userStatus: service.allowedUserStatus,
-            allBatches: _.some(service.allowedBatches, (x) => x === '*') ? 'true' : 'false',
-            allUserTypes: _.some(service.allowedUserTypes, (x) => x === '*') ? 'true' : 'false',
-            allProgrammes: _.some(service.allowedProgrammes, (x) => x === '*') ? 'true' : 'false',
             collectionType: service.collectionTypes,
             parameter: service.availableParameters
         })
@@ -150,7 +155,13 @@ class EditForm extends Component {
 
     handleSubmit = (event) => {
         event.preventDefault();
-        this.updateService()
+        if(this.getServiceFromState().collectionTypes.length > 0){
+            this.updateService();
+            this.props.alert.success(infoMessages.savedSuccess);
+        }
+        else {
+            this.props.alert.error(errorMessages.collectionTypeReq);
+        }
     }
 
     changeRadioButtonState = ({target}) => {
@@ -158,6 +169,20 @@ class EditForm extends Component {
             [target.name]: target.value
         })
     }
+
+
+    onDeselectAll = ({target}) => {
+        this.setState({
+            [target.dataset.name]: setIsSelected(this.state[target.dataset.name],false)
+        })
+    }
+
+    onSelectAll = ({target}) => {
+        this.setState({
+            [target.dataset.name]: setIsSelected(this.state[target.dataset.name],true)
+        })
+    }
+
 
     render() {
         return (
@@ -169,6 +194,8 @@ class EditForm extends Component {
                           handleChange={this.handleChange}
                           handleArrayUpdate={this.handleArrayUpdate}
                           handleSubmit={this.handleSubmit}
+                          onSelectAll={this.onSelectAll}
+                          onDeselectAll={this.onDeselectAll}
                           changeRadioButtonState={this.changeRadioButtonState}
                           handlePaymentModeChange={this.handlePaymentModeChange}/>
                 </div>
@@ -177,5 +204,5 @@ class EditForm extends Component {
     }
 }
 
-export default withRouter(EditForm);
+export default withAlert(withRouter(EditForm));
 

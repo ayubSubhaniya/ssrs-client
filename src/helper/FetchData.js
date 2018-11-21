@@ -37,6 +37,7 @@ export function payOnline(id){
         }
     })
         .then((response) => {
+            alert('Please do not refresh the page or press the back button.\nWait while we process your payment. This can take a few minutes.')
             window.open(response.url,"_self");
         })
         .catch((error) => this.onError(error))

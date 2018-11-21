@@ -10,13 +10,16 @@ export const errorMessages = {
     somethingsWrong: "Something's wrong. Please try again later!",
     forbidden: "You don't have access to requested resource!",
     notFound: "Not found!",
+    collectionTypeReq: "Atleast one collection type should be selected.",
     noCollectionTypes: "No collection type information provided. Please select collection type and provide information."
 };
 
 export const infoMessages = {
     verificationLinkSent: "Verification link sent. Please check your mail!",
     orderAddedToCart: "Order added to cart!",
-    orderPlaced: "Order placed!"
+    orderPlaced: "Order placed!",
+    savedSuccess: "Saved successfully!",
+    serviceAdded: "New service created successfully!"
 };
 export const orderStatus = {
     failed: 0,

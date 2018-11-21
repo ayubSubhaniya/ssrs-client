@@ -2,6 +2,7 @@ import React from 'react'
 import PaymentModes from "./PaymentModes";
 import MultiSelectDropDownControled from "./MultiSelectDropDownControled";
 import ApllicationSpecificDropDown from "./ApllicationSpecificDropDown";
+import {Link} from  "react-router-dom"
 
 function Form(props) {
     return <form autoComplete="off" onSubmit={props.handleSubmit}>
@@ -104,133 +105,37 @@ function Form(props) {
                     </div>
                 </div>
                 {
-                    props.state.isSpecialService === 'false' ?
-                        <div>
-                            <div className="form-group d-flex mb-0">
-                                <label>Available For Batches:</label>
-                                <div className="form-group col-md-6 d-flex">
-                                    <div className="form-check form-check-inline">
-                                        <label className="form-check-label">
-                                            <input className="form-check-input"
-                                                   style={{display: "inline"}}
-                                                   type="radio"
-                                                   value={true}
-                                                   name='allBatches'
-                                                   checked={props.state.allBatches === 'true'}
-                                                   onClick={props.changeRadioButtonState}/>
-                                            All
-                                        </label>
-                                    </div>
-                                    <div className="form-check form-check-inline">
-                                        <label className="form-check-label">
-                                            <input className="form-check-input"
-                                                   style={{display: "inline"}}
-                                                   type="radio"
-                                                   value={false}
-                                                   name='allBatches'
-                                                   checked={props.state.allBatches === 'false'}
-                                                   onClick={props.changeRadioButtonState}/>
-                                            Selected
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                            {
-                                props.state.allBatches === 'false'
-                                    ? <ApllicationSpecificDropDown label={'Batches'}
-                                                                   btnLabel={"Select"}
-                                                                   options={props.state.batches}
-                                                                   name={'batches'}
-                                                                   handleOptionChange={props.handleArrayUpdate}/>
-                                    : ''
-                            }
-
-                            <div className="form-group d-flex mb-0">
-                                <label>Available For UserType:</label>
-                                <div className="form-group col-md-6 d-flex">
-                                    <div className="form-check form-check-inline">
-                                        <label className="form-check-label">
-                                            <input className="form-check-input"
-                                                   style={{display: "inline"}}
-                                                   type="radio"
-                                                   value={true}
-                                                   name='allUserTypes'
-                                                   checked={props.state.allUserTypes === 'true'}
-                                                   onClick={props.changeRadioButtonState}/>
-                                            All
-                                        </label>
-                                    </div>
-                                    <div className="form-check form-check-inline">
-                                        <label className="form-check-label">
-                                            <input className="form-check-input"
-                                                   style={{display: "inline"}}
-                                                   type="radio"
-                                                   value={false}
-                                                   name='allUserTypes'
-                                                   checked={props.state.allUserTypes === 'false'}
-                                                   onClick={props.changeRadioButtonState}/>
-                                            Selected
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                            {
-                                props.state.allUserTypes === 'false'
-                                    ?
-                                    <React.Fragment>
-                                        <ApllicationSpecificDropDown label={'User Types'}
-                                                                     btnLabel={"Select"}
-                                                                     options={props.state.userTypes}
-                                                                     name={'userTypes'}
-                                                                     handleOptionChange={props.handleArrayUpdate}/>
-                                        <ApllicationSpecificDropDown label={'User Status'}
-                                                                     btnLabel={"Select"}
-                                                                     options={props.state.userStatus}
-                                                                     name={'userStatus'}
-                                                                     handleOptionChange={props.handleArrayUpdate}/>
-                                    </React.Fragment>
-                                    : ''
-                            }
-
-                            <div className="form-group d-flex mb-0">
-                                <label>Available For Programmes:</label>
-                                <div className="form-group col-md-6 d-flex">
-                                    <div className="form-check form-check-inline">
-                                        <label className="form-check-label">
-                                            <input className="form-check-input"
-                                                   style={{display: "inline"}}
-                                                   type="radio"
-                                                   value={true}
-                                                   name='allProgrammes'
-                                                   checked={props.state.allProgrammes === 'true'}
-                                                   onClick={props.changeRadioButtonState}/>
-                                            All
-                                        </label>
-                                    </div>
-                                    <div className="form-check form-check-inline">
-                                        <label className="form-check-label">
-                                            <input className="form-check-input"
-                                                   style={{display: "inline"}}
-                                                   type="radio"
-                                                   value={false}
-                                                   name='allProgrammes'
-                                                   checked={props.state.allProgrammes === 'false'}
-                                                   onClick={props.changeRadioButtonState}/>
-                                            Selected
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                            {
-                                props.state.allProgrammes === 'false'
-                                    ? <ApllicationSpecificDropDown label={'Programmes'}
-                                                                   btnLabel={"Select"}
-                                                                   options={props.state.programmes}
-                                                                   name={'programmes'}
-                                                                   handleOptionChange={props.handleArrayUpdate}/>
-                                    : ''
-                            }
-                        </div>
+                    props.state.isSpecialService === 'true' ?
+                        <React.Fragment>
+                            <ApllicationSpecificDropDown label={'Batches'}
+                                                         btnLabel={"Select"}
+                                                         options={props.state.batches}
+                                                         name={'batches'}
+                                                         onSelectAll={props.onSelectAll}
+                                                         onDeselectAll={props.onDeselectAll}
+                                                         handleOptionChange={props.handleArrayUpdate}/>
+                            <ApllicationSpecificDropDown label={'User Types'}
+                                                         btnLabel={"Select"}
+                                                         options={props.state.userTypes}
+                                                         name={'userTypes'}
+                                                         onSelectAll={props.onSelectAll}
+                                                         onDeselectAll={props.onDeselectAll}
+                                                         handleOptionChange={props.handleArrayUpdate}/>
+                            <ApllicationSpecificDropDown label={'User Status'}
+                                                         btnLabel={"Select"}
+                                                         options={props.state.userStatus}
+                                                         name={'userStatus'}
+                                                         onSelectAll={props.onSelectAll}
+                                                         onDeselectAll={props.onDeselectAll}
+                                                         handleOptionChange={props.handleArrayUpdate}/>
+                            <ApllicationSpecificDropDown label={'Programmes'}
+                                                         btnLabel={"Select"}
+                                                         options={props.state.programmes}
+                                                         name={'programmes'}
+                                                         onSelectAll={props.onSelectAll}
+                                                         onDeselectAll={props.onDeselectAll}
+                                                         handleOptionChange={props.handleArrayUpdate}/>
+                        </React.Fragment>
                         : ''
                 }
             </div>
@@ -238,15 +143,14 @@ function Form(props) {
         </div>
 
         <div className={'d-flex justify-content-center mt-4'}>
-            {/* <input
-                className='submit'
-                type="submit"
-                value="Save"
-                style={{"backgroundColor": "#343a40", "fontSize": "13x"}}
-                onSubmit={props.handleSubmit}/> */}
-            <button className="btn btn-outline-success btn-lg" onSubmit={props.handleSubmit}>
+            <button className="btn btn-outline-success btn-lg mr-3" onSubmit={props.handleSubmit}>
                 <span>Save</span>
             </button>
+            <Link to={'/service'}>
+                <button className="btn btn-outline-danger btn-lg">
+                    <span>Cancel</span>
+                </button>
+            </Link>
         </div>
     </form>
 }

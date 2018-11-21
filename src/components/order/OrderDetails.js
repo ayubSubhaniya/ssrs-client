@@ -14,23 +14,58 @@ class OrderDetails extends Component {
         })
     }
 
+    getStatusTime = (statusChangeTime) => {
+        let time = []
+
+        if(statusChangeTime.placed.time)
+            time.push(new Date(statusChangeTime.placed.time));
+        if(statusChangeTime.paymentFailed.time)
+            time.push(new Date(statusChangeTime.paymentFailed.time));
+        if(statusChangeTime.processingPayment.time)
+            time.push(new Date(statusChangeTime.processingPayment.time));
+
+        return new Date(Math.max.apply(null, time));
+    }
+
+    getStatusColorClass = (status) => {
+        let className = 'badge badge-pill badge-';
+        switch(status) {
+            case 'placed': className += 'info'; break;
+            case 'processing': className += 'primary'; break;
+            case 'readyToDeliver': className += 'success'; break;
+            case 'readyToPickup': className += 'success'; break;
+            case 'completed': className += 'success'; break;
+            case 'refunded': className += 'success'; break;
+            case 'onHold': className += 'warning'; break;
+            case 'processingPayment': className += 'secondary'; break;
+            default: className += 'danger';
+        }
+
+        return className;
+    }
+
     render() {
-        const {cart, ...others} = this.props;
+        const {cart, index, ...others} = this.props;
         return (
             <tr onClick={this.redirect} className='animated fadeIn'>
+                <td data-th="Sr No." className="text-center">
+                    {index + 1}
+                </td>
                 <td data-th="Order No" className="text-center">
                     {cart.orderId}
                 </td>
                 <td data-th="Service" className='pt-3 pb-3'>
                     {cart.orders[0].serviceName} <br/>
-                    {formatDate(cart.statusChangeTime.placed.time)}
+                    {formatDate(this.getStatusTime(cart.statusChangeTime))}
                     {
                         cart.orders.length > 1
                             ? <div className='more-items'> + {cart.orders.length - 1} More Item(s)</div>
                             : ''
                     }
                 </td>
-                <td data-th="Status" className="text-center">{camelCaseToWords(cartStatus[cart.status])}</td>
+                <td data-th="Status" style={{"textAlign": "center"}}>
+                    <h4><span className={this.getStatusColorClass(cartStatus[cart.status])}>{camelCaseToWords(cartStatus[cart.status])}</span></h4>
+                </td>
                 <td data-th="Price" className="text-center">{`₹ ${cart.ordersCost}`}</td>
 
                 {

@@ -101,14 +101,14 @@ class Payment extends React.Component {
                             </div>
                             <div className='payment-method-body'>
                                 <div className={`${this.state.paymentType !== "0" ? 'd-none' : ''}`}>
-                                    <div className="btn btn-success m-4 p-4" onClick={() => this.payOffline(this.id)}>
+                                    <button className="btn btn-outline-primary btn-lg m-4" onClick={() => this.payOffline(this.id)}>
                                         {"Pay Offline"}
-                                    </div>
+                                    </button>
                                 </div>
                                 <div className={`${this.state.paymentType !== "1" ? 'd-none' : ''}`}>
-                                    <div className="btn btn-success m-4 p-4" onClick={() => this.payOnline(this.id)}>
-                                        {"Pay Online    "}
-                                    </div>
+                                    <button className="btn btn-outline-primary btn-lg m-4" onClick={() => this.payOnline(this.id)}>
+                                        {"Pay with EasyPay"}
+                                    </button>
                                 </div>
                             </div>
                         </div>
