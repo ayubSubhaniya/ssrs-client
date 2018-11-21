@@ -1,4 +1,5 @@
 import React from 'react'
+import {Link} from "react-router-dom";
 
 function ParameterForm(props) {
     return <form autoComplete="off" onSubmit={props.handleSubmit}>
@@ -43,6 +44,11 @@ function ParameterForm(props) {
                 className='btn btn-outline-success btn-lg'
                 type="submit"
                 value="Save"/>
+            <Link to={'/parameter'}>
+                <button className="btn btn-outline-danger btn-lg ml-3">
+                    <span>Cancel</span>
+                </button>
+            </Link>
         </div>
     </form>
 }
