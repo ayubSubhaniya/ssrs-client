@@ -55,9 +55,6 @@ export const defaultService = {
         [OFFLINE]: true,
         [ONLINE]: true
     },
-    allBatches: 'true',
-    allUserTypes: 'true',
-    allProgrammes: 'true',
     collectionType: [],
     parameter: []
 }

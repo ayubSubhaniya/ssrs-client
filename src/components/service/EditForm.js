@@ -2,7 +2,13 @@ import React, {Component} from 'react';
 import {withRouter} from "react-router-dom";
 import Header from "../Header";
 import NavigationBar from "../NavigationBar";
-import {getServiceFromState, handleArrayUpdate, handleChange, handlePaymentModeChange} from "../../helper/StateUpdate"
+import {
+    getServiceFromState,
+    handleArrayUpdate,
+    handleChange,
+    handlePaymentModeChange,
+    setIsSelected
+} from "../../helper/StateUpdate"
 import Form from "./Form";
 import _ from "lodash"
 import {makeCall} from "../../helper/caller"
@@ -94,9 +100,6 @@ class EditForm extends Component {
             userTypes: service.allowedUserTypes,
             programmes: service.allowedProgrammes,
             userStatus: service.allowedUserStatus,
-            allBatches: _.some(service.allowedBatches, (x) => x === '*') ? 'true' : 'false',
-            allUserTypes: _.some(service.allowedUserTypes, (x) => x === '*') ? 'true' : 'false',
-            allProgrammes: _.some(service.allowedProgrammes, (x) => x === '*') ? 'true' : 'false',
             collectionType: service.collectionTypes,
             parameter: service.availableParameters
         })
@@ -167,6 +170,20 @@ class EditForm extends Component {
         })
     }
 
+
+    onDeselectAll = ({target}) => {
+        this.setState({
+            [target.dataset.name]: setIsSelected(this.state[target.dataset.name],false)
+        })
+    }
+
+    onSelectAll = ({target}) => {
+        this.setState({
+            [target.dataset.name]: setIsSelected(this.state[target.dataset.name],true)
+        })
+    }
+
+
     render() {
         return (
             <div>
@@ -177,6 +194,8 @@ class EditForm extends Component {
                           handleChange={this.handleChange}
                           handleArrayUpdate={this.handleArrayUpdate}
                           handleSubmit={this.handleSubmit}
+                          onSelectAll={this.onSelectAll}
+                          onDeselectAll={this.onDeselectAll}
                           changeRadioButtonState={this.changeRadioButtonState}
                           handlePaymentModeChange={this.handlePaymentModeChange}/>
                 </div>
