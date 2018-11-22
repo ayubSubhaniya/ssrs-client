@@ -5,6 +5,25 @@ import EditCartForm from "./EditCartForm";
 import DeleteButton from "../../DeleteButton";
 
 class Service extends Component {
+    constructor(props){
+        super(props);
+        this.state = {
+            isEditModalOpen: false
+        }
+    }
+
+    openEditModal= () => {
+        this.setState({
+            isEditModalOpen: true
+        })
+    }
+
+    closeEditModal= () => {
+        this.setState({
+            isEditModalOpen: false
+        })
+    }
+
     render() {
         const order = this.props.order;
         const service = order.service;
@@ -30,20 +49,23 @@ class Service extends Component {
                 <td data-th="Subtotal" className="text-center">{`₹ ${order.totalCost}`}</td>
                 <td className="actions">
                     <div className="d-flex">
-                        <button type="button" className="btn btn-outline-primary" data-toggle="modal"
-                            data-target={"#myModal" + order._id}>
+                        <button type="button"
+                                className="btn btn-outline-primary"
+                                onClick={this.openEditModal}>
                             Edit
                         </button>
                         <EditCartForm id={order._id}
-                            service={service}
-                            parameter={parameters}
-                            units={order.unitsRequested}
-                            comment={order.comment}
-                            index={this.props.index}
-                            updateOrder={this.props.updateOrder}
-                            validityErrors={order.validityErrors} />
+                                      visible={this.state.isEditModalOpen}
+                                      close={this.closeEditModal}
+                                      service={service}
+                                      parameter={parameters}
+                                      units={order.unitsRequested}
+                                      comment={order.comment}
+                                      index={this.props.index}
+                                      updateOrder={this.props.updateOrder}
+                                      validityErrors={order.validityErrors} />
                         <DeleteButton handleClick={this.props.deleteOrder}
-                            index={this.props.index} />
+                                      index={this.props.index} />
                     </div>
                 </td>
             </tr>

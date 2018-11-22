@@ -14,6 +14,7 @@ class ServiceDetails extends Component {
         super();
         this.state = {
             isHoldModalOpen: false,
+            isEditModalOpen: false,
             isCancelModalOpen: false
         }
     }
@@ -21,6 +22,18 @@ class ServiceDetails extends Component {
     openHoldModal = () => {
         this.setState({
             isHoldModalOpen: true
+        })
+    }
+
+    openEditModal = () => {
+        this.setState({
+            isEditModalOpen: true
+        })
+    }
+
+    closeEditModal = () => {
+        this.setState({
+            isEditModalOpen: false
         })
     }
 
@@ -172,7 +185,7 @@ class ServiceDetails extends Component {
                                         : ''
                                 }
                                 {
-                                    order.status > rorderStatus.placed && order.status < rorderStatus.completed && order.status !== rorderStatus.ready && isAdmin(this.props.user)
+                                    order.status === rorderStatus.processing && isAdmin(this.props.user)
                                         ? (<div className='btn btn-outline-warning mr-3'
                                                 onClick={this.openHoldModal}>
                                             Hold
@@ -180,7 +193,7 @@ class ServiceDetails extends Component {
                                         : ''
                                 }
                                 {
-                                    order.status > rorderStatus.placed && order.status < rorderStatus.completed && isAdmin(this.props.user)
+                                    order.status === rorderStatus.processing && order.status === rorderStatus.onHold && isAdmin(this.props.user)
                                         ? (<div className='btn btn-outline-danger mr-3'
                                                 onClick={this.openCancelModal}>
                                             Cancel
@@ -189,9 +202,10 @@ class ServiceDetails extends Component {
                                 }
                                 {
                                     order.status === rorderStatus.onHold && isStudent(this.props.user)
-                                        ? <button type="button" className="btn btn-primary" data-toggle="modal"
-                                                  data-target={"#myModal" + order._id}>
-                                            EDIT
+                                        ? <button type="button"
+                                                  className="btn btn-outline-primary"
+                                                  onClick={this.openEditModal}>
+                                            Edit
                                         </button>
                                         : ''
                                 }
@@ -200,6 +214,8 @@ class ServiceDetails extends Component {
                     </td>
                 </tr>
                 <EditCartForm id={order._id}
+                              visible={this.state.isEditModalOpen}
+                              close={this.closeEditModal}
                               service={service}
                               parameter={parameters}
                               units={order.unitsRequested}
