@@ -12,6 +12,18 @@ class MultiSelectDropDownControled extends Component {
                         <span className="caret"></span></div>
                     <ul className="dropdown-menu col-sm-12">
                         <form>
+                            <li className="p-0 d-flex justify-content-around">
+                                <div onClick={this.props.onSelectAll}
+                                     className={'btn btn-light'}
+                                     data-name={this.props.name}>
+                                    Select All
+                                </div>
+                                <div onClick={this.props.onDeselectAll}
+                                     className={"btn btn-light"}
+                                     data-name={this.props.name}>
+                                    Deselect All
+                                </div>
+                            </li>
                             {
                                 _.map(this.props.options, (o, index) => {
                                     return (

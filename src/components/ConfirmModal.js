@@ -9,7 +9,7 @@ class ConfirmModal extends React.Component {
                     <h5 className="modal-title">Confirmation!</h5>
                 </div>
                 <div className="modal-body">
-                    <p>Are you sure?</p>
+                    <p>{this.props.message ? this.props.message : "Are you sure?"}</p>
                 </div>
                 <div className="modal-footer">
                     <button type="button" className="btn btn-secondary" onClick={this.props.close}>
