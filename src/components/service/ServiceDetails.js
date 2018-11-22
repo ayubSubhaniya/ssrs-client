@@ -9,23 +9,30 @@ function filterName(x) {
     return _.map(x, o => o.name).join(", ")
 }
 
+function TextInfo({lable, data}) {
+    if (data)
+        return (<h5 className='row'>
+            <strong className='col-2'>{lable}</strong>
+            <div className='col-10'>{data}</div>
+        </h5>)
+    else
+        return ''
+}
+
 class ServiceDetails extends Component {
     render() {
         const {service} = this.props;
         return (
             <div>
-                <h5><strong>Description: </strong>
-                    {service.description}</h5>
-                <h5><strong>Base Charge: </strong>
-                    {"₹ " + service.baseCharge}</h5>
-                <h5><strong>Maximum Units: </strong>
-                    {service.maxUnits}</h5>
-                <h5><strong>Payment Modes: </strong>
-                    {_.map(service.availablePaymentModes, (x) => capitalize(x)).join(", ")} </h5>
-                <h5><strong>Collection Type: </strong>
-                    {service.collectionTypes.length>0?filterName(service.collectionTypes):'None'} </h5>
-                <h5><strong>Available Parameters: </strong>
-                    {service.availableParameters.length>0?filterName(service.availableParameters):'None'} </h5>
+                <TextInfo lable={'Description'} data={service.description}/>
+                <TextInfo lable={'Base Charge'} data={"Rs. " + service.baseCharge}/>
+                <TextInfo lable={'Maximum Units'} data={service.maxUnits}/>
+                <TextInfo lable={'Payment Modes'}
+                          data={_.map(service.availablePaymentModes, (x) => capitalize(x)).join(", ")}/>
+                <TextInfo lable={'Parameters'}
+                          data={service.availableParameters.length > 0 ? filterName(service.availableParameters) : 'None'}/>
+                <TextInfo lable={'Collection Types'}
+                          data={service.collectionTypes.length > 0 ? filterName(service.collectionTypes) : 'None'}/>
             </div>
         )
     }

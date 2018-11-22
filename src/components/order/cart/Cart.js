@@ -36,7 +36,7 @@ class Cart extends Component {
         this.asyncFetch('cart');
     }
 
-    updateOrder = (newOrder, index, modal) => {
+    updateOrder = (newOrder, index, closeModal) => {
         loadSpinner();
         const oldOrder = this.state.cart.orders[index];
         const that = this;
@@ -48,7 +48,7 @@ class Cart extends Component {
         request.onload = function () {
             unloadSpinner();
             if (this.status == HttpStatus.OK) {
-                $(modal).modal('hide');
+                closeModal()
                 that.asyncFetch('cart');
             } else {
                 handleError(request)

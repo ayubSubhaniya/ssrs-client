@@ -64,6 +64,8 @@ function Form(props) {
                 <MultiSelectDropDownControled label={'Collection Type'}
                                               btnLabel={"Select"}
                                               options={props.state.collectionType}
+                                              onSelectAll={props.onSelectAll}
+                                              onDeselectAll={props.onDeselectAll}
                                               name={'collectionType'}
                                               handleOptionChange={props.handleArrayUpdate}/>
             </div>
@@ -71,6 +73,8 @@ function Form(props) {
                 <MultiSelectDropDownControled label={'Parameters'}
                                               btnLabel={"Select"}
                                               options={props.state.parameter}
+                                              onSelectAll={props.onSelectAll}
+                                              onDeselectAll={props.onDeselectAll}
                                               name={'parameter'}
                                               handleOptionChange={props.handleArrayUpdate}/>
             </div>
@@ -105,7 +109,7 @@ function Form(props) {
                     </div>
                 </div>
                 {
-                    props.state.isSpecialService === 'true' ?
+                    props.state.isSpecialService === 'false' ?
                         <React.Fragment>
                             <ApllicationSpecificDropDown label={'Batches'}
                                                          btnLabel={"Select"}
