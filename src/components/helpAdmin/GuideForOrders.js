@@ -43,8 +43,9 @@ class GuideForOrders extends Component {
                                     style={{width:"100%", marginTop:"15px", marginBottom:"15px"}}></img>                                  
                             </li>
                             <li>
-                                Addressbar is to track the order. You (as an admin) can change status according to situations.
-                                In above example, when you click on "Accept Payment", it shows that payment is received and
+                                Tracking bar is to track the order. You (as an admin) can change status according to situations.
+                                In above example, when you click on "Accept Payment", it will ask you for payment code. After 
+                                entering it correctly it shows that payment is received and
                                 Order is in "Processing" stage.  <br/>
                                 <img src={require("./Orders3.JPG")} 
                                     style={{width:"100%", marginTop:"15px", marginBottom:"15px"}}></img>                                  
@@ -68,21 +69,40 @@ class GuideForOrders extends Component {
                                             style={{width:"50%", marginTop:"15px", marginBottom:"15px"}}></img>
                                     </li>
                                 </ul>
-                                <img src={require("./Orders4.JPG")} 
-                                    style={{width:"100%", marginTop:"15px", marginBottom:"15px"}}></img>                                  
+                                <p><strong>Note:</strong> You can complete whole order if and only if all 
+                                the items in that order is ready.</p> 
                             </li>                                                        
                             <li>
-                                When user picks up his order, process is completed and so you can click on "Complete" button
+                                When user picks up his order, you will ask him for collection code and enter that code you can click on "Complete" button
                                 under Completed stage.<br/>
                                 <img src={require("./Orders5.JPG")} 
                                     style={{width:"100%", marginTop:"15px", marginBottom:"15px"}}></img>                                  
+                                <img src={require("./Orders9.JPG")} 
+                                    style={{width:"45%", marginTop:"15px", marginBottom:"15px"}}></img>                                    
+                            </li>
+                            <li>
+                                When collection type is Courier type, you have to enter courier details
+                                like Service Name and Tracking ID.<br/>
+                                <img src={require("./Orders12.JPG")} 
+                                    style={{width:"45%", marginTop:"15px", marginBottom:"15px"}}></img>                                  
                             </li>
                             <li>
                                 Since this order is completed, its status is changed to "Completed". You can check it by filter 
                                 orders by "Completed" stage.<br/>
+                                <img src={require("./Orders10.JPG")} 
+                                    style={{width:"100%", marginTop:"15px", marginBottom:"15px"}}></img>   
                                 <img src={require("./Orders6.JPG")} 
-                                    style={{width:"100%", marginTop:"15px", marginBottom:"15px"}}></img>                                  
+                                    style={{width:"100%", marginTop:"15px", marginBottom:"15px"}}></img>
+    
                             </li>                            
+                            <li>
+                                When order is completed, "Invoice" button will appear. You can download 
+                                this invoice for that order in PDF format.<br/>
+                                <img src={require("./Orders11.JPG")} 
+                                    style={{width:"100%", marginTop:"15px", marginBottom:"15px"}}></img>
+    
+                            </li>                            
+
                         </ol>
                     </div>
                 </div>               

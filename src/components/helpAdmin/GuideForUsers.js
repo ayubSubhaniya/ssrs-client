@@ -22,36 +22,13 @@ class GuideForUsers extends Component {
                                 the list of all the signed up 
                                 users will appear. Each row represents entry for a praticular user. An user will be in the 
                                 list if he had signed up earliar. 
-                                There are 2 buttons given for each collection type: <br/>
-                                1) Edit User (<i className="fa fa-pencil"></i>) button - To edit a User <br/>
-                                2) Enable/Disable (<i className="fa fa-toggle-on"></i>) button - To enable/disable a User
+                                There is a button given for each collection type: <br/>
+                                1) Enable/Disable (<i className="fa fa-toggle-on"></i>) button - To enable/disable a User
                                 <br/>
                                 Another option is for uploading new user data into the database. Only those, who are added
                                 in the database, are allowed to sign up. <br/>  
                                 <img src={require("./Users1.JPG")} 
                                     style={{width:"100%", marginTop:"15px", marginBottom:"15px"}}></img>
-                            </li>
-                        </ol>
-                    </div>
-                </div>
-                <HrefComponent isToggle = {false}
-                                name = "Edit User"
-                                id = "collapseExample13"/>
-                <div className="collapse" id = "collapseExample13">
-                    <div className="card card-body" 
-                        style={{marginLeft:"10px", marginRight:"10px", fontSize:"18px", background:"#e6f5fd"}}>
-                        <ol style={{paddingLeft:"10px"}}>
-                            <li>
-                                In the Users tab, all the registered users will be displayed. 
-                                Click on the "edit user" (<i className="fa fa-pencil"></i>) 
-                                button of the user which you want to edit.<br/>
-                                <img src={require("./Users2.JPG")} 
-                                        style={{width:"40%", marginTop:"15px", marginBottom:"15px"}}></img>
-                            </li>        
-                            <li>
-                                A modal will be opened. Fill all the details and click on "Save" button.
-                                <img src={require("./Users3.JPG")} 
-                                        style={{width:"100%", marginTop:"15px", marginBottom:"15px"}}></img>                                 
                             </li>
                         </ol>
                     </div>
@@ -78,7 +55,13 @@ class GuideForUsers extends Component {
                             receive an alert for errors.<br/>
                                 <img src={require("./Users5.JPG")} 
                                     style={{width:"45%",marginTop:"15px", marginBottom:"15px"}}></img> 
-                            </li>                              
+                            </li>   
+                            
+                            <li>
+                            You can see all the added users and their details by clicking "All Users" radio button, below User Management Header.
+                                <img src={require("./Users7.JPG")} 
+                                    style={{width:"100%",marginTop:"15px", marginBottom:"15px"}}></img> 
+                            </li>                           
                         </ol>
                     </div>
                 </div> 

@@ -21,7 +21,7 @@ class GuideForServices extends Component {
                                 When you click on the "<i className="fa fa-handshake-o"></i> Services" tab from Navigation bar, the list of all the added 
                                 services will appear. Each row represents entry for a praticular service. 
                                 There are 3 buttons given for each service: <br/>
-                                1) Edit Service (<i className="fa fa-pencil"></i>) button - To edit a service <br/>
+                                1) Edit Service button - To edit a service <br/>
                                 2) Enable/Disable (<i className="fa fa-toggle-on"></i>) button - To enable/disable a service for users<br/>
                                 3) Delete Service (<i className="fa fa-trash-o"></i>) button - To delete a service
                                 <br/>

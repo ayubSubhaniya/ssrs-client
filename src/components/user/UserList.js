@@ -118,13 +118,14 @@ class UserList extends Component {
                             batch: obj['user'][i].userInfo.user_batch,
                             programme: obj['user'][i].userInfo.user_programme,
                             mobileno: obj['user'][i].userInfo.user_adr_mobileno,
-                            address: obj['user'][i].userInfo.user_adr_line1 + ', ' + obj['user'][i].userInfo.user_adr_line2
-                                + ', ' + obj['user'][i].userInfo.user_adr_line3
-                                + ', ' + obj['user'][i].userInfo.user_adr_district
-                                + ', ' + obj['user'][i].userInfo.user_adr_city
-                                + ', ' + obj['user'][i].userInfo.user_adr_state
-                                + ', ' + obj['user'][i].userInfo.user_adr_country
-                                + ' - ' + obj['user'][i].userInfo.user_adr_pincode,
+                            address: (obj['user'][i].userInfo.user_adr_line1 ? obj['user'][i].userInfo.user_adr_line1 : "")
+                                + (obj['user'][i].userInfo.user_adr_line2 ? ', ' + obj['user'][i].userInfo.user_adr_line2 : "")
+                                + (obj['user'][i].userInfo.user_adr_line3 ? ', ' + obj['user'][i].userInfo.user_adr_line3 : "")
+                                + (obj['user'][i].userInfo.user_adr_district ? ', ' + obj['user'][i].userInfo.user_adr_district : "")
+                                + (obj['user'][i].userInfo.user_adr_city ? ', ' + obj['user'][i].userInfo.user_adr_city : "")
+                                + (obj['user'][i].userInfo.user_adr_state ? ', ' + obj['user'][i].userInfo.user_adr_state : "")
+                                + (obj['user'][i].userInfo.user_adr_country ? ', ' + obj['user'][i].userInfo.user_adr_country : "")
+                                + (obj['user'][i].userInfo.user_adr_pincode ? ' - ' + obj['user'][i].userInfo.user_adr_pincode : ""),
                             telno: obj['user'][i].userInfo.user_adr_telno,
                             personal_email_id: obj['user'][i].userInfo.user_adr_emailid,
                             sex: obj['user'][i].userInfo.user_sex === 'M' ? "Male" : "Female",
@@ -409,7 +410,7 @@ class UserList extends Component {
                         width: "17em"
                     }}>
                         <div className="form-check form-check-inline" style={{marginLeft: "5%", marginBottom: "1%"}}>
-                            <label className="form-check-label" style={{marginRight: "10%"}}>
+                            <label className="form-check-label" style={{marginRight: "5%"}}>
                                 <input className="form-check-input"
                                        style={{display: "inline"}}
                                        type="radio"

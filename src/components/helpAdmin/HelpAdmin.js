@@ -11,6 +11,8 @@ import GuideForOrders from './GuideForOrders';
 import GuideForPermissions from './GuideForPermissions';
 import AuthorizedComponent from "../AuthorizedComponent";
 import {isSuperAdmin} from "../../helper/userType";
+import GuideForDashboard from './GuideForDashboard';
+import GuideForEmail from './GuideForEmail';
 
 class HelpAdmin extends Component {
     render() {
@@ -25,12 +27,21 @@ class HelpAdmin extends Component {
                                          component={GuideForServices}/>
                     <AuthorizedComponent permission={isSuperAdmin(this.props.user)}
                                          component={GuideForUsers}/>
-                    <GuideForOrders/>
+                    <AuthorizedComponent permission={isSuperAdmin(this.props.user)}
+                                         component={GuideForOrders}/>
                     <AuthorizedComponent permission={isSuperAdmin(this.props.user)}
                                          component={GuideForPermissions}/>
-                    <GuideForCollectionType/>
-                    <GuideForParameters/>
-                    <GuideForProfile/>
+                    <AuthorizedComponent permission={isSuperAdmin(this.props.user)}
+                                         component={GuideForCollectionType}/>
+                    <AuthorizedComponent permission={isSuperAdmin(this.props.user)}
+                                         component={GuideForParameters}/>
+                    <AuthorizedComponent permission={isSuperAdmin(this.props.user)}
+                                         component={GuideForProfile}/>
+                    <AuthorizedComponent permission={isSuperAdmin(this.props.user)}
+                                         component={GuideForDashboard}/>
+                    <AuthorizedComponent permission={isSuperAdmin(this.props.user)}
+                                         component={GuideForEmail}/>
+                    
                 </div>
             </React.Fragment>
         );
