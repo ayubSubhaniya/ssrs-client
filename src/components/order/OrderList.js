@@ -36,9 +36,22 @@ class OrderList extends Component {
         }
     }
 
+    getMaxStatusTime = (statusChangeTime) => {
+        let time = []
+
+        if(statusChangeTime.placed.time)
+            time.push(new Date(statusChangeTime.placed.time));
+        if(statusChangeTime.paymentFailed.time)
+            time.push(new Date(statusChangeTime.paymentFailed.time));
+        if(statusChangeTime.processingPayment.time)
+            time.push(new Date(statusChangeTime.processingPayment.time));
+
+        return new Date(Math.max.apply(null, time));
+    }
+
     sortByDate = (carts) => {
         return _.sortBy(carts, (cart) => {
-            return new Date(cart.statusChangeTime.placed.time).getTime();
+            return this.getMaxStatusTime(cart.statusChangeTime).getTime();
         })
     }
 
@@ -67,7 +80,7 @@ class OrderList extends Component {
                                     <tr className="table100-head">
                                         <th className="text-center">Sr No.</th>
                                         <th className="text-center">Order No.</th>
-                                        <th className="pl-4">Service</th>
+                                        <th className="pl-4">Services</th>
                                         <th className="text-center">Status</th>
                                         <th className="text-center">Price</th>
                                         {
