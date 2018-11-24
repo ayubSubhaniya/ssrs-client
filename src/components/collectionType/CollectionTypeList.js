@@ -5,6 +5,7 @@ import { isSuperAdmin } from "../../helper/userType";
 import DeleteButton from "../DeleteButton";
 import EditButton from "../EditButton";
 import Switch from "../Switch";
+import {modalMessages} from "../../config/configuration"
 
 class CollectionTypeList extends Component {
     render() {
@@ -27,7 +28,8 @@ class CollectionTypeList extends Component {
                                                     handleClick={this.props.toggleCollectionType}
                                                     index={i}
                                                     isChecked={collectionType.isActive ? true : false}
-                                                    isDisabled={!isSuperAdmin(this.props.user)} />
+                                                    isDisabled={!isSuperAdmin(this.props.user)}
+                                                    message={modalMessages.collectionTypeSwitch} />
                                                 {
                                                     isSuperAdmin(this.props.user)
                                                     ?   <div className="d-flex flex-direction-col">
@@ -36,7 +38,8 @@ class CollectionTypeList extends Component {
                                                             path={'/collectionType/edit/' + i} />
                                                         <DeleteButton
                                                             handleClick={this.props.deleteCollectionType}
-                                                            index={i} />
+                                                            index={i}
+                                                            message={modalMessages.collectionTypeDelete} />
                                                         </div>
                                                     :   ""
                                                 }

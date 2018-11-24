@@ -21,6 +21,19 @@ export const infoMessages = {
     savedSuccess: "Saved successfully!",
     serviceAdded: "New service created successfully!"
 };
+
+export const modalMessages = {
+    collectionTypeSwitch: "Are you sure enough to active/inactive this collection type?",
+    collectionTypeDelete: "Are you sure enough to delete this collection type?",
+    parameterSwitch: "Are you sure enough to active/inactive this parameter?",
+    parameterSwitch: "Are you sure enough to active/inactive this parameter?",
+    parameterDelete: "Are you sure enough to delete this parameter?",
+    serviceSwitch: "Are you sure enough to active/inactive this service?",
+    serviceDelete: "Are you sure enough to delete this service?",
+    userListSwitch: "Are you sure enough to active/inactive this user?",
+    newsOrNotificationDelete: "Are you sure to delete this item?"
+}
+
 export const orderStatus = {
     failed: 0,
     invalidOrder: 10,

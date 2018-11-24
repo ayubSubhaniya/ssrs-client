@@ -27,7 +27,7 @@ class DeleteButton extends React.Component {
     }
 
     render() {
-        const { index } = this.props;
+        const { index, message } = this.props;
         return (
             <div>
                 <button className="btn btn-outline-danger ml-2"
@@ -38,7 +38,8 @@ class DeleteButton extends React.Component {
                 </button>
                 <ConfirmModal open={this.state.isModalOpen}
                     onYes={(event) => this.onYes(index, event)}
-                    close={this.closeConfirmationModal} />
+                    close={this.closeConfirmationModal}
+                    message={message} />
             </div>
         );
     }

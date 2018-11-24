@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import '../../styles/table.css';
 import Spinner from "../Spinner";
-import {domainUrl} from "../../config/configuration";
+import {domainUrl, modalMessages} from "../../config/configuration";
 import * as HttpStatus from "http-status-codes";
 import NavigationBar from '../NavigationBar';
 import Header from '../Header';
@@ -358,7 +358,8 @@ class UserList extends Component {
         return <Switch
             handleClick={() => that.toggleUserActiveStatus(row.sr_no)}
             index={row.sr_no}
-            isChecked={that.state.fetchedUser[row.sr_no].isActive ? true : false}/>;
+            isChecked={that.state.fetchedUser[row.sr_no].isActive ? true : false}
+            message={modalMessages.userListSwitch} />;
     }
 
     render() {

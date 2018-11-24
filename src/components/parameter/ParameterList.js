@@ -5,6 +5,7 @@ import Switch from "../Switch";
 import { Link } from "react-router-dom";
 import DeleteButton from "../DeleteButton";
 import {isSuperAdmin} from "../../helper/userType";
+import {modalMessages} from "../../config/configuration"
 
 class ParameterList extends Component {
     render() {
@@ -27,7 +28,8 @@ class ParameterList extends Component {
                                                     handleClick={this.props.toggleParameter}
                                                     index={i}
                                                     isChecked={parameter.isActive ? true : false}
-                                                    isDisabled={!isSuperAdmin(this.props.user)} />
+                                                    isDisabled={!isSuperAdmin(this.props.user)}
+                                                    message={modalMessages.parameterSwitch} />
                                                 {
                                                     isSuperAdmin(this.props.user)
                                                     ?   <div className="d-flex flex-direction-col">
@@ -35,7 +37,8 @@ class ParameterList extends Component {
                                                             data={parameter}
                                                             path={'/parameter/edit/' + i} />
                                                         <DeleteButton handleClick={this.props.deleteParameter}
-                                                            index={i} />
+                                                            index={i}
+                                                            message={modalMessages.parameterDelete} />
                                                         </div>
                                                     : ""
                                                 }

@@ -28,7 +28,7 @@ class Switch extends React.Component {
     }
 
     render() {
-        const {index, isChecked, isDisabled} = this.props
+        const {index, isChecked, isDisabled, message} = this.props
         return (
             <label className="switch ml-2 mr-2 mb-0">
                 <input type="checkbox"
@@ -38,7 +38,8 @@ class Switch extends React.Component {
                 <span className="slider round"></span>
                 <ConfirmModal open={this.state.isModalOpen}
                               onYes={(event) => this.onYes(this.props.index, event)}
-                              close={this.closeConfirmationModal}/>
+                              close={this.closeConfirmationModal}
+                              message={message}/>
             </label>
         );
     }
