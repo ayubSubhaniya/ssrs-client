@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import _ from "lodash"
-import { orderStatus } from "../../../config/configuration";
+import { orderStatus, modalMessages } from "../../../config/configuration";
 import EditCartForm from "./EditCartForm";
 import DeleteButton from "../../DeleteButton";
 
@@ -65,7 +65,8 @@ class Service extends Component {
                                       updateOrder={this.props.updateOrder}
                                       validityErrors={order.validityErrors} />
                         <DeleteButton handleClick={this.props.deleteOrder}
-                                      index={this.props.index} />
+                                      index={this.props.index}
+                                      message={modalMessages.serviceDelete} />
                     </div>
                 </td>
             </tr>

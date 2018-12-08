@@ -11,6 +11,7 @@ import ApplyButton from "./ApplyButton";
 import { makeCall } from "../../helper/caller";
 import { handleError } from "../../helper/error";
 import GoToCart from "./GoToCart";
+import {modalMessages} from "../../config/configuration"
 
 class ServiceList extends Component {
     constructor(props, context) {
@@ -105,7 +106,8 @@ class ServiceList extends Component {
                                                 index={i}
                                                 isChecked={service.isActive ? true : false}
                                                 permission={isAdmin(this.props.user)}
-                                                isDisabled={!isSuperAdmin(this.props.user)} />
+                                                isDisabled={!isSuperAdmin(this.props.user)}
+                                                message={modalMessages.serviceSwitch} />
                                             <AuthorizedComponent
                                                 component={EditButton}
                                                 permission={isSuperAdmin(this.props.user)}
@@ -115,7 +117,8 @@ class ServiceList extends Component {
                                                 permission={isSuperAdmin(this.props.user)}
                                                 handleClick={this.deleteService}
                                                 index={i}
-                                                component={DeleteButton} />
+                                                component={DeleteButton}
+                                                message={modalMessages.serviceDelete} />
                                         </div>
                                     </div>
                                     <div id={'collapse' + i} className="collapse" data-parent="#accordion">

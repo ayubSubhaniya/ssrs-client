@@ -7,6 +7,7 @@ import EditNews from "./EditNews";
 import EditNewsButton from "./EditNewsButton";
 import _ from "lodash"
 import AddNewsButton from "./AddNewsButton";
+import {modalMessages} from "../../config/configuration"
 
 class DataList extends Component {
 
@@ -92,7 +93,8 @@ class DataList extends Component {
                                                     index={i}
                                                     permission={isSuperAdmin(this.props.user) || this.props.deletePermission}
                                                     handleClick={this.props.onDelete}
-                                                    component={DeleteButton}/>
+                                                    component={DeleteButton}
+                                                    message={modalMessages.newsOrNotificationDelete} />
                                             </div>
                                         </div>
                                     </div>

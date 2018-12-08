@@ -6,10 +6,10 @@ class ConfirmModal extends React.Component {
         return (
             <Modal visible={this.props.open}>
                 <div className="modal-header">
-                    <h5 className="modal-title">Confirmation!</h5>
+                    <h5 className="modal-title">Just confirming...</h5>
                 </div>
                 <div className="modal-body">
-                    <p>{this.props.message ? this.props.message : "Are you sure?"}</p>
+                    <h5 style={{"fontStyle": "italic"}}>{this.props.message ? this.props.message : "Are you sure?"}</h5>
                 </div>
                 <div className="modal-footer">
                     <button type="button" className="btn btn-secondary" onClick={this.props.close}>

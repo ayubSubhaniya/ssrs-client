@@ -22,9 +22,9 @@ class GuideForParameters extends Component {
                                 of all the added 
                                 Parameters will appear. Each row represents entry for a praticular Parameter. 
                                 There are 3 buttons given for each Parameter: <br/>
-                                1) Edit Service (<i className="fa fa-pencil"></i>) button - To edit a Parameter <br/>
+                                1) Edit Service button - To edit a Parameter <br/>
                                 2) Enable/Disable (<i className="fa fa-toggle-on"></i>) button - To enable/disable a Parameter<br/>
-                                3) Delete Service (<i className="fa fa-trash-o"></i>) button - To delete a Parameter
+                                3) Delete Service button - To delete a Parameter
                                 <br/>
                                 <img src={require("./Parameters1.JPG")} 
                                     style={{width:"100%", marginTop:"15px", marginBottom:"15px"}}></img>

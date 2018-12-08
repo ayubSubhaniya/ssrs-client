@@ -64,7 +64,9 @@ class OrderDetails extends Component {
                     }
                 </td>
                 <td data-th="Status" style={{"textAlign": "center"}}>
-                    <h4><span className={this.getStatusColorClass(cartStatus[cart.status])}>{camelCaseToWords(cartStatus[cart.status])}</span></h4>
+                    <h4><span className={this.getStatusColorClass(cartStatus[cart.status])}>
+                        {camelCaseToWords(cartStatus[cart.status])}</span>
+                    </h4>
                 </td>
                 <td data-th="Price" className="text-center">{`₹ ${cart.ordersCost}`}</td>
 

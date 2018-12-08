@@ -21,9 +21,9 @@ class GuideForCollectionType extends Component {
                                 When you click on the "<i className="fa fa-archive"/> CollectionTypes" tab from Navigation bar, the list of all the added 
                                 Collection Types will appear. Each row represents entry for a praticular collection Type. 
                                 There are 3 buttons given for each collection type: <br/>
-                                1) Edit Service (<i className="fa fa-pencil"></i>) button - To edit a Collection Type <br/>
+                                1) Edit Service button - To edit a Collection Type <br/>
                                 2) Enable/Disable (<i className="fa fa-toggle-on"></i>) button - To enable/disable a Collection Type for users<br/>
-                                3) Delete Service (<i className="fa fa-trash-o"></i>) button - To delete a Collection Type
+                                3) Delete Service button - To delete a Collection Type
                                 <br/>
                                 <img src={require("./CollectionType1.JPG")} 
                                     style={{width:"100%", marginTop:"15px", marginBottom:"15px"}}></img>
