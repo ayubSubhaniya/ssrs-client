@@ -41,8 +41,8 @@ export const orderStatus = {
     placed: 30,
     processing: 40,
     ready: 50,
-    completed: 60,
-    onHold: 70,
-    cancelled: 80,
-    refunded: 90,
+    onHold: 60,
+    refunded: 70,
+    completed: 80,
+    cancelled: 90,
 };

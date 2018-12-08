@@ -1,6 +1,7 @@
 import React from 'react'
 import Modal from "react-bootstrap4-modal";
 import {handleChange} from "../../helper/StateUpdate";
+import {rcartStatus} from "../../constants/status";
 
 class CourierForm extends React.Component{
     constructor(){
@@ -30,7 +31,7 @@ class CourierForm extends React.Component{
                         this.props.onSubmit({
                             courierServiceName: this.state.courierServiceName,
                             trackingId: this.state.trackingId,
-                            status: 80
+                            status: rcartStatus.completed
                         })
                     }}>
                         <div className="form-group">
