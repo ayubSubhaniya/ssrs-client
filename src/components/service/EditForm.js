@@ -101,7 +101,8 @@ class EditForm extends Component {
             programmes: service.allowedProgrammes,
             userStatus: service.allowedUserStatus,
             collectionType: service.collectionTypes,
-            parameter: service.availableParameters
+            parameter: service.availableParameters,
+            specialServiceUsers: service.specialServiceUsers
         })
     }
 
@@ -140,7 +141,6 @@ class EditForm extends Component {
             })
     }
 
-
     updateService = () => {
         makeCall({
             jobType: 'PATCH',
@@ -164,12 +164,30 @@ class EditForm extends Component {
         }
     }
 
+    specialServiceFileHandler = (data) => {
+        let arr = []
+        for (let i=0; i<data.length; i++) {
+            if (data[i]['specialServiceUsers'])
+                arr.push(data[i]['specialServiceUsers']);
+        }
+
+        if (arr.length > 0) {
+            arr.sort();
+            this.setState({
+                specialServiceUsers: arr
+            })
+            this.props.alert.success('List uploaded successfully.')
+        }
+        else {
+            this.props.alert.error('Error in upload. Please check the file.');
+        }
+    }
+
     changeRadioButtonState = ({target}) => {
         this.setState({
             [target.name]: target.value
         })
     }
-
 
     onDeselectAll = ({target}) => {
         this.setState({
@@ -197,6 +215,7 @@ class EditForm extends Component {
                           onSelectAll={this.onSelectAll}
                           onDeselectAll={this.onDeselectAll}
                           changeRadioButtonState={this.changeRadioButtonState}
+                          specialServiceFileHandler={this.specialServiceFileHandler}
                           handlePaymentModeChange={this.handlePaymentModeChange}/>
                 </div>
             </div>

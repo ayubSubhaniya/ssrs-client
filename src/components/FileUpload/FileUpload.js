@@ -1,6 +1,4 @@
 import React, { Component } from "react";
-import NavigationBar from "../NavigationBar"
-import { domainUrl, errorMessages } from "../../config/configuration";
 import { withAlert } from 'react-alert'
 
 const XLSX = require('xlsx');

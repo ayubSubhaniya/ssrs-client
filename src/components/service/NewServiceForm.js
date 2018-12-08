@@ -104,6 +104,25 @@ class NewServiceForm extends Component {
         }
     }
 
+    specialServiceFileHandler = (data) => {
+        let arr = []
+        for (let i=0; i<data.length; i++) {
+            if (data[i]['specialServiceUsers'])
+                arr.push(data[i]['specialServiceUsers']);
+        }
+
+        if (arr.length > 0) {
+            arr.sort();
+            this.setState({
+                specialServiceUsers: arr
+            })
+            this.props.alert.success('List uploaded successfully.')
+        }
+        else {
+            this.props.alert.error('Error in upload. Please check the file.');
+        }
+    }
+
     changeRadioButtonState = ({target}) => {
         this.setState({
             [target.name]: target.value
@@ -136,6 +155,7 @@ class NewServiceForm extends Component {
                           onDeselectAll={this.onDeselectAll}
                           handleSubmit={this.handleSubmit}
                           changeRadioButtonState={this.changeRadioButtonState}
+                          specialServiceFileHandler={this.specialServiceFileHandler}
                           handlePaymentModeChange={this.handlePaymentModeChange}/>
                 </div>
             </div>

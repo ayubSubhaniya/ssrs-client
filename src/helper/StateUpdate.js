@@ -49,7 +49,8 @@ export function getServiceFromState() {
         allowedUserTypes: getSelectedName(this.state.userTypes),
         allowedUserStatus: getSelectedName(this.state.userStatus),
         allowedProgrammes: getSelectedName(this.state.programmes),
-        allowedBatches: getSelectedName(this.state.batches)
+        allowedBatches: getSelectedName(this.state.batches),
+        specialServiceUsers: this.state.specialServiceUsers
     }
     return updatedService;
 }
