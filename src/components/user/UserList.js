@@ -277,7 +277,6 @@ class UserList extends Component {
     };
 
     uploadHandler = (data) => {
-        console.log(data);
         data = {
             "userInfo": data
         }
@@ -295,7 +294,7 @@ class UserList extends Component {
                 that.setState({
                     showSpinner: false
                 });
-                that.props.alert.success("data updated successfully")
+                that.props.alert.success("Data updated successfully!")
                 setTimeout(function(){
                     window.location.reload()
                         }, 1800);
@@ -304,7 +303,7 @@ class UserList extends Component {
                 that.setState({
                     showSpinner: false
                 });
-                that.props.alert.error(" Please check the file again for format issues");
+                that.props.alert.error("Format issue: Please check the file again");
                 setTimeout(function(){
                     window.location.reload()
                         }, 1800);
@@ -394,13 +393,11 @@ class UserList extends Component {
             "user_batch": '',
             "user_programme": ''
         }
-        // console.log(this.st/**/ate.tableInfo);
+        
         const tableInfo = _.map(this.state.tableInfo, (x) => {
             const o = Object.assign({}, defaultUserObj, x);
             return o;
         });
-
-        console.log(tableInfo);
 
         return (
             <React.Fragment>
@@ -446,7 +443,6 @@ class UserList extends Component {
                     </div>
                 </div>
 
-                {/* {(this.state.userDataRecord === "allUsers") ? <RegisteredList user = {this.state.user}/>:<div></div>} */}
                 <div id="registered" style={{display: "block", paddingRight: "5%", paddingLeft: "5%"}}>
                     <BootstrapTable
                         data={this.state.user}
@@ -472,48 +468,9 @@ class UserList extends Component {
                             Programme</TableHeaderColumn>
                         <TableHeaderColumn dataField="actions"
                                            dataFormat={this.actionFormatter}>Actions</TableHeaderColumn>
-                    </BootstrapTable>
-                    {/* <table id="table" className='mb-4'>
-                        <thead>
-                            <tr>
-                                <th>User ID</th>
-                                <th>User Name</th>
-                                <th>User Type</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {
-                                _.map(this.state.user, (user, i) => {
-                                    user.name.firstName = user.name.firstName ? user.name.firstName : '';
-                                    user.name.lastName = user.name.lastName ? user.name.lastName : '';
-                                    return (
-                                        <tr key={i}>
-                                            <UserDetails user={user}
-                                                index={i}
-                                                updateUser={this.updateUser}
-                                                toggleUserActiveStatus={this.toggleUserActiveStatus} />
-                                        </tr>
-                                    )
-                                })
-                            }
-                        </tbody>
-                    </table> */}
-                    {/*dhaval-lila file upload starts here */}
-                    <div className={'d-flex justify-content-center mb-4'}>
-                        <div class="card d-flex justify-content-center" style={{
-                            width: "30em"
-                        }}>
-                            <div class="card-body mx-auto">
-                                <h5 class="card-title">Upload New User Data!</h5>
-                                <h6 class="card-title">Allowed formate : .xlsx (excel file) </h6>
-                                <p class="card-text"><FileUpload handleSubmit={this.uploadHandler}/></p>
-                            </div>
-                        </div>
-                    </div>
+                    </BootstrapTable>                    
                 </div>
-                {/*dhaval-lila file upload ends here */}
-                <div id="all" style={{display: "none", width: "200%"}}>
+                <div id="all" style={{display: "none", width: "200%", paddingLeft: "5%", paddingRight: "5%"}}>
                     <BootstrapTable
                         data={tableInfo}
                         options={options}
@@ -565,20 +522,31 @@ class UserList extends Component {
                                            thStyle={{textAlign: "center"}}>user_adr_telno</TableHeaderColumn>
                         <TableHeaderColumn dataField='user_adr_mobileno' dataSort={true}
                                            thStyle={{textAlign: "center"}}>user_adr_mobileno</TableHeaderColumn>
-
-
                         <TableHeaderColumn dataField='user_adr_emailid' dataSort={true}
                                            thStyle={{textAlign: "center"}}>user_adr_emailid</TableHeaderColumn>
-
-                        <TableHeaderColumn dataField='user_photo' dataSort={true}
-                                           thStyle={{textAlign: "center"}}>user_photo</TableHeaderColumn>
                         <TableHeaderColumn dataField='user_batch' dataSort={true}
                                            thStyle={{textAlign: "center"}}>user_batch</TableHeaderColumn>
-
                         <TableHeaderColumn dataField='user_programme' dataSort={true}
                                            thStyle={{textAlign: "center"}}>user_programme</TableHeaderColumn>
 
                     </BootstrapTable>
+
+                    
+                    {/*dhaval-lila file upload starts here */}
+                    <div className={'d-flex mt-4 mb-4'}>
+                        <div class="card d-flex justify-content-center" style={{
+                            width: "30em",
+                            borderWidth: "3px"
+                        }}>
+                            <div class="card-body mx-auto">
+                                <h5 class="card-title">Upload New User Data!</h5>
+                                <h6 class="card-title">Allowed format: .xlsx (excel file) </h6>
+                                <p class="card-text"><FileUpload handleSubmit={this.uploadHandler}/></p>
+                            </div>
+                        </div>
+                    </div>
+                    {/*dhaval-lila file upload ends here */}
+
                 </div>
                 <Spinner open={this.state.showSpinner}/>
             </React.Fragment>
