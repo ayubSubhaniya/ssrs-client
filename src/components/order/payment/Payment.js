@@ -107,8 +107,14 @@ class Payment extends React.Component {
                                 </div>
                                 <div className={`${this.state.paymentType !== "1" ? 'd-none' : ''}`}>
                                     <button className="btn btn-outline-primary btn-lg m-4" onClick={() => this.payOnline(this.id)}>
-                                        {"Pay with EasyPay"}
+                                        {"Pay with Eazypay"}
                                     </button>
+
+                                    <p className="ml-4" style={{"fontStyle": "italic", "fontSize":"5px"}}>
+                                        {"(Note: Do not use "}
+                                        <strong>{"back/refresh"}</strong>
+                                        {" button once you select any of this option.)"}
+                                    </p>
                                 </div>
                             </div>
                         </div>
