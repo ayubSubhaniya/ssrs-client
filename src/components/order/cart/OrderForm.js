@@ -56,7 +56,13 @@ class OrderForm extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault()
-
+        
+        const selectedParamters = this.getSelectedPrameters(this.state.parameters);
+        
+        if(selectedParamters.length>1){
+            alert("Please select only one parameter!!!");
+        }
+        else{
         const that = this;
         const url = domainUrl + '/order/';
         const request = new XMLHttpRequest();
@@ -88,6 +94,7 @@ class OrderForm extends Component {
             }
         }
         request.send(JSON.stringify(this.getOrderDetails(this.state)));
+        }
     }
     render() {
         const {service} = this.props;

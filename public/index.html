@@ -10,7 +10,8 @@
     -->
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
     <link rel="shortcut icon" href="%PUBLIC_URL%/dalogo.ico">
-    <link href="https://fonts.googleapis.com/css?family=Nunito+Sans" rel="stylesheet">
+    <link href="../src/styles/index.css" rel="stylesheet">
+    <!--<link href="https://fonts.googleapis.com/css?family=Nunito+Sans" rel="stylesheet"> -->
     <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
@@ -20,7 +21,8 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=String.prototype.startsWith,Array.from,Array.prototype.fill,Array.prototype.keys,Array.prototype.findIndex,Number.isInteger&flags=gated"></script>
+    <script src="../src/helper/polyfill.js"></script>
+    <!--<script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=String.prototype.startsWith,Array.from,Array.prototype.fill,Array.prototype.keys,Array.prototype.findIndex,Number.isInteger&flags=gated"></script>-->
     <title>SSRS DA-IICT</title>
 </head>
 <body>
@@ -29,7 +31,6 @@
 </noscript>
 <div id="root"></div>
 <div id="spinner"></div>
-
 <!--
   This HTML file is a template.
   If you open it directly in the browser, you will see an empty page.

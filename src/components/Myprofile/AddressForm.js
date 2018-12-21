@@ -61,7 +61,7 @@ class AddressForm extends React.Component {
                     <form autoComplete="off" onSubmit={(e) => {
                         e.preventDefault();
                         this.props.handleSubmit(this.getCourierDetails())
-                    }}>
+                    }}   style={{paddingTop : '25px'}} >
                         <div className={'modal-body'}>
                         <div className={'form-group'}>
                             <label>Name:</label>

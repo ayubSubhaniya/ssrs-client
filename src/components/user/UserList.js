@@ -89,7 +89,8 @@ class UserList extends Component {
         that.setState({
             showSpinner: true
         })
-        const url = domainUrl + '/' + 'user/all'
+        const baseu = '/user/all';
+        const url = domainUrl + baseu;
         var request = new XMLHttpRequest();
         request.open('GET', url, true);
         request.withCredentials = true;

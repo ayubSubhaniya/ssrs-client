@@ -17,6 +17,7 @@
 .info-table{
     flex-basis: 70%;
     margin : 5%;
+    overflow-y: auto;
 }
 .style-btn{
     margin-left: 50%;

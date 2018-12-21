@@ -147,7 +147,7 @@ class PermissionForm extends React.Component {
         request.open('GET', url, true);
         request.withCredentials = true;
         request.onload = function () {
-            if (this.status == HttpStatus.OK) {
+            if (this.status === HttpStatus.OK) {
                 var res = JSON.parse(request.response);
                 console.log(res);
                 that.setState({
@@ -172,7 +172,7 @@ class PermissionForm extends React.Component {
         request.withCredentials = true;
         request.setRequestHeader("Content-type", "application/json");
         request.onload = function () {
-            if (this.status == HttpStatus.OK) {
+            if (this.status === HttpStatus.OK) {
                 console.log(request.response);
             } else {
                 handleError(request)
