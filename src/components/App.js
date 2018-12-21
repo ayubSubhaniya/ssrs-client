@@ -21,7 +21,7 @@ import NewParameterForm from "./parameter/NewParameterForm";
 import CollectionType from "./collectionType/CollectionType";
 import CollectionTypeEditForm from "./collectionType/CollectionTypeEditForm";
 import Cart from './order/cart/Cart'
-import {isAdmin, isStudent, isSuperAdmin} from "../helper/userType";
+import {isAdmin, isStudent, isSuperAdmin, isOnlyAdmin} from "../helper/userType";
 import Payment from "./order/payment/Payment";
 import Info from "./order/info/Info";
 import Myprofile from './Myprofile/Myprofile'
@@ -39,20 +39,27 @@ import {handleError} from "../helper/error";
 import Email from "./email/Email"
 import AboutUs from './AboutUs/AboutUs';
 import {loadSpinner, unloadSpinner} from "../helper/spinner";
-
+import Demo from "../product_tour/Demo";
+import Tour from "reactour";
+import Text from "../product_tour/Text";
+import Tooltip from "../product_tour/Tooltip";
+import { Link } from "../product_tour/Button";
+import Dashboard_admin from '../components/Dashboard/dashboard_admin';
 export const Context = React.createContext();
 
-class App extends Component {
+class App extends Component {    
     constructor(props) {
         super(props);
         this.state = {
             showSpinner: false,
             isAuthenticated: -1,
             loginMessage: '',
-            user: defaultUser
+            user: defaultUser,
+            
         }
         this.getUserData();
     }
+   
 
     onUpdateUserError = (response) => {
         if (response.status === HttpStatus.FORBIDDEN) {
@@ -151,6 +158,12 @@ class App extends Component {
             })
             .catch((response) => this.handleLoginError(response))
     }
+    clearLoginMessage = () => {
+        this.setState({
+            loginMessage: ''
+        })
+    }
+
 
     logOut = () => {
         loadSpinner();
@@ -161,7 +174,7 @@ class App extends Component {
         request.withCredentials = true;
         request.setRequestHeader("Content-type", "application/json");
         request.onload = function () {
-            if (this.status == HttpStatus.OK) {
+            if (this.status === HttpStatus.OK) {
                 that.setState({
                     isAuthenticated: false,
                     user: defaultUser
@@ -180,8 +193,9 @@ class App extends Component {
             loginMessage: ''
         })
     }
-
+    
     render() {
+        
         const {isAuthenticated, loginMessage} = this.state;
         if (isAuthenticated) {
             document.body.style.background = "#ffffff";
@@ -189,7 +203,9 @@ class App extends Component {
             var urlString = 'url(' + require('../images/w2.jpg') + ')';
             document.body.style.background = urlString;
         }
+
         return (
+            
             <Context.Provider value={
                 {
                     logIn: this.logIn,
@@ -197,6 +213,8 @@ class App extends Component {
                     loginMessage,
                     user: this.state.user
                 }}>
+                
+        
                 <Router>
                     <React.Fragment>
                         <Switch>
@@ -208,7 +226,8 @@ class App extends Component {
                                 clearLoginMessage={this.clearLoginMessage}
                                 user={this.state.user}
                                 component={isAuthenticated === -1
-                                    ? () => '' : isAuthenticated ? Home : PublicPage}/>
+                                    ? () => '' : isAuthenticated ?  Home : PublicPage}/>
+                                
                             <AuthorizedRoute
                                 exact path="/service"
                                 component={Services}
@@ -301,6 +320,10 @@ class App extends Component {
                                 component={dashboard}
                                 permission={isSuperAdmin(this.state.user)}/>
                             <AuthorizedRoute
+                                exact path='/dashboard_admin'
+                                component={Dashboard_admin}
+                                permission={isOnlyAdmin(this.state.user)}/>
+                            <AuthorizedRoute
                                 exact path='/email'
                                 component={Email}
                                 permission={isSuperAdmin(this.state.user)}/>
@@ -315,6 +338,7 @@ class App extends Component {
             </Context.Provider>
         )
     }
+    
 }
 
 export default App;

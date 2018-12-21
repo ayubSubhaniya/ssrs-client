@@ -5,7 +5,7 @@ import ErrorMessage from "../error/ErrorMessage";
 function ForgotPassword(props) {
     return (
         <Modal visible={props.visible}
-               className={'animated ' + (props.visible ? 'rotateIn' : 'rotateOut')}
+               className={'animated ' + (props.visible ? 'FadeIn' : 'FadeOut')}
                onClickBackdrop={props.closeModal}>
 
             <div className="modal-header">

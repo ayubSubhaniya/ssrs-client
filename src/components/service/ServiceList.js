@@ -83,7 +83,9 @@ class ServiceList extends Component {
     }
 
     render() {
+        //console.log(this.props.user);
         return (
+            
             <div className={'container container-custom'}>
                 <div id="accordion">
                     {
@@ -139,6 +141,8 @@ class ServiceList extends Component {
                     component={GoToCart}
                     permission={isStudent(this.props.user)}
                 />
+               
+            
             </div>
         );
     }

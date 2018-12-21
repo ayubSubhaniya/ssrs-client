@@ -25,6 +25,7 @@ function getTransitionDelay(num) {
         case 2: return "350ms";
         case 3: return "1150ms";
         case 4: return "1950ms";
+        default: return "1950ms";
     }
 }
 
