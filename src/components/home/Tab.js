@@ -12,11 +12,12 @@ class Tab extends Component{
                 <div className="tab-content">
                     <div id="menu1" className="tab-pane active">
                         <DataList user={this.props.user}
-                                  data={this.props.notification}
+                                  data={this.props.notification}    
                                   onDelete={this.props.deleteNotification}
                                   editPermission={false}
                                   deletePermission={true}
-                                  createPermission={false}/>
+                                  createPermission={false}
+                                  isnotification={true}/>
                     </div>
                     <div id="menu2" className="tab-pane fade">
                         <DataList user={this.props.user}
@@ -27,7 +28,8 @@ class Tab extends Component{
                                   user={this.props.user}
                                   editPermission={true}
                                   deletePermission={false}
-                                  createPermission={true}/>
+                                  createPermission={true}
+                                  isnotification={false}/>
                     </div>
                 </div>
             </div>

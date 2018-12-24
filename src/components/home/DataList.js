@@ -59,8 +59,19 @@ class DataList extends Component {
         this.closeAddModal();
     };
 
+    redirect = (data) => {
+        console.log('i am in datalist cartId+'+data.cartId);
+        this.props.history.push({
+            pathname: this.props.location.pathname + "/" + this.props.cart._id,
+            state: {
+                user: this.props.user
+            }
+        })
+    }
+
     render() {
         const {data} = this.props;
+        console.log('i am in datalist isnotification= '+this.props.isnotification);
         return (
             <div>
                 <AuthorizedComponent
@@ -80,6 +91,12 @@ class DataList extends Component {
                                                 <h5 className="mb-1">{data.message}</h5>
                                                 <small
                                                     className="text-muted"> {timeSince(new Date(data.createdOn)) + ' ago'}</small>
+                                                { this.props.isnotification===true ?
+                                                    
+                                                    <h5 onClick={this.redirect(data)} >{data.cartId}</h5>
+                                                     : ''
+                                                }
+                                                    
                                             </div>
                                             <div className='d-flex p-2 align-items-center justify-content-center'>
                                                 <AuthorizedComponent
