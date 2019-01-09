@@ -3,7 +3,7 @@ import {withRouter} from 'react-router-dom'
 import {cartStatus} from "../../constants/status";
 import {camelCaseToWords, formatDate} from "../../helper/String";
 import {isAdmin} from "../../helper/userType";
-
+import MediaQuery from 'react-responsive';
 class OrderDetails extends Component {
     redirect = () => {
         this.props.history.push({
@@ -28,7 +28,7 @@ class OrderDetails extends Component {
     }
 
     getStatusColorClass = (status) => {
-        let className = 'badge badge-pill badge-';
+        let className = 'position_badge badge badge-pill badge-';
         switch(status) {
             case 'placed': className += 'info'; break;
             case 'processing': className += 'primary'; break;
@@ -48,13 +48,14 @@ class OrderDetails extends Component {
         const {cart, index, ...others} = this.props;
         return (
             <tr onClick={this.redirect} className='animated fadeIn'>
-                <td data-th="Sr No." className="text-center">
+                <td data-th="Sr No." className="text-center" >
                     {index + 1}
                 </td>
-                <td data-th="Order No" className="text-center">
+                
+                <td data-th="Order No" className="text-center" >
                     {cart.orderId}
                 </td>
-                <td data-th="Service" className='pt-3 pb-3'>
+                <td data-th="Service" className="text-center">
                     {cart.orders[0].serviceName} <br/>
                     {formatDate(this.getStatusTime(cart.statusChangeTime))}
                     {
@@ -63,19 +64,22 @@ class OrderDetails extends Component {
                             : ''
                     }
                 </td>
-                <td data-th="Status" style={{"textAlign": "center"}}>
+                <td data-th="Status" style={{"textAlign": "center"}} >
                     <h4><span className={this.getStatusColorClass(cartStatus[cart.status])}>
                         {camelCaseToWords(cartStatus[cart.status])}</span>
                     </h4>
                 </td>
-                <td data-th="Price" className="text-center">{`₹ ${cart.ordersCost}`}</td>
+                <td data-th="Price" className="text-center" >{`₹ ${cart.ordersCost}`}</td>
 
                 {
                     isAdmin(others.user)
                         ? <td data-th="Requested By" className="text-center">{cart.requestedBy}</td>
                         : ''
                 }
-                <td data-th="Order Total" className="text-center">{`₹ ${cart.totalCost}`}</td>
+                <td data-th="Order Total" className="text-center">  {`₹ ${cart.totalCost}`}</td>
+                
+
+                
             </tr>
 
         );

@@ -6,7 +6,7 @@ import _ from "lodash"
 import 'react-datepicker/dist/react-datepicker.css';
 import {makeCall} from '../../helper/caller';
 import {handleError} from "../../helper/error";
-
+import '../../styles/text.css';
 class dashboard extends Component {
 
     constructor(props, context) {
@@ -103,78 +103,70 @@ class dashboard extends Component {
         return (
             <React.Fragment>
                 <NavigationBar/>
-                <p className="text-center"
-                   style={{fontFamily: "Courier New", fontSize: "60px", color: "blue", marginTop: "2%"}}>
-                    <strong>Dashboard</strong></p>
+                
+                    <h1 style={{
+                    fontSize: "70px",
+                    padding: "40px 50px",
+                    textAlign: "center",
+                    textTransform: "uppercase",
+                    textRendering: "optimizeLegibility",
+                    color: "#131313",
+                    backgroundColor: "#e7e5e4",
+                    letterSpacing: "0.15em",
+                    textShadow: "2px 2px grey"
+                    }}>Dashboard</h1>
                 <div className="container">
                     <div className="row">
                         <div className="col-md-12" style={{marginTop: "5%"}}>
-                            <div className="row card d-flex flex-row p-4 dash" style={{backgroundColor: "#aec5c1"}}>
+                            <div className="row card d-flex flex-row p-4 dash" style={{backgroundColor: "#b3e0ff"}}>
                                 <p className="w-100 mb-4 text-center" style={{color: "black", fontSize: "25px"}}>
                                     <strong>Daily
                                         Statistics</strong></p>
                                 <div className="col-sm-3">
-                                    <div className="card p-4 dash" style={{backgroundColor: "#ff140f"}}>
-                                        <h4 className="text-center" style={{fontSize: "30px", color: "white"}}>
-                                            <strong>₹ {this.state.totalonline + this.state.totaloffline}</strong></h4>
+                                    <div className="card p-4 dash" style={{backgroundColor: "#4db8ff"}}>
+                                        <h4 className="text-center" style={{fontSize: "30px", color: "black"}}>
+                                            <strong><span>&#8377;</span>  {this.state.totalonline + this.state.totaloffline}</strong></h4>
                                         <p className="text-center" style={{fontSize: "15px", color: "black"}}><strong>Total
                                             Payment</strong></p>
                                     </div>
                                 </div>
                                 <div className="col-sm-3">
-                                    <div className="card p-4 dash" style={{backgroundColor: "#ff140f"}}>
-                                        <h4 className="text-center" style={{fontSize: "30px", color: "white"}}>
-                                            <strong>₹ {this.state.totalonline}</strong></h4>
+                                    <div className="card p-4 dash" style={{backgroundColor: "#4db8ff"}}>
+                                        <h4 className="text-center" style={{fontSize: "30px", color: "black"}}>
+                                            <strong><span>&#8377;</span> {this.state.totalonline}</strong></h4>
                                         <p className="text-center" style={{fontSize: "15px", color: "black"}}><strong>Online
                                             Payment</strong></p>
                                     </div>
                                 </div>
                                 <div className="col-sm-3">
-                                    <div className="card p-4 dash" style={{backgroundColor: "#ff140f"}}>
-                                        <h4 className="text-center" style={{fontSize: "30px", color: "white"}}>
-                                            <strong>₹ {this.state.totaloffline}</strong></h4>
+                                    <div className="card p-4 dash" style={{backgroundColor: "#4db8ff"}}>
+                                        <h4 className="text-center" style={{fontSize: "30px", color: "black"}}>
+                                            <strong> <span>&#8377;</span>  {this.state.totaloffline}</strong></h4>
                                         <p className="text-center" style={{fontSize: "15px", color: "black"}}><strong>Offline
                                             Payment</strong></p>
                                     </div>
                                 </div>
                                 <div className="col-sm-3">
-                                    <div className="card p-4 dash" style={{backgroundColor: "#ff140f"}}>
-                                        <h4 className="text-center" style={{fontSize: "30px", color: "white"}}>
-                                            <strong>{this.state.totalOrders}</strong></h4>
+                                    <div className="card p-4 dash" style={{backgroundColor: "#4db8ff"}}>
+                                        <h4 className="text-center" style={{fontSize: "30px", color: "black"}}>
+                                            <strong><span>&#8377;</span> {this.state.totalOrders}</strong></h4>
                                         <p className="text-center" style={{fontSize: "15px", color: "black"}}><strong>Total
                                             Orders</strong></p>
                                     </div>
                                 </div>
                             </div>
                             <div className="row card d-flex flex-row p-4 dash"
-                                 style={{backgroundColor: "#aec5c1", marginTop: "5%"}}>
+                                 style={{backgroundColor: "#b3e0ff", marginTop: "5%"}}>
                                 <p className="w-100 mb-4 text-center" style={{color: "black", fontSize: "25px"}}>
                                     <strong>Service
                                         Revenue</strong></p>
                                 <div className="col-sm-6">
-                                    <div className="card p-4 dash" style={{backgroundColor: "#f1f1f1"}}>
+                                    <div className="card p-4 dash" style={{backgroundColor: "#e0e0d1"}}>
                                         <p className="w-100 mb-2 text-center"
                                            style={{color: "black", fontSize: "15px", borderBottom: "3px solid red"}}>
                                             <strong>Daily</strong></p>
                                         <table className="table table-hover">
                                             <tbody>
-                                            {/*<tr>*/}
-                                            {/*<td style={{borderRight: "1px solid #e1e1e1"}}><strong>Service1</strong>*/}
-                                            {/*</td>*/}
-                                            {/*<td style={{borderRight: "1px solid #e1e1e1"}}>100</td>*/}
-                                            {/*<td>₹ 100,000</td>*/}
-                                            {/*</tr>*/}
-                                            {/*<tr>*/}
-                                            {/*<td style={{borderRight: "1px solid #e1e1e1"}}>Service2</td>*/}
-                                            {/*<td style={{borderRight: "1px solid #e1e1e1"}}>100</td>*/}
-                                            {/*<td>₹ 100,000</td>*/}
-                                            {/*</tr>*/}
-                                            {/*<tr>*/}
-                                            {/*<td style={{borderRight: "1px solid #e1e1e1"}}>Service3</td>*/}
-                                            {/*<td style={{borderRight: "1px solid #e1e1e1"}}>100</td>*/}
-                                            {/*<td>₹ 100,000</td>*/}
-                                            {/*</tr>*/}
-
 
                                             {
                                                 _.map(this.state.todayService.service, (service) => {
@@ -185,7 +177,7 @@ class dashboard extends Component {
                                                             <td style={{borderRight: "1px solid #e1e1e1"}}>
                                                                 {service.count}
                                                             </td>
-                                                            <td>{`₹ ${service.revenue}`}</td>
+                                                            <td>{<span>&#8377;</span> + ' ${service.revenue}'}</td>
                                                         </tr>
                                                     )
                                                 })
@@ -195,7 +187,7 @@ class dashboard extends Component {
                                     </div>
                                 </div>
                                 <div className="col-sm-6">
-                                    <div className="card p-4 dash" style={{backgroundColor: "#f1f1f1"}}>
+                                    <div className="card p-4 dash" style={{backgroundColor: "#e0e0d1"}}>
                                         <div className="row">
                                             <div className="col-sm-5">
                                                 <DatePicker
@@ -230,7 +222,7 @@ class dashboard extends Component {
                                                                 <td style={{borderRight: "1px solid #e1e1e1"}}>
                                                                     {service.count}
                                                                 </td>
-                                                                <td>{`₹ ${service.revenue}`}</td>
+                                                                <td>{<span>&#8377;</span> + ' ${service.revenue}'}</td>
                                                             </tr>
                                                         )
                                                     })

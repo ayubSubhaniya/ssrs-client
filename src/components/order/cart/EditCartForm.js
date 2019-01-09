@@ -1,14 +1,14 @@
 import React, {Component} from 'react'
 import _ from "lodash"
 import {withRouter} from "react-router-dom";
-import MultiSelectDropDownControled from "../../service/MultiSelectDropDownControled";
+import MultiSelectDropDown from "../../service/MultiSelectDropDown";
 import {handleArrayUpdate, handleChange, setIsSelected} from "../../../helper/StateUpdate"
 import {domainUrl} from "../../../config/configuration";
 import * as HttpStatus from "http-status-codes";
 import ErrorMessage from "../../error/ErrorMessage";
 import {handleError} from "../../../helper/error";
 import Modal from "react-bootstrap4-modal";
-
+import {loadSpinner, unloadSpinner} from '../../../helper/spinner';
 function setSelecteProperty(arr1, arr2) {
     return _.map(arr1, (x) => {
         if (_.some(arr2, (o) => o._id === x._id))
@@ -101,7 +101,7 @@ class EditCartForm extends Component {
         parameterBtnLabel = parameterBtnLabel.length > 45 ? `Selected(${selectedParamters.length})` : parameterBtnLabel
         return (
             <Modal visible={this.props.visible}>
-                <div className="modal-header">
+                <div className="modal-header" id='order_position'>
                     <div className={'w-100'}>
                         <h5 className="modal-title w-100 text-center">{service.name}</h5>
                         <p className={'w-100 text-center m-0'}>{service.description + " ( Charge: ₹ " + service.baseCharge + " )"}</p>
@@ -131,7 +131,7 @@ class EditCartForm extends Component {
                             {
                                 this.props.hide
                                     ? ' '
-                                    : <MultiSelectDropDownControled label={'Parameters'}
+                                    : <MultiSelectDropDown label={'Parameters'}
                                                                     btnLabel={parameterBtnLabel}
                                                                     options={this.state.parameter}
                                                                     name={'parameter'}

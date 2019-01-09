@@ -12,7 +12,7 @@ import { makeCall } from "../../helper/caller";
 import { handleError } from "../../helper/error";
 import GoToCart from "./GoToCart";
 import {modalMessages} from "../../config/configuration"
-
+import {loadSpinner, unloadSpinner} from '../../helper/spinner';
 class ServiceList extends Component {
     constructor(props, context) {
         super(props, context);
@@ -26,6 +26,7 @@ class ServiceList extends Component {
     }
 
     getService = () => {
+        
         makeCall({
             jobType: "GET",
             urlParams: '/service'
@@ -43,9 +44,11 @@ class ServiceList extends Component {
             .catch((error) => {
                 handleError(error);
             })
+            
     }
 
     deleteService = (index) => {
+       
         makeCall({
             jobType: "DELETE",
             urlParams: '/service/' + this.state.service[index]._id
@@ -59,9 +62,11 @@ class ServiceList extends Component {
             .catch((error) => {
                 handleError(error);
             })
+           
     }
 
     toggleService = (index) => {
+        
         const service = this.state.service[index];
         makeCall({
             jobType: "PATCH",
@@ -83,7 +88,9 @@ class ServiceList extends Component {
     }
 
     render() {
+        //console.log(this.props.user);
         return (
+            
             <div className={'container container-custom'}>
                 <div id="accordion">
                     {
@@ -139,6 +146,8 @@ class ServiceList extends Component {
                     component={GoToCart}
                     permission={isStudent(this.props.user)}
                 />
+               
+            
             </div>
         );
     }

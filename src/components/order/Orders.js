@@ -105,7 +105,7 @@ class Filter extends Component {
                                             return (
                                                 <li key={key}>
                                                     <input className="filter" type="radio"
-                                                           checked={key == this.state.filterState}/>
+                                                           checked={key === this.state.filterState}/>
                                                     <label className="radio-label" data-filter={key}
                                                            onClick={this.updateFilter}>
                                                         {camelCaseToWords(orders[key])}

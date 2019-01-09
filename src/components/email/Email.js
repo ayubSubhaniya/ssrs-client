@@ -107,7 +107,7 @@ class Email extends Component {
                     </div>
                     <div className="modal-content" style={{"borderWidth": "2px"}}>
                         <div className="modal-body">
-                            <form role="form"
+                            <form 
                                 autoComplete='off'
                                 onSubmit={(e) => {
                                     e.preventDefault();
