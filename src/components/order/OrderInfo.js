@@ -264,6 +264,7 @@ class OrderInfo extends Component {
     }
 
     render() {
+        console.log("PANI");
         const cart = this.state.cart;
         const delivery = cart.delivery;
         const pickup = cart.pickup;

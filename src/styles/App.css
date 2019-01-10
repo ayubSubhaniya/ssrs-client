@@ -83,6 +83,12 @@ p {
 }
 /*PC VIEW*/
 @media screen and (min-width: 600px) {
+    .order_buttons{
+        font-weight: bold;
+        margin-left: 570px;
+        margin-top: 8px;
+        text-align: justify;
+    }
     #delete_button{
         width: 50px;
         margin-left: 12px;

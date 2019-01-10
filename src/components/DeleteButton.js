@@ -32,7 +32,7 @@ class DeleteButton extends React.Component {
             <div>
                 <button className="btn btn-outline-danger ml-2"
                     data-index={index}
-                    style={{ "textAlign": "justify", "fontSize": "12px", "fontWeight": "550" }}
+                    style={{ "fontSize": "12px", "fontWeight": "550" }}
                     onClick={this.openConfirmationModal}>
                     X
                 </button>

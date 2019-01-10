@@ -6,12 +6,6 @@ import NavigationBar from "../NavigationBar";
 import _ from "lodash"
 import {makeCall} from "../../helper/caller";
 import {handleError} from "../../helper/error";
-import Demo from "../../product_tour/Demo";
-import Tour from "reactour";
-import Text from "../../product_tour/Text";
-import Tooltip from "../../product_tour/Tooltip";
-import { Button, Link } from "../../product_tour/Button";
-import classes from '../../product_tour/styles.css';
 const bodyScrollLock = require('body-scroll-lock');
 const disableBodyScroll = bodyScrollLock.disableBodyScroll;
 const enableBodyScroll = bodyScrollLock.enableBodyScroll;
@@ -144,8 +138,6 @@ class Home extends Component {
 
     };
     render() {
-        const { isTourOpen } = this.state;
-        const accentColor = '#5cb7b7';
         return (
             <React.Fragment>
                 <NavigationBar/>
@@ -157,55 +149,10 @@ class Home extends Component {
                      updateNews={this.updateNews}
                      notification={this.state.notification}
                      deleteNotification={this.deleteNotification}/>
-                <Demo
-                    openTour={this.openTour}
-                    />
-                <Tour
-                    onRequestClose={this.closeTour}
-                    steps={tourConfig}
-                    isOpen={isTourOpen}
-                    maskClassName="mask"
-                    className={classes.helper}
-                    rounded={5}
-                    accentColor={accentColor}
-                    />
+                
             </React.Fragment>
         );
     }
 }
-const tourConfig = [
-    {
-      selector: '[data-tut="reactour__copyHome"]',
-      content: 'Displays News and Notifications'
-    },
-    {
-        selector: '[data-tut="reactour__copyServices"]',
-        content: `fuck`
-      },
-   
-    {
-      selector: '[data-tut="reactour__goTo"]',
-      content: ({ goTo }) =>
-        <div>
-          If you wanna go anywhere, skipping places, it is absolutely possible.
-          <br /> "Oh, I forgot something inside the bus…"{" "}
-          <button
-            style={{
-              border: "1px solid #f7f7f7",
-              background: "none",
-              padding: ".3em .7em",
-              fontSize: "inherit",
-              display: "block",
-              cursor: "pointer",
-              margin: "1em auto"
-            }}
-            onClick={() => goTo(1)}
-          >
-            Please go back to 🚌
-          </button>
-        </div>
-    },
-    
-    
-  ];
+
 export default Home;
