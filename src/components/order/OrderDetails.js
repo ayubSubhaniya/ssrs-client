@@ -5,7 +5,9 @@ import {camelCaseToWords, formatDate} from "../../helper/String";
 import {isAdmin} from "../../helper/userType";
 
 class OrderDetails extends Component {
+    
     redirect = () => {
+        console.log('i am in orderlistt.js'+this.props.location.pathname);
         this.props.history.push({
             pathname: this.props.location.pathname + "/" + this.props.cart._id,
             state: {

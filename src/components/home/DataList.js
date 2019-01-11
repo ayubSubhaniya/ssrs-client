@@ -9,6 +9,8 @@ import _ from "lodash"
 import AddNewsButton from "./AddNewsButton";
 import {modalMessages} from "../../config/configuration"
 
+import {withRouter} from 'react-router-dom'
+
 class DataList extends Component {
 
     constructor(props) {
@@ -60,15 +62,14 @@ class DataList extends Component {
     };
 
     redirect = (data) => {
-        console.log('i am in datalist cartId+'+data.cartId);
-        this.props.history.push({
-            pathname: this.props.location.pathname + "/" + this.props.cart._id,
+        console.log('i am in datalist'+ data.cartId );
+        data.history.push({
+            pathname:  "/order/" + data.cartId,
             state: {
-                user: this.props.user
+                user: data.user
             }
         })
     }
-
     render() {
         const {data} = this.props;
         console.log('i am in datalist isnotification= '+this.props.isnotification);
@@ -93,11 +94,11 @@ class DataList extends Component {
                                                     className="text-muted"> {timeSince(new Date(data.createdOn)) + ' ago'}</small>
                                                 { this.props.isnotification===true ?
                                                     
-                                                    <h5 onClick={this.redirect(data)} >{data.cartId}</h5>
+                                                    <h5 onClick={()=> {this.redirect(data)}}>{data.cartId} </h5>
                                                      : ''
                                                 }
                                                     
-                                            </div>
+                                            </div>  
                                             <div className='d-flex p-2 align-items-center justify-content-center'>
                                                 <AuthorizedComponent
                                                     component={EditNewsButton}
@@ -143,4 +144,4 @@ class DataList extends Component {
 }
 
 
-export default DataList;
+export default withRouter(DataList);
