@@ -76,7 +76,7 @@ class Cart extends Component {
     }
 
     render() {
-        console.log('ppp' + JSON.stringify(this.state.cart.orders));
+
         if (this.state.cart.length === 0 || this.state.cart.orders.length === 0) {
             return (
                 <div>

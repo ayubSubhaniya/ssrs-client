@@ -1,4 +1,6 @@
 import * as React from "react";
+import {loadSpinner, unloadSpinner} from "../../helper/spinner";
+import {withAlert} from 'react-alert';
 class ErrorMessage extends React.Component {
     constructor(props) {
         super(props);

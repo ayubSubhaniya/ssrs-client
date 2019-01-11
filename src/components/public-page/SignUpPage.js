@@ -9,6 +9,7 @@ import Tooltip from "../../product_tour/Tooltip";
 import classes from '../../product_tour/styles.css'; 
 import { Button, Link } from "../../product_tour/Button";
 import { withAlert } from "react-alert";
+import ErrorMessageModern from "../error/ErrorMessageModern";
 
 const bodyScrollLock = require('body-scroll-lock');
 
@@ -104,7 +105,7 @@ class SignUpPage extends React.Component{
                 <div className={'alert alert-success p-2 mt-2 mb-2' + (isSignedup ? '' : ' d-none')}>
                     <span className={"alert-link"}
                         style={{ "cursor": "pointer" }}
-                        onClick={()=> { loadSpinner() ;setTimeout(unloadSpinner(), 5000)}}> Resend Link
+                        onClick={handleResendVerificationLink}> Resend Link
                     </span>
                 </div>
             </form>  

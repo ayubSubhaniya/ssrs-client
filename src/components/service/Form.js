@@ -1,6 +1,6 @@
 import React from 'react'
 import PaymentModes from "./PaymentModes";
-import MultiSelectDropDown from "./MultiSelectDropDown";
+import MultiSelectDropDownControled from "./MultiSelectDropDownControled";
 import ApllicationSpecificDropDown from "./ApllicationSpecificDropDown";
 import FileUpload from '../FileUpload/FileUpload'
 import { Link } from "react-router-dom"
@@ -64,7 +64,7 @@ function Form(props) {
                     </div>
                 </div>
                 <div className='col-md-6'>
-                    <MultiSelectDropDown label={'Collection Type'}
+                    <MultiSelectDropDownControled label={'Collection Type'}
                         btnLabel={"Select"}
                         options={props.state.collectionType}
                         onSelectAll={props.onSelectAll}
@@ -73,7 +73,7 @@ function Form(props) {
                         handleOptionChange={props.handleArrayUpdate} />
                 </div>
                 <div className='col-md-6'>
-                    <MultiSelectDropDown label={'Parameters'}
+                    <MultiSelectDropDownControled label={'Parameters'}
                         btnLabel={"Select"}
                         options={props.state.parameter}
                         onSelectAll={props.onSelectAll}

@@ -28,7 +28,7 @@ class OrderDetails extends Component {
     }
 
     getStatusColorClass = (status) => {
-        let className = 'position_badge badge badge-pill badge-';
+        let className = 'badge badge-pill badge-';
         switch(status) {
             case 'placed': className += 'info'; break;
             case 'processing': className += 'primary'; break;

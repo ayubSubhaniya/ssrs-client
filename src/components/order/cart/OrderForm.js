@@ -7,7 +7,8 @@ import * as HttpStatus from "http-status-codes";
 import $ from "jquery";
 import ErrorMessage from "../../error/ErrorMessage";
 import { withAlert } from "react-alert";
-
+import {loadSpinner, unloadSpinner} from "../../../helper/spinner";
+var selectedParamters;
 class OrderForm extends Component {
     constructor(props) {
         super(props);
@@ -15,10 +16,11 @@ class OrderForm extends Component {
             units: 1,
             comments: '',
             parameters: new Array(props.service.availableParameters.length).fill(false),
-            errorMessage: ''
+            errorMessage: '',
+            showSpinner: false
         }
     }
-
+   
     cleanErrorMessage=()=>{
         this.setState({
             errorMessage:''
@@ -52,8 +54,11 @@ class OrderForm extends Component {
             comment: this.state.comments===''?undefined:this.state.comments
         };
         return {order};
+        
+        
     };
 
+    
     handleSubmit = (e) => {
         e.preventDefault()
 
@@ -90,8 +95,10 @@ class OrderForm extends Component {
         request.send(JSON.stringify(this.getOrderDetails(this.state)));
     }
     render() {
+        
         const {service} = this.props;
-        const selectedParamters = this.getSelectedPrameters(this.state.parameters)
+        selectedParamters = null;
+        selectedParamters = this.getSelectedPrameters(this.state.parameters)
         var parameterBtnLabel = _.map(selectedParamters, 'name').join(', ')
         parameterBtnLabel = parameterBtnLabel === '' ? 'Select' : parameterBtnLabel
         parameterBtnLabel = parameterBtnLabel.length > 45 ? `Selected(${selectedParamters.length})` : parameterBtnLabel
@@ -149,8 +156,11 @@ class OrderForm extends Component {
                     </div>
                 </div>
             </div>
+           
             )
+            
     }
+    
 }
 
 export default withAlert(withRouter(OrderForm))

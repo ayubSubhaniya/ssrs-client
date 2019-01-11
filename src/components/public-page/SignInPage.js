@@ -6,12 +6,10 @@ import {loadSpinner, unloadSpinner} from "../../helper/spinner";
 import Demo from '../../product_tour/Demo';
 import Tour from "reactour";
 import Text from "../../product_tour/Text";
+import Tooltip from "../../product_tour/Tooltip";
 import classes from '../../product_tour/styles.css'; 
 import { Button, Link } from "../../product_tour/Button";
 import {withAlert} from 'react-alert';
-import {Alert} from 'react-alert';
-
-
 const bodyScrollLock = require('body-scroll-lock');
 
 const disableBodyScroll = bodyScrollLock.disableBodyScroll;
@@ -38,19 +36,12 @@ class SignInPage extends React.Component {
         disableBodyScroll(targetElement);
 
     };
-    
     render() {
-        const that = this;
         const { isTourOpen } = this.state;
         const accentColor = '#5cb7b7';
         const {daiictId, handleChange, password, loginMessage, logIn, openModal, clearLoginMessage} = this.props;
-      
-       
         return (
-        
-        
             <div className="page">
-            
             <Button h="4" onClick={this.openTour} style={{
                 position: 'fixed',
                 bottom: '2%',
@@ -86,16 +77,12 @@ class SignInPage extends React.Component {
                         </div>
                         <input className="form-control" type="password" name="password" value={password}
                                onChange={handleChange}/>
-                                           <ErrorMessage message={loginMessage} clearMessage={clearLoginMessage}/>
+                        <ErrorMessage message={loginMessage} clearMessage={clearLoginMessage}/>
                     </div>
-                    <div className="page-input"><input type="submit" value="ENTER"/></div>
+                    <div className="page-input"><input type="submit" value="ENTER" /></div>
                     <input data-tut="reactour__positionForgetPassword" type="button" className={'page-link-cstm mt-2'} value="Forgot Password?"
                            onClick={openModal}/>
                 </form>
-                
-                
-                
-                
             </div>
         )
     }
@@ -128,28 +115,7 @@ const tourConfig = [
         position: "right"
     },
     
-    {
-      selector: '[data-tut="reactour__goTo"]',
-      content: ({ goTo }) =>
-        <div>
-          Still having trouble
-          <button
-            style={{
-              border: "1px solid #f7f7f7",
-              background: "none",
-              padding: ".3em .7em",
-              fontSize: "inherit",
-              display: "block",
-              cursor: "pointer",
-              margin: "1em auto"
-            }}
-            onClick={() => goTo(1)}
-          >
-            Please go back to 🚌
-          </button>
-        </div>
-    },
-    
+
     
   ];
 export default withRouter(SignInPage)

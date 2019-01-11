@@ -1,14 +1,14 @@
 import React, {Component} from 'react'
 import _ from "lodash"
 import {withRouter} from "react-router-dom";
-import MultiSelectDropDown from "../../service/MultiSelectDropDown";
+import MultiSelectDropDownControled from "../../service/MultiSelectDropDownControled";
 import {handleArrayUpdate, handleChange, setIsSelected} from "../../../helper/StateUpdate"
 import {domainUrl} from "../../../config/configuration";
 import * as HttpStatus from "http-status-codes";
 import ErrorMessage from "../../error/ErrorMessage";
 import {handleError} from "../../../helper/error";
 import Modal from "react-bootstrap4-modal";
-import {loadSpinner, unloadSpinner} from '../../../helper/spinner';
+
 function setSelecteProperty(arr1, arr2) {
     return _.map(arr1, (x) => {
         if (_.some(arr2, (o) => o._id === x._id))
@@ -131,7 +131,7 @@ class EditCartForm extends Component {
                             {
                                 this.props.hide
                                     ? ' '
-                                    : <MultiSelectDropDown label={'Parameters'}
+                                    : <MultiSelectDropDownControled label={'Parameters'}
                                                                     btnLabel={parameterBtnLabel}
                                                                     options={this.state.parameter}
                                                                     name={'parameter'}

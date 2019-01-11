@@ -73,7 +73,7 @@ class PublicPage extends Component {
             signupMessage: ''
         });
         this.props.showSpinner();
-        const url = domainUrl + '/account/signup1';
+        const url = domainUrl + '/account/signup';
         const userObj = {
             daiictId: this.state.daiictId,
             password: this.state.password
@@ -97,8 +97,10 @@ class PublicPage extends Component {
                 })
             }
             else {
-               //console.log('pp ' + JSON.parse(request.responseText).name);
-                if((request.responseText).name === "ValidationError"){
+
+                
+               // console.log('pp ' + JSON.parse(request.responseText).name);
+                if(JSON.parse(request.responseText).name === "ValidationError"){
                     that.setState({signupMessage: errorMessages.validationError})
                 }else{
                 that.setState({
@@ -111,19 +113,19 @@ class PublicPage extends Component {
     }
 
     handleResendVerificationLink = () => {
-        setTimeout(function(){
         loadSpinner();
-        },1);
-        
+        this.props.showSpinner();
+
         var url = domainUrl + '/account/resendVerificationLink/' + this.state.daiictId;
         var request = new XMLHttpRequest();
         request.open('GET', url, true);
         request.withCredentials = true;
         request.send();
         setTimeout(function(){
-        unloadSpinner();
-        },2000);
-        };
+            unloadSpinner();
+            },2000);
+
+    };
 
     changePassworVisibility = () => {
         this.setState({
@@ -210,7 +212,7 @@ class PublicPage extends Component {
                                            checked={login}/>
                                     <input type="radio" name="tab" id="register" onChange={this.switchTab}
                                            checked={!login}/>
-                                    <div className={"pages"}>
+                                    <div className="pages">
 
                                         <SignInPage daiictId={daiictId}
                                                     loginMessage={value.loginMessage}

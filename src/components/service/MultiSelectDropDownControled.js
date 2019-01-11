@@ -36,7 +36,8 @@ class MultiSelectDropDownControled extends Component {
                                                 <input onClick={this.props.handleOptionChange}
                                                        data-index={index}
                                                        type="checkbox"
-                                                       />
+                                                       name={this.props.name}
+                                                       checked={o.isSelected}/>
                                                 {o.name + " (₹" + o.baseCharge + ")"}
                                             </label>
                                         </li>)

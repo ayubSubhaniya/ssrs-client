@@ -50,7 +50,6 @@ class CartDetails extends Component {
         const cart = this.state.cart;
         const delivery = cart.delivery;
         const pickup = cart.pickup;
-        console.log('ppp' + cart.orders);
         return (
             <div>
                 <div className="container pb-0">
@@ -71,7 +70,6 @@ class CartDetails extends Component {
                             _.map(cart.orders, (o, i) => <ServiceDetails key={o._id}
                                                                                     order={o}
                                                                                     index={i}/>)
-                            
                         }
                         <tr>
                             <td data-th="Service">

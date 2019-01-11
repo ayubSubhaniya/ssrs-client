@@ -57,7 +57,6 @@ class App extends Component {
             user: defaultUser,
             
         }
-        //this.getUserData;
         this.getUserData();
     }
    
