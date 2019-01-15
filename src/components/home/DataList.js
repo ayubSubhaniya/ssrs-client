@@ -12,7 +12,7 @@ import PropTypes from "prop-types";
 import {withRouter} from 'react-router-dom';
 import { Redirect } from 'react-router';
 import createBrowserHistory from 'history/createBrowserHistory';
-
+import $ from 'jquery';
 class DataList extends Component {
     static contextTypes = {
         router: PropTypes.object
@@ -70,13 +70,16 @@ class DataList extends Component {
  redirect(data){
  console.log("pp " + JSON.stringify(data));
     //this.props.history.replaceState("order/" + data);
-    const history = createBrowserHistory({basename: '', forceRefresh:true});
+   // const history = createBrowserHistory({basename: '', forceRefresh:true});
 
-    history.replace("order/" + data);
+  //  history.replace("order/" + data);
     //history.goBack();
     // browserHistory.replace("order/" + data);
    // this.setState({clk: true})
  //http://localhost:3000/order/5c36387423e95b00174a0df9
+ this.props.history.push({
+   pathname: '/order/'+ data
+});
  }
 
  render() {
