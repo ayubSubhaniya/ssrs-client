@@ -9,7 +9,29 @@ import _ from "lodash"
 import AddNewsButton from "./AddNewsButton";
 import {modalMessages} from "../../config/configuration"
 
-import {withRouter} from 'react-router-dom'
+
+import PropTypes from "prop-types";
+import {withRouter} from 'react-router-dom';
+import { Redirect } from 'react-router';
+import createBrowserHistory from 'history/createBrowserHistory';
+import $ from 'jquery';
+class DataList extends Component {
+    static contextTypes = {
+        router: PropTypes.object
+      }
+    
+ constructor(props, context) {
+ super(props, context);
+ this.currentId = 0;
+ this.currentMessage = '';
+ this.state = {
+ showSpinner: false,
+ isEditModalOpen: false,
+ isAddModalOpen: false,
+ clk : false
+ };
+ }
+
 
 class DataList extends Component {
 
@@ -51,26 +73,24 @@ class DataList extends Component {
         })
     };
 
-    onUpdate = (index, message) => {
-        this.props.onUpdate(this.currentId, message);
-        this.closeEditModal();
-    };
 
-    onAdd = (message) => {
-        this.props.onCreate(message);
-        this.closeAddModal();
-    };
+ redirect(data){
+ console.log("pp " + JSON.stringify(data));
+    //this.props.history.replaceState("order/" + data);
+   // const history = createBrowserHistory({basename: '', forceRefresh:true});
 
-    redirect = () => {
-        console.log('i am in orderlistt.js'+this.props.location.pathname);
-        this.props.history.push({
-            pathname: this.props.location.pathname + "/" + this.props.cart._id,
-            state: {
-                user: this.props.user
-            }
-        })
-    }
+  //  history.replace("order/" + data);
+    //history.goBack();
+    // browserHistory.replace("order/" + data);
+   // this.setState({clk: true})
+ //http://localhost:3000/order/5c36387423e95b00174a0df9
+ this.props.history.push({
+   pathname: '/order/'+ data
+});
+ }
 
+
+    
     // _id: 5c3639ff23e95b00174a0e04
     // order
     render() {

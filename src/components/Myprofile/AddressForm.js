@@ -63,7 +63,8 @@ class AddressForm extends React.Component {
                         this.props.handleSubmit(this.getCourierDetails())
                     }}>
                         <div className={'modal-body'}>
-                        <div className={'form-group'}>
+                        
+                        <div className={'form-group'} id="position_address">
                             <label>Name:</label>
                             <input name="name"
                                    value={this.state.name}

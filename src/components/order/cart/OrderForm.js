@@ -8,7 +8,6 @@ import $ from "jquery";
 import ErrorMessage from "../../error/ErrorMessage";
 import { withAlert } from "react-alert";
 import {loadSpinner, unloadSpinner} from "../../../helper/spinner";
-var selectedParamters;
 class OrderForm extends Component {
     constructor(props) {
         super(props);
@@ -58,8 +57,9 @@ class OrderForm extends Component {
         
     };
 
-    
     handleSubmit = (e) => {
+        loadSpinner();
+        $(this.modal).modal('hide');
         e.preventDefault()
 
         const that = this;
@@ -68,37 +68,48 @@ class OrderForm extends Component {
         request.open('POST', url, true);
         request.withCredentials = true;
         request.setRequestHeader("Content-type", "application/json");
+       
         request.onload = function () {
             if (this.status === HttpStatus.CREATED) {
                 const response = JSON.parse(request.response);
                 $(that.modal).modal('hide');
+              
+                
+
                 // alert("Order added to the cart!");
                 that.props.alert.success(infoMessages.orderAddedToCart);
             } else if (this.status === HttpStatus.PRECONDITION_FAILED){
                 that.setState({
                     errorMessage: request.responseText
-                })
+                });
+                $(that.modal).modal('show');
             } else if (this.status === HttpStatus.INTERNAL_SERVER_ERROR){
                 that.setState({
                     errorMessage: errorMessages.internalServerError
-                })
+                });
+                $(that.modal).modal('show');
             } else if (this.status === HttpStatus.FORBIDDEN){
                 that.setState({
                     errorMessage: errorMessages.forbidden
-                })
+                });
+                $(that.modal).modal('show');
             } else {
                 that.setState({
                     errorMessage: errorMessages.somethingsWrong
-                })
+                });
+                $(that.modal).modal('show');
             }
+            unloadSpinner();
         }
+        
         request.send(JSON.stringify(this.getOrderDetails(this.state)));
+      
+        
     }
     render() {
         
         const {service} = this.props;
-        selectedParamters = null;
-        selectedParamters = this.getSelectedPrameters(this.state.parameters)
+        const selectedParamters = this.getSelectedPrameters(this.state.parameters)
         var parameterBtnLabel = _.map(selectedParamters, 'name').join(', ')
         parameterBtnLabel = parameterBtnLabel === '' ? 'Select' : parameterBtnLabel
         parameterBtnLabel = parameterBtnLabel.length > 45 ? `Selected(${selectedParamters.length})` : parameterBtnLabel
@@ -163,4 +174,5 @@ class OrderForm extends Component {
     
 }
 
+export default withAlert(withRouter(OrderForm))
 export default withAlert(withRouter(OrderForm))
