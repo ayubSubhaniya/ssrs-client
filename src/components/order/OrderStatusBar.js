@@ -32,17 +32,20 @@ function getTransitionDelay(num) {
 function Step({curStatus, status, label, showButton, handleClick, btnLabel, time, num}) {
     return (
         <div className={`col-3 bs-wizard-step ${getStatus(curStatus, status)}`}>
-            <div className="text-center bs-wizard-stepnum">{label}</div>
-            <div className="progress">
-                <div className="progress-bar" 
+            <div className="text-center bs-wizard-stepnum" id="position_labelsize">{label}</div>
+            
+            <div className="progress" id="position_progress">
+                <div className="progress-bar" id="position_bar"
                      style={{"transitionDuration": getTransitionDuration(num), "transitionDelay": getTransitionDelay(num)}}></div>
+
             </div>
-            <div className="bs-wizard-dot"></div>
+            <div className="bs-wizard-dot" id="position_dot" ></div>
+
             <div className="bs-wizard-info text-center">{time}
                 <br/>
                 {
                     showButton
-                        ? (<div className={'btn btn-outline-success ml-2'} onClick={handleClick}>
+                        ? (<div className={'btn btn-outline-success ml-2'}  onClick={handleClick}>
                             {btnLabel}
                         </div>)
                         : ''
@@ -55,6 +58,7 @@ function Step({curStatus, status, label, showButton, handleClick, btnLabel, time
 function OrderStatusBar({status, isDelivery, openPaymentCodeModal, statusChangeTime, openCollectionCodeModal, openCourierDetailsModal, user}) {
     return (
         <div className={"row bs-wizard " + (status === rcartStatus.cancelled ? 'cancelled' : '')}
+            id="position_steps"
              style={{"borderBottom": "0"}}>
             <Step curStatus={status}
                   status={rcartStatus.placed}

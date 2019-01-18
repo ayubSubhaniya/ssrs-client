@@ -307,7 +307,28 @@ input[type=submit] {
     font-weight: bold;
     padding-top: 4px;
 }
+
+/* CUrrent order mobile UI */
+@media screen and (max-width: 475px){
+    #position_steps{
+        font-weight: bold;
+        margin-top: 10px;
+        
+    }
+    #position_bar {
+        padding-top: 150px;
+    }
+    #position_labelsize{
+       height: 48px;
+    }
+    #position_dot{
+        margin-top: 10px; 
+    }
+}
+/* MOBILE VIEW*/
 @media screen and (max-width: 369px){
+    
+    
     #position_address{
         padding-top: 27px;
     }
