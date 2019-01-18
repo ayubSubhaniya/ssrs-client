@@ -6,12 +6,6 @@ import NavigationBar from "../NavigationBar";
 import _ from "lodash"
 import {makeCall} from "../../helper/caller";
 import {handleError} from "../../helper/error";
-import Demo from "../../product_tour/Demo";
-import Tour from "reactour";
-import Text from "../../product_tour/Text";
-import Tooltip from "../../product_tour/Tooltip";
-import { Button, Link } from "../../product_tour/Button";
-import classes from '../../product_tour/styles.css';
 const bodyScrollLock = require('body-scroll-lock');
 const disableBodyScroll = bodyScrollLock.disableBodyScroll;
 const enableBodyScroll = bodyScrollLock.enableBodyScroll;

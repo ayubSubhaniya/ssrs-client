@@ -630,6 +630,43 @@ input:checked + .slider:before {
 .table > tbody > tr > td, .table > tfoot > tr > td {
     vertical-align: middle;
 }
+@media screen and (max-width: 1199px) and (min-width: 990px){
+    #bt1{
+        left: 0%;
+    }
+    .order_buttons{
+        left: 0%;
+        margin-top: 2px;
+        margin-left: 400px;
+    }
+}
+@media screen and (max-width: 995px) and (min-width: 778px){
+    .order_buttons{
+        margin-top: -17px;
+        margin-left: 500px;
+    }
+}
+
+@media screen and (max-width: 777px) and (min-width: 618px){
+    .order_buttons{
+        margin-top: -17px;
+        margin-left: 320px;
+    }
+}
+
+@media screen and (max-width: 617px) and (min-width: 438px){
+    .order_buttons{
+        margin-top: 10px;
+        margin-left: 0px;
+    }
+}
+
+@media screen and (max-width: 437px){
+    .order_buttons{
+        margin-top: 10px;
+        margin-left: 20px;
+    }
+}
 
 @media screen and (max-width: 600px) {
     .position_badge {

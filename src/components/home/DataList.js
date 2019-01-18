@@ -68,15 +68,6 @@ class DataList extends Component {
  };
 
  redirect(data){
- console.log("pp " + JSON.stringify(data));
-    //this.props.history.replaceState("order/" + data);
-   // const history = createBrowserHistory({basename: '', forceRefresh:true});
-
-  //  history.replace("order/" + data);
-    //history.goBack();
-    // browserHistory.replace("order/" + data);
-   // this.setState({clk: true})
- //http://localhost:3000/order/5c36387423e95b00174a0df9
  this.props.history.push({
    pathname: '/order/'+ data
 });
@@ -111,7 +102,7 @@ class DataList extends Component {
     <h5 className="mb-1">{data.message}   
     { this.props.isnotification===true ?
     
-    <button iid="bt1" className="btn btn-outline-primary order_buttons" onClick={()=> {this.redirect(data.cartId)}} > Order Details </button>
+    <button id="bt1" className="btn btn-outline-primary order_buttons" onClick={()=> {this.redirect(data.cartId)}} > Order Details </button>
     : ''
     }</h5>
     <small
