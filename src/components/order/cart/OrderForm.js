@@ -175,4 +175,3 @@ class OrderForm extends Component {
 }
 
 export default withAlert(withRouter(OrderForm))
-export default withAlert(withRouter(OrderForm))

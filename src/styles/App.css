@@ -324,7 +324,27 @@ input[type=submit] {
     #position_dot{
         margin-top: 10px; 
     }
+
+    #position_lable{
+        font-weight: bold;
+        width: 100%;
+        font-size: 13px;
+        text-align: center;
+    }
+    #position_data{
+        width: 100%;
+        font-size: 13px;
+        text-align: center;
+    }
+    .position_head{
+        text-align: center;
+        width: 100%;
+        font-weight: bold;
+        padding-top: 20px;
+    }
+    
 }
+
 /* MOBILE VIEW*/
 @media screen and (max-width: 369px){
     
@@ -422,6 +442,18 @@ input[type=submit] {
         font-size: 14px;
     }
 
+}
+@media screen and (min-width: 476px){
+    #position_lable{
+        font-weight: bold;
+        padding-left: 10px;
+        width: 115px;
+        height: 25px;
+    }
+    
+    #spac{
+        padding-left: 30px;
+    }
 }
 /*TABLET VIEW*/
 @media screen and (max-width: 600px) and (min-width: 370px){
