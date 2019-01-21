@@ -66,10 +66,11 @@ class OrderList extends Component {
 
                     <div className="container-table100 mb-5">
                         <div className="wrap-table100">
-                            <div className='col-3 float-right mb-3 pb-0 d-flex flex-row'>
+                            <div className='col-3 mb-3 pb-0 d-flex flex-row' id='search_bar_position'>
                                 <i className="fa fa-search search-icon" aria-hidden="true"></i>
                                 <input type="text"
                                        className='form-control search-bar'
+                                       id='search_bar_position'
                                        name={'searchText'}
                                        onKeyUp={this.handleChange}
                                        placeholder="Search..."/>

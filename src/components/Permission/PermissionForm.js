@@ -123,7 +123,6 @@ class PermissionForm extends React.Component {
     }
 
     showSpinner = () => {
-        console.log("Inside spinner");
         this.setState({
             showSpinner: true
         })
@@ -134,7 +133,6 @@ class PermissionForm extends React.Component {
         })
     }
     hideSpinner = () => {
-        console.log("outside spinner");
         this.setState({
             showSpinner: false
         })
@@ -147,9 +145,8 @@ class PermissionForm extends React.Component {
         request.open('GET', url, true);
         request.withCredentials = true;
         request.onload = function () {
-            if (this.status == HttpStatus.OK) {
+            if (this.status === HttpStatus.OK) {
                 var res = JSON.parse(request.response);
-                console.log(res);
                 that.setState({
                     data: res.permissions
                 })
@@ -163,7 +160,6 @@ class PermissionForm extends React.Component {
     postRoleData = () => {
         this.onConfirmModal();
         const userData = {"roleType": `${this.props.userType}`, "permissions": {...this.state.data}}
-        console.log(userData)
         const that = this;
         this.showSpinner();
         var url = domainUrl + '/access/' + this.props.role;
@@ -172,8 +168,7 @@ class PermissionForm extends React.Component {
         request.withCredentials = true;
         request.setRequestHeader("Content-type", "application/json");
         request.onload = function () {
-            if (this.status == HttpStatus.OK) {
-                console.log(request.response);
+            if (this.status === HttpStatus.OK) {
             } else {
                 handleError(request)
             }
@@ -190,9 +185,7 @@ class PermissionForm extends React.Component {
         })
     };
     changeStatus = (e, key, d) => {
-        console.log("clicked");
         let value = e.target.value
-        console.log(d);
         this.setState(function (state) {
             state.data[`${key}`][`${d}`] = `${value}`
             return {data: state.data};
@@ -399,7 +392,6 @@ class PermissionForm extends React.Component {
     }
 
     render() {
-        console.log(this.state.data);
         return (
             <div>
                 <Spinner open={this.state.showSpinner}/>

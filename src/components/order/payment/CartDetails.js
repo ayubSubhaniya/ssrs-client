@@ -4,7 +4,7 @@ import {getCart} from "../../../helper/FetchData";
 import _ from "lodash"
 import ServiceDetails from "./ServiceDetails";
 import {defaultCart} from "../../../constants/constants";
-import TextInfo from "../TextInfo"
+import TextInfoMod from "../TextInfoMod"
 import {DeliveryInfo,PickupInfo} from "../Info";
 import {makeCall} from "../../../helper/caller";
 import {handleError} from "../../../helper/error";
@@ -93,7 +93,7 @@ class CartDetails extends Component {
 
                     <h5><strong>COLLECTION INFORMATION</strong></h5>
                     <div className='container p-1'>
-                        <TextInfo lable="Collection Type" data={this.state.collectionType.name}/>
+                        <TextInfoMod lable="Collection Type" data={this.state.collectionType.name}/>
                         {
                            delivery
                                 ? <DeliveryInfo delivery={delivery}/>

@@ -7,7 +7,7 @@ import * as HttpStatus from "http-status-codes";
 import $ from "jquery";
 import ErrorMessage from "../../error/ErrorMessage";
 import { withAlert } from "react-alert";
-
+import {loadSpinner, unloadSpinner} from "../../../helper/spinner";
 class OrderForm extends Component {
     constructor(props) {
         super(props);
@@ -15,10 +15,11 @@ class OrderForm extends Component {
             units: 1,
             comments: '',
             parameters: new Array(props.service.availableParameters.length).fill(false),
-            errorMessage: ''
+            errorMessage: '',
+            showSpinner: false
         }
     }
-
+   
     cleanErrorMessage=()=>{
         this.setState({
             errorMessage:''
@@ -52,9 +53,13 @@ class OrderForm extends Component {
             comment: this.state.comments===''?undefined:this.state.comments
         };
         return {order};
+        
+        
     };
 
     handleSubmit = (e) => {
+        loadSpinner();
+        $(this.modal).modal('hide');
         e.preventDefault()
 
         const that = this;
@@ -63,33 +68,45 @@ class OrderForm extends Component {
         request.open('POST', url, true);
         request.withCredentials = true;
         request.setRequestHeader("Content-type", "application/json");
+       
         request.onload = function () {
             if (this.status === HttpStatus.CREATED) {
                 const response = JSON.parse(request.response);
                 $(that.modal).modal('hide');
-                // alert("Order added to the cart!");
+              
+                
+
                 that.props.alert.success(infoMessages.orderAddedToCart);
             } else if (this.status === HttpStatus.PRECONDITION_FAILED){
                 that.setState({
                     errorMessage: request.responseText
-                })
+                });
+                $(that.modal).modal('show');
             } else if (this.status === HttpStatus.INTERNAL_SERVER_ERROR){
                 that.setState({
                     errorMessage: errorMessages.internalServerError
-                })
+                });
+                $(that.modal).modal('show');
             } else if (this.status === HttpStatus.FORBIDDEN){
                 that.setState({
                     errorMessage: errorMessages.forbidden
-                })
+                });
+                $(that.modal).modal('show');
             } else {
                 that.setState({
                     errorMessage: errorMessages.somethingsWrong
-                })
+                });
+                $(that.modal).modal('show');
             }
+            unloadSpinner();
         }
+        
         request.send(JSON.stringify(this.getOrderDetails(this.state)));
+      
+        
     }
     render() {
+        
         const {service} = this.props;
         const selectedParamters = this.getSelectedPrameters(this.state.parameters)
         var parameterBtnLabel = _.map(selectedParamters, 'name').join(', ')
@@ -149,8 +166,11 @@ class OrderForm extends Component {
                     </div>
                 </div>
             </div>
+           
             )
+            
     }
+    
 }
 
 export default withAlert(withRouter(OrderForm))

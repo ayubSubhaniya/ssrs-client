@@ -6,13 +6,17 @@ import NavigationBar from "../NavigationBar";
 import _ from "lodash"
 import {makeCall} from "../../helper/caller";
 import {handleError} from "../../helper/error";
-
+const bodyScrollLock = require('body-scroll-lock');
+const disableBodyScroll = bodyScrollLock.disableBodyScroll;
+const enableBodyScroll = bodyScrollLock.enableBodyScroll;
+const targetElement = document.querySelector("body");
 class Home extends Component {
     constructor() {
         super();
         this.state = {
             news: [],
-            notification: []
+            notification: [],
+            isTourOpen: false
         };
     }
 
@@ -60,7 +64,9 @@ class Home extends Component {
             .then(() => {
                 this.setState({
                     news: [...this.state.news.slice(0, index), ...this.state.news.slice(index + 1)]
+                    
                 })
+
             })
             .catch((error) => {
                 handleError(error);
@@ -120,8 +126,19 @@ class Home extends Component {
                 handleError(error);
             })
     };
+    closeTour = () => {
+        this.setState({ isTourOpen: false });
+        enableBodyScroll(targetElement);
+    };
+    
+    openTour = () => {
+        this.setState({ isTourOpen: true });
+        disableBodyScroll(targetElement);
 
+    };
     render() {
+        const { isTourOpen } = this.state;
+        const accentColor = '#5cb7b7';
         return (
             <React.Fragment>
                 <NavigationBar/>
@@ -133,6 +150,7 @@ class Home extends Component {
                      updateNews={this.updateNews}
                      notification={this.state.notification}
                      deleteNotification={this.deleteNotification}/>
+              
             </React.Fragment>
         );
     }

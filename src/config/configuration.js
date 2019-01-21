@@ -10,6 +10,7 @@ export const errorMessages = {
     somethingsWrong: "Something's wrong. Please try again later!",
     forbidden: "You don't have access to requested resource!",
     notFound: "Not found!",
+    validationError: "Fill both ID and Password",
     collectionTypeReq: "Atleast one collection type should be selected.",
     noCollectionTypes: "No collection type information provided. Please select collection type and provide information."
 };

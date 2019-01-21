@@ -8,7 +8,7 @@ import TextInput from "./TextInput";
 import {makeCall} from "../../helper/caller";
 import {defaultCart} from "../../constants/constants";
 import {collectionCode, paymentCode} from "../../constants/errorMessage";
-import TextInfo from "./TextInfo"
+import TextInfoMod from "./TextInfoMod"
 import CourierForm from "./CourierForm";
 import OrderStatusBar from "./OrderStatusBar"
 import ServiceList from "./ServiceList";
@@ -31,21 +31,21 @@ function PaymentInfo({cart}) {
 
     return (
         <div className='w-50'>
-            <h5><strong>PAYMENT INFORMATION</strong></h5>
+            <h5  className="position_head">PAYMENT INFORMATION</h5>
             <div className='container p-1'>
-                <TextInfo lable="Payment Mode" data={camelCaseToWords(cart.paymentType)}/>
-                <TextInfo lable="Payment Code" data={cart.paymentCode}/>
-                <TextInfo lable="Payment Status" data={paymentStatus}/>
+                <TextInfoMod lable="Payment Mode" data={camelCaseToWords(cart.paymentType)}/>
+                <TextInfoMod lable="Payment Code" data={cart.paymentCode}/>
+                <TextInfoMod lable="Payment Status" data={paymentStatus}/>
             </div>
             <hr/>
             <div className='container p-1'>
-                <h5><strong>PAYMENT FAIL HISTORY</strong></h5>
+                <h5 className="position_head">PAYMENT FAIL HISTORY</h5>
                 {
                     _.map(cart.paymentFailHistory, (o) => {
                         return (<React.Fragment>
-                            <TextInfo lable="Payment ID" data={o.paymentId}/>
-                            <TextInfo lable="Payment Date" data={o.paymentDate}/>
-                            <TextInfo lable="Payment Type" data={camelCaseToWords(o.paymentType)}/>
+                            <TextInfoMod lable="Payment ID" data={o.paymentId}/>
+                            <TextInfoMod lable="Payment Date" data={o.paymentDate}/>
+                            <TextInfoMod lable="Payment Type" data={camelCaseToWords(o.paymentType)}/>
                         </React.Fragment>)
                     })
                 }
@@ -339,9 +339,10 @@ class OrderInfo extends Component {
                     <hr/>
                     <div className='d-flex'>
                         <div className='w-50'>
-                            <h5><strong>COLLECTION INFORMATION</strong></h5>
                             <div className='container p-1'>
-                                <TextInfo lable="Collection Type" data={this.state.collectionType.name}/>
+                            <h5  className="position_head">COLLECTION INFORMATION</h5>
+
+                                <TextInfoMod lable="Collection Type" data={this.state.collectionType.name}/>
                                 {
                                     delivery
                                         ? <DeliveryInfo delivery={delivery}/>
