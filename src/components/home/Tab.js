@@ -16,7 +16,8 @@ class Tab extends Component{
                                   onDelete={this.props.deleteNotification}
                                   editPermission={false}
                                   deletePermission={true}
-                                  createPermission={false}/>
+                                  createPermission={false}
+                                  isnotification={true}/>
                     </div>
                     <div id="menu2" className="tab-pane fade">
                         <DataList user={this.props.user}
@@ -27,7 +28,8 @@ class Tab extends Component{
                                   user={this.props.user}
                                   editPermission={true}
                                   deletePermission={false}
-                                  createPermission={true}/>
+                                  createPermission={true}
+                                  isnotification={false}/>
                     </div>
                 </div>
             </div>

@@ -14,48 +14,48 @@ export default function ViewProfile(props) {
     return (
         <div className="container">
             <div className="parent">
-                <div className="quick-view">
+                <div className="quick-view" id="avatar_position">
                     <Avatar color={getcolor()} round={true} size={120}
                         name={userInfo.user_first_name + (userInfo.user_last_name ? " " + userInfo.user_last_name : "")} />
                     <div className="name-style">{userInfo.user_first_name} {userInfo.user_last_name}</div>
                 </div>
-                <div className="info-table">
-                    <table className="table table-striped">
+                <div className="info-table" >
+                    <table className="table table-striped" >
                         <tbody>
                             <tr>
-                                <td> Daiict Id</td>
+                                <td> <strong>Daiict Id</strong></td>
                                 <td> {props.user.daiictId} </td>
                             </tr>
                             <tr>
-                                <td> First Name</td>
+                                <td> <strong>First Name</strong></td>
                                 <td> {userInfo.user_first_name ? userInfo.user_first_name : ''} </td>
                             </tr>
                             <tr>
-                                <td> Last Name</td>
+                                <td> <strong>Last Name</strong></td>
                                 <td> {userInfo.user_last_name ? userInfo.user_last_name : ''} </td>
                             </tr>
                             <tr>
-                                <td> Primary Email</td>
+                                <td> <strong>Primary Email</strong></td>
                                 <td> {props.user.primaryEmail} </td>
                             </tr>
                             <tr>
-                                <td> Contact No</td>
+                                <td> <strong>Contact No</strong></td>
                                 <td> {props.user.contactNo ? props.user.contactNo : userInfo.user_adr_mobileno} </td>
                             </tr>
                             <tr>
-                                <td> Gender</td>
+                                <td> <strong>Gender</strong></td>
                                 <td> {userInfo.user_sex} </td>
                             </tr>
                             <tr>
-                                <td> Programme</td>
+                                <td> <strong>Programme</strong></td>
                                 <td> {userInfo.user_programme} </td>
                             </tr>
                             <tr>
-                                <td> Batch</td>
+                                <td> <strong>Batch</strong></td>
                                 <td> {userInfo.user_batch} </td>
                             </tr>
                             <tr>
-                                <td> User Type</td>
+                                <td> <strong>User Type</strong></td>
                                 <td> {userInfo.user_type} </td>
                             </tr>
                         </tbody>

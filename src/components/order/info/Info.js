@@ -15,6 +15,8 @@ import _ from "lodash"
 import {collectionTypeCategory} from "../../../constants/constants";
 import {deleteAddress, getCart} from "../../../helper/FetchData";
 import {handleError} from "../../../helper/error";
+import {loadSpinner, unloadSpinner} from '../../../helper/spinner';
+import $ from "jquery";
 
 const {DELIVERY, PICKUP} = collectionTypeCategory
 
@@ -78,9 +80,14 @@ class Info extends React.Component {
         })
     };
     closeAddressModal = () => {
+        $(this.modal).modal('hide');
+        loadSpinner();
+        
+
         this.setState({
             editAddress: false
         })
+        unloadSpinner();
     };
 
     cleanErrorMessage = () => {

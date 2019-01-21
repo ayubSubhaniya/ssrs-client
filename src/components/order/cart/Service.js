@@ -3,6 +3,7 @@ import _ from "lodash"
 import { orderStatus, modalMessages } from "../../../config/configuration";
 import EditCartForm from "./EditCartForm";
 import DeleteButton from "../../DeleteButton";
+import DeleteButtonWithCancel from '../../DeleteButtonWithCancel';
 
 class Service extends Component {
     constructor(props){
@@ -51,7 +52,11 @@ class Service extends Component {
                     <div className="d-flex">
                         <button type="button"
                                 className="btn btn-outline-primary"
-                                onClick={this.openEditModal}>
+                                onClick={this.openEditModal}
+                                style={{width: '70px',
+                                    }}
+                                >
+                                
                             Edit
                         </button>
                         <EditCartForm id={order._id}
@@ -64,9 +69,10 @@ class Service extends Component {
                                       index={this.props.index}
                                       updateOrder={this.props.updateOrder}
                                       validityErrors={order.validityErrors} />
-                        <DeleteButton handleClick={this.props.deleteOrder}
+                        <DeleteButtonWithCancel handleClick={this.props.deleteOrder}
                                       index={this.props.index}
-                                      message={modalMessages.serviceDelete} />
+                                      message={modalMessages.serviceDelete}
+                                      />
                     </div>
                 </td>
             </tr>

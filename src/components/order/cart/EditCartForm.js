@@ -50,7 +50,6 @@ class EditCartForm extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        console.log(nextProps)
         const availableParameters = _.map(this.props.service.availableParameters, (id) => syncFetch(`parameter/${id}`, 'parameter'))
         this.setState({
             units: nextProps.units,
@@ -101,7 +100,7 @@ class EditCartForm extends Component {
         parameterBtnLabel = parameterBtnLabel.length > 45 ? `Selected(${selectedParamters.length})` : parameterBtnLabel
         return (
             <Modal visible={this.props.visible}>
-                <div className="modal-header">
+                <div className="modal-header" id='order_position'>
                     <div className={'w-100'}>
                         <h5 className="modal-title w-100 text-center">{service.name}</h5>
                         <p className={'w-100 text-center m-0'}>{service.description + " ( Charge: ₹ " + service.baseCharge + " )"}</p>

@@ -1,5 +1,6 @@
 import React from "react"
 import Modal from "react-bootstrap4-modal";
+import {loadSpinner, unloadSpinner} from "../../helper/spinner";
 
 class PickupForm extends React.Component {
     constructor(props) {
@@ -13,6 +14,7 @@ class PickupForm extends React.Component {
             daiictId: data.daiictId ? data.daiictId : '',
             email: data.email ? data.email : '',
             contactNo: data.contactNo ? data.contactNo : '',
+            showSpinner: false
         }
     }
 

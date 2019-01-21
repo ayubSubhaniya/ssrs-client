@@ -35,9 +35,7 @@ export const makeCall = ({jobType, urlParams, params = {}}) => {
             }
         )
         .catch(error => {
-            // tslint:disable-next-line:no-console
             unloadSpinner();
-            console.error(error);
             return Promise.reject(error);
         });
 };

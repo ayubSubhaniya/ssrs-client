@@ -7,7 +7,6 @@ import {asyncFetch, syncFetch} from "../../../helper/FetchData";
 import _ from "lodash"
 import {domainUrl} from "../../../config/configuration";
 import * as HttpStatus from "http-status-codes";
-import $ from "jquery";
 import {handleError} from "../../../helper/error";
 import {loadSpinner, unloadSpinner} from "../../../helper/spinner";
 
@@ -47,7 +46,7 @@ class Cart extends Component {
         request.setRequestHeader("Content-type", "application/json");
         request.onload = function () {
             unloadSpinner();
-            if (this.status == HttpStatus.OK) {
+            if (this.status === HttpStatus.OK) {
                 closeModal()
                 that.asyncFetch('cart');
             } else {
@@ -78,13 +77,13 @@ class Cart extends Component {
 
     render() {
 
-        if (this.state.cart.length == 0 || this.state.cart.orders.length === 0) {
+        if (this.state.cart.length === 0 || this.state.cart.orders.length === 0) {
             return (
                 <div>
                     <NavigationBar/>
                     <Stapes active={1}/>
                     <div className="container cart-empty mt-4">
-                        <h1> Your cart is empty! </h1>
+                        <h1 id="heading_position"> Your cart is empty! </h1>
                         <Link to={'/service'} className='mt-4'>
                             <button className="btn btn-outline-dark btn-lg">
                                 {"Go, Add Services"} </button>
@@ -99,9 +98,9 @@ class Cart extends Component {
             <div>
                 <NavigationBar/>
                 <Stapes active={1}/>
-                <div className="container">
-                    <table id="cart" className="table table-hover table-condensed">
-                        <thead>
+                <div className="container" >
+                    <table id="cart" className="table table-hover table-condensed" >
+                        <thead >
                         <tr>
                             <th className='text-center'>Service</th>
                             <th className='text-center'>Parameters</th>
@@ -112,10 +111,10 @@ class Cart extends Component {
                             <th className='text-center'></th>
                         </tr>
                         </thead>
-                        <tbody>
+                        <tbody style={{width: '100%', padding: '0%', margin: '0%'}}>
                         {
                             _.map(this.state.cart.orders, (o, i) => <Service key={o._id}
-                                                                             order={o}
+                                                                                 order={o}
                                                                              index={i}
                                                                              updateOrder={this.updateOrder}
                                                                              deleteOrder={this.deleteOrder}/>)
@@ -147,7 +146,7 @@ class Cart extends Component {
                                         avilableCollectionTypes: avilableCollectionTypes,
                                         id: this.state.cart._id
                                     }
-                                }} className={`${avilableCollectionTypes.length == 0 ? 'disabled-link' : ''}`}>
+                                }} className={`${avilableCollectionTypes.length === 0 ? 'disabled-link' : ''}`}>
                                     <div className={`btn btn-success btn-lg`}>
                                         {"Checkout "}
                                         <i className="fa fa-angle-right"></i>

@@ -1,14 +1,15 @@
 import React from "react";
 import TextInfo from "./TextInfo";
+import TextInfoMod from "./TextInfoMod";
 
 export function PickupInfo({pickup}) {
     return (
         <React.Fragment>
-            <TextInfo lable="Collection Code" data={pickup.collectionCode}/>
-            <TextInfo lable="Name" data={pickup.name}/>
-            <TextInfo lable="DAIICT ID" data={pickup.daiictId}/>
-            <TextInfo lable="Phone" data={pickup.contactNo}/>
-            <TextInfo lable="Email" data={pickup.email}/>
+            <TextInfoMod lable="Collection Code" data={pickup.collectionCode}/>
+            <TextInfoMod lable="Name" data={pickup.name}/>
+            <TextInfoMod lable="DAIICT ID" data={pickup.daiictId}/>
+            <TextInfoMod lable="Phone" data={pickup.contactNo}/>
+            <TextInfoMod lable="Email" data={pickup.email}/>
         </React.Fragment>
     )
 }
