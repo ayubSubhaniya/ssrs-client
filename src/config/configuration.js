@@ -1,4 +1,3 @@
-
 // export const domainUrl = "https://10.100.81.42:3001";
 export const domainUrl = "https://ssrs.daiict.ac.in:8443";
 //export const domainUrl = "http://localhost:3001";
