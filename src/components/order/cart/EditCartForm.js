@@ -50,7 +50,6 @@ class EditCartForm extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        console.log(nextProps)
         const availableParameters = _.map(this.props.service.availableParameters, (id) => syncFetch(`parameter/${id}`, 'parameter'))
         this.setState({
             units: nextProps.units,

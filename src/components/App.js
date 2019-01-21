@@ -39,12 +39,7 @@ import {handleError} from "../helper/error";
 import Email from "./email/Email"
 import AboutUs from './AboutUs/AboutUs';
 import {loadSpinner, unloadSpinner} from "../helper/spinner";
-import Demo from "../product_tour/Demo";
-import Tour from "reactour";
-import Text from "../product_tour/Text";
-import Tooltip from "../product_tour/Tooltip";
 import { Link } from "../product_tour/Button";
-import Dashboard_admin from '../components/Dashboard/dashboard_admin';
 export const Context = React.createContext();
 
 class App extends Component {    

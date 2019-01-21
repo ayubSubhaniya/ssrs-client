@@ -49,14 +49,7 @@ devs[2] = (
         <p>Front-End Developer</p>
         <p>Batch-2015</p>
         <hr class="style14"></hr> 
-        {/* <ul class="social-icons" style={{marginLeft:"0%"}}>
-            <li style={{marginRight:"2%"}}><a href="https://www.facebook.com/tapanr97" target="_blank" >
-                        <img src={require("./Social Media Icons/SVG/Circle Color/Facebook.svg")} /></a></li>
-            <li style={{marginRight:"2%"}}><a href="https://plus.google.com/+TapanModi" target="_blank" >
-                        <img src={require("./Social Media Icons/SVG/Circle Color/Google+.svg")} /></a></li>                                            
-            <li><a href="https://www.linkedin.com/in/tapan-modi-aa420571/"  target="_blank">
-                        <img src={require("./Social Media Icons/SVG/Circle Color/Linkedin.svg")} /></a></li>
-        </ul>     */}
+       
         <div class="wrapper">
             <a target="_blank" href="https://www.facebook.com/tapanr97"><i class="fa fa-3x fa-facebook-square"></i></a>
             <a target="_blank" href="https://github.com/tapanr97"><i class="fa fa-3x fa-github"></i></a>                        

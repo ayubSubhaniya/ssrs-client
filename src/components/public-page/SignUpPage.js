@@ -1,15 +1,10 @@
 import TextInputUserName from "./TextInputUserName";
 import React,{Component} from "react";
 import ErrorMessage from "../error/ErrorMessage";
-import {loadSpinner, unloadSpinner} from "../../helper/spinner";
-import Demo from '../../product_tour/Demo';
 import Tour from 'reactour';
 import Text from "../../product_tour/Text";
-import Tooltip from "../../product_tour/Tooltip";
 import classes from '../../product_tour/styles.css'; 
 import { Button, Link } from "../../product_tour/Button";
-import { withAlert } from "react-alert";
-import ErrorMessageModern from "../error/ErrorMessageModern";
 
 const bodyScrollLock = require('body-scroll-lock');
 

@@ -66,7 +66,6 @@ class Home extends Component {
                     news: [...this.state.news.slice(0, index), ...this.state.news.slice(index + 1)]
                     
                 })
-                console.log(this.state.news);
 
             })
             .catch((error) => {

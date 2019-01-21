@@ -76,7 +76,6 @@ class OrderForm extends Component {
               
                 
 
-                // alert("Order added to the cart!");
                 that.props.alert.success(infoMessages.orderAddedToCart);
             } else if (this.status === HttpStatus.PRECONDITION_FAILED){
                 that.setState({

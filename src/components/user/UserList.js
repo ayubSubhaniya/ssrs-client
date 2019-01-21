@@ -97,7 +97,6 @@ class UserList extends Component {
         request.onload = function () {
             if (this.status == HttpStatus.ACCEPTED || this.status === HttpStatus.OK || this.status === HttpStatus.NOT_MODIFIED) {
                 const obj = JSON.parse(request.responseText);
-                console.log(obj);
                 var allUsers = [];
                 for (var i = 0; i < obj['user'].length; i++) {
                     var userInfo = {
@@ -135,8 +134,6 @@ class UserList extends Component {
                     }
                     allUsers.push(userInfo);
                 }
-
-                //          console.log(allUsers);
                 that.setState({
                     'user': allUsers,
                     fetchedUser: obj['user']
@@ -161,84 +158,11 @@ class UserList extends Component {
         request.onload = function () {
             if (this.status == HttpStatus.ACCEPTED || this.status === HttpStatus.OK || this.status === HttpStatus.NOT_MODIFIED) {
                 const obj = JSON.parse(request.responseText);
-                console.log(obj);
                 let allUsers = _.map(obj.userInfo, (x, i) => {
                     const userInfo = x;
                     userInfo.sr_no = i;
                     return userInfo;
                 });
-
-                // allUsers = _.map(obj,(o,i) => {
-                //     o = o.userInfo;
-                //     const userInfo = {
-                //         sr_no: i,
-                //         id: o.user_inst_id,
-                //         name: o.user_first_name
-                //             + " " + (o.user_middle_name ? o.user_middle_name : "")
-                //             + " " + o.user_last_name,
-                //         type: o.user_type,
-                //         batch: o.user_batch,
-                //         programme: o.user_programme,
-                //         expand: {
-                //             id: o.user_inst_id,
-                //             name: o.user_first_name
-                //                 + " " + (o.user_middle_name ? o.user_middle_name : "")
-                //                 + " " + o.user_last_name,
-                //             type: o.user_type,
-                //             uni_email_id: o.user_email_id,
-                //             batch: o.user_batch,
-                //             programme: o.user_programme,
-                //             mobileno: o.user_adr_mobileno,
-                //             address: o.user_adr_line1 + ', ' + o.user_adr_line2
-                //                 + ', ' + o.user_adr_line3
-                //                 + ', ' + o.user_adr_district
-                //                 + ', ' + o.user_adr_city
-                //                 + ', ' + o.user_adr_state
-                //                 + ', ' + o.user_adr_country
-                //                 + ' - ' + o.user_adr_pincode,
-                //             telno: o.user_adr_telno,
-                //             personal_email_id : o.user_adr_emailid,
-                //             sex: o.user_sex === 'M' ? "Male" : "Female",
-                //             status: o.user_status
-                //         }
-                //     }
-                //     return userInfo;
-                // })
-                // for(var i = 0; i < obj['userInfo'].length; i++) {
-                //     var userInfo = {
-                //         sr_no: i,
-                //         id: obj['userInfo'][i].user_inst_id,
-                //         name: obj['userInfo'][i].user_first_name
-                //                             + " " + (obj['userInfo'][i].user_middle_name ? obj['userInfo'][i].user_middle_name : "")
-                //                             + " " + obj['userInfo'][i].user_last_name,
-                //         type: obj['userInfo'][i].user_type,
-                //         batch: obj['userInfo'][i].user_batch,
-                //         programme: obj['userInfo'][i].user_programme,
-                //         expand: {
-                //             id: obj['userInfo'][i].user_inst_id,
-                //             name: obj['userInfo'][i].user_first_name
-                //                     + " " + (obj['userInfo'][i].user_middle_name ? obj['userInfo'][i].user_middle_name : "")
-                //                     + " " + obj['userInfo'][i].user_last_name,
-                //             type: obj['userInfo'][i].user_type,
-                //             uni_email_id: obj['userInfo'][i].user_email_id,
-                //             batch: obj['userInfo'][i].user_batch,
-                //             programme: obj['userInfo'][i].user_programme,
-                //             mobileno: obj['userInfo'][i].user_adr_mobileno,
-                //             address: obj['userInfo'][i].user_adr_line1 + ', ' + obj['userInfo'][i].user_adr_line2
-                //                         + ', ' + obj['userInfo'][i].user_adr_line3
-                //                         + ', ' + obj['userInfo'][i].user_adr_district
-                //                         + ', ' + obj['userInfo'][i].user_adr_city
-                //                         + ', ' + obj['userInfo'][i].user_adr_state
-                //                         + ', ' + obj['userInfo'][i].user_adr_country
-                //                         + ' - ' + obj['userInfo'][i].user_adr_pincode,
-                //             telno: obj['userInfo'][i].user_adr_telno,
-                //             personal_email_id : obj['userInfo'][i].user_adr_emailid,
-                //             sex: obj['userInfo'][i].user_sex === 'M' ? "Male" : "Female",
-                //             status: obj['userInfo'][i].user_status
-                //         }
-                //     }
-                //     allUsers.push(userInfo);
-                // }
                 that.setState({
                     tableInfo: allUsers,
                     totalUsers: obj['userInfo'].length,

@@ -99,7 +99,6 @@ class PublicPage extends Component {
             else {
 
                 
-               // console.log('pp ' + JSON.parse(request.responseText).name);
                 if(JSON.parse(request.responseText).name === "ValidationError"){
                     that.setState({signupMessage: errorMessages.validationError})
                 }else{

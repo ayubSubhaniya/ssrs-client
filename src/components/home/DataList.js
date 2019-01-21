@@ -80,7 +80,6 @@ class DataList extends Component {
          pathname:'/order/${data.cartId}',
      }}/>
      this.setState({clk: false});
-     console.log("yess");
     }
     return (
     <div>
@@ -97,7 +96,7 @@ class DataList extends Component {
     <div key={data.createdOn}>
     <div
     className="list-group-item list-group-item-action align-items-start d-flex justify-content-between">
-    <div>
+    <div id="position_div">
     
     <h5 className="mb-1">{data.message}   
     { this.props.isnotification===true ?
