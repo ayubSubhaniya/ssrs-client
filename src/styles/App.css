@@ -308,7 +308,7 @@ input[type=submit] {
 
 .limiter .more-items {
     font-weight: bold;
-    padding-top: 4px;
+    text-indent: 15px;
 }
 
 /* CUrrent order mobile UI */

@@ -46,6 +46,8 @@ class OrderDetails extends Component {
 
     render() {
         const {cart, index, ...others} = this.props;
+        console.log(cart);
+        console.log(index);
         return (
             <tr onClick={this.redirect} className='animated fadeIn'>
                 <td data-th="Sr No." className="text-center" >
@@ -55,14 +57,14 @@ class OrderDetails extends Component {
                 <td data-th="Order No" className="text-center" >
                     {cart.orderId}
                 </td>
-                <td data-th="Service" className="text-center">
-                    {cart.orders[0].serviceName} <br/>
-                    {formatDate(this.getStatusTime(cart.statusChangeTime))}
+                <td data-th="Service(s)" className="p-2">
+                    <div>{cart.orders[0].service.name}</div>
                     {
                         cart.orders.length > 1
-                            ? <div className='more-items'> + {cart.orders.length - 1} More Item(s)</div>
-                            : ''
+                        ? <div className='more-items'> +{cart.orders.length - 1} more item(s)</div>
+                        : ''
                     }
+                    <div style={{"marginTop": "3px", "fontStyle": "italic"}}>{formatDate(this.getStatusTime(cart.statusChangeTime))}</div>
                 </td>
                 <td data-th="Status" style={{"textAlign": "center"}} >
                     <h4><span className={this.getStatusColorClass(cartStatus[cart.status])}>
