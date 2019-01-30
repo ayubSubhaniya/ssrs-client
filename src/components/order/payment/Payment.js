@@ -84,7 +84,7 @@ class Payment extends React.Component {
                     <div className={'payment-operation'}>
                         <div className="bank-title">
                             <div className="title-wrap">
-                                <h2 className="title">Choose your payment method</h2>
+                                <h3 className="title">Available Payment Methods</h3>
                             </div>
                         </div>
                         <div className='payment'>
@@ -110,10 +110,10 @@ class Payment extends React.Component {
                                         {"Pay with Eazypay"}
                                     </button>
 
-                                    <p className="ml-4" style={{"fontStyle": "italic", "fontSize":"5px"}}>
+                                    <p className="ml-4" style={{"fontStyle": "italic", "fontSize":"12px"}}>
                                         {"(Note: Do not use "}
                                         <strong>{"back/refresh"}</strong>
-                                        {" button once you select any of this option.)"}
+                                        {" button once you select this option.)"}
                                     </p>
                                 </div>
                             </div>

@@ -81,9 +81,9 @@ class OrderList extends Component {
                                     <tr className="table100-head">
                                         <th className="text-center">Sr No.</th>
                                         <th className="text-center">Order No.</th>
-                                        <th className="pl-4">Services</th>
+                                        <th className="pl-4">Service(s)</th>
                                         <th className="text-center">Status</th>
-                                        <th className="text-center">Price</th>
+                                        <th className="text-center">Service Price</th>
                                         {
                                             isAdmin(others.user)
                                                 ? <th className="text-center">Requested By</th>

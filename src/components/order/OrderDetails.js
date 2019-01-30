@@ -46,6 +46,8 @@ class OrderDetails extends Component {
 
     render() {
         const {cart, index, ...others} = this.props;
+        console.log(cart);
+        console.log(index);
         return (
             <tr onClick={this.redirect} className='animated fadeIn'>
                 <td data-th="Sr No." className="text-center" >
@@ -55,28 +57,27 @@ class OrderDetails extends Component {
                 <td data-th="Order No" className="text-center" >
                     {cart.orderId}
                 </td>
-                <td data-th="Service" className="text-center">
-                    {cart.orders[0].serviceName} <br/>
-                    {formatDate(this.getStatusTime(cart.statusChangeTime))}
+                <td data-th="Service(s)" className="p-2">
+                    <div>{cart.orders[0].service.name}</div>
                     {
                         cart.orders.length > 1
-                            ? <div className='more-items'> + {cart.orders.length - 1} More Item(s)</div>
-                            : ''
+                        ? <div className='more-items'> +{cart.orders.length - 1} more item(s)</div>
+                        : ''
                     }
+                    <div style={{"marginTop": "3px", "fontStyle": "italic"}}>{formatDate(this.getStatusTime(cart.statusChangeTime))}</div>
                 </td>
                 <td data-th="Status" style={{"textAlign": "center"}} >
                     <h4><span className={this.getStatusColorClass(cartStatus[cart.status])}>
                         {camelCaseToWords(cartStatus[cart.status])}</span>
                     </h4>
                 </td>
-                <td data-th="Price" className="text-center" >{`₹ ${cart.ordersCost}`}</td>
-
                 {
                     isAdmin(others.user)
-                        ? <td data-th="Requested By" className="text-center">{cart.requestedBy}</td>
-                        : ''
+                    ? <td data-th="Requested By" className="text-center">{cart.requestedBy}</td>
+                    : ''
                 }
-                <td data-th="Order Total" className="text-center">  {`₹ ${cart.totalCost}`}</td>
+                <td data-th="Service Price" className="text-center" style={{"fontSize": "17px"}}>{`₹ ${cart.ordersCost}`}</td>
+                <td data-th="Order Total" className="text-center" style={{"fontSize": "20px"}}>  {`₹ ${cart.totalCost}`}</td>
                 
 
                 

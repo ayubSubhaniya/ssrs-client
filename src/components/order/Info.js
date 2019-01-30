@@ -1,5 +1,4 @@
 import React from "react";
-import TextInfo from "./TextInfo";
 import TextInfoMod from "./TextInfoMod";
 
 export function PickupInfo({pickup}) {
@@ -17,13 +16,13 @@ export function PickupInfo({pickup}) {
 export function DeliveryInfo({delivery}) {
     return (
         <React.Fragment>
-            <TextInfo lable="Name" data={delivery.name}/>
-            <TextInfo lable="Address" data={" " + delivery.address.line1 +
+            <TextInfoMod lable="Name" data={delivery.name}/>
+            <TextInfoMod lable="Address" data={" " + delivery.address.line1 +
             ", " + delivery.city + " - " + delivery.pinCode + ", " + delivery.state + ", " + delivery.country}/>
-            <TextInfo lable="Phone" data={delivery.contactNo}/>
-            <TextInfo lable="Email" data={delivery.email}/>
-            <TextInfo lable="Courier Service" data={delivery.courierServiceName}/>
-            <TextInfo lable="Courier Tacking ID" data={delivery.trackingId}/>
+            <TextInfoMod lable="Phone" data={delivery.contactNo}/>
+            <TextInfoMod lable="Email" data={delivery.email}/>
+            <TextInfoMod lable="Courier Service" data={delivery.courierServiceName}/>
+            <TextInfoMod lable="Courier Tacking ID" data={delivery.trackingId}/>
         </React.Fragment>
     )
 }
