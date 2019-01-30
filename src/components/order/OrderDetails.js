@@ -71,14 +71,13 @@ class OrderDetails extends Component {
                         {camelCaseToWords(cartStatus[cart.status])}</span>
                     </h4>
                 </td>
-                <td data-th="Price" className="text-center" >{`₹ ${cart.ordersCost}`}</td>
-
                 {
                     isAdmin(others.user)
-                        ? <td data-th="Requested By" className="text-center">{cart.requestedBy}</td>
-                        : ''
+                    ? <td data-th="Requested By" className="text-center">{cart.requestedBy}</td>
+                    : ''
                 }
-                <td data-th="Order Total" className="text-center">  {`₹ ${cart.totalCost}`}</td>
+                <td data-th="Service Price" className="text-center" style={{"fontSize": "17px"}}>{`₹ ${cart.ordersCost}`}</td>
+                <td data-th="Order Total" className="text-center" style={{"fontSize": "20px"}}>  {`₹ ${cart.totalCost}`}</td>
                 
 
                 
