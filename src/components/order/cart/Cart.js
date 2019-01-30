@@ -148,8 +148,8 @@ class Cart extends Component {
                                     }
                                 }} className={`${avilableCollectionTypes.length === 0 ? 'disabled-link' : ''}`}>
                                     <div className={`btn btn-success btn-lg`}>
-                                        {"Checkout "}
-                                        <i className="fa fa-angle-right"></i>
+                                        {"Checkout"}
+                                        <i className="fa fa-angle-right ml-2"></i>
                                     </div>
                                 </Link>
                             </td>

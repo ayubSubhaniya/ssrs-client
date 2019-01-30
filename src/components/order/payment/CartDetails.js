@@ -91,14 +91,17 @@ class CartDetails extends Component {
                             className='price'>{this.state.cart.totalCost}</span></div>
                     </div>
 
-                    <h5><strong>COLLECTION INFORMATION</strong></h5>
-                    <div className='container p-1'>
-                        <TextInfoMod lable="Collection Type" data={this.state.collectionType.name}/>
-                        {
-                           delivery
-                                ? <DeliveryInfo delivery={delivery}/>
-                                : <PickupInfo pickup={pickup}/>
-                        }
+                    <div className="payment_collection_info">
+                        <h4><strong>Collection Information</strong></h4>
+                        <hr></hr>
+                        <div className='container p-1'>
+                            <TextInfoMod lable="Collection Type" data={this.state.collectionType.name}/>
+                            {
+                            delivery
+                                    ? <DeliveryInfo delivery={delivery}/>
+                                    : <PickupInfo pickup={pickup}/>
+                            }
+                        </div>
                     </div>
                 </div>
             </div>

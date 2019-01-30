@@ -250,7 +250,10 @@ class Info extends React.Component {
                         message={this.state.isCollectionTypeInfoProvided ? '' : errorMessages.noCollectionTypes}/>
                     <div className={this.state.isCollectionTypeInfoProvided ? '' : 'disabled-link'}
                          onClick={this.handleDeliveryDataSubmit}>
-                        <div className='btn place-order submit mb-4'>PLACE ORDER</div>
+                        <div className={`btn btn-outline-success btn-lg place-order mb-4`}>
+                            {"Continue to Payment"}
+                            <i className="fa fa-angle-right ml-2"></i>
+                        </div>
                     </div>
                 </div>
             </div>
