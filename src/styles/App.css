@@ -86,9 +86,6 @@ p {
     #bt1{
         margin-left: 85%;
     }
-    #position_div{
-        width: 100%;
-    }
     #position_address{
         padding-top: 30px;
     }
@@ -821,7 +818,16 @@ input:checked + .slider:before {
 }
 
 /*Payment*/
+.payment_collection_info {
+    margin-top: 25px;
+    padding: 1%;
+    border: 2px solid slategrey;
+    border-radius: 8px;
+}
+
 .payment-operation {
+    border: 2px solid slategray;
+    border-radius: 8px;
     background-color: #e7e7e7;
     margin-top: 14px;
     font-weight: 300;
@@ -849,12 +855,16 @@ input:checked + .slider:before {
     margin-right: 0px;
     border-bottom: 2px solid #e7e7e7;
     border-right: 2px solid blue;
+    text-align: center;
+    font-size: 15px;
 }
 
 .tab-payment-active {
     background-color: #e7e7e7;
     border: 2px solid blue;
     border-right-width: 0px;
+    font-size: 20px;
+    transition: ease .2s;
 }
 
 .payment-method-body {
