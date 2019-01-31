@@ -5,6 +5,7 @@
   "private": true,
   "dependencies": {
     "@ionic/app-scripts": "^3.2.1",
+    "@sentry/browser": "^4.5.3",
     "animate.css": "^3.7.0",
     "body-scroll-lock": "^2.6.1",
     "bootstrap": "^4.1.3",
