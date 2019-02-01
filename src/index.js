@@ -9,7 +9,7 @@ import ErrorBoundary from './components/ErrorBoundary'
 import * as Sentry from '@sentry/browser';
 
 Sentry.init({
-    dsn: 'https://7d739cca183145e6b0c99c3413daf8ec@sentry.io/1291244'
+    dsn: 'https://75392a0e112642d7808f4ea03f96bce1@sentry.io/1383923'
 });
 
 const options = {

@@ -4,8 +4,7 @@ import Image from "./Image";
 import logo from "../images/daiict.png";
 import {Link, withRouter} from "react-router-dom";
 import AuthorizedComponent from "./AuthorizedComponent";
-import {isAdmin, isStudent, isSuperAdmin, isOnlyAdmin} from "../helper/userType";
-import { invalid } from 'moment';
+import {isAdmin, isStudent, isSuperAdmin} from "../helper/userType";
 
 function NavLink({path, text, onClick, className, currPath, icon}) {
     if (currPath) {
@@ -13,8 +12,8 @@ function NavLink({path, text, onClick, className, currPath, icon}) {
     }
 
     return (
-     
-        <li className={"nav-item " + (currPath === path ? "active" : "") + " " + className} data-tut={"reactour__copy"+text}>
+        <li className={"nav-item " + (currPath === path ? "active" : "") + " " + className}
+            data-tut={"reactour__copy" + text}>
             <Link className="nav-link" onClick={onClick} to={{
                 pathname: path,
             }}>
@@ -22,7 +21,6 @@ function NavLink({path, text, onClick, className, currPath, icon}) {
                 {text}
             </Link>
         </li>
-    
     )
 }
 
@@ -56,7 +54,7 @@ class NavigationBar extends Component {
                             <nav ref={(input) => {
                                 this.input = input
                             }}
-                             className="navbar navbar-expand-lg navbar-dark bg-dark">
+                                 className="navbar navbar-expand-lg navbar-dark bg-dark">
                                 <button className="navbar-toggler" type="button" data-toggle="collapse"
                                         data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown"
                                         aria-expanded="false" aria-label="Toggle navigation">
@@ -105,7 +103,7 @@ class NavigationBar extends Component {
                                                              currPath={this.props.location.pathname}
                                                              text={'CollectionTypes'}
                                                              component={NavLink}/>
-                                        
+
                                         <AuthorizedComponent permission={isSuperAdmin(value.user)}
                                                              path='/permission'
                                                              icon={'lock'}
@@ -139,7 +137,7 @@ class NavigationBar extends Component {
                                         <NavLink text={'Developers'}
                                                  path={'/aboutUs'}
                                                  icon={'angellist'}
-                                                 
+
                                                  currPath={this.props.location.pathname}/>
                                         <NavLink text={'Logout'}
                                                  icon={'sign-out'}
