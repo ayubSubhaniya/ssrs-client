@@ -81,6 +81,15 @@ p {
     margin-right: 0.5%;
     margin-left: 0.5%;
 }
+
+.fa {
+    transition: all 300ms;
+}
+
+.nav-link:hover > .fa{
+    transform: scale(1.2);
+    transition: all 300ms;
+}
 /*PC VIEW*/
 @media screen and (min-width: 600px) {
     #bt1{
