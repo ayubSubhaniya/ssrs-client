@@ -594,11 +594,13 @@ xcustom form elements
   /* check mark style for check boxes */
   width: 16px;
   height: 16px;
+  top: 13px;
   background: url("../img/cd-icon-check.svg") no-repeat center center;
 }
 .cd-filter-block .radio-label::before,
 .cd-filter-block .radio-label::after {
   border-radius: 50%;
+  top: 13px;
 }
 .cd-filter-block .radio-label::after {
   /* check mark style for radio buttons */
@@ -606,15 +608,18 @@ xcustom form elements
   height: 6px;
   background-color: #ffffff;
   left: 5px;
+  top: 13px
 }
 .cd-filter-block input[type=radio]:checked + label::before,
 .cd-filter-block input[type=checkbox]:checked + label::before {
   border-color: #41307c;
   background-color: #343630;
+  top: 13px;
 }
 .cd-filter-block input[type=radio]:checked + label::after,
 .cd-filter-block input[type=checkbox]:checked + label::after {
   display: block;
+  top: 13px;
 }
 
 @-moz-document url-prefix() {
@@ -622,4 +627,8 @@ xcustom form elements
   .cd-filter-block .cd-select::after {
     display: none;
   }
+}
+
+.radio-label{
+  cursor: pointer;
 }
