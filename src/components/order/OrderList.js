@@ -15,7 +15,7 @@ class OrderList extends Component {
     }
 
     isMatchOrderName = (cart,regexOfSearch) => {
-        return _.some(cart.orders,(order) => order.serviceName.match(regexOfSearch));
+        return _.some(cart.orders,(order) => order.service.name.match(regexOfSearch));
     }
 
     isMatched = (cart,regexOfSearch) => {
@@ -73,7 +73,7 @@ class OrderList extends Component {
                                        id='search_bar_position'
                                        name={'searchText'}
                                        onKeyUp={this.handleChange}
-                                       placeholder="Search..."/>
+                                       placeholder="Type Order-no or Service-name"/>
                             </div>
                             <div className="table100">
                                 <table>
@@ -81,14 +81,14 @@ class OrderList extends Component {
                                     <tr className="table100-head">
                                         <th className="text-center">Sr No.</th>
                                         <th className="text-center">Order No.</th>
-                                        <th className="pl-4">Services</th>
+                                        <th className="pl-4">Service(s)</th>
                                         <th className="text-center">Status</th>
-                                        <th className="text-center">Price</th>
                                         {
                                             isAdmin(others.user)
-                                                ? <th className="text-center">Requested By</th>
-                                                : ''
+                                            ? <th className="text-center">Requested By</th>
+                                            : ''
                                         }
+                                        <th className="text-center">Service Price</th>
                                         <th className="text-center">Order Total</th>
                                     </tr>
                                     </thead>
