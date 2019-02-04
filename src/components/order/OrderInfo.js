@@ -27,29 +27,34 @@ function PaymentInfo({cart}) {
     else if (cart.paymentStatus)
         paymentStatus = 'Done';
     else
-        paymentStatus = 'Failed';
+        paymentStatus = 'Panding';
 
     return (
         <div className='w-50'>
-            <h5  className="position_head">PAYMENT INFORMATION</h5>
+            <h5 className="position_head">PAYMENT INFORMATION</h5>
             <div className='container p-1'>
                 <TextInfoMod lable="Payment Mode" data={camelCaseToWords(cart.paymentType)}/>
                 <TextInfoMod lable="Payment Code" data={cart.paymentCode}/>
                 <TextInfoMod lable="Payment Status" data={paymentStatus}/>
             </div>
-            <hr/>
-            <div className='container p-1'>
-                <h5 className="position_head">PAYMENT FAIL HISTORY</h5>
-                {
-                    _.map(cart.paymentFailHistory, (o) => {
-                        return (<React.Fragment>
-                            <TextInfoMod lable="Payment ID" data={o.paymentId}/>
-                            <TextInfoMod lable="Payment Date" data={o.paymentDate}/>
-                            <TextInfoMod lable="Payment Type" data={camelCaseToWords(o.paymentType)}/>
-                        </React.Fragment>)
-                    })
-                }
-            </div>
+
+            {
+                cart.paymentFailHistory.length
+                    ? <div className={'container p-1'}>
+                        <hr/>
+                        <h5 className="position_head">PAYMENT FAIL HISTORY</h5>
+                        {
+                            _.map(cart.paymentFailHistory, (o) => {
+                                return (<React.Fragment>
+                                    <TextInfoMod lable="Payment ID" data={o.paymentId}/>
+                                    <TextInfoMod lable="Payment Date" data={o.paymentDate}/>
+                                    <TextInfoMod lable="Payment Type" data={camelCaseToWords(o.paymentType)}/>
+                                </React.Fragment>)
+                            })
+                        }
+                    </div>
+                    : ''
+            }
         </div>
     )
 }
@@ -340,7 +345,7 @@ class OrderInfo extends Component {
                     <div className='d-flex'>
                         <div className='w-50'>
                             <div className='container p-1'>
-                            <h5  className="position_head">COLLECTION INFORMATION</h5>
+                                <h5 className="position_head">COLLECTION INFORMATION</h5>
 
                                 <TextInfoMod lable="Collection Type" data={this.state.collectionType.name}/>
                                 {

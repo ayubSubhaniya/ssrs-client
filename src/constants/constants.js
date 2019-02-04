@@ -29,6 +29,7 @@ export const defaultCart = {
     _id: "Loading...",
     pickup: '',
     delivery: '',
+    paymentFailHistory: [],
     statusChangeTime: {
         failed: {},
         invalid: {},
