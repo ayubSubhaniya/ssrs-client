@@ -15,7 +15,7 @@ class OrderList extends Component {
     }
 
     isMatchOrderName = (cart,regexOfSearch) => {
-        return _.some(cart.orders,(order) => order.serviceName.match(regexOfSearch));
+        return _.some(cart.orders,(order) => order.service.name.match(regexOfSearch));
     }
 
     isMatched = (cart,regexOfSearch) => {
