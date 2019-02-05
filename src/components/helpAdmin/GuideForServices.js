@@ -2,9 +2,6 @@ import React, {Component} from 'react';
 import HrefComponent from './HrefComponent';
 
 class GuideForServices extends Component {
-    constructor(props, context) {
-        super(props, context);
-    }
 
     render() {
         return (
@@ -25,7 +22,7 @@ class GuideForServices extends Component {
                                 2) Enable/Disable (<i className="fa fa-toggle-on"></i>) button - To enable/disable a service for users<br/>
                                 3) Delete Service (<i className="fa fa-trash-o"></i>) button - To delete a service
                                 <br/>
-                                <img src={require("./AddServices2.JPG")} 
+                                <img alt='' src={require("./AddServices2.JPG")}
                                     style={{width:"100%", marginTop:"15px", marginBottom:"15px"}}></img>
                             </li>
                         </ol>
@@ -43,22 +40,22 @@ class GuideForServices extends Component {
                             </li>
                             <li>
                                 Now you have to fill following necessary details in the form<br/>
-                                <img src={require("./AddServices1.JPG")} 
+                                <img alt='' src={require("./AddServices1.JPG")}
                                     style={{width:"100%", marginTop:"15px", marginBottom:"15px"}}></img> <br/>
                                 Here you can do customizations also. For example, if you want to make a service available for
                                 specific users, then you can select users programmwise or batchwise or by user type. <br/>
-                                <img src={require("./AddServices3.JPG")} 
+                                <img alt='' src={require("./AddServices3.JPG")}
                                     style={{width:"45%", marginTop:"15px", marginBottom:"15px", marginRight:"5%"}}></img>
-                                <img src={require("./AddServices4.JPG")} 
+                                <img alt='' src={require("./AddServices4.JPG")}
                                     style={{width:"45%", marginTop:"15px", marginBottom:"15px", marginRight:"5%"}}></img>                                    
-                                <img src={require("./AddServices5.JPG")} 
+                                <img alt='' src={require("./AddServices5.JPG")}
                                     style={{width:"45%", marginTop:"15px", marginBottom:"15px", marginRight:"5%"}}></img>
-                                <img src={require("./AddServices6.JPG")} 
+                                <img alt='' src={require("./AddServices6.JPG")}
                                     style={{width:"45%", marginTop:"15px", marginBottom:"15px", marginRight:"5%"}}></img>
                             </li>                                
                             <li>
                                 Click on the "Save" button. You can see the list of all the added services.
-                                <img src={require("./AddServices7.JPG")} 
+                                <img alt='' src={require("./AddServices7.JPG")}
                                     style={{width:"100%", marginTop:"15px", marginBottom:"15px"}}></img> 
                             </li>
                         </ol>
@@ -78,7 +75,7 @@ class GuideForServices extends Component {
                             </li>
                             <li>
                                 A form will appear filled with previous details. You can edit these details and save them.<br/>
-                                <img src={require("./EditServices1.JPG")} 
+                                <img alt='' src={require("./EditServices1.JPG")}
                                     style={{width:"100%",marginTop:"15px", marginBottom:"15px"}}></img> 
                             </li>                                
                         </ol>

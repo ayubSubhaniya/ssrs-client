@@ -45,10 +45,10 @@ class Info extends React.Component {
 
     setCart = (response) => {
         let index = _.findIndex(this.avilableCollectionTypes, (x) => x._id === response.cart.collectionType)
-        index = index == -1 ? _.findIndex(this.avilableCollectionTypes, (x) => x.category === PICKUP) : index;
+        index = index === -1 ? _.findIndex(this.avilableCollectionTypes, (x) => x.category === PICKUP) : index;
         this.setState({
             cart: response.cart,
-            selectedCollectionTypeIndex: index != -1 ? index : 0,
+            selectedCollectionTypeIndex: index !== -1 ? index : 0,
             isCollectionTypeInfoProvided: Boolean(response.cart.collectionType)
         })
     }
@@ -82,7 +82,7 @@ class Info extends React.Component {
     closeAddressModal = () => {
         $(this.modal).modal('hide');
         loadSpinner();
-        
+
 
         this.setState({
             editAddress: false
@@ -222,7 +222,6 @@ class Info extends React.Component {
                                 selectedCollectionType.category === DELIVERY
                                     ? <div className="address-view">
                                         <AddressList addresses={this.state.addresses}
-                                                     selected={this.state.selectedAddress}
                                                      deleteAddress={this.deleteAddress}
                                                      selected={this.state.selectedAddress}
                                                      handleClick={this.updateSelectedAddress}

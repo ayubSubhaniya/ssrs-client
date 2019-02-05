@@ -6,8 +6,9 @@ import {domainUrl, errorMessages, infoMessages} from '../../../config/configurat
 import * as HttpStatus from "http-status-codes";
 import $ from "jquery";
 import ErrorMessage from "../../error/ErrorMessage";
-import { withAlert } from "react-alert";
+import {withAlert} from "react-alert";
 import {loadSpinner, unloadSpinner} from "../../../helper/spinner";
+
 class OrderForm extends Component {
     constructor(props) {
         super(props);
@@ -19,10 +20,10 @@ class OrderForm extends Component {
             showSpinner: false
         }
     }
-   
-    cleanErrorMessage=()=>{
+
+    cleanErrorMessage = () => {
         this.setState({
-            errorMessage:''
+            errorMessage: ''
         })
     };
 
@@ -37,12 +38,12 @@ class OrderForm extends Component {
 
     handleParamenterChange = ({target}) => {
         this.setState({
-            parameters: _.map(this.state.parameters, (o, i) => i == target.dataset.index ? !o : o)
+            parameters: _.map(this.state.parameters, (o, i) => i === target.dataset.index ? !o : o)
         })
     };
 
     getSelectedPrameters = (parameters) => {
-        return _.filter(_.map(parameters, (o, i) => o ? this.props.service.availableParameters[i] : -1), (o) => o != -1)
+        return _.filter(_.map(parameters, (o, i) => o ? this.props.service.availableParameters[i] : -1), (o) => o !== -1)
     };
 
     getOrderDetails = (state) => {
@@ -50,11 +51,11 @@ class OrderForm extends Component {
             service: this.props.service._id,
             parameters: _.map(this.getSelectedPrameters(state.parameters), '_id'),
             unitsRequested: this.state.units,
-            comment: this.state.comments===''?undefined:this.state.comments
+            comment: this.state.comments === '' ? undefined : this.state.comments
         };
         return {order};
-        
-        
+
+
     };
 
     handleSubmit = (e) => {
@@ -68,26 +69,22 @@ class OrderForm extends Component {
         request.open('POST', url, true);
         request.withCredentials = true;
         request.setRequestHeader("Content-type", "application/json");
-       
+
         request.onload = function () {
             if (this.status === HttpStatus.CREATED) {
-                const response = JSON.parse(request.response);
                 $(that.modal).modal('hide');
-              
-                
-
                 that.props.alert.success(infoMessages.orderAddedToCart);
-            } else if (this.status === HttpStatus.PRECONDITION_FAILED){
+            } else if (this.status === HttpStatus.PRECONDITION_FAILED) {
                 that.setState({
                     errorMessage: request.responseText
                 });
                 $(that.modal).modal('show');
-            } else if (this.status === HttpStatus.INTERNAL_SERVER_ERROR){
+            } else if (this.status === HttpStatus.INTERNAL_SERVER_ERROR) {
                 that.setState({
                     errorMessage: errorMessages.internalServerError
                 });
                 $(that.modal).modal('show');
-            } else if (this.status === HttpStatus.FORBIDDEN){
+            } else if (this.status === HttpStatus.FORBIDDEN) {
                 that.setState({
                     errorMessage: errorMessages.forbidden
                 });
@@ -100,13 +97,14 @@ class OrderForm extends Component {
             }
             unloadSpinner();
         }
-        
+
         request.send(JSON.stringify(this.getOrderDetails(this.state)));
-      
-        
+
+
     }
+
     render() {
-        
+
         const {service} = this.props;
         const selectedParamters = this.getSelectedPrameters(this.state.parameters)
         var parameterBtnLabel = _.map(selectedParamters, 'name').join(', ')
@@ -155,22 +153,26 @@ class OrderForm extends Component {
                                             />
                                         </div>
                                     </div>
-                                    <ErrorMessage message={this.state.errorMessage} clearMessage={this.cleanErrorMessage}/>
+                                    <ErrorMessage message={this.state.errorMessage}
+                                                  clearMessage={this.cleanErrorMessage}/>
                                 </form>
                             </div>
                             <div className="modal-footer">
-                                <button type="submit" className="btn btn-outline-success" onClick={this.handleSubmit}>Add To Cart</button>
-                                <button type="button" className="btn btn-outline-danger" data-dismiss="modal">Close</button>
+                                <button type="submit" className="btn btn-outline-success"
+                                        onClick={this.handleSubmit}>Add To Cart
+                                </button>
+                                <button type="button" className="btn btn-outline-danger" data-dismiss="modal">Close
+                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-           
-            )
-            
+
+        )
+
     }
-    
+
 }
 
 export default withAlert(withRouter(OrderForm))

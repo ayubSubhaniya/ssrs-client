@@ -25,7 +25,6 @@ class Tab extends Component{
                                   onDelete={this.props.deleteNews}
                                   onCreate={this.props.addNews}
                                   onUpdate={this.props.updateNews}
-                                  user={this.props.user}
                                   editPermission={true}
                                   deletePermission={false}
                                   createPermission={true}

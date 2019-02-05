@@ -2,9 +2,6 @@ import React, {Component} from 'react';
 import HrefComponent from './HrefComponent';
 
 class GuideForCollectionType extends Component {
-    constructor(props, context) {
-        super(props, context);
-    }
 
     render() {
         return (
@@ -25,7 +22,7 @@ class GuideForCollectionType extends Component {
                                 2) Enable/Disable (<i className="fa fa-toggle-on"></i>) button - To enable/disable a Collection Type for users<br/>
                                 3) Delete Service button - To delete a Collection Type
                                 <br/>
-                                <img src={require("./CollectionType1.JPG")} 
+                                <img alt='' src={require("./CollectionType1.JPG")}
                                     style={{width:"100%", marginTop:"15px", marginBottom:"15px"}}></img>
                             </li>
                         </ol>
@@ -43,7 +40,7 @@ class GuideForCollectionType extends Component {
                                 CollectionType Name, Base Charge and description. Click on "Save" button to add new 
                                 Collection Type in the list.<br/>
                             </li>
-                            <img src={require("./CollectionType2.JPG")} 
+                            <img alt='' src={require("./CollectionType2.JPG")}
                                     style={{width:"100%", marginTop:"15px", marginBottom:"15px"}}></img>
                         </ol>
                     </div>
@@ -62,7 +59,7 @@ class GuideForCollectionType extends Component {
                             </li>
                             <li>
                                 A form will appear filled with previous details. You can edit these details and save them.<br/>
-                                <img src={require("./CollectionType3.JPG")} 
+                                <img alt='' src={require("./CollectionType3.JPG")}
                                     style={{width:"100%",marginTop:"15px", marginBottom:"15px"}}></img> 
                             </li>                              
                         </ol>

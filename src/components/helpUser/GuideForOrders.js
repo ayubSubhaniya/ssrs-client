@@ -2,9 +2,6 @@ import React, {Component} from 'react';
 import HrefComponent from './HrefComponent';
 
 class GuideForOrders extends Component {
-    constructor(props, context) {
-        super(props, context);
-    }
 
     render() {
         return (
@@ -21,7 +18,7 @@ class GuideForOrders extends Component {
                                 When you click on the "Services" tab from Navigation bar, the list of all the added 
                                 services will appear. Each row represents a praticular service. 
                                 If you want to apply for any service click on apply button: <br/>
-                                <img src={require("./Order1.png")} 
+                                <img alt='' src={require("./Order1.png")}
                                     style={{width:"100%", marginTop:"15px", marginBottom:"15px"}}></img>
                             </li>
                         </ol>
@@ -42,7 +39,7 @@ class GuideForOrders extends Component {
                             </li>                                
                             <li>
                                 Click on the "Add to cart" button.
-                                <img src={require("./Order2.png")} 
+                                <img alt='' src={require("./Order2.png")}
                                     style={{width:"100%", marginTop:"15px", marginBottom:"15px"}}></img> 
                             </li>
                         </ol>
@@ -58,17 +55,17 @@ class GuideForOrders extends Component {
                             <li>
                                 In the Cart tab, all the added services will be displayed. 
                                 Click on the "checkout" for placing order.
-                                <img src={require("./Cart1.png")} 
+                                <img alt='' src={require("./Cart1.png")}
                                     style={{width:"100%", marginTop:"15px", marginBottom:"15px"}}></img> 
                             </li>
                             <li>
                                 Select the Collection Type. If courier is selected then select address or add address. Then select place order.<br/>
-                                <img src={require("./Cart2.png")} 
+                                <img alt='' src={require("./Cart2.png")}
                                     style={{width:"100%",marginTop:"15px", marginBottom:"15px"}}></img> 
                             </li>
                             <li>
                                 Select the Payment method and pay.<br/>
-                                <img src={require("./Cart3.png")} 
+                                <img alt='' src={require("./Cart3.png")}
                                     style={{width:"100%",marginTop:"15px", marginBottom:"15px"}}></img> 
                             </li>                                
                         </ol>

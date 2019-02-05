@@ -75,10 +75,10 @@ class DataList extends Component {
    render() {
       const { data } = this.props;
       if (this.clk) {
-         <Redirect to={{
-            pathname: '/order/${data.cartId}',
-         }} />
          this.setState({ clk: false });
+         return (<Redirect to={{
+            pathname: `/order/${data.cartId}`
+         }} />)
       }
       return (
          <div>
