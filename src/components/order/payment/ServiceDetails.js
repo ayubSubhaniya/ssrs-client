@@ -1,7 +1,7 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import _ from "lodash"
 
-class ServiceDetails extends Component {
+class ServiceDetails extends PureComponent {
     render() {
         const order = this.props.order;
         const service = order.service;

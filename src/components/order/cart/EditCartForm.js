@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {PureComponent} from 'react'
 import _ from "lodash"
 import {withRouter} from "react-router-dom";
 import MultiSelectDropDownControled from "../../service/MultiSelectDropDownControled";
@@ -35,7 +35,7 @@ function syncFetch(dataName, key) {
     return fetchedData;
 }
 
-class EditCartForm extends Component {
+class EditCartForm extends PureComponent {
     constructor(props) {
         super(props);
         const availableParameters = _.map(this.props.service.availableParameters, (id) => syncFetch(`parameter/${id}`, 'parameter'))

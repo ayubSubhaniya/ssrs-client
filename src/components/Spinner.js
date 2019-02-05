@@ -1,6 +1,6 @@
 import React from 'react';
 import Modal from 'react-bootstrap4-modal';
-class Spinner extends React.Component {
+class Spinner extends React.PureComponent {
     render() {
         return (
             <Modal visible={this.props.open} className={'spinner'} >

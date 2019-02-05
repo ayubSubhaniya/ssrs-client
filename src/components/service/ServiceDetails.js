@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React, {PureComponent} from "react";
 import _ from 'lodash'
 
 function capitalize(x) {
@@ -19,7 +19,7 @@ function TextInfo({lable, data}) {
         return ''
 }
 
-class ServiceDetails extends Component {
+class ServiceDetails extends PureComponent {
     render() {
         const {service} = this.props;
         return (

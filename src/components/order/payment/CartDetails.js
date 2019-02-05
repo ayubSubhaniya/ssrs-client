@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import {withRouter} from "react-router-dom"
 import {getCart} from "../../../helper/FetchData";
 import _ from "lodash"
@@ -9,7 +9,7 @@ import {DeliveryInfo,PickupInfo} from "../Info";
 import {makeCall} from "../../../helper/caller";
 import {handleError} from "../../../helper/error";
 
-class CartDetails extends Component {
+class CartDetails extends PureComponent {
     constructor(props) {
         super(props);
         this.state = {

@@ -1,8 +1,8 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import _ from "lodash";
 import {camelCaseToWords} from "../../helper/String";
 
-class PaymentModesDropDown extends Component {
+class PaymentModesDropDown extends PureComponent {
     render() {
         return (
             <div className="form-group">

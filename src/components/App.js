@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'animate.css';
 import 'bootstrap'
@@ -42,7 +42,7 @@ import {loadSpinner, unloadSpinner} from "../helper/spinner";
 
 export const Context = React.createContext();
 
-class App extends Component {    
+class App extends PureComponent {
     constructor(props) {
         super(props);
         this.state = {

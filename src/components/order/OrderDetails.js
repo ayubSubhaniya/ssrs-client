@@ -1,10 +1,10 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import {withRouter} from 'react-router-dom'
 import {cartStatus} from "../../constants/status";
 import {camelCaseToWords, formatDate} from "../../helper/String";
 import {isAdmin} from "../../helper/userType";
 
-class OrderDetails extends Component {
+class OrderDetails extends PureComponent {
     redirect = () => {
         this.props.history.push({
             pathname: this.props.location.pathname + "/" + this.props.cart._id,

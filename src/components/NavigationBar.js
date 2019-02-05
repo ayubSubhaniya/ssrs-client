@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import {Context} from "./App";
 import Image from "./Image";
 import logo from "../images/daiict.png";
@@ -24,7 +24,7 @@ function NavLink({path, text, onClick, className, currPath, icon}) {
     )
 }
 
-class NavigationBar extends Component {
+class NavigationBar extends PureComponent {
 
     stickyTop = (e) => {
 

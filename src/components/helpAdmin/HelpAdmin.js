@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import NavigationBar from '../NavigationBar';
 import Header from '../Header';
 import GettingStarted from './GettingStarted';
@@ -14,7 +14,7 @@ import {isSuperAdmin} from "../../helper/userType";
 import GuideForDashboard from './GuideForDashboard';
 import GuideForEmail from './GuideForEmail';
 
-class HelpAdmin extends Component {
+class HelpAdmin extends PureComponent {
     render() {
         return (
             <React.Fragment>

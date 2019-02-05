@@ -6,7 +6,7 @@ import Spinner from "../Spinner"
 import ConfirmModal from "../ConfirmModal";
 import {handleError} from "../../helper/error";
 
-class PermissionForm extends React.Component {
+class PermissionForm extends React.PureComponent {
     constructor(props) {
         super(props);
         let {data} = props;

@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import NavigationBar from "../NavigationBar";
 import Header from "../Header";
 import _ from "lodash"
@@ -23,7 +23,7 @@ const orders = {
     130: "cancelled"
 }
 
-class Filter extends Component {
+class Filter extends PureComponent {
     constructor(props) {
         super(props);
         this.state = {

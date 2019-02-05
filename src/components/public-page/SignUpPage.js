@@ -12,7 +12,7 @@ const disableBodyScroll = bodyScrollLock.disableBodyScroll;
 const enableBodyScroll = bodyScrollLock.enableBodyScroll;
 const targetElement = document.querySelector("body");
 
-class SignUpPage extends React.Component {
+class SignUpPage extends React.PureComponent {
     constructor() {
         super();
         this.state = {

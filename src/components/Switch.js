@@ -1,7 +1,7 @@
 import React from 'react';
 import ConfirmModal from "./ConfirmModal";
 
-class Switch extends React.Component {
+class Switch extends React.PureComponent {
 
     constructor() {
         super();

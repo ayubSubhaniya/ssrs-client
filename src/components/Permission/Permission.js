@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import {domainUrl} from "../../config/configuration";
 import NavigationBar from "../NavigationBar";
 import * as HttpStatus from "http-status-codes";
@@ -9,7 +9,7 @@ import ConfirmModal from "../ConfirmModal";
 import {handleError} from "../../helper/error";
 import {loadSpinner, unloadSpinner} from "../../helper/spinner";
 
-class Permission extends Component {
+class Permission extends PureComponent {
     constructor() {
         super();
         this.state = {

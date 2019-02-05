@@ -1,9 +1,9 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import { withAlert } from 'react-alert'
 
 const XLSX = require('xlsx');
 
-class FileUpload extends Component {
+class FileUpload extends PureComponent {
     constructor(props) {
         super(props);
         this.state = {

@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import '../../styles/table.css';
 import Spinner from "../Spinner";
 import {domainUrl, modalMessages} from "../../config/configuration";
@@ -34,7 +34,7 @@ import {withAlert} from 'react-alert'
 //     )
 // }
 
-class BSTable extends Component {
+class BSTable extends PureComponent {
     render() {
         if (this.props.data) {
             const data = this.props.data;
@@ -64,7 +64,7 @@ class BSTable extends Component {
 }
 
 
-class UserList extends Component {
+class UserList extends PureComponent {
 
     constructor(props, context) {
         super(props, context);

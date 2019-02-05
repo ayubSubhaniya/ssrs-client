@@ -1,7 +1,7 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import HrefComponent from './HrefComponent';
 
-class GuideForCollectionType extends Component {
+class GuideForCollectionType extends PureComponent {
 
     render() {
         return (

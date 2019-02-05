@@ -1,8 +1,8 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import "../../styles/ViewProfile.css";
 import {handleChange} from "../../helper/StateUpdate";
 
-class EditProfile extends Component {
+class EditProfile extends PureComponent {
     constructor(props) {
         super();
         this.state = {

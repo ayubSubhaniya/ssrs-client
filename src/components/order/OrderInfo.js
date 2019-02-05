@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import {withRouter} from 'react-router-dom'
 import NavigationBar from "../NavigationBar";
 import '../../styles/orderstatus.css'
@@ -59,7 +59,7 @@ function PaymentInfo({cart}) {
     )
 }
 
-class OrderInfo extends Component {
+class OrderInfo extends PureComponent {
     constructor(props) {
         super(props);
         this.state = {

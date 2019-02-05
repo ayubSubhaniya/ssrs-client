@@ -1,10 +1,10 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import _ from "lodash"
 import {modalMessages, orderStatus} from "../../../config/configuration";
 import EditCartForm from "./EditCartForm";
 import DeleteButtonWithCancel from '../../DeleteButtonWithCancel';
 
-class Service extends Component {
+class Service extends PureComponent {
     constructor(props) {
         super(props);
         this.state = {

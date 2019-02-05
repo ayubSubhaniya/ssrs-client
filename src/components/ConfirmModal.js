@@ -1,7 +1,7 @@
 import React from 'react';
 import Modal from 'react-bootstrap4-modal';
 
-class ConfirmModal extends React.Component {
+class ConfirmModal extends React.PureComponent {
     render() {
         return (
             <Modal visible={this.props.open}>

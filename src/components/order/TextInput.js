@@ -3,7 +3,7 @@ import Modal from "react-bootstrap4-modal";
 import {handleChange} from "../../helper/StateUpdate";
 import ErrorMessage from "../error/ErrorMessage";
 
-class TextInput extends React.Component{
+class TextInput extends React.PureComponent{
     constructor(){
         super();
         this.state = {

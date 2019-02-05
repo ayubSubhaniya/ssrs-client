@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import '../../styles/publicpage.css'
 import {Context} from "../App";
 import {domainUrl, infoMessages, errorMessages} from "../../config/configuration";
@@ -12,7 +12,7 @@ import {loadSpinner, unloadSpinner} from "../../helper/spinner";
 
 
 
-class PublicPage extends Component {
+class PublicPage extends PureComponent {
     constructor() {
         super();
         this.state = {

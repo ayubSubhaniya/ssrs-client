@@ -10,7 +10,7 @@ import {payOffline, payOnline} from "../../../helper/FetchData";
 import {Redirect} from "react-router-dom";
 import {withAlert} from 'react-alert';
 
-class Payment extends React.Component {
+class Payment extends React.PureComponent {
     constructor(props) {
         super(props);
         this.state = {

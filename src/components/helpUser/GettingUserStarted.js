@@ -1,7 +1,7 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import HrefComponent from './HrefComponent';
 
-class GettingUserStarted extends Component {
+class GettingUserStarted extends PureComponent {
 
     render() {
         return (

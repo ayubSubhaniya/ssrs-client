@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 
 import Header from "../Header";
 import Tab from "./Tab";
@@ -7,7 +7,7 @@ import _ from "lodash"
 import {makeCall} from "../../helper/caller";
 import {handleError} from "../../helper/error";
 
-class Home extends Component {
+class Home extends PureComponent {
     constructor() {
         super();
         this.state = {

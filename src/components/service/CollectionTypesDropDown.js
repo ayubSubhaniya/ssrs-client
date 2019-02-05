@@ -1,7 +1,7 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import _ from "lodash";
 
-class CollectionTypesDropDown extends Component {
+class CollectionTypesDropDown extends PureComponent {
     render() {
         return (
             <div className="form-group">

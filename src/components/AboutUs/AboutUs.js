@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 
 const devs = new Array(6);
 devs[0] = (
@@ -148,7 +148,7 @@ function ShowDevs() {
     return devs;
 }
 
-class AboutUs extends Component {
+class AboutUs extends PureComponent {
 
     componentWillMount() {
         shuffle();

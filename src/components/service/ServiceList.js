@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import _ from "lodash"
 import ServiceDetails from "./ServiceDetails";
 import EditButton from "../EditButton";
@@ -13,7 +13,7 @@ import {handleError} from "../../helper/error";
 import GoToCart from "./GoToCart";
 import {modalMessages} from "../../config/configuration"
 
-class ServiceList extends Component {
+class ServiceList extends PureComponent {
     constructor(props, context) {
         super(props, context);
         this.state = {

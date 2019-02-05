@@ -1,7 +1,7 @@
 import React from "react"
 import Modal from "react-bootstrap4-modal";
 
-class AddressForm extends React.Component {
+class AddressForm extends React.PureComponent {
     constructor(props) {
         super(props);
         let {data} = props;

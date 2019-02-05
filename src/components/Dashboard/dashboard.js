@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import NavigationBar from '../NavigationBar';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
@@ -8,7 +8,7 @@ import {makeCall} from '../../helper/caller';
 import {handleError} from "../../helper/error";
 import '../../styles/text.css';
 
-class dashboard extends Component {
+class dashboard extends PureComponent {
 
     constructor(props, context) {
         super(props, context);

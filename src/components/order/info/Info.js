@@ -21,7 +21,7 @@ import $ from "jquery";
 const {DELIVERY, PICKUP} = collectionTypeCategory
 
 
-class Info extends React.Component {
+class Info extends React.PureComponent {
     constructor(props) {
         super(props);
         this.avilableCollectionTypes = props.location.state.avilableCollectionTypes;

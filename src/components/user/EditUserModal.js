@@ -1,8 +1,8 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import '../../styles/table.css';
 import EditUserModalBody from './EditUserModalBody';
 
-class EditUserModal extends Component {
+class EditUserModal extends PureComponent {
 
     constructor(props, context) {
         super(props, context);

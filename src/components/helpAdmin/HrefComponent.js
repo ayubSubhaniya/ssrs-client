@@ -1,6 +1,6 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 
-class HrefComponent extends Component {
+class HrefComponent extends PureComponent {
 
     constructor(props, context) {
         super(props, context);

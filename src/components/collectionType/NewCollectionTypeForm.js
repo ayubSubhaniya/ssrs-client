@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import {withRouter} from "react-router-dom";
 import Header from "../Header";
 import NavigationBar from "../NavigationBar";
@@ -8,7 +8,7 @@ import {collectionTypeCategory} from "../../constants/constants";
 import {makeCall} from "../../helper/caller";
 import {handleError} from "../../helper/error";
 
-class NewCollectionTypeForm extends Component {
+class NewCollectionTypeForm extends PureComponent {
     constructor(props) {
         super(props);
 

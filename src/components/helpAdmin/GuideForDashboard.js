@@ -1,7 +1,7 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import HrefComponent from './HrefComponent';
 
-class GuideForDashboard extends Component {
+class GuideForDashboard extends PureComponent {
 
     render() {
         return (

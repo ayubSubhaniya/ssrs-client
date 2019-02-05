@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from "react-router-dom";
 
-class GoToCart extends React.Component {
+class GoToCart extends React.PureComponent {
     render() {
         return (
             <div className={'d-flex justify-content-end mt-5'}>

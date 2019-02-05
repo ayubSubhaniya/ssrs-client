@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import {withRouter} from "react-router-dom";
 import Header from "../Header";
 import NavigationBar from "../NavigationBar";
@@ -43,7 +43,7 @@ function reducArrayInToObject(params) {
     }, {});
 }
 
-class EditForm extends Component {
+class EditForm extends PureComponent {
     constructor(props) {
         super(props);
         this.id = this.props.location.pathname.split('/')[3];

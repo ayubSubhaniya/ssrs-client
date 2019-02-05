@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {PureComponent} from 'react'
 import _ from "lodash"
 import MultiSelectDropDown from "../../service/MultiSelectDropDown";
 import {withRouter} from "react-router-dom";
@@ -9,7 +9,7 @@ import ErrorMessage from "../../error/ErrorMessage";
 import {withAlert} from "react-alert";
 import {loadSpinner, unloadSpinner} from "../../../helper/spinner";
 
-class OrderForm extends Component {
+class OrderForm extends PureComponent {
     constructor(props) {
         super(props);
         this.state = {

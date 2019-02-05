@@ -1,7 +1,7 @@
 import React from 'react'
 import Modal from "react-bootstrap4-modal";
 
-class EditNews extends React.Component {
+class EditNews extends React.PureComponent {
     constructor(props) {
         super(props);
         this.state = {
