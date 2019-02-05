@@ -65,11 +65,11 @@ class OrderDetails extends Component {
         const {cart, index, ...others} = this.props;
         return (
             <tr onClick={this.redirect} className='animated fadeIn'>
-                <td data-th="Sr No." className="text-center" >
+                <td data-th="Sr No." className="text-center">
                     {index + 1}
                 </td>
-                
-                <td data-th="Order No" className="text-center" >
+
+                <td data-th="Order No" className="text-center">
                     {cart.orderId}
                 </td>
                 <td data-th="Service(s)" className="p-2">
@@ -93,7 +93,7 @@ class OrderDetails extends Component {
                 }
                 <td data-th="Service Price" className="text-center" style={{"fontSize": "17px"}}>{`₹ ${cart.ordersCost}`}</td>
                 <td data-th="Order Total" className="text-center" style={{"fontSize": "20px"}}>  {`₹ ${cart.totalCost}`}</td>
-                
+
 
                 
             </tr>
