@@ -1,6 +1,5 @@
 import {domainUrl} from "../config/configuration";
 import * as HttpStatus from "http-status-codes";
-import React from "react";
 import {makeCall} from "./caller";
 import {handleError} from "./error";
 import {OFFLINE, ONLINE} from "../constants/constants";
@@ -67,7 +66,7 @@ export function asyncFetch(dataName) {
     request.open('GET', url, true);
     request.withCredentials = true;
     request.onload = function () {
-        if (this.status == HttpStatus.ACCEPTED || this.status === HttpStatus.OK || this.status === HttpStatus.NOT_MODIFIED) {
+        if (this.status === HttpStatus.ACCEPTED || this.status === HttpStatus.OK || this.status === HttpStatus.NOT_MODIFIED) {
             const obj = JSON.parse(request.responseText);
             that.setState({
                 [dataName]: obj[dataName],
@@ -87,7 +86,7 @@ export function syncFetch(dataName) {
     request.open('GET', url, false);
     request.withCredentials = true;
     request.onload = function () {
-        if (this.status == HttpStatus.ACCEPTED || this.status === HttpStatus.OK || this.status === HttpStatus.NOT_MODIFIED) {
+        if (this.status === HttpStatus.ACCEPTED || this.status === HttpStatus.OK || this.status === HttpStatus.NOT_MODIFIED) {
             const obj = JSON.parse(request.responseText);
             fetchedData = obj[dataName];
         } else {

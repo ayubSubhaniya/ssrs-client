@@ -19,11 +19,11 @@ class FileUpload extends Component {
     FileUploadHandler = (e) => {
         e.preventDefault();
         var rABS = true; // true: readAsBinaryString ; false: readAsArrayBuffer
-        if (this.state.filesToBeSent.length == 0) {
+        if (this.state.filesToBeSent.length === 0) {
             this.props.alert.show("Please Select File to Upload");
         }
         else {
-            var files = this.state.filesToBeSent, f = this.state.filesToBeSent[0];
+            var f = this.state.filesToBeSent[0];
             var reader = new FileReader();
             const that = this;
             reader.onload = function (e) {

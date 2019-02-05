@@ -1,9 +1,6 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 
-class PickUpDetails extends Component {
-    constructor(props) {
-        super(props);
-    }
+class PickUpDetails extends PureComponent {
 
     render() {
         const data = this.props.data;

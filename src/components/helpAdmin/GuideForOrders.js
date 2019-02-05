@@ -2,10 +2,6 @@ import React, {Component} from 'react';
 import HrefComponent from './HrefComponent';
 
 class GuideForOrders extends Component {
-    constructor(props, context) {
-        super(props, context);
-    }
-
     render() {
         return (
             <div>
@@ -23,7 +19,7 @@ class GuideForOrders extends Component {
                                 Deliver, Ready to Pickup etc. So there is a filter to fetch only specific subset of orders according 
                                 to their status.
                                 <br/>
-                                <img src={require("./Orders1.JPG")} 
+                                <img alt='' src={require("./Orders1.JPG")}
                                     style={{width:"100%", marginTop:"15px", marginBottom:"15px"}}></img>
                             </li>
                         </ol>
@@ -39,7 +35,7 @@ class GuideForOrders extends Component {
                             <li>
                                 When you click on an order, all details are shown e.g. Order number, Status, Total Payable Amount
                                 Collection Information etc.<br/>
-                                <img src={require("./Orders2.JPG")} 
+                                <img alt='' src={require("./Orders2.JPG")}
                                     style={{width:"100%", marginTop:"15px", marginBottom:"15px"}}></img>                                  
                             </li>
                             <li>
@@ -47,7 +43,7 @@ class GuideForOrders extends Component {
                                 In above example, when you click on "Accept Payment", it will ask you for payment code. After 
                                 entering it correctly it shows that payment is received and
                                 Order is in "Processing" stage.  <br/>
-                                <img src={require("./Orders3.JPG")} 
+                                <img alt='' src={require("./Orders3.JPG")}
                                     style={{width:"100%", marginTop:"15px", marginBottom:"15px"}}></img>                                  
                             </li>                            
                             <li>
@@ -60,12 +56,12 @@ class GuideForOrders extends Component {
                                         so that user can edit that order and update info. After pressing "Hold", you give reason
                                         for holding, which will be sent as notification to user. Now user can edit his order and 
                                         correct his info.
-                                        <img src={require("./Orders7.JPG")} 
+                                        <img alt='' src={require("./Orders7.JPG")}
                                             style={{width:"50%", marginTop:"15px", marginBottom:"15px"}}></img> 
                                     </li>
                                     <li> If order is not valid or for some other reason, you can cancel an order by pressing 
                                         "Cancel" button.
-                                        <img src={require("./Orders8.JPG")} 
+                                        <img alt='' src={require("./Orders8.JPG")}
                                             style={{width:"50%", marginTop:"15px", marginBottom:"15px"}}></img>
                                     </li>
                                 </ul>
@@ -75,30 +71,30 @@ class GuideForOrders extends Component {
                             <li>
                                 When user picks up his order, you will ask him for collection code and enter that code you can click on "Complete" button
                                 under Completed stage.<br/>
-                                <img src={require("./Orders5.JPG")} 
+                                <img alt='' src={require("./Orders5.JPG")}
                                     style={{width:"100%", marginTop:"15px", marginBottom:"15px"}}></img>                                  
-                                <img src={require("./Orders9.JPG")} 
+                                <img alt='' src={require("./Orders9.JPG")}
                                     style={{width:"45%", marginTop:"15px", marginBottom:"15px"}}></img>                                    
                             </li>
                             <li>
                                 When collection type is Courier type, you have to enter courier details
                                 like Service Name and Tracking ID.<br/>
-                                <img src={require("./Orders12.JPG")} 
+                                <img alt='' src={require("./Orders12.JPG")}
                                     style={{width:"45%", marginTop:"15px", marginBottom:"15px"}}></img>                                  
                             </li>
                             <li>
                                 Since this order is completed, its status is changed to "Completed". You can check it by filter 
                                 orders by "Completed" stage.<br/>
-                                <img src={require("./Orders10.JPG")} 
+                                <img alt='' src={require("./Orders10.JPG")}
                                     style={{width:"100%", marginTop:"15px", marginBottom:"15px"}}></img>   
-                                <img src={require("./Orders6.JPG")} 
+                                <img alt='' src={require("./Orders6.JPG")}
                                     style={{width:"100%", marginTop:"15px", marginBottom:"15px"}}></img>
     
                             </li>                            
                             <li>
                                 When order is completed, "Invoice" button will appear. You can download 
                                 this invoice for that order in PDF format.<br/>
-                                <img src={require("./Orders11.JPG")} 
+                                <img alt='' src={require("./Orders11.JPG")}
                                     style={{width:"100%", marginTop:"15px", marginBottom:"15px"}}></img>
     
                             </li>                            

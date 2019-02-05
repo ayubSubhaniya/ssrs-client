@@ -10,7 +10,7 @@ import {handleError} from "../../helper/error";
 import {loadSpinner, unloadSpinner} from "../../helper/spinner";
 
 class Permission extends Component {
-    constructor(props) {
+    constructor() {
         super();
         this.state = {
             userTypes: undefined,
@@ -48,7 +48,7 @@ class Permission extends Component {
                                        })
                                    }}
                                    required='true'
-                                   className={'form-control'} type={'text'}/>
+                                   className={'form-control'} />
                         </div>
                     </div>
                     <div className="modal-footer">
@@ -84,8 +84,7 @@ class Permission extends Component {
         request.setRequestHeader("Content-type", "application/json");
         request.onload = function () {
             unloadSpinner();
-            if (this.status == HttpStatus.OK) {
-                var res = request.response;
+            if (this.status === HttpStatus.OK) {
                 if (role === "user") {
                     that.setState({
                         userTypes: [...that.state.userTypes, `${that.state.name}`]
@@ -117,7 +116,7 @@ class Permission extends Component {
         request.withCredentials = true;
         request.onload = function () {
             unloadSpinner();
-            if (this.status == HttpStatus.OK) {
+            if (this.status === HttpStatus.OK) {
                 var res = JSON.parse(request.response);
                 that.setState({
                     adminRoleData: res.permission
@@ -148,7 +147,7 @@ class Permission extends Component {
         request.setRequestHeader("Content-type", "application/json");
         request.onload = function () {
             unloadSpinner();
-            if (this.status == HttpStatus.OK) {
+            if (this.status === HttpStatus.OK) {
                 if (userType === 'user') {
                     that.setState({
                         userTypes: [...that.state.userTypes.slice(0, index), ...that.state.userTypes.slice(index + 1)]
@@ -262,7 +261,7 @@ class Permission extends Component {
         request.open('GET', url, true);
         request.withCredentials = true;
         request.onload = function () {
-            if (this.status == HttpStatus.OK) {
+            if (this.status === HttpStatus.OK) {
                 var res = JSON.parse(request.response);
                 that.setState({
                     userTypes: res.userTypes,

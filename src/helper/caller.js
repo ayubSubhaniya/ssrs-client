@@ -1,5 +1,4 @@
 import {domainUrl} from "../config/configuration";
-import React from "react";
 import {loadSpinner, unloadSpinner} from "./spinner";
 
 export const makeCall = ({jobType, urlParams, params = {}}) => {

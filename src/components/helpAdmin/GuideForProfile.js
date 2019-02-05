@@ -2,9 +2,6 @@ import React, {Component} from 'react';
 import HrefComponent from './HrefComponent';
 
 class GuideForProfile extends Component {
-    constructor(props, context) {
-        super(props, context);
-    }
 
     render() {
         return (
@@ -21,7 +18,7 @@ class GuideForProfile extends Component {
                                 When you click on the "<i className="fa fa-user"/> My Profile" tab from Navigation bar, 
                                 the Profile of user appears.
                                 <br/>
-                                <img src={require("./Profile1.JPG")} 
+                                <img alt='' src={require("./Profile1.JPG")}
                                     style={{width:"100%", marginTop:"15px", marginBottom:"15px"}}></img>
                             </li>
                         </ol>
@@ -38,7 +35,7 @@ class GuideForProfile extends Component {
                                 Click on "Edit" button. A form will appear in which you can update your
                                 profile. Click on "Save" button to save updated information.<br/>
                             </li>
-                            <img src={require("./Profile2.JPG")} 
+                            <img alt='' src={require("./Profile2.JPG")}
                                     style={{width:"100%", marginTop:"15px", marginBottom:"15px"}}></img>                                  
                         </ol>
                     </div>

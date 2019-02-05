@@ -3,7 +3,7 @@ import {withRouter} from 'react-router-dom'
 import {cartStatus} from "../../constants/status";
 import {camelCaseToWords, formatDate} from "../../helper/String";
 import {isAdmin} from "../../helper/userType";
-import MediaQuery from 'react-responsive';
+
 class OrderDetails extends Component {
     redirect = () => {
         this.props.history.push({
@@ -17,11 +17,11 @@ class OrderDetails extends Component {
     getStatusTime = (statusChangeTime) => {
         let time = []
 
-        if(statusChangeTime.placed.time)
+        if (statusChangeTime.placed.time)
             time.push(new Date(statusChangeTime.placed.time));
-        if(statusChangeTime.paymentFailed.time)
+        if (statusChangeTime.paymentFailed.time)
             time.push(new Date(statusChangeTime.paymentFailed.time));
-        if(statusChangeTime.processingPayment.time)
+        if (statusChangeTime.processingPayment.time)
             time.push(new Date(statusChangeTime.processingPayment.time));
 
         return new Date(Math.max.apply(null, time));
@@ -29,16 +29,33 @@ class OrderDetails extends Component {
 
     getStatusColorClass = (status) => {
         let className = 'badge badge-pill badge-';
-        switch(status) {
-            case 'placed': className += 'info'; break;
-            case 'processing': className += 'primary'; break;
-            case 'readyToDeliver': className += 'success'; break;
-            case 'readyToPickup': className += 'success'; break;
-            case 'completed': className += 'success'; break;
-            case 'refunded': className += 'success'; break;
-            case 'onHold': className += 'warning'; break;
-            case 'processingPayment': className += 'secondary'; break;
-            default: className += 'danger';
+        switch (status) {
+            case 'placed':
+                className += 'info';
+                break;
+            case 'processing':
+                className += 'primary';
+                break;
+            case 'readyToDeliver':
+                className += 'success';
+                break;
+            case 'readyToPickup':
+                className += 'success';
+                break;
+            case 'completed':
+                className += 'success';
+                break;
+            case 'refunded':
+                className += 'success';
+                break;
+            case 'onHold':
+                className += 'warning';
+                break;
+            case 'processingPayment':
+                className += 'secondary';
+                break;
+            default:
+                className += 'danger';
         }
 
         return className;
@@ -46,8 +63,6 @@ class OrderDetails extends Component {
 
     render() {
         const {cart, index, ...others} = this.props;
-        console.log(cart);
-        console.log(index);
         return (
             <tr onClick={this.redirect} className='animated fadeIn'>
                 <td data-th="Sr No." className="text-center" >

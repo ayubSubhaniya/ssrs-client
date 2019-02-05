@@ -1,25 +1,24 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import _ from "lodash"
-import { orderStatus, modalMessages } from "../../../config/configuration";
+import {modalMessages, orderStatus} from "../../../config/configuration";
 import EditCartForm from "./EditCartForm";
-import DeleteButton from "../../DeleteButton";
 import DeleteButtonWithCancel from '../../DeleteButtonWithCancel';
 
 class Service extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
             isEditModalOpen: false
         }
     }
 
-    openEditModal= () => {
+    openEditModal = () => {
         this.setState({
             isEditModalOpen: true
         })
     }
 
-    closeEditModal= () => {
+    closeEditModal = () => {
         this.setState({
             isEditModalOpen: false
         })
@@ -53,10 +52,11 @@ class Service extends Component {
                         <button type="button"
                                 className="btn btn-outline-primary"
                                 onClick={this.openEditModal}
-                                style={{width: '70px',
-                                    }}
-                                >
-                                
+                                style={{
+                                    width: '70px',
+                                }}
+                        >
+
                             Edit
                         </button>
                         <EditCartForm id={order._id}
@@ -68,11 +68,11 @@ class Service extends Component {
                                       comment={order.comment}
                                       index={this.props.index}
                                       updateOrder={this.props.updateOrder}
-                                      validityErrors={order.validityErrors} />
+                                      validityErrors={order.validityErrors}/>
                         <DeleteButtonWithCancel handleClick={this.props.deleteOrder}
-                                      index={this.props.index}
-                                      message={modalMessages.serviceDelete}
-                                      />
+                                                index={this.props.index}
+                                                message={modalMessages.serviceDelete}
+                        />
                     </div>
                 </td>
             </tr>
