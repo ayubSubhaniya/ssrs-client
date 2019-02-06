@@ -1,7 +1,7 @@
 import React from 'react'
 import {Link} from "react-router-dom";
 
-class ButtonLink extends React.Component {
+class ButtonLink extends React.PureComponent {
     render() {
         return (
             <div className={'d-flex justify-content-center mt-5'}>

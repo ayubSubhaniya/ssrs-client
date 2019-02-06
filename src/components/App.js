@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'animate.css';
 import 'bootstrap'
@@ -21,7 +21,7 @@ import NewParameterForm from "./parameter/NewParameterForm";
 import CollectionType from "./collectionType/CollectionType";
 import CollectionTypeEditForm from "./collectionType/CollectionTypeEditForm";
 import Cart from './order/cart/Cart'
-import {isAdmin, isStudent, isSuperAdmin, isOnlyAdmin} from "../helper/userType";
+import {isAdmin, isStudent, isSuperAdmin} from "../helper/userType";
 import Payment from "./order/payment/Payment";
 import Info from "./order/info/Info";
 import Myprofile from './Myprofile/Myprofile'
@@ -39,10 +39,10 @@ import {handleError} from "../helper/error";
 import Email from "./email/Email"
 import AboutUs from './AboutUs/AboutUs';
 import {loadSpinner, unloadSpinner} from "../helper/spinner";
-import { Link } from "../product_tour/Button";
+
 export const Context = React.createContext();
 
-class App extends Component {    
+class App extends PureComponent {
     constructor(props) {
         super(props);
         this.state = {

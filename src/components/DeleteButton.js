@@ -1,7 +1,7 @@
 import React from 'react'
 import ConfirmModal from "./ConfirmModal";
 
-class DeleteButton extends React.Component {
+class DeleteButton extends React.PureComponent {
     constructor() {
         super();
         this.state = {

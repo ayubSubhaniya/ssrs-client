@@ -1,6 +1,6 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 
-class Image extends Component {
+class Image extends PureComponent {
     render() {
         return (
             <img src={this.props.src}

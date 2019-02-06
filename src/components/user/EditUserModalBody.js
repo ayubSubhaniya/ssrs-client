@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import {handleChange} from "../../helper/StateUpdate";
 
 function TextField({value, handleChange, name, label}) {
@@ -16,7 +16,7 @@ function TextField({value, handleChange, name, label}) {
     )
 }
 
-class EditUserModalBody extends Component {
+class EditUserModalBody extends PureComponent {
     constructor(props, context) {
         super(props, context);
         this.handleChange = handleChange.bind(this);

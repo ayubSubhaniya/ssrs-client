@@ -1,7 +1,7 @@
 import React from 'react'
 import OrderForm from "../order/cart/OrderForm";
 
-class ApplyButton extends React.Component {
+class ApplyButton extends React.PureComponent {
     render() {
         const {service} = this.props;
         return (

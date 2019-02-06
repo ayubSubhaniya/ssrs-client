@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import '../../styles/publicpage.css'
 import {Context} from "../App";
 import {domainUrl, infoMessages, errorMessages} from "../../config/configuration";
@@ -12,7 +12,7 @@ import {loadSpinner, unloadSpinner} from "../../helper/spinner";
 
 
 
-class PublicPage extends Component {
+class PublicPage extends PureComponent {
     constructor() {
         super();
         this.state = {
@@ -28,11 +28,6 @@ class PublicPage extends Component {
             showSpinner: false,
             isTourOpen: false
         }
-    }
-    showSpinner = () => {
-        this.setState({
-            showSpinner: true
-        })
     }
 
     hideSpinner = () => {
@@ -84,7 +79,7 @@ class PublicPage extends Component {
         request.setRequestHeader("Content-type", "application/json");
         const that = this;
         request.onload = function () {
-            if (this.status == HttpStatus.CREATED) {
+            if (this.status === HttpStatus.CREATED) {
                 that.props.alert.show(infoMessages.verificationLinkSent);
                 that.setState({isSignedup: true});
             } else if (this.status === HttpStatus.FORBIDDEN) {
@@ -149,7 +144,7 @@ class PublicPage extends Component {
         request.withCredentials = true;
         request.setRequestHeader("Content-type", "application/json");
         request.onload = function () {
-            if (this.status == HttpStatus.OK) {
+            if (this.status === HttpStatus.OK) {
                 that.props.alert.show(infoMessages.verificationLinkSent);
                 that.setState({modalIsOpen: false});
             } else if (this.status === HttpStatus.FORBIDDEN) {
@@ -205,7 +200,7 @@ class PublicPage extends Component {
                                  
                                 <div className="loginbox">
                                     <div className="imagelogo">
-                                        <img className={"dalogo"} src={logo}/>
+                                        <img alt='' className={"dalogo"} src={logo}/>
                                     </div>
                                     <input type="radio" name="tab" id="signin" onChange={this.switchTab}
                                            checked={login}/>

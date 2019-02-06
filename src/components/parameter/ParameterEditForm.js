@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import {Redirect, withRouter} from "react-router-dom";
 import Header from "../Header";
 import NavigationBar from "../NavigationBar";
@@ -7,7 +7,7 @@ import ParameterForm from "./ParameterForm";
 import {makeCall} from "../../helper/caller";
 import {handleError} from "../../helper/error";
 
-class ParameterEditForm extends Component {
+class ParameterEditForm extends PureComponent {
     constructor(props) {
         super(props);
         if (!props.location.state) {

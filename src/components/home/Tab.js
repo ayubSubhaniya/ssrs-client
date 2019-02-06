@@ -1,7 +1,7 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import DataList from "./DataList";
 
-class Tab extends Component{
+class Tab extends PureComponent{
     render() {
         return (
             <div className="container">
@@ -25,7 +25,6 @@ class Tab extends Component{
                                   onDelete={this.props.deleteNews}
                                   onCreate={this.props.addNews}
                                   onUpdate={this.props.updateNews}
-                                  user={this.props.user}
                                   editPermission={true}
                                   deletePermission={false}
                                   createPermission={true}

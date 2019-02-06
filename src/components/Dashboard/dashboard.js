@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import NavigationBar from '../NavigationBar';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
@@ -7,7 +7,8 @@ import 'react-datepicker/dist/react-datepicker.css';
 import {makeCall} from '../../helper/caller';
 import {handleError} from "../../helper/error";
 import '../../styles/text.css';
-class dashboard extends Component {
+
+class dashboard extends PureComponent {
 
     constructor(props, context) {
         super(props, context);
@@ -51,7 +52,7 @@ class dashboard extends Component {
 
     getUrlQuery = () => {
         return 'startDate=' + this.dateToString(this.state.startDate)
-            + '&' + 'endDate=' + this.dateToString(this.state.endDate);
+            + '&endDate=' + this.dateToString(this.state.endDate);
     }
 
     getCartStatistics = () => {
@@ -73,7 +74,7 @@ class dashboard extends Component {
 
     getInitialUrlQuery = () => {
         return 'startDate=' + this.dateToString(this.state.todayDate)
-            + '&' + 'endDate=' + this.dateToString(this.state.todayDate);
+            + '&endDate=' + this.dateToString(this.state.todayDate);
     }
 
 
@@ -103,8 +104,8 @@ class dashboard extends Component {
         return (
             <React.Fragment>
                 <NavigationBar/>
-                
-                    <h1 style={{
+
+                <h1 style={{
                     fontSize: "70px",
                     padding: "40px 50px",
                     textAlign: "center",
@@ -114,7 +115,7 @@ class dashboard extends Component {
                     backgroundColor: "#e7e5e4",
                     letterSpacing: "0.15em",
                     textShadow: "2px 2px grey"
-                    }}>Dashboard</h1>
+                }}>Dashboard</h1>
                 <div className="container">
                     <div className="row">
                         <div className="col-md-12" style={{marginTop: "5%"}}>
@@ -125,7 +126,8 @@ class dashboard extends Component {
                                 <div className="col-sm-3">
                                     <div className="card p-4 dash" style={{backgroundColor: "#4db8ff"}}>
                                         <h4 className="text-center" style={{fontSize: "30px", color: "black"}}>
-                                            <strong><span>&#8377;</span>  {this.state.totalonline + this.state.totaloffline}</strong></h4>
+                                            <strong><span>&#8377;</span> {this.state.totalonline + this.state.totaloffline}
+                                            </strong></h4>
                                         <p className="text-center" style={{fontSize: "15px", color: "black"}}><strong>Total
                                             Payment</strong></p>
                                     </div>
@@ -141,7 +143,7 @@ class dashboard extends Component {
                                 <div className="col-sm-3">
                                     <div className="card p-4 dash" style={{backgroundColor: "#4db8ff"}}>
                                         <h4 className="text-center" style={{fontSize: "30px", color: "black"}}>
-                                            <strong> <span>&#8377;</span>  {this.state.totaloffline}</strong></h4>
+                                            <strong> <span>&#8377;</span> {this.state.totaloffline}</strong></h4>
                                         <p className="text-center" style={{fontSize: "15px", color: "black"}}><strong>Offline
                                             Payment</strong></p>
                                     </div>
@@ -177,7 +179,7 @@ class dashboard extends Component {
                                                             <td style={{borderRight: "1px solid #e1e1e1"}}>
                                                                 {service.count}
                                                             </td>
-                                                            <td>{<span>&#8377;</span> + ' ${service.revenue}'}</td>
+                                                            <td>{<span>&#8377;</span> + ` ${service.revenue}`}</td>
                                                         </tr>
                                                     )
                                                 })
@@ -222,7 +224,7 @@ class dashboard extends Component {
                                                                 <td style={{borderRight: "1px solid #e1e1e1"}}>
                                                                     {service.count}
                                                                 </td>
-                                                                <td>{<span>&#8377;</span> + ' ${service.revenue}'}</td>
+                                                                <td>{<span>&#8377;</span> + ` ${service.revenue}`}</td>
                                                             </tr>
                                                         )
                                                     })

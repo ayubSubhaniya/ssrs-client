@@ -1,5 +1,5 @@
 import _ from "lodash";
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Link } from "react-router-dom";
 import { isSuperAdmin } from "../../helper/userType";
 import DeleteButton from "../DeleteButton";
@@ -7,7 +7,7 @@ import EditButton from "../EditButton";
 import Switch from "../Switch";
 import {modalMessages} from "../../config/configuration"
 
-class CollectionTypeList extends Component {
+class CollectionTypeList extends PureComponent {
     render() {
         return (
             <div className={'container container-custom'}>

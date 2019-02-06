@@ -1,10 +1,7 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import HrefComponent from './HrefComponent';
 
-class GuideForUsers extends Component {
-    constructor(props, context) {
-        super(props, context);
-    }
+class GuideForUsers extends PureComponent {
 
     render() {
         return (
@@ -27,7 +24,7 @@ class GuideForUsers extends Component {
                                 <br/>
                                 Another option is for uploading new user data into the database. Only those, who are added
                                 in the database, are allowed to sign up. <br/>  
-                                <img src={require("./Users1.JPG")} 
+                                <img alt='' src={require("./Users1.JPG")}
                                     style={{width:"100%", marginTop:"15px", marginBottom:"15px"}}></img>
                             </li>
                         </ol>
@@ -45,7 +42,7 @@ class GuideForUsers extends Component {
                                 button. A modal will appear. Select your .xlsx (Microsoft excel) file by browsing your PC (Format
                                 for Excel file is given in next subsection). Click 
                                 on the "Open" button. <br/>
-                                <img src={require("./Users4.JPG")} 
+                                <img alt='' src={require("./Users4.JPG")}
                                     style={{width:"100%",marginTop:"15px", marginBottom:"15px"}}></img>
                             </li>
                             <li>
@@ -53,13 +50,13 @@ class GuideForUsers extends Component {
                             save all the details of new users in database so that these users can now register on the website.
                             For conformation you should get an alert saying "Data updated successfully". Otherwise you will 
                             receive an alert for errors.<br/>
-                                <img src={require("./Users5.JPG")} 
+                                <img alt='' src={require("./Users5.JPG")}
                                     style={{width:"45%",marginTop:"15px", marginBottom:"15px"}}></img> 
                             </li>   
                             
                             <li>
                             You can see all the added users and their details by clicking "All Users" radio button, below User Management Header.
-                                <img src={require("./Users7.JPG")} 
+                                <img alt='' src={require("./Users7.JPG")}
                                     style={{width:"100%",marginTop:"15px", marginBottom:"15px"}}></img> 
                             </li>                           
                         </ol>
@@ -98,7 +95,7 @@ class GuideForUsers extends Component {
                                 user_batch	<br/>
                                 user_programme <br/>
                                 <p><strong>Note:</strong> user_inst_id and user_email_id must be same</p> 
-                                <img src={require("./Users6.JPG")} 
+                                <img alt='' src={require("./Users6.JPG")}
                                     style={{width:"100%",marginTop:"15px", marginBottom:"15px"}}></img>
                             </li>
                         </ol>

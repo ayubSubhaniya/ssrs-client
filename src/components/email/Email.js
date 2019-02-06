@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import NavigationBar from "../NavigationBar";
 import _ from 'lodash'
 import Header from "../Header";
@@ -9,7 +9,7 @@ import { handleChange } from "../../helper/StateUpdate";
 import RichTextEditor from 'react-rte';
 import { withAlert } from "react-alert";
 
-class Email extends Component {
+class Email extends PureComponent {
     constructor() {
         super();
         this.state = {
