@@ -27,7 +27,7 @@ function PaymentInfo({cart}) {
     else if (cart.paymentStatus)
         paymentStatus = 'Done';
     else
-        paymentStatus = 'Panding';
+        paymentStatus = 'Pending';
 
     return (
         <div className='w-50'>
