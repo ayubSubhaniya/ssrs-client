@@ -204,19 +204,24 @@ class Info extends React.PureComponent {
                 <NavigationBar/>
                 <div className='container mb-4'>
                     <Stapes active={2}/>
-                    <hr/>
-                    <div className={'col-sm-6'}>
+                    {/* <hr/> */}
+                    <div className={'col-sm-10 mt-4'}>
                         <CollectionTypesDropDown label={'Collection Type'} options={this.state.collectionTypes}
                                                  btnLabel={SelectedCollectionTypeName}
                                                  handleOptionChange={this.handleCollectionTypeChange}/>
                     </div>
                     <hr/>
                     <div className="page-main">
-                        <div className="address-box">
+                        <div className="address-box"
+                             style={{"paddingLeft": "15px"}}>
                             <div className="address-title">
-                                <h3 className="title">
-                                    Recipient information
-                                </h3>
+                                <h4 className="title">
+                                    {
+                                        selectedCollectionType.category === PICKUP
+                                            ? "Collector's Information"
+                                            : "Delivery Address"
+                                    }
+                                </h4>
                             </div>
                             {
                                 selectedCollectionType.category === DELIVERY
