@@ -4,7 +4,7 @@ import Modal from "react-bootstrap4-modal";
 class PickupForm extends React.PureComponent {
     constructor(props) {
         super(props);
-        let {data} = props;
+        let {data} = this.props;
         if (data === undefined) {
             data = {};
         }
