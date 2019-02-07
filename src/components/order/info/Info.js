@@ -2,7 +2,7 @@ import React from 'react'
 import Stapes from "../../service/Stapes";
 import NavigationBar from "../../NavigationBar";
 import AddressForm from "../../Myprofile/AddressForm";
-import {withRouter} from "react-router-dom"
+import {Redirect, withRouter} from "react-router-dom"
 import CollectionTypesDropDown from "../../service/CollectionTypesDropDown"
 import AddressList from "../../Myprofile/AddressList";
 import PickUpDetails from "../PickUpDetails";
@@ -18,51 +18,60 @@ import {handleError} from "../../../helper/error";
 import {loadSpinner, unloadSpinner} from '../../../helper/spinner';
 import $ from "jquery";
 
-const {DELIVERY, PICKUP} = collectionTypeCategory
+const {DELIVERY, PICKUP} = collectionTypeCategory;
 
 
 class Info extends React.PureComponent {
     constructor(props) {
         super(props);
-        this.avilableCollectionTypes = props.location.state.avilableCollectionTypes;
-        this.id = props.location.state.id;
+        this.availableCollectionTypes = props.location.state.availableCollectionTypes;
+        this.mounted = true;
         this.state = {
             addresses: [],
             cart: [],
             selectedAddress: -1,
             editAddress: false,
-            collectionTypes: this.avilableCollectionTypes,
             selectedCollectionTypeIndex: 0,
-            isCollectionTypeInfoProvided: false
         };
         this.deleteAddress = deleteAddress.bind(this);
     }
 
     componentDidMount() {
-        this.getAddress();
         getCart(this.setCart);
     }
 
-    setCart = (response) => {
-        let index = _.findIndex(this.avilableCollectionTypes, (x) => x._id === response.cart.collectionType)
-        index = index === -1 ? _.findIndex(this.avilableCollectionTypes, (x) => x.category === PICKUP) : index;
-        this.setState({
-            cart: response.cart,
-            selectedCollectionTypeIndex: index !== -1 ? index : 0,
-            isCollectionTypeInfoProvided: Boolean(response.cart.collectionType)
-        })
+    componentWillUnmount() {
+        this.mounted = false
     }
 
-    getAddress = () => {
-        makeCall({jobType: 'GET', urlParams: '/user/address'}).then((response) => {
+    setCart = (response) => {
+        let index = _.findIndex(this.availableCollectionTypes, (x) => x._id === response.cart.collectionType);
+        index = index === -1 ? _.findIndex(this.availableCollectionTypes, (x) => x.category === PICKUP) : index;
+        if (this.mounted) {
             this.setState({
-                addresses: response.addresses
+                cart: response.cart,
+                selectedCollectionTypeIndex: index !== -1 ? index : 0
             })
-        })
+        }
+        this.getAddress();
+    };
+
+    getAddress = () => {
+        makeCall({jobType: 'GET', urlParams: '/user/address'})
+            .then((response) => {
+                if (this.mounted) {
+                    this.setState(({cart}) => {
+                        return {
+                            addresses: response.addresses,
+                            selectedAddress: cart.delivery ? _.findIndex(response.addresses, (e) => e._id === cart.delivery._id) : -1
+                        }
+                    })
+                }
+            })
             .catch((error) => {
                 handleError(error);
             })
-    }
+    };
 
     updateSelectedAddress = (index) => {
         const cart = this.state.cart;
@@ -70,23 +79,21 @@ class Info extends React.PureComponent {
         this.setState({
             selectedAddress: index,
             cart: cart,
-            isCollectionTypeInfoProvided: true
         })
-    }
+    };
 
     openAddressModal = () => {
         this.setState({
             editAddress: true
         })
     };
+
     closeAddressModal = () => {
         $(this.modal).modal('hide');
         loadSpinner();
-
-
         this.setState({
             editAddress: false
-        })
+        });
         unloadSpinner();
     };
 
@@ -100,7 +107,7 @@ class Info extends React.PureComponent {
         this.setState({
             errorMessage: message
         })
-    }
+    };
 
     addAddress = (newAddress) => {
         makeCall({
@@ -117,14 +124,20 @@ class Info extends React.PureComponent {
             .catch((error) => {
                 handleError(error);
             })
-    }
+    };
 
     handleCollectionTypeChange = ({target}) => {
         let index = target.dataset.index;
         if (!index)
             index = target.parentNode.dataset.index;
+        const cart = this.state.cart;
+        if (Number(index) !== this.state.selectedCollectionTypeIndex) {
+            cart.delivery = undefined;
+            cart.pickup = undefined;
+        }
         this.setState({
-            selectedCollectionTypeIndex: Number(index)
+            selectedCollectionTypeIndex: Number(index),
+            selectedAddress: -1
         });
     };
 
@@ -140,19 +153,19 @@ class Info extends React.PureComponent {
         } else {
             this.setErrorMessage(errorMessages.somethingsWrong);
         }
-    }
+    };
 
     redirect = () => {
         this.props.history.push({
             pathname: '/payment'
         });
-    }
+    };
 
     handleDeliveryDataSubmit = () => {
-        const selectedCollectionType = this.state.collectionTypes[this.state.selectedCollectionTypeIndex];
+        const selectedCollectionType = this.availableCollectionTypes[this.state.selectedCollectionTypeIndex];
 
         if (selectedCollectionType.category === PICKUP) {
-            this.redirect(selectedCollectionType)
+            this.redirect(selectedCollectionType);
             return;
         }
 
@@ -160,7 +173,7 @@ class Info extends React.PureComponent {
         address._id = undefined;
         makeCall({
             jobType: 'POST',
-            urlParams: '/cart/delivery/' + this.state.collectionTypes[this.state.selectedCollectionTypeIndex]._id,
+            urlParams: '/cart/delivery/' + this.availableCollectionTypes[this.state.selectedCollectionTypeIndex]._id,
             params: address
         })
             .then(() => this.redirect(selectedCollectionType))
@@ -171,34 +184,48 @@ class Info extends React.PureComponent {
     };
 
     handlePickupDataSubmit = (data) => {
-        const selectedCollectionType = this.state.collectionTypes[this.state.selectedCollectionTypeIndex];
+        const selectedCollectionType = this.availableCollectionTypes[this.state.selectedCollectionTypeIndex];
         makeCall({
             jobType: 'POST',
             urlParams: '/cart/pickup/' + selectedCollectionType._id,
             params: data
         })
-            .then((response) => {
+            .then(() => {
                 const cart = this.state.cart;
                 cart.pickup = data;
                 this.setState({
-                    cart: cart,
-                    isCollectionTypeInfoProvided: true
-                })
+                    cart: cart
+                });
                 this.closeAddressModal()
             })
             .catch((response) => {
-                this.closeAddressModal()
+                this.closeAddressModal();
                 this.onError(response);
             })
     };
 
     render() {
+        if (!this.availableCollectionTypes) {
+            return <Redirect to='/cart'/>;
+        }
         const selectedCollectionType = this.state.selectedCollectionTypeIndex !== -1
-            ? this.state.collectionTypes[this.state.selectedCollectionTypeIndex]
-            : undefined
+            ? this.availableCollectionTypes[this.state.selectedCollectionTypeIndex]
+            : undefined;
+        const cart = this.state.cart;
+        const selectedAddress = cart.delivery ? _.findIndex(this.state.addresses, (e) => e._id === cart.delivery._id) : -1;
         const SelectedCollectionTypeName = selectedCollectionType
             ? selectedCollectionType.name + " (₹" + selectedCollectionType.baseCharge + ")"
             : 'Select';
+
+        let errorMessage = '';
+        if (!cart.delivery && !cart.pickup) {
+            errorMessage = errorMessages.noCollectionTypes;
+        } else if (cart.delivery) {
+            errorMessage = selectedAddress < 0 ? errorMessages.noCollectionTypes : '';
+        }
+
+        console.log(cart);
+
         return (
             <div>
                 <NavigationBar/>
@@ -206,7 +233,7 @@ class Info extends React.PureComponent {
                     <Stapes active={2}/>
                     {/* <hr/> */}
                     <div className={'col-sm-10 mt-4'}>
-                        <CollectionTypesDropDown label={'Collection Type'} options={this.state.collectionTypes}
+                        <CollectionTypesDropDown label={'Collection Type'} options={this.availableCollectionTypes}
                                                  btnLabel={SelectedCollectionTypeName}
                                                  handleOptionChange={this.handleCollectionTypeChange}/>
                     </div>
@@ -228,11 +255,11 @@ class Info extends React.PureComponent {
                                     ? <div className="address-view">
                                         <AddressList addresses={this.state.addresses}
                                                      deleteAddress={this.deleteAddress}
-                                                     selected={this.state.selectedAddress}
+                                                     selected={selectedAddress}
                                                      handleClick={this.updateSelectedAddress}
                                                      openNewAddressModal={this.openAddressModal}/>
                                     </div>
-                                    : <PickUpDetails data={this.state.cart.pickup}
+                                    : <PickUpDetails data={cart.pickup}
                                                      openAddressModal={this.openAddressModal}/>
                             }
                             {
@@ -243,7 +270,7 @@ class Info extends React.PureComponent {
                                     : <PickupForm open={this.state.editAddress}
                                                   close={this.closeAddressModal}
                                                   handleSubmit={this.handlePickupDataSubmit}
-                                                  data={this.state.cart.pickup}/>
+                                                  data={cart.pickup}/>
                             }
                         </div>
                         <hr/>
@@ -251,12 +278,12 @@ class Info extends React.PureComponent {
                     <ErrorMessage message={this.state.errorMessage}
                                   clearMessage={this.cleanErrorMessage}/>
                     <ErrorMessage
-                        message={this.state.isCollectionTypeInfoProvided ? '' : errorMessages.noCollectionTypes}/>
-                    <div className={this.state.isCollectionTypeInfoProvided ? '' : 'disabled-link'}
+                        message={errorMessage}/>
+                    <div className={errorMessage ? 'disabled-link' : ''}
                          onClick={this.handleDeliveryDataSubmit}>
                         <div className={`btn btn-outline-success btn-lg place-order mb-4`}>
                             {"Continue to Payment"}
-                            <i className="fa fa-angle-right ml-2"></i>
+                            <i className="fa fa-angle-right ml-2"/>
                         </div>
                     </div>
                 </div>

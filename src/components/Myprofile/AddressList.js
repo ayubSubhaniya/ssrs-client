@@ -7,7 +7,7 @@ function AddressList({ addresses, openEditAddressModal, deleteAddress, openNewAd
             {
                 _.map(addresses, (address, index) => {
                     return (
-                        <div className={'address-bx animated fadeIn' + (selected === index ? ' address-selected' : '')}
+                        <div key={address._id} className={'address-bx animated fadeIn' + (selected === index ? ' address-selected' : '')}
                             onClick={handleClick ? () => handleClick(index) : ''}>
                             <span className='address-cross' onClick={() => deleteAddress(address._id, index)}>&times;</span>
                             <h6 className='mb-2 mt-0'>

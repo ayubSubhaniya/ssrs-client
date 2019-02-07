@@ -93,14 +93,14 @@ class Cart extends PureComponent {
             )
         }
 
-        const avilableCollectionTypes = this.findAvailableCollectionTypes();
+        const availableCollectionTypes = this.findAvailableCollectionTypes();
         return (
             <div>
                 <NavigationBar/>
                 <Stapes active={1}/>
-                <div className="container" >
-                    <table id="cart" className="table table-hover table-condensed" >
-                        <thead >
+                <div className="container">
+                    <table id="cart" className="table table-hover table-condensed">
+                        <thead>
                         <tr>
                             <th className='text-center'>Service</th>
                             <th className='text-center'>Parameters</th>
@@ -108,13 +108,13 @@ class Cart extends PureComponent {
                             <th className='text-center'>Service Cost</th>
                             <th className='text-center'>Parameter Cost</th>
                             <th className='text-center'>Subtotal</th>
-                            <th className='text-center'></th>
+                            <th className='text-center'/>
                         </tr>
                         </thead>
                         <tbody style={{width: '100%', padding: '0%', margin: '0%'}}>
                         {
                             _.map(this.state.cart.orders, (o, i) => <Service key={o._id}
-                                                                                 order={o}
+                                                                             order={o}
                                                                              index={i}
                                                                              updateOrder={this.updateOrder}
                                                                              deleteOrder={this.deleteOrder}/>)
@@ -124,32 +124,31 @@ class Cart extends PureComponent {
                         <tr className="visible-xs">
                             <td colSpan="5" className="hidden-xs">
                                 <div
-                                    className={"alert alert-danger p-2 mt-2 mb-2" + (avilableCollectionTypes.length > 0 ? ' d-none' : '')}>
+                                    className={"alert alert-danger p-2 mt-2 mb-2" + (availableCollectionTypes.length > 0 ? ' d-none' : '')}>
                                     <strong>{'Collection Type Not matching for this Services, Please Order Separately!'}</strong>
                                 </div>
                             </td>
                             <td className="text-center"><strong>{`Total: ₹ ${this.state.cart.totalCost}`}</strong></td>
-                            <td className="hidden-xs"></td>
+                            <td className="hidden-xs"/>
                         </tr>
                         <tr>
                             <td>
                                 <Link to={'/service'}>
                                     <div className="btn btn-secondary btn-lg">
-                                        <i className="fa fa-angle-left"></i>
+                                        <i className="fa fa-angle-left"/>
                                         {" Add More Services"} </div>
                                 </Link>
                             </td>
-                            <td colSpan="5" className="hidden-xs"></td>
+                            <td colSpan="5" className="hidden-xs"/>
                             <td>
                                 <Link to={{
                                     pathname: '/info', state: {
-                                        avilableCollectionTypes: avilableCollectionTypes,
-                                        id: this.state.cart._id
+                                        availableCollectionTypes: availableCollectionTypes
                                     }
-                                }} className={`${avilableCollectionTypes.length === 0 ? 'disabled-link' : ''}`}>
+                                }} className={`${availableCollectionTypes.length === 0 ? 'disabled-link' : ''}`}>
                                     <div className={`btn btn-success btn-lg`}>
                                         {"Checkout"}
-                                        <i className="fa fa-angle-right ml-2"></i>
+                                        <i className="fa fa-angle-right ml-2"/>
                                     </div>
                                 </Link>
                             </td>
