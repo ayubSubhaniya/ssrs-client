@@ -5,7 +5,6 @@ class PickupForm extends React.PureComponent {
     constructor(props) {
         super(props);
         let {data} = this.props;
-        console.log(data);
         if (data === undefined) {
             data = {};
         }

@@ -224,8 +224,6 @@ class Info extends React.PureComponent {
             errorMessage = selectedAddress < 0 ? errorMessages.noCollectionTypes : '';
         }
 
-        console.log(cart);
-
         return (
             <div>
                 <NavigationBar/>
