@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import NavigationBar from "../../NavigationBar";
 import Service from "./Service";
 import Stapes from "../../service/Stapes";
@@ -10,7 +10,7 @@ import * as HttpStatus from "http-status-codes";
 import {handleError} from "../../../helper/error";
 import {loadSpinner, unloadSpinner} from "../../../helper/spinner";
 
-class Cart extends Component {
+class Cart extends PureComponent {
     constructor(props) {
         super(props);
         this.state = {

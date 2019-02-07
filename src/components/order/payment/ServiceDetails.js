@@ -1,7 +1,7 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import _ from "lodash"
 
-class ServiceDetails extends Component {
+class ServiceDetails extends PureComponent {
     render() {
         const order = this.props.order;
         const service = order.service;
@@ -11,10 +11,11 @@ class ServiceDetails extends Component {
                 <td data-th="Service">
                     <div className="row">
                         <div className="col-sm-10">
-                            <h4 className="nomargin">{service.name}</h4>
+                            <h5 className="nomargin">{service.name}</h5>
                             {
                                 order.comment
-                                    ? (<div><strong>Comment: </strong>{order.comment}</div>) : ''
+                                    ? (<div style={{"fontStyle": "italic"}}><strong>Comment: </strong>{order.comment}</div>) 
+                                    : ''
                             }
                         </div>
                     </div>

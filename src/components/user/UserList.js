@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import '../../styles/table.css';
 import Spinner from "../Spinner";
 import {domainUrl, modalMessages} from "../../config/configuration";
@@ -14,27 +14,27 @@ import {loadSpinner, unloadSpinner} from "../../helper/spinner";
 import _ from "lodash"
 import {withAlert} from 'react-alert'
 
-function UserDetails(props) {
-    const userInfo = props.user.userInfo
-    return (
-        <React.Fragment>
-            <td>{props.user.daiictId}</td>
-            <td>{userInfo.user_first_name + ' ' + userInfo.user_last_name}</td>
-            <td>{userInfo.user_type}</td>
-            <td>
-                <div className={'d-flex flex-direction-col'}>
-                    {/*<EditUserModal detail={props.user} index={props.index} updateUser={props.updateUser} />*/}
-                    <Switch
-                        handleClick={() => props.toggleUserActiveStatus(props.index)}
-                        index={props.index}
-                        isChecked={props.user.isActive ? true : false}/>
-                </div>
-            </td>
-        </React.Fragment>
-    )
-}
+// function UserDetails(props) {
+//     const userInfo = props.user.userInfo
+//     return (
+//         <React.Fragment>
+//             <td>{props.user.daiictId}</td>
+//             <td>{userInfo.user_first_name + ' ' + userInfo.user_last_name}</td>
+//             <td>{userInfo.user_type}</td>
+//             <td>
+//                 <div className={'d-flex flex-direction-col'}>
+//                     {/*<EditUserModal detail={props.user} index={props.index} updateUser={props.updateUser} />*/}
+//                     <Switch
+//                         handleClick={() => props.toggleUserActiveStatus(props.index)}
+//                         index={props.index}
+//                         isChecked={props.user.isActive ? true : false}/>
+//                 </div>
+//             </td>
+//         </React.Fragment>
+//     )
+// }
 
-class BSTable extends Component {
+class BSTable extends PureComponent {
     render() {
         if (this.props.data) {
             const data = this.props.data;
@@ -64,7 +64,7 @@ class BSTable extends Component {
 }
 
 
-class UserList extends Component {
+class UserList extends PureComponent {
 
     constructor(props, context) {
         super(props, context);
@@ -95,7 +95,7 @@ class UserList extends Component {
         request.open('GET', url, true);
         request.withCredentials = true;
         request.onload = function () {
-            if (this.status == HttpStatus.ACCEPTED || this.status === HttpStatus.OK || this.status === HttpStatus.NOT_MODIFIED) {
+            if (this.status === HttpStatus.ACCEPTED || this.status === HttpStatus.OK || this.status === HttpStatus.NOT_MODIFIED) {
                 const obj = JSON.parse(request.responseText);
                 var allUsers = [];
                 for (var i = 0; i < obj['user'].length; i++) {
@@ -151,12 +151,12 @@ class UserList extends Component {
     allFetch = () => {
         const that = this;
         loadSpinner();
-        const url = domainUrl + '/' + 'userInfo'
+        const url = domainUrl + '/userInfo'
         var request = new XMLHttpRequest();
         request.open('GET', url, true);
         request.withCredentials = true;
         request.onload = function () {
-            if (this.status == HttpStatus.ACCEPTED || this.status === HttpStatus.OK || this.status === HttpStatus.NOT_MODIFIED) {
+            if (this.status === HttpStatus.ACCEPTED || this.status === HttpStatus.OK || this.status === HttpStatus.NOT_MODIFIED) {
                 const obj = JSON.parse(request.responseText);
                 let allUsers = _.map(obj.userInfo, (x, i) => {
                     const userInfo = x;
@@ -186,7 +186,7 @@ class UserList extends Component {
         request.withCredentials = true;
         request.setRequestHeader("Content-type", "application/json");
         request.onload = function () {
-            if (this.status == HttpStatus.OK) {
+            if (this.status === HttpStatus.OK) {
                 const response = JSON.parse(request.response);
                 const user = that.state.fetchedUser;
                 user[index] = response.user;
@@ -215,7 +215,7 @@ class UserList extends Component {
         request.withCredentials = true;
         request.setRequestHeader("Content-type", "application/json");
         request.onload = function () {
-            if (this.status == HttpStatus.OK) {
+            if (this.status === HttpStatus.OK) {
                 that.setState({
                     showSpinner: false
                 });

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { timeSince } from "../../helper/Time";
 import AuthorizedComponent from "../AuthorizedComponent";
 import { isSuperAdmin } from "../../helper/userType";
@@ -12,7 +12,7 @@ import PropTypes from "prop-types";
 import { withRouter } from 'react-router-dom';
 import { Redirect } from 'react-router';
 
-class DataList extends Component {
+class DataList extends PureComponent {
    static contextTypes = {
       router: PropTypes.object
    }
@@ -75,10 +75,10 @@ class DataList extends Component {
    render() {
       const { data } = this.props;
       if (this.clk) {
-         <Redirect to={{
-            pathname: '/order/${data.cartId}',
-         }} />
          this.setState({ clk: false });
+         return (<Redirect to={{
+            pathname: `/order/${data.cartId}`
+         }} />)
       }
       return (
          <div>

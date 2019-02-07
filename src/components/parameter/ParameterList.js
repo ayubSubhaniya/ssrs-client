@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import _ from "lodash"
 import EditButton from "../EditButton";
 import Switch from "../Switch";
@@ -7,7 +7,7 @@ import DeleteButton from "../DeleteButton";
 import {isSuperAdmin} from "../../helper/userType";
 import {modalMessages} from "../../config/configuration"
 
-class ParameterList extends Component {
+class ParameterList extends PureComponent {
     render() {
         return (
             <div className={'container container-custom'}>

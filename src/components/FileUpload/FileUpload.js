@@ -1,9 +1,9 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import { withAlert } from 'react-alert'
 
 const XLSX = require('xlsx');
 
-class FileUpload extends Component {
+class FileUpload extends PureComponent {
     constructor(props) {
         super(props);
         this.state = {
@@ -19,11 +19,11 @@ class FileUpload extends Component {
     FileUploadHandler = (e) => {
         e.preventDefault();
         var rABS = true; // true: readAsBinaryString ; false: readAsArrayBuffer
-        if (this.state.filesToBeSent.length == 0) {
+        if (this.state.filesToBeSent.length === 0) {
             this.props.alert.show("Please Select File to Upload");
         }
         else {
-            var files = this.state.filesToBeSent, f = this.state.filesToBeSent[0];
+            var f = this.state.filesToBeSent[0];
             var reader = new FileReader();
             const that = this;
             reader.onload = function (e) {

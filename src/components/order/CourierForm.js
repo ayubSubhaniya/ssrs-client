@@ -3,7 +3,7 @@ import Modal from "react-bootstrap4-modal";
 import {handleChange} from "../../helper/StateUpdate";
 import {rcartStatus} from "../../constants/status";
 
-class CourierForm extends React.Component{
+class CourierForm extends React.PureComponent{
     constructor(){
         super();
         this.state = {

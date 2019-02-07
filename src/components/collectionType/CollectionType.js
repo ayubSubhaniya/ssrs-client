@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import NavigationBar from "../NavigationBar";
 import Header from "../Header";
 import CollectionTypeList from "./CollectionTypeList";
@@ -6,7 +6,7 @@ import {makeCall} from "../../helper/caller";
 import {handleError} from "../../helper/error";
 import _ from 'lodash';
 
-class CollectionType extends Component {
+class CollectionType extends PureComponent {
     constructor(props) {
         super(props);
         this.state = {

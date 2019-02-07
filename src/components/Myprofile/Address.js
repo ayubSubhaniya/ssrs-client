@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import '../../styles/Address.css';
 import CourierFrom from './AddressForm.js';
 import {makeCall} from "../../helper/caller";
@@ -9,7 +9,7 @@ let _id = -1;
 let id = -1;
 
 
-class Address extends Component {
+class Address extends PureComponent {
     constructor() {
         super();
         this.state = {

@@ -1,10 +1,10 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import NavigationBar from '../NavigationBar';
 import Header from '../Header';
 import GettingUserStarted from './GettingUserStarted';
 import GuideForOrders from './GuideForOrders';
 
-class HelpUser extends Component {
+class HelpUser extends PureComponent {
     render() {
         return (
             <React.Fragment>

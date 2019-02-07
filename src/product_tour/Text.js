@@ -11,4 +11,3 @@ export default styled.p`
   line-height: 1.5;
   font-size: ${props => (props.size ? props.size : "inherit")};
 `;
-``

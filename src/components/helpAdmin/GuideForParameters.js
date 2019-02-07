@@ -1,10 +1,7 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import HrefComponent from './HrefComponent';
 
-class GuideForParameters extends Component {
-    constructor(props, context) {
-        super(props, context);
-    }
+class GuideForParameters extends PureComponent {
 
     render() {
         return (
@@ -26,7 +23,7 @@ class GuideForParameters extends Component {
                                 2) Enable/Disable (<i className="fa fa-toggle-on"></i>) button - To enable/disable a Parameter<br/>
                                 3) Delete Service button - To delete a Parameter
                                 <br/>
-                                <img src={require("./Parameters1.JPG")} 
+                                <img alt='' src={require("./Parameters1.JPG")}
                                     style={{width:"100%", marginTop:"15px", marginBottom:"15px"}}></img>
                             </li>
                         </ol>
@@ -44,9 +41,9 @@ class GuideForParameters extends Component {
                                 Parameter Name, Base Charge and description. Click on "Save" button to add new 
                                 Parameter in the list.<br/>
                             </li>
-                            <img src={require("./Parameters2.JPG")} 
+                            <img alt='' src={require("./Parameters2.JPG")}
                                     style={{width:"100%", marginTop:"15px", marginBottom:"15px"}}></img> <br/>
-                            <img src={require("./Parameters3.JPG")} 
+                            <img alt='' src={require("./Parameters3.JPG")}
                                     style={{width:"100%", marginTop:"15px", marginBottom:"15px"}}></img>                                    
                         </ol>
                     </div>
@@ -65,7 +62,7 @@ class GuideForParameters extends Component {
                             </li>
                             <li>
                                 A form will appear filled with previous details. You can edit these details and save them.<br/>
-                                <img src={require("./Parameters4.JPG")} 
+                                <img alt='' src={require("./Parameters4.JPG")}
                                     style={{width:"100%",marginTop:"15px", marginBottom:"15px"}}></img> 
                             </li>                              
                         </ol>

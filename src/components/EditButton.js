@@ -16,4 +16,4 @@ function EditButton({data, path}) {
     );
 }
 
-export default EditButton;
+export default React.memo(EditButton);

@@ -21,7 +21,7 @@ import $ from "jquery";
 const {DELIVERY, PICKUP} = collectionTypeCategory
 
 
-class Info extends React.Component {
+class Info extends React.PureComponent {
     constructor(props) {
         super(props);
         this.avilableCollectionTypes = props.location.state.avilableCollectionTypes;
@@ -45,10 +45,10 @@ class Info extends React.Component {
 
     setCart = (response) => {
         let index = _.findIndex(this.avilableCollectionTypes, (x) => x._id === response.cart.collectionType)
-        index = index == -1 ? _.findIndex(this.avilableCollectionTypes, (x) => x.category === PICKUP) : index;
+        index = index === -1 ? _.findIndex(this.avilableCollectionTypes, (x) => x.category === PICKUP) : index;
         this.setState({
             cart: response.cart,
-            selectedCollectionTypeIndex: index != -1 ? index : 0,
+            selectedCollectionTypeIndex: index !== -1 ? index : 0,
             isCollectionTypeInfoProvided: Boolean(response.cart.collectionType)
         })
     }
@@ -82,7 +82,7 @@ class Info extends React.Component {
     closeAddressModal = () => {
         $(this.modal).modal('hide');
         loadSpinner();
-        
+
 
         this.setState({
             editAddress: false
@@ -204,25 +204,29 @@ class Info extends React.Component {
                 <NavigationBar/>
                 <div className='container mb-4'>
                     <Stapes active={2}/>
-                    <hr/>
-                    <div className={'col-sm-6'}>
+                    {/* <hr/> */}
+                    <div className={'col-sm-10 mt-4'}>
                         <CollectionTypesDropDown label={'Collection Type'} options={this.state.collectionTypes}
                                                  btnLabel={SelectedCollectionTypeName}
                                                  handleOptionChange={this.handleCollectionTypeChange}/>
                     </div>
                     <hr/>
                     <div className="page-main">
-                        <div className="address-box">
+                        <div className="address-box"
+                             style={{"paddingLeft": "15px"}}>
                             <div className="address-title">
-                                <h3 className="title">
-                                    Recipient information
-                                </h3>
+                                <h4 className="title">
+                                    {
+                                        selectedCollectionType.category === PICKUP
+                                            ? "Collector's Information"
+                                            : "Delivery Address"
+                                    }
+                                </h4>
                             </div>
                             {
                                 selectedCollectionType.category === DELIVERY
                                     ? <div className="address-view">
                                         <AddressList addresses={this.state.addresses}
-                                                     selected={this.state.selectedAddress}
                                                      deleteAddress={this.deleteAddress}
                                                      selected={this.state.selectedAddress}
                                                      handleClick={this.updateSelectedAddress}

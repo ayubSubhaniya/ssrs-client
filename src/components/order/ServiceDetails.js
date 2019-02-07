@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import _ from "lodash"
 import {orderStatus, rorderStatus} from "../../constants/status";
 import {camelCaseToWords} from "../../helper/String";
@@ -9,7 +9,7 @@ import EditCartForm from "./cart/EditCartForm";
 import $ from "jquery";
 import {handleError} from "../../helper/error";
 
-class ServiceDetails extends Component {
+class ServiceDetails extends PureComponent {
     constructor() {
         super();
         this.state = {

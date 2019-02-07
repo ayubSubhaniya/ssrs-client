@@ -1,10 +1,7 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import HrefComponent from './HrefComponent';
 
-class GettingUserStarted extends Component {
-    constructor(props, context) {
-        super(props, context);
-    }
+class GettingUserStarted extends PureComponent {
 
     render() {
         return (
@@ -19,15 +16,15 @@ class GettingUserStarted extends Component {
                         <ol style={{paddingLeft:"10px"}}>
                             <li>
                                 Enter User Name and Password in respective fields.<br/>
-                                <img src={require("./SignUp1.JPG")} style={{width:"100%",marginTop:"15px", marginBottom:"15px"}}></img> 
+                                <img alt='' src={require("./SignUp1.JPG")} style={{width:"100%",marginTop:"15px", marginBottom:"15px"}}></img>
                             </li>
                             <li>
                                 Click on "Sign Me Up!" button. You will receive verification link on your webmail account.<br/>
-                                <img src={require("./SignUp2.JPG")} style={{width:"100%",marginTop:"15px", marginBottom:"15px"}}></img> 
+                                <img alt='' src={require("./SignUp2.JPG")} style={{width:"100%",marginTop:"15px", marginBottom:"15px"}}></img>
                             </li>                                
                             <li>
                                 Click on the verification link and you are good to go.
-                                <img src={require("./SignUp3.JPG")} style={{marginTop:"15px", marginBottom:"15px"}}></img> 
+                                <img alt='' src={require("./SignUp3.JPG")} style={{marginTop:"15px", marginBottom:"15px"}}></img>
                             </li>
                         </ol>
                     </div>
@@ -41,11 +38,11 @@ class GettingUserStarted extends Component {
                         <ol style={{paddingLeft:"10px"}}>
                             <li>
                                 Enter User Name and Password in respective fields.<br/>
-                                <img src={require("./LogIn1.JPG")} style={{marginTop:"15px", marginBottom:"15px"}}></img> 
+                                <img alt='' src={require("./LogIn1.JPG")} style={{marginTop:"15px", marginBottom:"15px"}}></img>
                             </li>
                             <li>
                                 Click on "Enter". If entered credentials are valid then homepage for Users will be opened.<br/>
-                                <img src={require("./LogIn2.JPG")} style={{width:"100%",marginTop:"15px", marginBottom:"15px"}}></img> 
+                                <img alt='' src={require("./LogIn2.JPG")} style={{width:"100%",marginTop:"15px", marginBottom:"15px"}}></img>
                             </li>                                
                         </ol>
                     </div>

@@ -10,7 +10,7 @@ import {payOffline, payOnline} from "../../../helper/FetchData";
 import {Redirect} from "react-router-dom";
 import {withAlert} from 'react-alert';
 
-class Payment extends React.Component {
+class Payment extends React.PureComponent {
     constructor(props) {
         super(props);
         this.state = {
@@ -79,12 +79,12 @@ class Payment extends React.Component {
                 <div className={'container'}>
                     <Stapes active={3}/>
                     <CartDetails/>
-                    <hr/>
+                    
                     <ErrorMessage message={this.state.errorMessage} clearMessage={this.cleanErrorMessage}/>
                     <div className={'payment-operation'}>
                         <div className="bank-title">
                             <div className="title-wrap">
-                                <h3 className="title">Available Payment Methods</h3>
+                                <strong><h4 className="title">Available Payment Methods</h4></strong>
                             </div>
                         </div>
                         <div className='payment'>

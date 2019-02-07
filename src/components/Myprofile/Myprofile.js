@@ -1,10 +1,10 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import NavigationBar from "../NavigationBar";
 import ViewProfile from "./ViewProfile";
 import EditProfile from "./EditProfile";
 import "../../styles/ViewProfile.css";
 
-class Myprofile extends Component {
+class Myprofile extends PureComponent {
     constructor() {
         super();
         this.state = {

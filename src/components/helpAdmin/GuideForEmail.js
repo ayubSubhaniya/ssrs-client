@@ -1,10 +1,7 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import HrefComponent from './HrefComponent';
 
-class GuideForEmail extends Component {
-    constructor(props, context) {
-        super(props, context);
-    }
+class GuideForEmail extends PureComponent {
 
     render() {
         return (
@@ -22,7 +19,7 @@ class GuideForEmail extends Component {
                                 it will display current email template for actions which will be sent to the user after
                                 completing these actions.
                                 <br/>
-                                <img src={require("./Email1.JPG")} 
+                                <img alt='' src={require("./Email1.JPG")}
                                     style={{width:"100%", marginTop:"15px", marginBottom:"15px"}}></img>
                             </li>
                             <li>

@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import {defaultService} from "../../constants/constants"
 import {withRouter} from "react-router-dom";
 import Header from "../Header";
@@ -17,7 +17,7 @@ import {handleError} from "../../helper/error";
 import {errorMessages, infoMessages} from "../../config/configuration";
 import {withAlert} from 'react-alert'
 
-class NewServiceForm extends Component {
+class NewServiceForm extends PureComponent {
     constructor(props) {
         super(props);
         this.state = defaultService;

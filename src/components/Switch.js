@@ -1,7 +1,7 @@
 import React from 'react';
 import ConfirmModal from "./ConfirmModal";
 
-class Switch extends React.Component {
+class Switch extends React.PureComponent {
 
     constructor() {
         super();
@@ -28,7 +28,7 @@ class Switch extends React.Component {
     }
 
     render() {
-        const {index, isChecked, isDisabled, message} = this.props
+        const {isChecked, isDisabled, message} = this.props
         return (
             <label className="switch ml-2 mr-2 mb-0">
                 <input type="checkbox"
