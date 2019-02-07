@@ -11,10 +11,11 @@ class ServiceDetails extends PureComponent {
                 <td data-th="Service">
                     <div className="row">
                         <div className="col-sm-10">
-                            <h4 className="nomargin">{service.name}</h4>
+                            <h5 className="nomargin">{service.name}</h5>
                             {
                                 order.comment
-                                    ? (<div><strong>Comment: </strong>{order.comment}</div>) : ''
+                                    ? (<div style={{"fontStyle": "italic"}}><strong>Comment: </strong>{order.comment}</div>) 
+                                    : ''
                             }
                         </div>
                     </div>

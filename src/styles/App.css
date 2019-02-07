@@ -815,6 +815,11 @@ input:checked + .slider:before {
     width: 100%;
     color: blue;
     flex-direction: row-reverse;
+    padding-right: 1%;
+}
+
+.total {
+    font-size: 1.4rem;
 }
 
 .price {
@@ -827,20 +832,29 @@ input:checked + .slider:before {
 }
 
 /*Payment*/
+.payment_service_info {
+    border: 2px solid slategrey;
+    border-radius: 8px;
+    padding: 1.5%;
+}
+
 .payment_collection_info {
     margin-top: 25px;
-    padding: 1%;
+    padding: 1.5%;
     border: 2px solid slategrey;
     border-radius: 8px;
 }
 
 .payment-operation {
     border: 2px solid slategray;
+    margin-top: 25px;
     border-radius: 8px;
-    background-color: #e7e7e7;
-    margin-top: 14px;
+    background-color: white;
     font-weight: 300;
-    padding: 10px 10px 10px;
+    padding-left: 1.5%;
+    padding-right: 1.5%;
+    padding-bottom: 1.5%;
+    padding-top: 1%; 
 }
 
 .title-wrap {
@@ -859,25 +873,25 @@ input:checked + .slider:before {
 
 .tab-payment {
     cursor: pointer;
-    background: white;
+    background: #e7e7e7;
     padding: 20px;
     margin-right: 0px;
     border-bottom: 2px solid #e7e7e7;
-    border-right: 2px solid blue;
+    border-right: 2px solid #343a40;
     text-align: center;
     font-size: 15px;
 }
 
 .tab-payment-active {
-    background-color: #e7e7e7;
-    border: 2px solid blue;
+    background-color: white;
+    border: 2px solid #343a40;
     border-right-width: 0px;
-    font-size: 20px;
-    transition: ease .2s;
+    border-left-width: 8px;
+    font-size: 15px;
 }
 
 .payment-method-body {
-    border: 2px solid blue;
+    border: 2px solid #343a40;
     border-left-width: 0px;
     flex-basis: 90%;
     margin-left: 0px;
