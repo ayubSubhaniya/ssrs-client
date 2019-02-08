@@ -267,6 +267,7 @@ class Info extends React.PureComponent {
                                                    handleSubmit={this.addAddress}/>
                                     : <PickupForm open={this.state.editAddress}
                                                   close={this.closeAddressModal}
+                                                  key={cart.pickup ? cart.pickup._id : ''}
                                                   handleSubmit={this.handlePickupDataSubmit}
                                                   data={cart.pickup}/>
                             }
