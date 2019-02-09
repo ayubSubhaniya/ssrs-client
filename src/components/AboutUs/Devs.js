@@ -7,7 +7,7 @@ class Devs extends PureComponent {
 
         return (
             <div class="col-lg-4 col-sm-6 text-center mb-4">
-                <img class="rounded-circle img-fluid d-block mx-auto" src={require({image_url})} alt=""
+                <img class="rounded-circle img-fluid d-block mx-auto" src={image_url} alt=""
                     style={{width: "200px", height: "200px"}}/>
                 <h3 style={{color: "#e50202", marginTop: "2%"}}>{name}
                 </h3>

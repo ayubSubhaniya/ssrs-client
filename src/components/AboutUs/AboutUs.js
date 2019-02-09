@@ -4,7 +4,7 @@ import Devs from './Devs';
 const devs = new Array(6);
 devs[0] = <Devs name={"Sagar Savaliya"}
                 designation={"Front-End Developer"}
-                image_url={"./Sagar.jpg"}
+                image_url={require("./Sagar.jpg")}
                 batch={"2015"}
                 facebook_url={"https://www.facebook.com/sagar.savaliya407"}
                 github_url={"https://github.com/sagar-savaliya"}
@@ -12,7 +12,7 @@ devs[0] = <Devs name={"Sagar Savaliya"}
             
 devs[1] = <Devs name={"Ayub Subhaniya"}
                 designation={"Back-End Developer"}
-                image_url={"./Ayub.jpg"}
+                image_url={require("./Ayub.jpg")}
                 batch={"2015"}
                 facebook_url={"https://www.facebook.com/ayub.subhaniya"}
                 github_url={"https://github.com/ayubSubhaniya"}
@@ -21,7 +21,7 @@ devs[1] = <Devs name={"Ayub Subhaniya"}
 
 devs[2] = <Devs name={"Tapan Modi"}
                 designation={"Front-End Developer"}
-                image_url={"./Tapan.jpg"}
+                image_url={require("./Tapan.jpg")}
                 batch={"2015"}
                 facebook_url={"https://www.facebook.com/tapanr97"}
                 github_url={"https://github.com/tapanr97"}
@@ -30,7 +30,7 @@ devs[2] = <Devs name={"Tapan Modi"}
 
 devs[3] = <Devs name={"Dhaval Lila"}
                 designation={"Front-End Developer"}
-                image_url={"./Dhaval.jpg"}
+                image_url={require("./Dhaval.jpg")}
                 batch={"2015"}
                 facebook_url={"https://www.facebook.com/dhavaljlila"}
                 github_url={"https://github.com/DhavalLila"}
@@ -38,14 +38,14 @@ devs[3] = <Devs name={"Dhaval Lila"}
 
 devs[4] = <Devs name={"Harsh Vasoya"}
                 designation={"Back-End Developer"}
-                image_url={"./Harsh.jpg"}
+                image_url={require("./Harsh.jpg")}
                 batch={"2015"}
                 github_url={"https://github.com/harshvasoya008"}
                 linkedin_url={"https://www.linkedin.com/in/harsh-vasoya-463828160/"} />
 
 devs[5] = <Devs name={"Dhruv Patel"}
                 designation={"Front-End Developer"}
-                image_url="./Dhruv.jpg"
+                image_url={require("./Dhruv.jpg")}
                 batch={"2015"}
                 facebook_url={"https://www.facebook.com/profile.php?id=100009951722951"}
                 github_url={"https://github.com/pdhruv1109"}
