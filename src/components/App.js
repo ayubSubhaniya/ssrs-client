@@ -240,7 +240,7 @@ class App extends PureComponent {
                                 component={NewServiceForm}
                                 permission={isSuperAdmin(this.state.user)}/>
                             <AuthorizedRoute
-                                exact path="/service/edit/*"
+                                exact path="/service/edit/:id"
                                 component={EditForm}
                                 permission={isSuperAdmin(this.state.user)}/>
                             <AuthorizedRoute
@@ -249,7 +249,7 @@ class App extends PureComponent {
                                 permission={isAdmin(this.state.user)}
                                 user={this.state.user}/>
                             <AuthorizedRoute
-                                path="/parameter/edit"
+                                exact path="/parameter/edit/:id"
                                 component={ParameterEditForm}
                                 permission={isAdmin(this.state.user)}/>
                             <AuthorizedRoute
@@ -262,7 +262,7 @@ class App extends PureComponent {
                                 permission={isAdmin(this.state.user)}
                                 user={this.state.user}/>
                             <AuthorizedRoute
-                                exact path="/collectionType/edit/*"
+                                exact path="/collectionType/edit/:id"
                                 component={CollectionTypeEditForm}
                                 permission={isAdmin(this.state.user)}/>
                             <AuthorizedRoute
@@ -292,7 +292,7 @@ class App extends PureComponent {
                                 user={this.state.user}
                                 updateUser={this.updateUser}/>
                             <AuthorizedRoute
-                                exact path="/order/*"
+                                exact path="/order/:id"
                                 component={CartWithOrders}
                                 permission={isAuthenticated}
                                 user={this.state.user}/>
