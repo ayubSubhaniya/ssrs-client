@@ -13,7 +13,7 @@ const Demo = ({ openTour}) => (
         left: '1%'
       }}>
       <Button h="4" onClick={openTour} style={{fontWeight: 'bold', color: 'black'}}>
-      <i class="fa fa-question-circle"></i> Help !
+      <i className="fa fa-question-circle"/> Help !
       </Button>
       </div>
       

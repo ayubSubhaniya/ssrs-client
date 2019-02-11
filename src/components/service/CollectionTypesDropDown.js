@@ -5,7 +5,7 @@ class CollectionTypesDropDown extends PureComponent {
 	render() {
 		return (
 			<div className="form-group row">
-				<label class="col-sm-2 col-form-label" style={{"fontSize": "16px"}}>{this.props.label}</label>
+				<label className="col-sm-2 col-form-label" style={{"fontSize": "16px"}}>{this.props.label}</label>
 				<div className="dropdown" style={{"border": "1.8px solid #343a40", "borderRadius": "4px", "minWidth": "50%"}}>
 					<div className="btn dropdown-toggle form-control"
 						type="button"

@@ -395,22 +395,22 @@ class PermissionForm extends React.PureComponent {
         return (
             <div>
                 <Spinner open={this.state.showSpinner}/>
-                <form class="animated slideInUp" onSubmit={(e) => {
+                <form className="animated slideInUp" onSubmit={(e) => {
                     e.preventDefault();
                     this.postRoleData()
                 }}>
-                    <table class="table table-striped">
+                    <table className="table table-striped">
                         <tbody>
                         {this.getList()}
                         </tbody>
                     </table>
-                    <div class="d-flex justify-content-left flex-row-reverse mb-4">
+                    <div className="d-flex justify-content-left flex-row-reverse mb-4">
 
-                        <input type="submit" value="Close" class="btn btn-danger mr-5" onClick={(e) => {
+                        <input type="submit" value="Close" className="btn btn-danger mr-5" onClick={(e) => {
                             e.preventDefault();
                             this.props.closeModal();
                         }}/>
-                        <input type="submit" value="Save" class="btn btn-primary mr-5" onClick={(e) => {
+                        <input type="submit" value="Save" className="btn btn-primary mr-5" onClick={(e) => {
                             e.preventDefault();
                             this.setState({
                                 confirm: true
