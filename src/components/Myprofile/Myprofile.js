@@ -22,7 +22,7 @@ class Myprofile extends PureComponent {
         return (
             <div>
                 <NavigationBar/>
-                <div class="animated fadeIn">
+                <div className="animated fadeIn">
                     {this.state.isEdit
                         ? <EditProfile user={this.props.user}
                                        updateUser={this.props.updateUser}

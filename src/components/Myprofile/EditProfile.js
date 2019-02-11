@@ -15,12 +15,12 @@ class EditProfile extends PureComponent {
         const userInfo = this.props.user.userInfo;
         return (
             <div>
-                <form class="edit-profile" onSubmit={(e) => {
+                <form className="edit-profile" onSubmit={(e) => {
                     e.preventDefault();
                     this.props.changeIsEdit();
                     this.props.updateUser(this.state);
                 }}>
-                    <table class="table table-striped animated fadeIn">
+                    <table className="table table-striped animated fadeIn">
                         <tbody>
                         <tr>
                             <td>Daiict Id </td>
@@ -59,7 +59,7 @@ class EditProfile extends PureComponent {
                         </tr>
                         </tbody>
                     </table>
-                    <input type="submit" class="btn btn-outline-success style-btn" value="Save"/>
+                    <input type="submit" className="btn btn-outline-success style-btn" value="Save"/>
                 </form>
             </div>
         );

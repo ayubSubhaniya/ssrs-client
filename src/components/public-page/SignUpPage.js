@@ -53,7 +53,7 @@ class SignUpPage extends React.PureComponent {
 
                 }}>
 
-                    <i class="fa fa-question-circle"></i> Help !
+                    <i className="fa fa-question-circle"></i> Help !
 
                 </Button>
                 <Tour

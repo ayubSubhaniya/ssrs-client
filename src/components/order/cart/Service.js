@@ -29,7 +29,7 @@ class Service extends PureComponent {
         const service = order.service;
         const parameters = order.parameters;
         return (
-            <tr class={order.status === orderStatus.invalidOrder ? "table-danger" : ""}>
+            <tr className={order.status === orderStatus.invalidOrder ? "table-danger" : ""}>
                 <td data-th="Service">
                     <div className="row">
                         <div className="col-sm-10">
@@ -71,8 +71,7 @@ class Service extends PureComponent {
                                       validityErrors={order.validityErrors}/>
                         <DeleteButtonWithCancel handleClick={this.props.deleteOrder}
                                                 index={this.props.index}
-                                                message={modalMessages.serviceDelete}
-                        />
+                                                message={modalMessages.serviceDelete}/>
                     </div>
                 </td>
             </tr>

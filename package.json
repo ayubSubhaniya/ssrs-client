@@ -4,6 +4,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@babel/polyfill": "^7.2.5",
     "@ionic/app-scripts": "^3.2.1",
     "@sentry/browser": "^4.5.3",
     "animate.css": "^3.7.0",
@@ -69,7 +70,7 @@
               "last 4 Edge versions"
             ]
           },
-          "useBuiltIns": true
+          "useBuiltIns": "entry"
         }
       ],
       "react",

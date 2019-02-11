@@ -172,15 +172,15 @@ class Permission extends PureComponent {
             return (
                 <div>
                     <li className="list-group-item list-group-item-action align-items-center d-flex justify-content-between">
-                        <h5 class="text-muted">{data}</h5>
+                        <h5 className="text-muted">{data}</h5>
                         <div>
-                            <button class="btn btn-light" onClick={() => this.openModal(index, data)}><i
-                                class="fa fa-edit"></i></button>
-                            <button class="btn btn-light ml-4" onClick={() => {
+                            <button className="btn btn-light" onClick={() => this.openModal(index, data)}><i
+                                className="fa fa-edit"></i></button>
+                            <button className="btn btn-light ml-4" onClick={() => {
                                 this.setState({
                                     userDelIdx: index
                                 })
-                            }}><i class="fa fa-trash"></i></button>
+                            }}><i className="fa fa-trash"></i></button>
                         </div>
                     </li>
                     {this.state.userIdx === index ?
@@ -198,15 +198,15 @@ class Permission extends PureComponent {
             return (
                 <div>
                     <li className="list-group-item list-group-item-action align-items-center d-flex justify-content-between">
-                        <h5 class="text-muted">{data}</h5>
+                        <h5 className="text-muted">{data}</h5>
                         <div>
-                            <button class="btn btn-light" onClick={() => this.openM(index, data)}><i
-                                class="fa fa-edit"></i></button>
-                            <button class="btn btn-light ml-4" onClick={() => {
+                            <button className="btn btn-light" onClick={() => this.openM(index, data)}><i
+                                className="fa fa-edit"></i></button>
+                            <button className="btn btn-light ml-4" onClick={() => {
                                 this.setState({
                                     adminDelIdx: index
                                 })
-                            }}><i class="fa fa-trash"></i></button>
+                            }}><i className="fa fa-trash"></i></button>
                         </div>
                     </li>
                     {this.state.adminIdx === index ?
@@ -282,12 +282,12 @@ class Permission extends PureComponent {
         return (
             <div>
                 <NavigationBar/>
-                <div class="container bg-light mt-5">
-                    <h1 class="text-muted text-center">UserTypes</h1>
+                <div className="container bg-light mt-5">
+                    <h1 className="text-muted text-center">UserTypes</h1>
                     <ul className={'list-group mt-4'}>
                         {this.getUserList(this.state.userTypes)}
                     </ul>
-                    <button class="btn btn-primary d-block mx-auto mt-4" onClick={(e) => {
+                    <button className="btn btn-primary d-block mx-auto mt-4" onClick={(e) => {
                         this.setState({
                             userAdd: true,
                             adminAdd: false,
@@ -297,12 +297,12 @@ class Permission extends PureComponent {
                     </button>
                     {this.state.userAdd ? this.PermissionModal("user") : ""}
                 </div>
-                <div class="container bg-light mt-5">
-                    <h1 class="text-muted text-center">AdminTypes</h1>
+                <div className="container bg-light mt-5">
+                    <h1 className="text-muted text-center">AdminTypes</h1>
                     <ul className={'list-group mt-4'}>
                         {this.getAdminList(this.state.adminTypes)}
                     </ul>
-                    <button class="btn btn-primary d-block mx-auto mt-4" onClick={(e) => {
+                    <button className="btn btn-primary d-block mx-auto mt-4" onClick={(e) => {
                         this.setState({
                             adminAdd: true,
                             userAdd: false,

@@ -114,14 +114,14 @@ function Form(props) {
                     {
                         props.state.isSpecialService === 'true' ?
                             <div className={'d-flex mt-2 mb-4'}>
-                                <div class="card d-flex justify-content-center" style={{
+                                <div className="card d-flex justify-content-center" style={{
                                     width: "30em",
                                     borderWidth: "2px"
                                 }}>
-                                    <div class="card-body mx-auto">
-                                        <h5 class="card-title">Upload Special Service User List</h5>
-                                        <h6 class="card-title">Allowed format: .xlsx (Excel file) </h6>
-                                        <p class="card-text"><FileUpload handleSubmit={props.specialServiceFileHandler} /></p>
+                                    <div className="card-body mx-auto">
+                                        <h5 className="card-title">Upload Special Service User List</h5>
+                                        <h6 className="card-title">Allowed format: .xlsx (Excel file) </h6>
+                                        <p className="card-text"><FileUpload handleSubmit={props.specialServiceFileHandler} /></p>
                                     </div>
                                 </div>
                             </div>

@@ -98,7 +98,7 @@ class Address extends PureComponent {
 
     render() {
         return (
-            <div class="address-view">
+            <div className="address-view">
                 <AddressList addresses={this.state.addresses}
                              deleteAddress={this.deleteAddress}
                              openNewAddressModal={this.openNewAddressModal}
