@@ -50,7 +50,7 @@ class SignInPage extends React.PureComponent {
                     fontWeight: 'bold',
                     color: 'white'
                 }}>
-                    <i class="fa fa-question-circle"></i> Help !
+                    <i className="fa fa-question-circle"></i> Help !
                 </Button>
                 <Tour
                     onRequestClose={this.closeTour}

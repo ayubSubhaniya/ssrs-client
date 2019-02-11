@@ -7,6 +7,7 @@ import {Provider as AlertProvider} from 'react-alert'
 import AlertTemplate from 'react-alert-template-basic'
 import ErrorBoundary from './components/ErrorBoundary'
 import * as Sentry from '@sentry/browser';
+import "@babel/polyfill";
 
 Sentry.init({
     dsn: 'https://75392a0e112642d7808f4ea03f96bce1@sentry.io/1383923'

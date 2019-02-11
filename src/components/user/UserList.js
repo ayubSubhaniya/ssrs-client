@@ -329,7 +329,7 @@ class UserList extends PureComponent {
                 <NavigationBar/>
                 <Header title={'User Management'}/>
                 <div className={'d-flex justify-content-center mb-4'}>
-                    <div class="card d-flex justify-content-center" style={{
+                    <div className="card d-flex justify-content-center" style={{
                         width: "17em"
                     }}>
                         <div className="form-check form-check-inline" style={{marginLeft: "5%", marginBottom: "1%"}}>
@@ -459,14 +459,14 @@ class UserList extends PureComponent {
                     
                     {/*dhaval-lila file upload starts here */}
                     <div className={'d-flex mt-4 mb-4'}>
-                        <div class="card d-flex justify-content-center" style={{
+                        <div className="card d-flex justify-content-center" style={{
                             width: "30em",
                             borderWidth: "3px"
                         }}>
-                            <div class="card-body mx-auto">
-                                <h5 class="card-title">Upload New User Data!</h5>
-                                <h6 class="card-title">Allowed format: .xlsx (excel file) </h6>
-                                <p class="card-text"><FileUpload handleSubmit={this.uploadHandler}/></p>
+                            <div className="card-body mx-auto">
+                                <h5 className="card-title">Upload New User Data!</h5>
+                                <h6 className="card-title">Allowed format: .xlsx (excel file) </h6>
+                                <p className="card-text"><FileUpload handleSubmit={this.uploadHandler}/></p>
                             </div>
                         </div>
                     </div>

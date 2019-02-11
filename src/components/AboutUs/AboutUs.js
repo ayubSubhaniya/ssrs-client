@@ -38,7 +38,7 @@ devs[3] = <Devs name={"Dhaval Lila"}
 
 devs[4] = <Devs name={"Harsh Vasoya"}
                 designation={"Back-End Developer"}
-                image_url={require("./Harsh.jpg")}
+                image_url={require("./Harsh.JPG")}
                 batch={"2015"}
                 github_url={"https://github.com/harshvasoya008"}
                 linkedin_url={"https://www.linkedin.com/in/harsh-vasoya-463828160/"} />
@@ -85,12 +85,12 @@ class AboutUs extends PureComponent {
                             style={{marginLeft: "1%", marginTop: "1%"}}>
                         <i className="fa fa-hand-o-left" style={{marginRight: "5px"}}/>Back
                     </button>
-                    <h1 class="my-header deepshadow" style={{textAlign: "center"}}>Meet Our Team<br/>
-                        <h2 class="my-header2"><span style={{color: "red"}}>"</span>None Of Us Is As Smart As All Of
+                    <h1 className="my-header deepshadow" style={{textAlign: "center"}}>Meet Our Team<br/>
+                        <h2 className="my-header2"><span style={{color: "red"}}>"</span>None Of Us Is As Smart As All Of
                             Us<span style={{color: "red"}}>"</span></h2></h1>
                 </div>
                 <img alt='' src={require('./group1_1.jpg')} style={{width: "100%"}}/>
-                <div class="row about-back" style={{marginLeft: "0%", marginRight: "0%", paddingTop: "40px"}}>
+                <div className="row about-back" style={{marginLeft: "0%", marginRight: "0%", paddingTop: "40px"}}>
                     <ShowDevs/>
                 </div>
             </div>

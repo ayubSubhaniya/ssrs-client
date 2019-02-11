@@ -62,7 +62,7 @@ class FileUpload extends PureComponent {
                 }}
                 >
                     <input type="file" name="fileupload" onChange={(e) => this.onChange(e)} multiple />
-                    <input type="submit" name="Submit" class="btn btn-primary" onClick={(e) => {
+                    <input type="submit" name="Submit" className="btn btn-primary" onClick={(e) => {
                         e.preventDefault();
                         this.FileUploadHandler(e)
                     }} />

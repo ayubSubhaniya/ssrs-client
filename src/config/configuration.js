@@ -1,7 +1,11 @@
-// export const domainUrl = "https://10.100.81.42:3001";
-// export const domainUrl = "https://ssrs.daiict.ac.in:8443";
-export const domainUrl = "https://ssrs-daiict-api.herokuapp.com";
-//export const domainUrl = "http://localhost:3001";
+let domainUrl = "";
+if (process.env.NODE_ENV === "development") {
+    domainUrl = "https://ssrs-daiict-api.herokuapp.com"
+}else{
+    domainUrl = "https://ssrs.daiict.ac.in:8443";
+}
+export {domainUrl};
+
 export const errorMessages = {
     internalServerError: "Internal server error. Please try again later!",
     serverTimeout: "Server timeout. Please try again later!",
