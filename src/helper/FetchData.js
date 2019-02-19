@@ -2,7 +2,7 @@ import {domainUrl} from "../config/configuration";
 import * as HttpStatus from "http-status-codes";
 import {makeCall} from "./caller";
 import {handleError} from "./error";
-import {OFFLINE, ONLINE} from "../constants/constants";
+import {OFFLINE, ONLINE, NO_PAYMENT} from "../constants/constants";
 import {loadSpinner, unloadSpinner} from "./spinner";
 
 export function getCart(callback ,id) {
@@ -57,6 +57,22 @@ export function payOffline(id){
         })
         .catch((error) => this.onError(error))
 };
+
+export function payNothing() {
+    makeCall({
+        jobType: 'PATCH',
+        urlParams: '/cart/zeroCostPayment',
+        params: {
+            paymentType: NO_PAYMENT
+        }
+    })
+        .then((response) => {
+            this.setState({
+                isPaymentDone: true
+            });
+        })
+        .catch((error) => this.onError(error))
+}
 
 export function asyncFetch(dataName) {
     const that = this;
