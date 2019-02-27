@@ -3,8 +3,9 @@ export const NETBANKING = 'netBanking';
 export const PAYTM = 'paytm';
 export const OFFLINE = 'offline';
 export const ONLINE = 'online';
+export const NO_PAYMENT = 'noPayment';
 
-export const paymentMode = [OFFLINE, PAYTM, NETBANKING, DEBITCARD]
+export const paymentMode = [OFFLINE, ONLINE, NO_PAYMENT, PAYTM, NETBANKING, DEBITCARD]
 
 export const collectionTypeCategory = {
     DELIVERY: "Delivery",
