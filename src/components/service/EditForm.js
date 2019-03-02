@@ -46,10 +46,9 @@ function reducArrayInToObject(params) {
 class EditForm extends PureComponent {
     constructor(props) {
         super(props);
-        this.id = this.props.location.pathname.split('/')[3];
         this.state = defaultService;
-        this.handleChange = handleChange.bind(this)
-        this.handleArrayUpdate = handleArrayUpdate.bind(this)
+        this.handleChange = handleChange.bind(this);
+        this.handleArrayUpdate = handleArrayUpdate.bind(this);
         this.handlePaymentModeChange = handlePaymentModeChange.bind(this);
         this.getServiceFromState = getServiceFromState.bind(this);
     }
@@ -109,7 +108,7 @@ class EditForm extends PureComponent {
     getService = () => {
         makeCall({
             jobType: "GET",
-            urlParams: '/service/' + this.id
+            urlParams: '/service/' + this.props.match.params.id
         })
             .then((response) => {
                 this.setService(response.service);
@@ -144,7 +143,7 @@ class EditForm extends PureComponent {
     updateService = () => {
         makeCall({
             jobType: 'PATCH',
-            urlParams: '/service/' + this.id,
+            urlParams: '/service/' + this.props.match.params.id,
             params: this.getServiceFromState()
         })
             .then(() => this.props.history.push('/service'))
@@ -155,18 +154,17 @@ class EditForm extends PureComponent {
 
     handleSubmit = (event) => {
         event.preventDefault();
-        if(this.getServiceFromState().collectionTypes.length > 0){
+        if (this.getServiceFromState().collectionTypes.length > 0) {
             this.updateService();
             this.props.alert.success(infoMessages.savedSuccess);
-        }
-        else {
+        } else {
             this.props.alert.error(errorMessages.collectionTypeReq);
         }
     }
 
     specialServiceFileHandler = (data) => {
         let arr = []
-        for (let i=0; i<data.length; i++) {
+        for (let i = 0; i < data.length; i++) {
             if (data[i]['specialServiceUsers'])
                 arr.push(data[i]['specialServiceUsers']);
         }
@@ -177,8 +175,7 @@ class EditForm extends PureComponent {
                 specialServiceUsers: arr
             })
             this.props.alert.success('List uploaded successfully.')
-        }
-        else {
+        } else {
             this.props.alert.error('Error in upload. Please check the file.');
         }
     }
@@ -191,13 +188,13 @@ class EditForm extends PureComponent {
 
     onDeselectAll = ({target}) => {
         this.setState({
-            [target.dataset.name]: setIsSelected(this.state[target.dataset.name],false)
+            [target.dataset.name]: setIsSelected(this.state[target.dataset.name], false)
         })
     }
 
     onSelectAll = ({target}) => {
         this.setState({
-            [target.dataset.name]: setIsSelected(this.state[target.dataset.name],true)
+            [target.dataset.name]: setIsSelected(this.state[target.dataset.name], true)
         })
     }
 

@@ -107,7 +107,7 @@ class OrderInfo extends PureComponent {
     }
 
     getCart = () => {
-        let id = this.props.location.pathname.split('/')[2];
+        let id = this.props.match.params.id;
         makeCall({
             jobType: 'GET',
             urlParams: '/cart/' + id
@@ -316,7 +316,7 @@ class OrderInfo extends PureComponent {
                             (cart.status === rcartStatus.paymentFailed)
                                 ? <div className='btn btn-outline-primary mr-4 align-self-center'
                                        onClick={() => this.redirect(cart._id)}>
-                                    <i className="fa fa-redo"></i>
+                                    <i className="fa fa-redo"/>
                                     Retry
                                 </div>
                                 : ''
