@@ -189,7 +189,6 @@ class App extends PureComponent {
     }
 
     render() {
-
         const {isAuthenticated, loginMessage} = this.state;
         if (isAuthenticated) {
             document.body.style.background = "#ffffff";
@@ -197,9 +196,7 @@ class App extends PureComponent {
             var urlString = 'url(' + require('../images/w2.jpg') + ')';
             document.body.style.background = urlString;
         }
-
         return (
-
             <Context.Provider value={
                 {
                     logIn: this.logIn,
@@ -207,8 +204,6 @@ class App extends PureComponent {
                     loginMessage,
                     user: this.state.user
                 }}>
-
-
                 <Router>
                     <React.Fragment>
                         <Switch>

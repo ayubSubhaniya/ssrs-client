@@ -10,7 +10,7 @@ import * as Sentry from '@sentry/browser';
 import "@babel/polyfill";
 
 Sentry.init({
-    dsn: 'https://bab90d004c8644d38d9666d54e5e6528@sentry.io/1406308'
+    dsn: 'https://75392a0e112642d7808f4ea03f96bce1@sentry.io/1383923'
 });
 
 const options = {
