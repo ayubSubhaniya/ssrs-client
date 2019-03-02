@@ -5,8 +5,8 @@ import {errorMessages, infoMessages} from "../../../config/configuration";
 import * as HttpStatus from "http-status-codes";
 import CartDetails from "./CartDetails";
 import ErrorMessage from "../../error/ErrorMessage";
-import {paymentMode} from '../../../constants/constants'
-import {payOffline, payOnline} from "../../../helper/FetchData";
+import {paymentMode, defaultCart} from '../../../constants/constants'
+import {payOffline, payOnline, payNothing, getCart} from "../../../helper/FetchData";
 import {Redirect} from "react-router-dom";
 import {withAlert} from 'react-alert';
 
@@ -16,12 +16,24 @@ class Payment extends React.PureComponent {
         this.state = {
             paymentType: "0",
             isPaymentDone: false,
-            errorMessage: ''
+            errorMessage: '',
+            cart: defaultCart
         };
         this.payOnline = payOnline.bind(this);
         this.payOffline = payOffline.bind(this);
+        this.payNothing = payNothing.bind(this);
         const path = props.location.pathname.split('/');
         this.id = path.length>2 ? path[2] : '';
+    }
+
+    componentDidMount() {
+        getCart(this.setCart, this.id);
+    }
+
+    setCart = (response) => {
+        this.setState({
+            cart: response.cart
+        });
     }
 
     changePaymentType = ({target}) => {
@@ -81,44 +93,56 @@ class Payment extends React.PureComponent {
                     <CartDetails/>
                     
                     <ErrorMessage message={this.state.errorMessage} clearMessage={this.cleanErrorMessage}/>
-                    <div className={'payment-operation'}>
-                        <div className="bank-title">
-                            <div className="title-wrap">
-                                <strong><h4 className="title">Available Payment Methods</h4></strong>
-                            </div>
-                        </div>
-                        <div className='payment'>
-                            <div className='payment-method-tabs'>
-                                <div data-type="0"
-                                     onClick={this.changePaymentType}
-                                     className={`tab-payment ${this.state.paymentType === "0" ? 'tab-payment-active' : ''}`}>{"Offline"}
-                                </div>
-                                <div data-type="1"
-                                     onClick={this.changePaymentType}
-                                     className={`tab-payment ${this.state.paymentType === "1" ? 'tab-payment-active' : ''}`}>
-                                    {"Online"}
-                                </div>
-                            </div>
-                            <div className='payment-method-body'>
-                                <div className={`${this.state.paymentType !== "0" ? 'd-none' : ''}`}>
-                                    <button className="btn btn-outline-primary btn-lg m-4" onClick={() => this.payOffline(this.id)}>
-                                        {"Pay Offline"}
-                                    </button>
-                                </div>
-                                <div className={`${this.state.paymentType !== "1" ? 'd-none' : ''}`}>
-                                    <button className="btn btn-outline-primary btn-lg m-4" onClick={() => this.payOnline(this.id)}>
-                                        {"Pay with Eazypay"}
-                                    </button>
+                    
+                    {
+                        this.state.cart.totalCost > 0
+                        ? <div className={'payment-operation'}>
 
-                                    <p className="ml-4" style={{"fontStyle": "italic", "fontSize":"12px"}}>
-                                        {"(Note: Do not use "}
-                                        <strong>{"back/refresh"}</strong>
-                                        {" button once you select this option.)"}
-                                    </p>
+                            <div className="bank-title">
+                                <div className="title-wrap">
+                                    <strong><h4 className="title">Available Payment Methods</h4></strong>
+                                </div>
+                            </div>
+                            <div className='payment'>
+                                <div className='payment-method-tabs'>
+                                    <div data-type="0"
+                                        onClick={this.changePaymentType}
+                                        className={`tab-payment ${this.state.paymentType === "0" ? 'tab-payment-active' : ''}`}>{"Offline"}
+                                    </div>
+                                    <div data-type="1"
+                                        onClick={this.changePaymentType}
+                                        className={`tab-payment ${this.state.paymentType === "1" ? 'tab-payment-active' : ''}`}>
+                                        {"Online"}
+                                    </div>
+                                </div>
+                                <div className='payment-method-body'>
+                                    <div className={`${this.state.paymentType !== "0" ? 'd-none' : ''}`}>
+                                        <button className="btn btn-outline-primary btn-lg m-4" onClick={() => this.payOffline(this.id)}>
+                                            {"Pay Offline"}
+                                        </button>
+                                    </div>
+                                    <div className={`${this.state.paymentType !== "1" ? 'd-none' : ''}`}>
+                                        <button className="btn btn-outline-primary btn-lg m-4" onClick={() => this.payOnline(this.id)}>
+                                            {"Pay with Eazypay"}
+                                        </button>
+
+                                        <p className="ml-4" style={{"fontStyle": "italic", "fontSize":"12px"}}>
+                                            {"(Note: Do not use "}
+                                            <strong>{"back/refresh"}</strong>
+                                            {" button once you select this option.)"}
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                        
+                        : <div className="zero-payment">
+                            <button className="btn btn-lg btn-outline-success zero-payment-btn" onClick={() => this.payNothing()}>
+                                {"Place Order!"}
+                                {/* <i className="ml-2 fa fa-angle-right"></i> */}
+                            </button>
+                        </div>
+                    }
                 </div>
             </div>
         );

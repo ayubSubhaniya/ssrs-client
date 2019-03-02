@@ -897,6 +897,18 @@ input:checked + .slider:before {
     margin-left: 0px;
 }
 
+.zero-payment {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.zero-payment-btn {
+    font-size: 18px;
+    padding-left: 2%;
+    padding-right: 2%;
+}
+
 /* order filter*/
 
 .filter-col {

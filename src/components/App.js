@@ -50,11 +50,11 @@ class App extends PureComponent {
             isAuthenticated: -1,
             loginMessage: '',
             user: defaultUser,
-            
+
         }
         this.getUserData();
     }
-   
+
 
     onUpdateUserError = (response) => {
         if (response.status === HttpStatus.FORBIDDEN) {
@@ -65,8 +65,7 @@ class App extends PureComponent {
             this.setState({
                 signupMessage: errorMessages.internalServerError
             })
-        }
-        else {
+        } else {
             this.setState({
                 signupMessage: errorMessages.somethingsWrong
             })
@@ -188,9 +187,9 @@ class App extends PureComponent {
             loginMessage: ''
         })
     }
-    
+
     render() {
-        
+
         const {isAuthenticated, loginMessage} = this.state;
         if (isAuthenticated) {
             document.body.style.background = "#ffffff";
@@ -200,7 +199,7 @@ class App extends PureComponent {
         }
 
         return (
-            
+
             <Context.Provider value={
                 {
                     logIn: this.logIn,
@@ -208,8 +207,8 @@ class App extends PureComponent {
                     loginMessage,
                     user: this.state.user
                 }}>
-                
-        
+
+
                 <Router>
                     <React.Fragment>
                         <Switch>
@@ -221,8 +220,8 @@ class App extends PureComponent {
                                 clearLoginMessage={this.clearLoginMessage}
                                 user={this.state.user}
                                 component={isAuthenticated === -1
-                                    ? () => '' : isAuthenticated ?  Home : PublicPage}/>
-                                
+                                    ? () => '' : isAuthenticated ? Home : PublicPage}/>
+
                             <AuthorizedRoute
                                 exact path="/service"
                                 component={Services}
@@ -329,7 +328,7 @@ class App extends PureComponent {
             </Context.Provider>
         )
     }
-    
+
 }
 
 export default App;
