@@ -1,3 +1,5 @@
+import _ from "lodash";
+
 export const DEBITCARD = 'debitCard';
 export const NETBANKING = 'netBanking';
 export const PAYTM = 'paytm';
@@ -53,6 +55,9 @@ export const defaultService = {
     description: '',
     maxUnits: '',
     baseCharge: '',
+    allBatches: 'true',
+    allUserTypes: 'true',
+    allProgrammes: 'true',
     paymentModes: {
         [OFFLINE]: true,
         [ONLINE]: true

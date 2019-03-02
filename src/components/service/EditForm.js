@@ -99,6 +99,9 @@ class EditForm extends PureComponent {
             userTypes: service.allowedUserTypes,
             programmes: service.allowedProgrammes,
             userStatus: service.allowedUserStatus,
+            allBatches: _.some(service.allowedBatches, (x) => x === '*') ? 'true' : 'false',
+            allUserTypes: _.some(service.allowedUserTypes, (x) => x === '*') ? 'true' : 'false',
+            allProgrammes: _.some(service.allowedProgrammes, (x) => x === '*') ? 'true' : 'false',
             collectionType: service.collectionTypes,
             parameter: service.availableParameters,
             specialServiceUsers: service.specialServiceUsers

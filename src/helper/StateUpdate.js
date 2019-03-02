@@ -14,11 +14,13 @@ export function handlePaymentModeChange({target}) {
     });
 }
 
-export function handleArrayUpdate({target}) {
-    const newArray = this.state[target.name];
-    newArray[target.dataset.index].isSelected = !newArray[target.dataset.index].isSelected
+export function handleArrayUpdate(e) {
+    const name = e.target.name;
+    const index = e.target.dataset.index;
+    const newArray = [...this.state[name]];
+    newArray[index].isSelected = !newArray[index].isSelected
     this.setState({
-        [target.name]: newArray
+        [name]: newArray
     })
 }
 
@@ -46,10 +48,10 @@ export function getServiceFromState() {
         availablePaymentModes: _.filter(Object.keys(this.state.paymentModes), (key) => this.state.paymentModes[key]),
         collectionTypes: getSelectedID(this.state.collectionType),
         availableParameters: getSelectedID(this.state.parameter),
-        allowedUserTypes: getSelectedName(this.state.userTypes),
-        allowedUserStatus: getSelectedName(this.state.userStatus),
-        allowedProgrammes: getSelectedName(this.state.programmes),
-        allowedBatches: getSelectedName(this.state.batches),
+        allowedUserTypes: this.state.allUserTypes === 'true' ? ['*'] : getSelectedName(this.state.userTypes),
+        allowedUserStatus: this.state.allUserTypes === 'true' ? ['*'] : getSelectedName(this.state.userStatus),
+        allowedProgrammes: this.state.allProgrammes === 'true' ? ['*'] : getSelectedName(this.state.programmes),
+        allowedBatches: this.state.allBatches === 'true' ? ['*'] : getSelectedName(this.state.batches),
         specialServiceUsers: this.state.specialServiceUsers
     }
     return updatedService;
