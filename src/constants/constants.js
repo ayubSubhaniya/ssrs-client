@@ -1,5 +1,3 @@
-import _ from "lodash";
-
 export const DEBITCARD = 'debitCard';
 export const NETBANKING = 'netBanking';
 export const PAYTM = 'paytm';

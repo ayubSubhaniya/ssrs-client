@@ -2,6 +2,8 @@ import React from "react";
 import TextInfoMod from "./TextInfoMod";
 
 export function PickupInfo({pickup}) {
+    if(!pickup)
+        return <div>Loading...</div>
     return (
         <React.Fragment>
             <TextInfoMod lable="Collection Code" data={pickup.collectionCode}/>
@@ -14,6 +16,8 @@ export function PickupInfo({pickup}) {
 }
 
 export function DeliveryInfo({delivery}) {
+    if(!delivery)
+        return <div>Loading...</div>
     return (
         <React.Fragment>
             <TextInfoMod lable="Name" data={delivery.name}/>

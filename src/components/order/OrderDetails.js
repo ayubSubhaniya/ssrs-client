@@ -93,9 +93,6 @@ class OrderDetails extends PureComponent {
                 }
                 <td data-th="Service Price" className="text-center" style={{"fontSize": "17px"}}>{`₹ ${cart.ordersCost}`}</td>
                 <td data-th="Order Total" className="text-center" style={{"fontSize": "20px"}}>  {`₹ ${cart.totalCost}`}</td>
-
-
-                
             </tr>
 
         );
