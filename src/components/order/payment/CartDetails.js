@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { withRouter } from "react-router-dom"
+import { withRouter , Redirect} from "react-router-dom"
 import { getCart } from "../../../helper/FetchData";
 import _ from "lodash"
 import ServiceDetails from "./ServiceDetails";
@@ -13,6 +13,7 @@ class CartDetails extends PureComponent {
     constructor(props) {
         super(props);
         this.state = {
+            redirect: false,
             cart: defaultCart,
             collectionType: { name: "Loading..." }
         };
@@ -32,6 +33,12 @@ class CartDetails extends PureComponent {
     }
 
     getCollection = (id) => {
+        if(!id){
+           this.setState({
+               redirect: true
+           })
+            return;
+        }
         makeCall({
             jobType: 'GET',
             urlParams: '/collectionType/' + id
@@ -47,6 +54,9 @@ class CartDetails extends PureComponent {
     }
 
     render() {
+        if(this.state.redirect){
+            return <Redirect to={"/cart"}/>
+        }
         const cart = this.state.cart;
         const delivery = cart.delivery;
         const pickup = cart.pickup;
@@ -87,12 +97,12 @@ class CartDetails extends PureComponent {
                     <div className="total-price">
                         <div>
                             <span className='total'>Grand Total: ₹ </span>
-                            <span className='price'>{this.state.cart.totalCost}</span>
+                            <span className='price'>{cart.totalCost}</span>
                         </div>
                     </div>
 
                 </div>
-                
+
                 <div className="payment_collection_info">
                     <h4><strong>Collection Information</strong></h4>
                     <hr></hr>

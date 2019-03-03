@@ -14,13 +14,13 @@ class OrderList extends PureComponent {
         this.handleChange = handleChange.bind(this);
     }
 
-    isMatchOrderName = (cart,regexOfSearch) => {
-        return _.some(cart.orders,(order) => order.service.name.match(regexOfSearch));
+    isMatchOrderName = (cart, regexOfSearch) => {
+        return _.some(cart.orders, (order) => order.service.name.match(regexOfSearch));
     }
 
-    isMatched = (cart,regexOfSearch) => {
+    isMatched = (cart, regexOfSearch) => {
         return (cart.orderId.match(regexOfSearch)
-            || this.isMatchOrderName(cart,regexOfSearch)
+            || this.isMatchOrderName(cart, regexOfSearch)
             || cart.requestedBy.match(regexOfSearch)
             || cartStatus[cart.status].match(regexOfSearch))
     }
@@ -29,7 +29,7 @@ class OrderList extends PureComponent {
         if (this.state.searchText) {
             const regexOfSearch = new RegExp(this.state.searchText, 'gi')
             return _.filter(carts, (cart) => {
-                return this.isMatched(cart,regexOfSearch)
+                return this.isMatched(cart, regexOfSearch)
             })
         } else {
             return carts;
@@ -39,11 +39,11 @@ class OrderList extends PureComponent {
     getMaxStatusTime = (statusChangeTime) => {
         let time = []
 
-        if(statusChangeTime.placed.time)
+        if (statusChangeTime.placed.time)
             time.push(new Date(statusChangeTime.placed.time));
-        if(statusChangeTime.paymentFailed.time)
+        if (statusChangeTime.paymentFailed.time)
             time.push(new Date(statusChangeTime.paymentFailed.time));
-        if(statusChangeTime.processingPayment.time)
+        if (statusChangeTime.processingPayment.time)
             time.push(new Date(statusChangeTime.processingPayment.time));
 
         return new Date(Math.max.apply(null, time));
@@ -85,8 +85,8 @@ class OrderList extends PureComponent {
                                         <th className="text-center">Status</th>
                                         {
                                             isAdmin(others.user)
-                                            ? <th className="text-center">Requested By</th>
-                                            : ''
+                                                ? <th className="text-center">Requested By</th>
+                                                : ''
                                         }
                                         <th className="text-center">Service Price</th>
                                         <th className="text-center">Order Total</th>
@@ -96,12 +96,19 @@ class OrderList extends PureComponent {
                                     {
                                         filteredCarts.length
                                             ? _.map(filteredCarts, (cart, i) => {
-                                                return (
-                                                    <OrderDetails key={cart._id}
-                                                                 cart={cart}
-                                                                 index={i}
-                                                                 {...others}/>
-                                                )
+                                                if (cart.orders.length > 0 ) {
+                                                    return (
+                                                        <OrderDetails key={cart._id}
+                                                                      cart={cart}
+                                                                      index={i}
+                                                                      {...others}/>
+                                                    )
+                                                } else {
+                                                    return <tr>
+                                                        <td colSpan={6} className='text-center'>Invalid Order (Something wrong going on here, please contact developer to resolve this issue)
+                                                        </td>
+                                                    </tr>
+                                                }
                                             })
                                             : <tr>
                                                 <td colSpan={6} className='text-center'>No Order Found</td>

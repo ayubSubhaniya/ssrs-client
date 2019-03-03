@@ -6,7 +6,7 @@ import {cartStatus, rcartStatus} from "../../constants/status";
 import {camelCaseToWords} from "../../helper/String";
 import TextInput from "./TextInput";
 import {makeCall} from "../../helper/caller";
-import {defaultCart} from "../../constants/constants";
+import {defaultCart, ONLINE} from "../../constants/constants";
 import {collectionCode, paymentCode} from "../../constants/errorMessage";
 import TextInfoMod from "./TextInfoMod"
 import CourierForm from "./CourierForm";
@@ -22,10 +22,12 @@ import _ from "lodash"
 
 function PaymentInfo({cart}) {
     let paymentStatus = '';
-    if (cart.status === rcartStatus.processingPayment)
-        paymentStatus = 'Processing';
-    else if (cart.paymentStatus)
+    if (cart.paymentStatus)
         paymentStatus = 'Done';
+    else if (cart.status === rcartStatus.processingPayment)
+        paymentStatus = 'Processing';
+    else if (cart.paymentType === ONLINE)
+        paymentStatus = 'Failed';
     else
         paymentStatus = 'Pending';
 
@@ -118,8 +120,8 @@ class OrderInfo extends PureComponent {
                 })
                 this.getCollection(response.cart.collectionType);
             })
-            .catch((error) => {
-                handleError(error);
+            .catch(() => {
+                this.props.history.push("/order")
             })
     }
 
@@ -303,15 +305,15 @@ class OrderInfo extends PureComponent {
                                 </a>
                                 : ''
                         }
-                        {
-                            (cart.status === rcartStatus.cancelled)
-                                ? <div className='btn btn-outline-primary mr-4 align-self-center'
-                                       onClick={this.giveRefund}>
-                                    <i className="fa fa-undo mr-2"></i>
-                                    Refund
-                                </div>
-                                : ''
-                        }
+                        {/*{*/}
+                            {/*(cart.status === rcartStatus.cancelled)*/}
+                                {/*? <div className='btn btn-outline-primary mr-4 align-self-center'*/}
+                                       {/*onClick={this.giveRefund}>*/}
+                                    {/*<i className="fa fa-undo mr-2"></i>*/}
+                                    {/*Refund*/}
+                                {/*</div>*/}
+                                {/*: ''*/}
+                        {/*}*/}
                         {
                             (cart.status === rcartStatus.paymentFailed)
                                 ? <div className='btn btn-outline-primary mr-4 align-self-center'
