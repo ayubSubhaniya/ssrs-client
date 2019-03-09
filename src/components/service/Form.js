@@ -1,7 +1,7 @@
 import React from 'react'
 import PaymentModes from "./PaymentModes";
-import MultiSelectDropDownControled from "./MultiSelectDropDownControled";
-import ApllicationSpecificDropDown from "./ApllicationSpecificDropDown";
+import MultiSelectDropDownControlled from "./MultiSelectDropDownControled";
+import ApplicationSpecificDropDown from "./ApllicationSpecificDropDown";
 import FileUpload from '../FileUpload/FileUpload'
 import {Link} from "react-router-dom"
 import _ from 'lodash'
@@ -64,22 +64,22 @@ function Form(props) {
                     </div>
                 </div>
                 <div className='col-md-6'>
-                    <MultiSelectDropDownControled label={'Collection Type'}
-                                                  btnLabel={"Select"}
-                                                  options={props.state.collectionType}
-                                                  onSelectAll={props.onSelectAll}
-                                                  onDeselectAll={props.onDeselectAll}
-                                                  name={'collectionType'}
-                                                  handleOptionChange={props.handleArrayUpdate}/>
+                    <MultiSelectDropDownControlled label={'Collection Type'}
+                                                   btnLabel={"Select"}
+                                                   options={props.state.collectionType}
+                                                   onSelectAll={props.onSelectAll}
+                                                   onDeselectAll={props.onDeselectAll}
+                                                   name={'collectionType'}
+                                                   handleOptionChange={props.handleArrayUpdate}/>
                 </div>
                 <div className='col-md-6'>
-                    <MultiSelectDropDownControled label={'Parameters'}
-                                                  btnLabel={"Select"}
-                                                  options={props.state.parameter}
-                                                  onSelectAll={props.onSelectAll}
-                                                  onDeselectAll={props.onDeselectAll}
-                                                  name={'parameter'}
-                                                  handleOptionChange={props.handleArrayUpdate}/>
+                    <MultiSelectDropDownControlled label={'Parameters'}
+                                                   btnLabel={"Select"}
+                                                   options={props.state.parameter}
+                                                   onSelectAll={props.onSelectAll}
+                                                   onDeselectAll={props.onDeselectAll}
+                                                   name={'parameter'}
+                                                   handleOptionChange={props.handleArrayUpdate}/>
                 </div>
                 <div className="col-md-6">
                     <div className="form-group d-flex mb-0">
@@ -162,7 +162,7 @@ function Form(props) {
                                 </div>
                                 {
                                     props.state.allBatches === 'false' ?
-                                        <ApllicationSpecificDropDown label={'Batches'}
+                                        <ApplicationSpecificDropDown label={'Batches'}
                                                                      btnLabel={"Select"}
                                                                      options={props.state.batches}
                                                                      name={'batches'}
@@ -203,14 +203,14 @@ function Form(props) {
                                 {
                                     props.state.allUserTypes === 'false' ?
                                         <React.Fragment>
-                                            <ApllicationSpecificDropDown label={'User Types'}
+                                            <ApplicationSpecificDropDown label={'User Types'}
                                                                          btnLabel={"Select"}
                                                                          options={props.state.userTypes}
                                                                          name={'userTypes'}
                                                                          onSelectAll={props.onSelectAll}
                                                                          onDeselectAll={props.onDeselectAll}
                                                                          handleOptionChange={props.handleArrayUpdate}/>
-                                            <ApllicationSpecificDropDown label={'User Status'}
+                                            <ApplicationSpecificDropDown label={'User Status'}
                                                                          btnLabel={"Select"}
                                                                          options={props.state.userStatus}
                                                                          name={'userStatus'}
@@ -251,7 +251,7 @@ function Form(props) {
                                 </div>
                                 {
                                     props.state.allProgrammes === "false" ?
-                                        < ApllicationSpecificDropDown label={'Programmes'}
+                                        < ApplicationSpecificDropDown label={'Programmes'}
                                                                       btnLabel={"Select"}
                                                                       options={props.state.programmes}
                                                                       name={'programmes'}

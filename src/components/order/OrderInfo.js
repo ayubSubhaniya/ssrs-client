@@ -6,7 +6,7 @@ import {cartStatus, rcartStatus} from "../../constants/status";
 import {camelCaseToWords} from "../../helper/String";
 import TextInput from "./TextInput";
 import {makeCall} from "../../helper/caller";
-import {defaultCart, ONLINE} from "../../constants/constants";
+import {collectionTypeCategory, defaultCart, ONLINE} from "../../constants/constants";
 import {collectionCode, paymentCode} from "../../constants/errorMessage";
 import TextInfoMod from "./TextInfoMod"
 import CourierForm from "./CourierForm";
@@ -47,6 +47,8 @@ function PaymentInfo({cart}) {
                         <h5 className="position_head">PAYMENT FAIL HISTORY</h5>
                         {
                             _.map(cart.paymentFailHistory, (o) => {
+                                /** @namespace o.paymentDate */
+                                /** @namespace o.paymentId */
                                 return (<React.Fragment>
                                     <TextInfoMod lable="Payment ID" data={o.paymentId}/>
                                     <TextInfoMod lable="Payment Date" data={o.paymentDate}/>
@@ -92,7 +94,7 @@ class OrderInfo extends PureComponent {
         this.setState({
             errorMessage: message
         })
-    }
+    };
 
     onError = (response) => {
         if (response.status === HttpStatus.PRECONDITION_FAILED) {
@@ -106,7 +108,7 @@ class OrderInfo extends PureComponent {
         } else {
             this.setErrorMessage(errorMessages.somethingsWrong);
         }
-    }
+    };
 
     getCart = () => {
         let id = this.props.match.params.id;
@@ -117,28 +119,12 @@ class OrderInfo extends PureComponent {
             .then((response) => {
                 this.setState({
                     cart: response.cart
-                })
-                this.getCollection(response.cart.collectionType);
+                });
             })
             .catch(() => {
                 this.props.history.push("/order")
             })
-    }
-
-    getCollection = (id) => {
-        makeCall({
-            jobType: 'GET',
-            urlParams: '/collectionType/' + id
-        })
-            .then((response) => {
-                this.setState({
-                    collectionType: response.collectionType
-                })
-            })
-            .catch((error) => {
-                handleError(error);
-            })
-    }
+    };
 
     makePayment = (paymentCode) => {
         if (paymentCode !== this.state.cart.paymentCode) {
@@ -148,7 +134,7 @@ class OrderInfo extends PureComponent {
         } else {
             this.setState({
                 isPaymentCodeWrong: false
-            })
+            });
             makeCall({
                 jobType: 'PATCH',
                 urlParams: '/cart/acceptPayment/' + paymentCode
@@ -161,55 +147,55 @@ class OrderInfo extends PureComponent {
                     handleError(error);
                 })
         }
-    }
+    };
 
     openPaymentCodeModal = () => {
         this.setState({
             isPaymentCodeModalOpen: true
         })
-    }
+    };
 
     closePaymentCodeModal = () => {
         this.setState({
             isPaymentCodeModalOpen: false
         })
-    }
+    };
 
     openCancelModal = () => {
         this.setState({
             isCancelModalOpen: true
         })
-    }
+    };
 
     closeCancelModal = () => {
         this.setState({
             isCancelModalOpen: false
         })
-    }
+    };
 
     openCourierDetailsModal = () => {
         this.setState({
             isCourierDetailsModalOpen: true
         })
-    }
+    };
 
     closeCourierDetailsModal = () => {
         this.setState({
             isCourierDetailsModalOpen: false
         })
-    }
+    };
 
     openCollectionCodeModal = () => {
         this.setState({
             isCollectionCodeModalOpen: true
         })
-    }
+    };
 
-    closeColletionCodeModal = () => {
+    closeCollectionCodeModal = () => {
         this.setState({
             isCollectionCodeModalOpen: false
         })
-    }
+    };
 
     completeOrder = (data) => {
         makeCall({
@@ -219,13 +205,13 @@ class OrderInfo extends PureComponent {
         })
             .then(() => {
                 this.closeCourierDetailsModal();
-                this.closeColletionCodeModal();
+                this.closeCollectionCodeModal();
                 this.getCart()
             })
             .catch((error) => {
                 handleError(error);
             })
-    }
+    };
 
 
     cancelCart = (reason) => {
@@ -243,11 +229,11 @@ class OrderInfo extends PureComponent {
             .catch((error) => {
                 handleError(error);
             })
-    }
+    };
 
     giveRefund = () => {
         // TODO: send request for refund
-    }
+    };
 
     compareCollectionCode = (collectionCode) => {
         if (collectionCode !== this.state.cart.pickup.collectionCode) {
@@ -262,18 +248,18 @@ class OrderInfo extends PureComponent {
                 status: rcartStatus.completed
             })
         }
-    }
+    };
 
     redirect = (id) => {
         this.props.history.push({
             pathname: '/payment/' + id
         });
-    }
+    };
 
     render() {
         const cart = this.state.cart;
-        const delivery = cart.delivery;
-        const pickup = cart.pickup;
+        const delivery = cart.collectionType.category === collectionTypeCategory.DELIVERY ? cart.delivery : undefined;
+        const pickup = cart.collectionType.category === collectionTypeCategory.PICKUP ? cart.pickup : undefined;
         return (
             <div className='mb-4 pb-4'>
                 <NavigationBar/>
@@ -300,19 +286,19 @@ class OrderInfo extends PureComponent {
                                      target="_blank"
                                      download={`invoice_${cart.orderId}.pdf`}
                                      className='btn btn-outline-primary mr-4 align-self-center'>
-                                    <i className="fa fa-download mr-2" aria-hidden="true"></i>
+                                    <i className="fa fa-download mr-2" aria-hidden="true"/>
                                     Invoice
                                 </a>
                                 : ''
                         }
                         {/*{*/}
-                            {/*(cart.status === rcartStatus.cancelled)*/}
-                                {/*? <div className='btn btn-outline-primary mr-4 align-self-center'*/}
-                                       {/*onClick={this.giveRefund}>*/}
-                                    {/*<i className="fa fa-undo mr-2"></i>*/}
-                                    {/*Refund*/}
-                                {/*</div>*/}
-                                {/*: ''*/}
+                        {/*(cart.status === rcartStatus.cancelled)*/}
+                        {/*? <div className='btn btn-outline-primary mr-4 align-self-center'*/}
+                        {/*onClick={this.giveRefund}>*/}
+                        {/*<i className="fa fa-undo mr-2"></i>*/}
+                        {/*Refund*/}
+                        {/*</div>*/}
+                        {/*: ''*/}
                         {/*}*/}
                         {
                             (cart.status === rcartStatus.paymentFailed)
@@ -335,7 +321,7 @@ class OrderInfo extends PureComponent {
                                     openCourierDetailsModal={this.openCourierDetailsModal}
                                     isDelivery={delivery}/>
                     <ServiceList cart={cart}
-                                 collectionType={this.state.collectionType}
+                                 collectionType={cart.collectionType}
                                  user={this.props.user}
                                  getCart={this.getCart}/>
                     <ErrorMessage message={this.state.errorMessage} clearMessage={this.cleanErrorMessage}/>
@@ -349,7 +335,7 @@ class OrderInfo extends PureComponent {
                             <div className='container p-1'>
                                 <h5 className="position_head">COLLECTION INFORMATION</h5>
 
-                                <TextInfoMod lable="Collection Type" data={this.state.collectionType.name}/>
+                                <TextInfoMod lable="Collection Type" data={cart.collectionType.name}/>
                                 {
                                     delivery
                                         ? <DeliveryInfo delivery={delivery}/>
@@ -366,7 +352,7 @@ class OrderInfo extends PureComponent {
                     <TextInput visible={this.state.isCollectionCodeModalOpen}
                                text={'Enter Collection Code'}
                                errorMessage={this.state.isCollectionCodeWrong ? collectionCode.wrong : ''}
-                               closeModal={this.closeColletionCodeModal}
+                               closeModal={this.closeCollectionCodeModal}
                                onSubmit={this.compareCollectionCode}/>
                     <TextInput visible={this.state.isPaymentCodeModalOpen}
                                text={'Enter Payment Code'}

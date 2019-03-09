@@ -7,7 +7,8 @@ import {
     handleArrayUpdate,
     handleChange,
     handlePaymentModeChange,
-    setIsSelected
+    setIsSelected,
+    specialServiceFileHandler
 } from "../../helper/StateUpdate"
 import Form from "./Form";
 import _ from "lodash"
@@ -17,26 +18,23 @@ import {handleError} from "../../helper/error";
 import {errorMessages, infoMessages} from "../../config/configuration";
 import {withAlert} from 'react-alert'
 
-function setSelecteProperty(arr1, arr2) {
+function setSelectedProperty(arr1, arr2) {
     return _.map(arr1, (x) => {
         if (_.some(arr2, (o) => o._id === x._id))
-            x.isSelected = true
+            x.isSelected = true;
         return x;
     })
 }
 
 function setSelectedPropertyByName(arr1, arr2) {
     return _.map(arr1, (x) => {
-        const newElement = {name: x}
-        if (_.some(arr2, (o) => o === x))
-            newElement.isSelected = true
-        else
-            newElement.isSelected = false
+        const newElement = {name: x};
+        newElement.isSelected = _.some(arr2, (o) => o === x);
         return newElement;
     })
 }
 
-function reducArrayInToObject(params) {
+function reduceArrayInToObject(params) {
     return _.reduce(params, function (obj, param) {
         obj[param] = true;
         return obj;
@@ -51,6 +49,7 @@ class EditForm extends PureComponent {
         this.handleArrayUpdate = handleArrayUpdate.bind(this);
         this.handlePaymentModeChange = handlePaymentModeChange.bind(this);
         this.getServiceFromState = getServiceFromState.bind(this);
+        this.specialServiceFileHandler = specialServiceFileHandler.bind(this);
     }
 
     componentDidMount() {
@@ -64,13 +63,13 @@ class EditForm extends PureComponent {
         })
             .then((response) => {
                 this.setState({
-                    collectionType: setSelecteProperty(response.collectionType, this.state.collectionType)
+                    collectionType: setSelectedProperty(response.collectionType, this.state.collectionType)
                 })
             })
             .catch((error) => {
                 handleError(error);
             })
-    }
+    };
 
     getAllParameter = () => {
         makeCall({
@@ -79,13 +78,13 @@ class EditForm extends PureComponent {
         })
             .then((response) => {
                 this.setState({
-                    parameter: setSelecteProperty(response.parameter, this.state.parameter)
+                    parameter: setSelectedProperty(response.parameter, this.state.parameter)
                 })
             })
             .catch((error) => {
                 handleError(error);
             })
-    }
+    };
 
     setService = (service) => {
         this.setState({
@@ -94,7 +93,7 @@ class EditForm extends PureComponent {
             description: service.description,
             maxUnits: service.maxUnits,
             baseCharge: service.baseCharge,
-            paymentModes: reducArrayInToObject(service.availablePaymentModes),
+            paymentModes: reduceArrayInToObject(service.availablePaymentModes),
             batches: service.allowedBatches,
             userTypes: service.allowedUserTypes,
             programmes: service.allowedProgrammes,
@@ -106,24 +105,30 @@ class EditForm extends PureComponent {
             parameter: service.availableParameters,
             specialServiceUsers: service.specialServiceUsers
         })
-    }
+    };
 
     getService = () => {
         makeCall({
             jobType: "GET",
-            urlParams: '/service/' + this.props.match.params.id
+            urlParams: '/service/extraInfo/' + this.props.match.params.id
         })
-            .then((response) => {
-                this.setService(response.service);
-                this.getAllCollectionType();
-                this.getAllParameter();
-                this.getUserInfoDistinct();
+            .then(({service, extraInfo}) => {
+                this.setService(service);
+                const {collectionType, parameter, distinctValues} = extraInfo;
+                this.setState({
+                    collectionType: setSelectedProperty(collectionType, this.state.collectionType),
+                    parameter: setSelectedProperty(parameter, this.state.parameter),
+                    batches: setSelectedPropertyByName(distinctValues.batches, this.state.batches),
+                    userTypes: setSelectedPropertyByName(distinctValues.userTypes, this.state.userTypes),
+                    userStatus: setSelectedPropertyByName(distinctValues.userStatus, this.state.userStatus),
+                    programmes: setSelectedPropertyByName(distinctValues.programmes, this.state.programmes)
+                })
             })
             .catch((error) => {
                 handleError(error);
             })
 
-    }
+    };
 
     getUserInfoDistinct = () => {
         makeCall({
@@ -141,7 +146,7 @@ class EditForm extends PureComponent {
             .catch((error) => {
                 handleError(error);
             })
-    }
+    };
 
     updateService = () => {
         makeCall({
@@ -153,7 +158,7 @@ class EditForm extends PureComponent {
             .catch((error) => {
                 handleError(error);
             })
-    }
+    };
 
     handleSubmit = (event) => {
         event.preventDefault();
@@ -163,43 +168,25 @@ class EditForm extends PureComponent {
         } else {
             this.props.alert.error(errorMessages.collectionTypeReq);
         }
-    }
-
-    specialServiceFileHandler = (data) => {
-        let arr = []
-        for (let i = 0; i < data.length; i++) {
-            if (data[i]['specialServiceUsers'])
-                arr.push(data[i]['specialServiceUsers']);
-        }
-
-        if (arr.length > 0) {
-            arr.sort();
-            this.setState({
-                specialServiceUsers: arr
-            })
-            this.props.alert.success('List uploaded successfully.')
-        } else {
-            this.props.alert.error('Error in upload. Please check the file.');
-        }
-    }
+    };
 
     changeRadioButtonState = ({target}) => {
         this.setState({
             [target.name]: target.value
         })
-    }
+    };
 
     onDeselectAll = ({target}) => {
         this.setState({
             [target.dataset.name]: setIsSelected(this.state[target.dataset.name], false)
         })
-    }
+    };
 
     onSelectAll = ({target}) => {
         this.setState({
             [target.dataset.name]: setIsSelected(this.state[target.dataset.name], true)
         })
-    }
+    };
 
 
     render() {

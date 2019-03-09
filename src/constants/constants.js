@@ -5,18 +5,19 @@ export const OFFLINE = 'offline';
 export const ONLINE = 'online';
 export const NO_PAYMENT = 'noPayment';
 
-export const paymentMode = [OFFLINE, ONLINE, NO_PAYMENT, PAYTM, NETBANKING, DEBITCARD]
+export const paymentMode = [OFFLINE, ONLINE, NO_PAYMENT, PAYTM, NETBANKING, DEBITCARD];
+export const specialServiceUsers = "user_id";
 
 export const collectionTypeCategory = {
     DELIVERY: "Delivery",
     PICKUP: "Pickup"
-}
+};
 
 export const userType = {
     STUDENT: 'student',
     SUPERADMIN: 'superAdmin',
     ADMIN: 'admin'
-}
+};
 
 export const defaultCart = {
     collectionType: {},
@@ -28,9 +29,13 @@ export const defaultCart = {
     status: 0,
     totalCost: 0,
     _id: "Loading...",
-    pickup: '',
+    pickup: {
+        collectionCode: "Loading..."
+    },
     delivery: '',
     paymentFailHistory: [],
+    paymentStatus: undefined,
+    paymentCode: "Loading...",
     statusChangeTime: {
         failed: {},
         invalid: {},
@@ -45,7 +50,7 @@ export const defaultCart = {
         cancelled: {},
         refunded: {}
     }
-}
+};
 
 export const defaultService = {
     isSpecialService: "false",
@@ -62,7 +67,7 @@ export const defaultService = {
     },
     collectionType: [],
     parameter: []
-}
+};
 
 export const defaultUser = {
     addresses: [],
@@ -97,7 +102,7 @@ export const defaultUser = {
         user_type: "Loading",
         _id: "Loading"
     }
-}
+};
 
 export const defaultEmails = {
     "signUp": {
@@ -108,4 +113,4 @@ export const defaultEmails = {
         "bcc": [],
         "body": ""
     }
-}
+};

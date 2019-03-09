@@ -325,7 +325,7 @@ input[type=submit] {
     #position_steps{
         font-weight: bold;
         margin-top: 10px;
-        
+
     }
     #position_bar {
         padding-top: 150px;
@@ -334,7 +334,7 @@ input[type=submit] {
        height: 48px;
     }
     #position_dot{
-        margin-top: 10px; 
+        margin-top: 10px;
     }
 
     #position_lable{
@@ -354,13 +354,13 @@ input[type=submit] {
         font-weight: bold;
         padding-top: 20px;
     }
-    
+
 }
 
 /* MOBILE VIEW*/
 @media screen and (max-width: 369px){
-    
-    
+
+
     #position_address{
         padding-top: 27px;
     }
@@ -398,7 +398,7 @@ input[type=submit] {
         margin: 0%;
         width: 100%;
         text-align: left;
-        
+
     }
 
     .limiter table thead {
@@ -407,11 +407,11 @@ input[type=submit] {
 
     .limiter table tbody tr {
         height: auto;
-        padding: 37px 0; 
+        padding: 37px 0;
         border: 1px solid black;
         border-top: 0px;
         width: 100%;
-        
+
     }
 
     .limiter table tbody tr td {
@@ -437,8 +437,8 @@ input[type=submit] {
         position: relative;
         width: 40%;
         left: 0%;
-        
-        
+
+
 
     }
 
@@ -447,7 +447,7 @@ input[type=submit] {
         font-weight: bold;
         display: inline-block;
         width: 100%;
-        
+
     }
 
     tbody tr {
@@ -462,7 +462,7 @@ input[type=submit] {
         width: 115px;
         height: 25px;
     }
-    
+
     #spac{
         padding-left: 30px;
     }
@@ -483,13 +483,13 @@ input[type=submit] {
         width: 190px;
         margin: 0%;
         display: inline-block;
-        
+
     }
     #search_bar_position {
         left: 50%;
         width: 130px;
     }
-    
+
     .limiter table {
         display: block;
     }
@@ -508,7 +508,7 @@ input[type=submit] {
 
     .limiter table tbody tr {
         height: auto;
-        padding: 37px 0; 
+        padding: 37px 0;
         border: 1px solid black;
         border-top: 0px;
         width: 100%;
@@ -686,7 +686,7 @@ input:checked + .slider:before {
     }
     table#cart tbody td .form-control {
         display: inline !important;
-        
+
     }
 
     .actions .btn {
@@ -703,7 +703,7 @@ input:checked + .slider:before {
     .actions .btn-danger {
         float: left;
         width: 50%;
-        
+
     }
 
     table#cart thead {
@@ -854,7 +854,7 @@ input:checked + .slider:before {
     padding-left: 1.5%;
     padding-right: 1.5%;
     padding-bottom: 1.5%;
-    padding-top: 1%; 
+    padding-top: 1%;
 }
 
 .title-wrap {
@@ -1075,4 +1075,12 @@ hr.style14 {
 }
 
 
+  .user-list td, .user-list th{
+      width: 150px;
+  }
 
+.file-upload-card {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+}

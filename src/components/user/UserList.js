@@ -318,7 +318,7 @@ class UserList extends PureComponent {
             "user_batch": '',
             "user_programme": ''
         }
-        
+
         const tableInfo = _.map(this.state.tableInfo, (x) => {
             const o = Object.assign({}, defaultUserObj, x);
             return o;
@@ -393,9 +393,9 @@ class UserList extends PureComponent {
                             Programme</TableHeaderColumn>
                         <TableHeaderColumn dataField="actions"
                                            dataFormat={this.actionFormatter}>Actions</TableHeaderColumn>
-                    </BootstrapTable>                    
+                    </BootstrapTable>
                 </div>
-                <div id="all" style={{display: "none", width: "200%", paddingLeft: "5%", paddingRight: "5%"}}>
+                <div id="all" className="user-list" style={{display: "none", width: "100%", paddingLeft: "5%", paddingRight: "5%"}}>
                     <BootstrapTable
                         data={tableInfo}
                         options={options}
@@ -455,23 +455,22 @@ class UserList extends PureComponent {
                                            thStyle={{textAlign: "center"}}>user_programme</TableHeaderColumn>
 
                     </BootstrapTable>
-
-                    
                     {/*dhaval-lila file upload starts here */}
-                    <div className={'d-flex mt-4 mb-4'}>
-                        <div className="card d-flex justify-content-center" style={{
-                            width: "30em",
-                            borderWidth: "3px"
-                        }}>
-                            <div className="card-body mx-auto">
-                                <h5 className="card-title">Upload New User Data!</h5>
-                                <h6 className="card-title">Allowed format: .xlsx (excel file) </h6>
-                                <p className="card-text"><FileUpload handleSubmit={this.uploadHandler}/></p>
+                    <div className="file-upload-card">
+                        <div className={'d-flex'}>
+                            <div className="card d-flex justify-content-center" style={{
+                                width: "30em",
+                                borderWidth: "3px"
+                            }}>
+                                <div className="card-body mx-auto">
+                                    <h5 className="card-title">Upload New User Data!</h5>
+                                    <h6 className="card-title">Allowed format: .xlsx (excel file) </h6>
+                                    <p className="card-text"><FileUpload handleSubmit={this.uploadHandler}/></p>
+                                </div>
                             </div>
                         </div>
                     </div>
                     {/*dhaval-lila file upload ends here */}
-
                 </div>
                 <Spinner open={this.state.showSpinner}/>
             </React.Fragment>

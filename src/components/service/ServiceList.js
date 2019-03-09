@@ -26,7 +26,6 @@ class ServiceList extends PureComponent {
     }
 
     getService = () => {
-
         makeCall({
             jobType: "GET",
             urlParams: '/service'
@@ -44,8 +43,7 @@ class ServiceList extends PureComponent {
             .catch((error) => {
                 handleError(error);
             })
-
-    }
+    };
 
     deleteService = (index) => {
 
@@ -63,7 +61,7 @@ class ServiceList extends PureComponent {
                 handleError(error);
             })
 
-    }
+    };
 
     toggleService = (index) => {
 
@@ -85,11 +83,10 @@ class ServiceList extends PureComponent {
             .catch((error) => {
                 handleError(error);
             })
-    }
+    };
 
     render() {
         return (
-
             <div className={'container container-custom'}>
                 <div id="accordion">
                     {
@@ -110,7 +107,7 @@ class ServiceList extends PureComponent {
                                                 component={Switch}
                                                 handleClick={this.toggleService}
                                                 index={i}
-                                                isChecked={service.isActive ? true : false}
+                                                isChecked={!!service.isActive}
                                                 permission={isAdmin(this.props.user)}
                                                 isDisabled={!isSuperAdmin(this.props.user)}
                                                 message={modalMessages.serviceSwitch}/>
@@ -145,8 +142,6 @@ class ServiceList extends PureComponent {
                     component={GoToCart}
                     permission={isStudent(this.props.user)}
                 />
-
-
             </div>
         );
     }
