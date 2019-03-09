@@ -105,13 +105,13 @@ class OrderList extends PureComponent {
                                                     )
                                                 } else {
                                                     return <tr>
-                                                        <td colSpan={6} className='text-center'>Invalid Order (Something wrong going on here, please contact developer to resolve this issue)
+                                                        <td colSpan={isAdmin(others.user) ? 7: 6} className='text-center'>Invalid Order (Something wrong going on here, please contact developer to resolve this issue)
                                                         </td>
                                                     </tr>
                                                 }
                                             })
                                             : <tr>
-                                                <td colSpan={6} className='text-center'>No Order Found</td>
+                                                <td colSpan={isAdmin(others.user) ? 7 : 6} className='text-center'>No Order Found</td>
                                             </tr>
                                     }
                                     </tbody>

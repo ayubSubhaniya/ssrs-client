@@ -1,16 +1,16 @@
-import React, { PureComponent } from 'react';
-import { timeSince } from "../../helper/Time";
+import React, {PureComponent} from 'react';
+import {timeSince} from "../../helper/Time";
 import AuthorizedComponent from "../AuthorizedComponent";
-import { isSuperAdmin } from "../../helper/userType";
+import {isSuperAdmin} from "../../helper/userType";
 import DeleteButton from "../DeleteButton";
 import EditNews from "./EditNews";
 import EditNewsButton from "./EditNewsButton";
 import _ from "lodash"
 import AddNewsButton from "./AddNewsButton";
-import { modalMessages } from "../../config/configuration"
+import {modalMessages} from "../../config/configuration"
 import PropTypes from "prop-types";
-import { withRouter } from 'react-router-dom';
-import { Redirect } from 'react-router';
+import {withRouter} from 'react-router-dom';
+import {Redirect} from 'react-router';
 
 class DataList extends PureComponent {
    static contextTypes = {
@@ -112,13 +112,13 @@ class DataList extends PureComponent {
                                        permission={isSuperAdmin(this.props.user) && this.props.editPermission}
                                     />
 									{
-										this.props.isnotification === true 
-										? <button className="btn btn-outline-primary"											
-											style={{"fontSize": "13px"}}
-											onClick={() => this.redirect(data.cartId)}>
-											Order Details
-										</button>
-										: <div></div>
+                                        data.cartId
+                                            ? <button className="btn btn-outline-primary"
+                                                      style={{"fontSize": "13px"}}
+                                                      onClick={() => this.redirect(data.cartId)}>
+                                                Order Details
+                                            </button>
+                                            : ''
 									}
                                     <AuthorizedComponent
                                        index={i}
