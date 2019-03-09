@@ -10,35 +10,34 @@ class OrderList extends PureComponent {
         super(props);
         this.state = {
             searchText: ''
-        }
+        };
         this.handleChange = handleChange.bind(this);
     }
 
     isMatchOrderName = (cart, regexOfSearch) => {
         return _.some(cart.orders, (order) => order.service.name.match(regexOfSearch));
-    }
+    };
 
     isMatched = (cart, regexOfSearch) => {
         return (cart.orderId.match(regexOfSearch)
             || this.isMatchOrderName(cart, regexOfSearch)
             || cart.requestedBy.match(regexOfSearch)
             || cartStatus[cart.status].match(regexOfSearch))
-    }
+    };
 
     searchFilter = (carts) => {
         if (this.state.searchText) {
-            const regexOfSearch = new RegExp(this.state.searchText, 'gi')
+            const regexOfSearch = new RegExp(this.state.searchText, 'gi');
             return _.filter(carts, (cart) => {
                 return this.isMatched(cart, regexOfSearch)
             })
         } else {
             return carts;
         }
-    }
+    };
 
     getMaxStatusTime = (statusChangeTime) => {
-        let time = []
-
+        let time = [];
         if (statusChangeTime.placed.time)
             time.push(new Date(statusChangeTime.placed.time));
         if (statusChangeTime.paymentFailed.time)
@@ -47,13 +46,13 @@ class OrderList extends PureComponent {
             time.push(new Date(statusChangeTime.processingPayment.time));
 
         return new Date(Math.max.apply(null, time));
-    }
+    };
 
     sortByDate = (carts) => {
         return _.sortBy(carts, (cart) => {
             return this.getMaxStatusTime(cart.statusChangeTime).getTime();
         })
-    }
+    };
 
     render() {
         const {carts, ...others} = this.props;
@@ -67,7 +66,7 @@ class OrderList extends PureComponent {
                     <div className="container-table100 mb-5">
                         <div className="wrap-table100">
                             <div className='col-3 mb-3 pb-0 d-flex flex-row' id='search_bar_position'>
-                                <i className="fa fa-search search-icon" aria-hidden="true"></i>
+                                <i className="fa fa-search search-icon" aria-hidden="true"/>
                                 <input type="text"
                                        className='form-control search-bar'
                                        id='search_bar_position'
@@ -96,7 +95,7 @@ class OrderList extends PureComponent {
                                     {
                                         filteredCarts.length
                                             ? _.map(filteredCarts, (cart, i) => {
-                                                if (cart.orders.length > 0 ) {
+                                                if (cart.orders.length > 0) {
                                                     return (
                                                         <OrderDetails key={cart._id}
                                                                       cart={cart}
@@ -105,13 +104,17 @@ class OrderList extends PureComponent {
                                                     )
                                                 } else {
                                                     return <tr>
-                                                        <td colSpan={isAdmin(others.user) ? 7: 6} className='text-center'>Invalid Order (Something wrong going on here, please contact developer to resolve this issue)
+                                                        <td colSpan={isAdmin(others.user) ? 7 : 6}
+                                                            className='text-center'>Invalid Order (Something wrong going on
+                                                            here, please contact developer to resolve this issue)
                                                         </td>
                                                     </tr>
                                                 }
                                             })
                                             : <tr>
-                                                <td colSpan={isAdmin(others.user) ? 7 : 6} className='text-center'>No Order Found</td>
+                                                <td colSpan={isAdmin(others.user) ? 7 : 6} className='text-center'>No Order
+                                                    Found
+                                                </td>
                                             </tr>
                                     }
                                     </tbody>
