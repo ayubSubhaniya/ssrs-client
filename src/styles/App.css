@@ -357,6 +357,17 @@ input[type=submit] {
     
 }
 
+.payment-fail {
+    overflow-y: scroll;
+    max-height: 35em;
+}
+.payment-fail-card {
+    margin: 8px; 
+    border: 2px solid grey; 
+    border-radius: 4px; 
+    padding: 3px;
+}
+
 /* MOBILE VIEW*/
 @media screen and (max-width: 369px){
     

@@ -18,7 +18,8 @@ import {handleError} from "../../helper/error";
 import {domainUrl, errorMessages} from "../../config/configuration";
 import * as HttpStatus from "http-status-codes";
 import ErrorMessage from "../error/ErrorMessage";
-import _ from "lodash"
+import _ from "lodash";
+import PaymentFailHistoryModal from './PaymentFailHistoryModal';
 
 function PaymentInfo({cart}) {
     let paymentStatus = '';
@@ -31,6 +32,9 @@ function PaymentInfo({cart}) {
     else
         paymentStatus = 'Pending';
 
+    if (cart.paymentFailHistory.length) {
+        cart.paymentFailHistory = _.reverse(cart.paymentFailHistory);
+    }
     return (
         <div className='w-50'>
             <h5 className="position_head">PAYMENT INFORMATION</h5>
@@ -42,20 +46,14 @@ function PaymentInfo({cart}) {
 
             {
                 cart.paymentFailHistory.length
-                    ? <div className={'container p-1'}>
-                        <hr/>
-                        <h5 className="position_head">PAYMENT FAIL HISTORY</h5>
-                        {
-                            _.map(cart.paymentFailHistory, (o) => {
-                                return (<React.Fragment>
-                                    <TextInfoMod lable="Payment ID" data={o.paymentId}/>
-                                    <TextInfoMod lable="Payment Date" data={o.paymentDate}/>
-                                    <TextInfoMod lable="Payment Type" data={camelCaseToWords(o.paymentType)}/>
-                                </React.Fragment>)
-                            })
-                        }
+                    ? <div>
+                        <button>View All</button>
+                        <PaymentFailHistoryModal 
+                            openModal={true}
+                            inputList={cart.paymentFailHistory}/>
                     </div>
                     : ''
+
             }
         </div>
     )
