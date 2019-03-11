@@ -357,6 +357,37 @@ input[type=submit] {
 
 }
 
+.payment-fail-header {
+    background-color: #eaeaea;
+    border-bottom: 1px solid #b0b0b0;
+    display: flex;
+    justify-content: space-between;
+}
+.payment-fail-body {
+    overflow-y: scroll;
+    max-height: 35em;
+}
+.payment-fail-footer {
+    background-color: #eaeaea;
+    border-top: 1px solid #b0b0b0;
+}
+.payment-fail-card {
+    margin: 8px; 
+    border: 2px solid #777777; 
+    border-radius: 6px; 
+    padding: 5px;
+    display: flex;
+    justify-content: space-between;
+}
+.payment-fail-card-left {
+    padding-left: 1%;
+}
+.payment-fail-card-right {
+    text-align: right; 
+    font-style: italic;
+    padding-right: 1%; 
+}
+
 /* MOBILE VIEW*/
 @media screen and (max-width: 369px){
 
