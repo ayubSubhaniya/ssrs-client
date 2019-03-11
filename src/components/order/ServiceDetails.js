@@ -193,7 +193,9 @@ class ServiceDetails extends PureComponent {
                                         : ''
                                 }
                                 {
-                                    order.status === rorderStatus.processing && order.status === rorderStatus.onHold && isAdmin(this.props.user)
+                                    order.status >= rorderStatus.placed
+                                    && order.status < rorderStatus.refunded
+                                    && isAdmin(this.props.user)
                                         ? (<div className='btn btn-outline-danger mr-3'
                                                 onClick={this.openCancelModal}>
                                             Cancel

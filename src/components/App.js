@@ -50,11 +50,11 @@ class App extends PureComponent {
             isAuthenticated: -1,
             loginMessage: '',
             user: defaultUser,
-            
+
         }
         this.getUserData();
     }
-   
+
 
     onUpdateUserError = (response) => {
         if (response.status === HttpStatus.FORBIDDEN) {
@@ -65,8 +65,7 @@ class App extends PureComponent {
             this.setState({
                 signupMessage: errorMessages.internalServerError
             })
-        }
-        else {
+        } else {
             this.setState({
                 signupMessage: errorMessages.somethingsWrong
             })
@@ -188,9 +187,8 @@ class App extends PureComponent {
             loginMessage: ''
         })
     }
-    
+
     render() {
-        
         const {isAuthenticated, loginMessage} = this.state;
         if (isAuthenticated) {
             document.body.style.background = "#ffffff";
@@ -198,9 +196,7 @@ class App extends PureComponent {
             var urlString = 'url(' + require('../images/w2.jpg') + ')';
             document.body.style.background = urlString;
         }
-
         return (
-            
             <Context.Provider value={
                 {
                     logIn: this.logIn,
@@ -208,8 +204,6 @@ class App extends PureComponent {
                     loginMessage,
                     user: this.state.user
                 }}>
-                
-        
                 <Router>
                     <React.Fragment>
                         <Switch>
@@ -221,8 +215,8 @@ class App extends PureComponent {
                                 clearLoginMessage={this.clearLoginMessage}
                                 user={this.state.user}
                                 component={isAuthenticated === -1
-                                    ? () => '' : isAuthenticated ?  Home : PublicPage}/>
-                                
+                                    ? () => '' : isAuthenticated ? Home : PublicPage}/>
+
                             <AuthorizedRoute
                                 exact path="/service"
                                 component={Services}
@@ -240,7 +234,7 @@ class App extends PureComponent {
                                 component={NewServiceForm}
                                 permission={isSuperAdmin(this.state.user)}/>
                             <AuthorizedRoute
-                                exact path="/service/edit/*"
+                                exact path="/service/edit/:id"
                                 component={EditForm}
                                 permission={isSuperAdmin(this.state.user)}/>
                             <AuthorizedRoute
@@ -249,7 +243,7 @@ class App extends PureComponent {
                                 permission={isAdmin(this.state.user)}
                                 user={this.state.user}/>
                             <AuthorizedRoute
-                                path="/parameter/edit"
+                                exact path="/parameter/edit/:id"
                                 component={ParameterEditForm}
                                 permission={isAdmin(this.state.user)}/>
                             <AuthorizedRoute
@@ -262,7 +256,7 @@ class App extends PureComponent {
                                 permission={isAdmin(this.state.user)}
                                 user={this.state.user}/>
                             <AuthorizedRoute
-                                exact path="/collectionType/edit/*"
+                                exact path="/collectionType/edit/:id"
                                 component={CollectionTypeEditForm}
                                 permission={isAdmin(this.state.user)}/>
                             <AuthorizedRoute
@@ -292,7 +286,7 @@ class App extends PureComponent {
                                 user={this.state.user}
                                 updateUser={this.updateUser}/>
                             <AuthorizedRoute
-                                exact path="/order/*"
+                                exact path="/order/:id"
                                 component={CartWithOrders}
                                 permission={isAuthenticated}
                                 user={this.state.user}/>
@@ -329,7 +323,7 @@ class App extends PureComponent {
             </Context.Provider>
         )
     }
-    
+
 }
 
 export default App;

@@ -1,13 +1,13 @@
-import React, { PureComponent } from 'react'
+import React, {PureComponent} from 'react'
 import NavigationBar from "../NavigationBar";
 import _ from 'lodash'
 import Header from "../Header";
-import { makeCall } from "../../helper/caller";
-import { handleError } from "../../helper/error";
-import { defaultEmails } from "../../constants/constants";
-import { handleChange } from "../../helper/StateUpdate";
+import {makeCall} from "../../helper/caller";
+import {handleError} from "../../helper/error";
+import {defaultEmails} from "../../constants/constants";
+import {handleChange} from "../../helper/StateUpdate";
 import RichTextEditor from 'react-rte';
-import { withAlert } from "react-alert";
+import {withAlert} from "react-alert";
 
 class Email extends PureComponent {
     constructor() {
@@ -31,10 +31,11 @@ class Email extends PureComponent {
         return _.filter(_.map(arr, (x) => x.trim()), (x) => x);
     }
 
-    selectEmailType = ({ target }) => {
-        const email = this.state.emails[target.value]
+    selectEmailType = ({target}) => {
+        const value = target.value;
+        const email = this.state.emails[value];
         this.setState({
-            selectedEmail: target.value,
+            selectedEmail: value,
             body: RichTextEditor.createValueFromString(email.body, 'html'),
             cc: email.cc.join(', '),
             bcc: email.bcc.join(', '),
@@ -43,7 +44,7 @@ class Email extends PureComponent {
     }
 
     onChange = (value) => {
-        this.setState({ body: value });
+        this.setState({body: value});
     };
 
     getEmails = () => {
@@ -79,94 +80,93 @@ class Email extends PureComponent {
             urlParams: '/template/email/' + this.state.selectedEmail,
             params: this.getEmailFromState()
         })
-            .then((response) => {
+            .then(() => {
                 this.props.alert.success("Template updated successfully");
             })
             .catch((error) => handleError(error))
     }
 
     render() {
-        return (
-            <div>
-                <NavigationBar />
-                <Header title={'Email Templates'} />
-                <div className='container'>
-                    <div className="form-group row" style={{ "marginTop": "5%" }}>
-                        <label className="col-1.5 col-form-label form-control-lg">Template Name:</label>
-                        <div className="col-4">
-                            <select className="form-control form-control-lg" onClick={this.selectEmailType}>
-                                <option hidden>{this.state.selectedEmail}</option>
-                                {
-                                    _.map(Object.keys(this.state.emails), (x, i) => {
-                                        let y = this.state.emails[x]['templateName'];
-                                        return <option key={i} value={x}>{y}</option>
-                                    })
-                                }
-                            </select>
-                        </div>
+        const options = Object.keys(this.state.emails);
+        return <div>
+            <NavigationBar/>
+            <Header title={'Email Templates'}/>
+            <div className='container'>
+                <div className="form-group row" style={{"marginTop": "5%"}}>
+                    <label className="col-1.5 col-form-label form-control-lg">Template Name:</label>
+                    <div className="col-4">
+                        <select className="form-control form-control-lg" onChange={this.selectEmailType}
+                                value={this.state.selectedEmail}>
+                            {
+                                _.map(options, (x) => {
+                                    let y = this.state.emails[x]['templateName'];
+                                    return <option key={x} value={x}>{y}</option>
+                                })
+                            }
+                        </select>
                     </div>
-                    <div className="modal-content" style={{"borderWidth": "2px"}}>
-                        <div className="modal-body">
-                            <form 
-                                autoComplete='off'
-                                onSubmit={(e) => {
-                                    e.preventDefault();
-                                    this.updateEmails();
-                                }}
-                                className="form-horizontal">
-                                <div className="form-group row ml-0">
-                                    <label className="col-lg-1 col-form-label">Cc</label>
-                                    <div className="col-lg-11">
-                                        <input type="text"
-                                            value={this.state.cc}
-                                            name={'cc'}
-                                            placeholder={'Example: mail1, mail2, mail3'}
-                                            onChange={this.handleChange}
-                                            className="form-control" />
-                                    </div>
+                </div>
+                <div className="modal-content" style={{"borderWidth": "2px"}}>
+                    <div className="modal-body">
+                        <form
+                            autoComplete='off'
+                            onSubmit={(e) => {
+                                e.preventDefault();
+                                this.updateEmails();
+                            }}
+                            className="form-horizontal">
+                            <div className="form-group row ml-0">
+                                <label className="col-lg-1 col-form-label">Cc</label>
+                                <div className="col-lg-11">
+                                    <input type="text"
+                                           value={this.state.cc}
+                                           name={'cc'}
+                                           placeholder={'Example: mail1, mail2, mail3'}
+                                           onChange={this.handleChange}
+                                           className="form-control"/>
                                 </div>
-                                <div className="form-group row ml-0">
-                                    <label className="col-lg-1 col-form-label">Bcc</label>
-                                    <div className="col-lg-11">
-                                        <input type="text"
-                                            name={'bcc'}
-                                            value={this.state.bcc}
-                                            placeholder={'Example: mail1, mail2, mail3'}
-                                            onChange={this.handleChange}
-                                            className="form-control" />
-                                    </div>
+                            </div>
+                            <div className="form-group row ml-0">
+                                <label className="col-lg-1 col-form-label">Bcc</label>
+                                <div className="col-lg-11">
+                                    <input type="text"
+                                           name={'bcc'}
+                                           value={this.state.bcc}
+                                           placeholder={'Example: mail1, mail2, mail3'}
+                                           onChange={this.handleChange}
+                                           className="form-control"/>
                                 </div>
-                                <hr style={{"borderWidth": "2px"}}/>
-                                <div className="form-group row ml-0">
-                                    <label className="col-lg-1 col-form-label">Subject</label>
-                                    <div className="col-lg-11">
-                                        <input type="text"
-                                            name={'subject'}
-                                            value={this.state.subject}
-                                            onChange={this.handleChange}
-                                            className="form-control" />
-                                    </div>
+                            </div>
+                            <hr style={{"borderWidth": "2px"}}/>
+                            <div className="form-group row ml-0">
+                                <label className="col-lg-1 col-form-label">Subject</label>
+                                <div className="col-lg-11">
+                                    <input type="text"
+                                           name={'subject'}
+                                           value={this.state.subject}
+                                           onChange={this.handleChange}
+                                           className="form-control"/>
                                 </div>
-                                <div className="form-group row ml-0">
-                                    <label className="col-lg-1 col-form-label">Body</label>
-                                    <div className="col-lg-11">
-                                        <RichTextEditor
-                                            value={this.state.body}
-                                            onChange={this.onChange}
-                                        />
-                                    </div>
+                            </div>
+                            <div className="form-group row ml-0">
+                                <label className="col-lg-1 col-form-label">Body</label>
+                                <div className="col-lg-11">
+                                    <RichTextEditor
+                                        value={this.state.body}
+                                        onChange={this.onChange}
+                                    />
                                 </div>
-                                <div className="d-flex justify-content-center mt-5">
-                                    <button className="btn btn-outline-success btn-lg"
+                            </div>
+                            <div className="d-flex justify-content-center mt-5">
+                                <button className="btn btn-outline-success btn-lg"
                                         type="submit">Save
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
-        );
+        </div>;
     }
 }
 

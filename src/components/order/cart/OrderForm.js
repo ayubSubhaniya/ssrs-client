@@ -36,9 +36,10 @@ class OrderForm extends PureComponent {
         })
     }
 
-    handleParamenterChange = ({target}) => {
+    handleParamenterChange = (event) => {
+        const index = event.target.dataset.index;
         this.setState({
-            parameters: _.map(this.state.parameters, (o, i) => i === target.dataset.index ? !o : o)
+            parameters: _.map(this.state.parameters, (o, i) => Number(i) === Number(index) ? !o : o)
         })
     };
 

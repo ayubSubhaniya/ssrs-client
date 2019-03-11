@@ -1,59 +1,75 @@
-import React, {PureComponent} from 'react';
-import {withRouter} from 'react-router-dom'
+import React, { PureComponent } from 'react';
+import { withRouter } from 'react-router-dom'
 import NavigationBar from "../NavigationBar";
 import '../../styles/orderstatus.css'
-import {cartStatus, rcartStatus} from "../../constants/status";
-import {camelCaseToWords} from "../../helper/String";
+import { cartStatus, rcartStatus } from "../../constants/status";
+import { camelCaseToWords } from "../../helper/String";
 import TextInput from "./TextInput";
 import {makeCall} from "../../helper/caller";
-import {defaultCart} from "../../constants/constants";
+import {collectionTypeCategory, defaultCart, ONLINE} from "../../constants/constants";
 import {collectionCode, paymentCode} from "../../constants/errorMessage";
 import TextInfoMod from "./TextInfoMod"
 import CourierForm from "./CourierForm";
 import OrderStatusBar from "./OrderStatusBar"
 import ServiceList from "./ServiceList";
-import {DeliveryInfo, PickupInfo} from './Info'
-import {isAdmin} from "../../helper/userType";
-import {handleError} from "../../helper/error";
-import {domainUrl, errorMessages} from "../../config/configuration";
+import { DeliveryInfo, PickupInfo } from './Info'
+import { isAdmin } from "../../helper/userType";
+import { handleError } from "../../helper/error";
+import { domainUrl, errorMessages } from "../../config/configuration";
 import * as HttpStatus from "http-status-codes";
 import ErrorMessage from "../error/ErrorMessage";
-import _ from "lodash"
+import _ from "lodash";
+import PaymentFailHistoryModal from './PaymentFailHistoryModal';
+import PaymentFailHistoryModalCard from './PaymentFailHistoryModalCard';
 
-function PaymentInfo({cart}) {
+function PaymentInfo({ cart, visible, openModal, closeModal }) {
     let paymentStatus = '';
-    if (cart.status === rcartStatus.processingPayment)
-        paymentStatus = 'Processing';
-    else if (cart.paymentStatus)
+    if (cart.paymentStatus)
         paymentStatus = 'Done';
+    else if (cart.status === rcartStatus.processingPayment)
+        paymentStatus = 'Processing';
+    else if (cart.paymentType === ONLINE)
+        paymentStatus = 'Failed';
     else
         paymentStatus = 'Pending';
 
+    if (cart.paymentFailHistory.length) {
+        cart.paymentFailHistory = _.reverse(cart.paymentFailHistory);
+    }
     return (
-        <div className='w-50'>
+        <div className='w-50 p-3 ml-3' style={{"border":"2px solid #343a40", "borderRadius":"4px"}}>
             <h5 className="position_head">PAYMENT INFORMATION</h5>
             <div className='container p-1'>
-                <TextInfoMod lable="Payment Mode" data={camelCaseToWords(cart.paymentType)}/>
-                <TextInfoMod lable="Payment Code" data={cart.paymentCode}/>
-                <TextInfoMod lable="Payment Status" data={paymentStatus}/>
+                <TextInfoMod lable="Payment Mode" data={camelCaseToWords(cart.paymentType)} />
+                <TextInfoMod lable="Payment Code" data={cart.paymentCode} />
+                <TextInfoMod lable="Payment Status" data={paymentStatus} />
             </div>
 
             {
-                cart.paymentFailHistory.length
-                    ? <div className={'container p-1'}>
-                        <hr/>
-                        <h5 className="position_head">PAYMENT FAIL HISTORY</h5>
+                cart.paymentFailHistory.length > 0
+                    ? <div>
+                        <hr />
+                        <h5>PAYMENT FAIL HISTORY</h5>
+                        <PaymentFailHistoryModalCard
+                            paymentId={cart.paymentFailHistory[0].paymentId}
+                            paymentDate={cart.paymentFailHistory[0].paymentDate}
+                            paymentType={cart.paymentFailHistory[0].paymentType} />
                         {
-                            _.map(cart.paymentFailHistory, (o) => {
-                                return (<React.Fragment>
-                                    <TextInfoMod lable="Payment ID" data={o.paymentId}/>
-                                    <TextInfoMod lable="Payment Date" data={o.paymentDate}/>
-                                    <TextInfoMod lable="Payment Type" data={camelCaseToWords(o.paymentType)}/>
-                                </React.Fragment>)
-                            })
+                            cart.paymentFailHistory.length > 1
+                                ? <div>
+                                    <PaymentFailHistoryModal
+                                        visible={visible}
+                                        inputList={cart.paymentFailHistory}
+                                        closeModal={closeModal} />
+                                    <button className="btn btn-outline-info btn-sm" onClick={openModal} style={{ "float": "right" }}>
+                                        View All<i className="fa fa-angle-right" style={{ "marginLeft": "3px" }}></i>
+                                    </button>
+                                </div>
+                                : ''
                         }
                     </div>
                     : ''
+
             }
         </div>
     )
@@ -72,6 +88,7 @@ class OrderInfo extends PureComponent {
             isPaymentCodeWrong: false,
             isCollectionCodeWrong: false,
             isCourierDetailsModalOpen: false,
+            isPaymentFailHistoryModalOpen: false,
         }
     }
 
@@ -90,7 +107,7 @@ class OrderInfo extends PureComponent {
         this.setState({
             errorMessage: message
         })
-    }
+    };
 
     onError = (response) => {
         if (response.status === HttpStatus.PRECONDITION_FAILED) {
@@ -104,10 +121,10 @@ class OrderInfo extends PureComponent {
         } else {
             this.setErrorMessage(errorMessages.somethingsWrong);
         }
-    }
+    };
 
     getCart = () => {
-        let id = this.props.location.pathname.split('/')[2];
+        let id = this.props.match.params.id;
         makeCall({
             jobType: 'GET',
             urlParams: '/cart/' + id
@@ -115,28 +132,12 @@ class OrderInfo extends PureComponent {
             .then((response) => {
                 this.setState({
                     cart: response.cart
-                })
-                this.getCollection(response.cart.collectionType);
+                });
             })
-            .catch((error) => {
-                handleError(error);
+            .catch(() => {
+                this.props.history.push("/order")
             })
-    }
-
-    getCollection = (id) => {
-        makeCall({
-            jobType: 'GET',
-            urlParams: '/collectionType/' + id
-        })
-            .then((response) => {
-                this.setState({
-                    collectionType: response.collectionType
-                })
-            })
-            .catch((error) => {
-                handleError(error);
-            })
-    }
+    };
 
     makePayment = (paymentCode) => {
         if (paymentCode !== this.state.cart.paymentCode) {
@@ -146,7 +147,7 @@ class OrderInfo extends PureComponent {
         } else {
             this.setState({
                 isPaymentCodeWrong: false
-            })
+            });
             makeCall({
                 jobType: 'PATCH',
                 urlParams: '/cart/acceptPayment/' + paymentCode
@@ -159,53 +160,65 @@ class OrderInfo extends PureComponent {
                     handleError(error);
                 })
         }
-    }
+    };
 
     openPaymentCodeModal = () => {
         this.setState({
             isPaymentCodeModalOpen: true
         })
-    }
+    };
 
     closePaymentCodeModal = () => {
         this.setState({
             isPaymentCodeModalOpen: false
         })
-    }
+    };
 
     openCancelModal = () => {
         this.setState({
             isCancelModalOpen: true
         })
-    }
+    };
 
     closeCancelModal = () => {
         this.setState({
             isCancelModalOpen: false
         })
-    }
+    };
 
     openCourierDetailsModal = () => {
         this.setState({
             isCourierDetailsModalOpen: true
         })
-    }
+    };
 
     closeCourierDetailsModal = () => {
         this.setState({
             isCourierDetailsModalOpen: false
         })
-    }
+    };
 
     openCollectionCodeModal = () => {
         this.setState({
             isCollectionCodeModalOpen: true
         })
-    }
+    };
 
-    closeColletionCodeModal = () => {
+    closeCollectionCodeModal = () => {
         this.setState({
             isCollectionCodeModalOpen: false
+        })
+    };
+
+    openPaymentFailHistoryModal = () => {
+        this.setState({
+            isPaymentFailHistoryModalOpen: true
+        })
+    }
+
+    closePaymentFailHistoryModal = () => {
+        this.setState({
+            isPaymentFailHistoryModalOpen: false
         })
     }
 
@@ -217,13 +230,13 @@ class OrderInfo extends PureComponent {
         })
             .then(() => {
                 this.closeCourierDetailsModal();
-                this.closeColletionCodeModal();
+                this.closeCollectionCodeModal();
                 this.getCart()
             })
             .catch((error) => {
                 handleError(error);
             })
-    }
+    };
 
 
     cancelCart = (reason) => {
@@ -241,11 +254,11 @@ class OrderInfo extends PureComponent {
             .catch((error) => {
                 handleError(error);
             })
-    }
+    };
 
     giveRefund = () => {
         // TODO: send request for refund
-    }
+    };
 
     compareCollectionCode = (collectionCode) => {
         if (collectionCode !== this.state.cart.pickup.collectionCode) {
@@ -260,26 +273,26 @@ class OrderInfo extends PureComponent {
                 status: rcartStatus.completed
             })
         }
-    }
+    };
 
     redirect = (id) => {
         this.props.history.push({
             pathname: '/payment/' + id
         });
-    }
+    };
 
     render() {
         const cart = this.state.cart;
-        const delivery = cart.delivery;
-        const pickup = cart.pickup;
+        const delivery = cart.collectionType.category === collectionTypeCategory.DELIVERY ? cart.delivery : undefined;
+        const pickup = cart.collectionType.category === collectionTypeCategory.PICKUP ? cart.pickup : undefined;
         return (
             <div className='mb-4 pb-4'>
-                <NavigationBar/>
+                <NavigationBar />
                 <div className="container pb-0 mt-4">
                     <h3>
                         <strong>Order #: {cart.orderId}</strong>
                     </h3>
-                    <hr/>
+                    <hr />
                     <div className='d-flex justify-content-between'>
                         <h3 className='order-status'>
                             {camelCaseToWords(cartStatus[cart.status])}
@@ -287,7 +300,7 @@ class OrderInfo extends PureComponent {
                         {
                             (cart.status >= rcartStatus.placed && cart.status < rcartStatus.completed && isAdmin(this.props.user))
                                 ? <div className='btn btn-outline-danger mr-4 align-self-center'
-                                       onClick={this.openCancelModal}>
+                                    onClick={this.openCancelModal}>
                                     Cancel
                                 </div>
                                 : ''
@@ -298,42 +311,42 @@ class OrderInfo extends PureComponent {
                                      target="_blank"
                                      download={`invoice_${cart.orderId}.pdf`}
                                      className='btn btn-outline-primary mr-4 align-self-center'>
-                                    <i className="fa fa-download mr-2" aria-hidden="true"></i>
+                                    <i className="fa fa-download mr-2" aria-hidden="true"/>
                                     Invoice
                                 </a>
                                 : ''
                         }
-                        {
-                            (cart.status === rcartStatus.cancelled)
-                                ? <div className='btn btn-outline-primary mr-4 align-self-center'
-                                       onClick={this.giveRefund}>
-                                    <i className="fa fa-undo mr-2"></i>
-                                    Refund
-                                </div>
-                                : ''
-                        }
+                        {/*{*/}
+                        {/*(cart.status === rcartStatus.cancelled)*/}
+                        {/*? <div className='btn btn-outline-primary mr-4 align-self-center'*/}
+                        {/*onClick={this.giveRefund}>*/}
+                        {/*<i className="fa fa-undo mr-2"></i>*/}
+                        {/*Refund*/}
+                        {/*</div>*/}
+                        {/*: ''*/}
+                        {/*}*/}
                         {
                             (cart.status === rcartStatus.paymentFailed)
                                 ? <div className='btn btn-outline-primary mr-4 align-self-center'
-                                       onClick={() => this.redirect(cart._id)}>
-                                    <i className="fa fa-redo"></i>
+                                    onClick={() => this.redirect(cart._id)}>
+                                    <i className="fa fa-redo" />
                                     Retry
                                 </div>
                                 : ''
                         }
                     </div>
                     <CourierForm visible={this.state.isCourierDetailsModalOpen}
-                                 closeModal={this.closeCourierDetailsModal}
-                                 onSubmit={this.completeOrder}/>
+                        closeModal={this.closeCourierDetailsModal}
+                        onSubmit={this.completeOrder} />
                     <OrderStatusBar status={cart.status}
-                                    user={this.props.user}
-                                    statusChangeTime={cart.statusChangeTime}
-                                    openPaymentCodeModal={this.openPaymentCodeModal}
-                                    openCollectionCodeModal={this.openCollectionCodeModal}
-                                    openCourierDetailsModal={this.openCourierDetailsModal}
-                                    isDelivery={delivery}/>
+                        user={this.props.user}
+                        statusChangeTime={cart.statusChangeTime}
+                        openPaymentCodeModal={this.openPaymentCodeModal}
+                        openCollectionCodeModal={this.openCollectionCodeModal}
+                        openCourierDetailsModal={this.openCourierDetailsModal}
+                        isDelivery={delivery} />
                     <ServiceList cart={cart}
-                                 collectionType={this.state.collectionType}
+                                 collectionType={cart.collectionType}
                                  user={this.props.user}
                                  getCart={this.getCart}/>
                     <ErrorMessage message={this.state.errorMessage} clearMessage={this.cleanErrorMessage}/>
@@ -341,36 +354,39 @@ class OrderInfo extends PureComponent {
                         <div><span className={'total'}>Total: ₹ </span><span
                             className='price'>{cart.totalCost}</span></div>
                     </div>
-                    <hr/>
+                    <hr />
                     <div className='d-flex'>
-                        <div className='w-50'>
-                            <div className='container p-1'>
+                        <div className='w-50' style={{"border":"2px solid #343a40", "borderRadius":"4px"}}>
+                            <div className='container p-3'>
                                 <h5 className="position_head">COLLECTION INFORMATION</h5>
 
-                                <TextInfoMod lable="Collection Type" data={this.state.collectionType.name}/>
+                                <TextInfoMod lable="Collection Type" data={cart.collectionType.name}/>
                                 {
                                     delivery
-                                        ? <DeliveryInfo delivery={delivery}/>
-                                        : <PickupInfo pickup={pickup}/>
+                                        ? <DeliveryInfo delivery={delivery} />
+                                        : <PickupInfo pickup={pickup} />
                                 }
                             </div>
                         </div>
-                        <PaymentInfo cart={cart}/>
+                        <PaymentInfo cart={cart}
+                            openModal={this.openPaymentFailHistoryModal}
+                            closeModal={this.closePaymentFailHistoryModal}
+                            visible={this.state.isPaymentFailHistoryModalOpen} />
                     </div>
                     <TextInput visible={this.state.isCancelModalOpen}
-                               text={'Enter Reason For Cancellation'}
-                               closeModal={this.closeCancelModal}
-                               onSubmit={this.cancelCart}/>
+                        text={'Enter Reason For Cancellation'}
+                        closeModal={this.closeCancelModal}
+                        onSubmit={this.cancelCart} />
                     <TextInput visible={this.state.isCollectionCodeModalOpen}
                                text={'Enter Collection Code'}
                                errorMessage={this.state.isCollectionCodeWrong ? collectionCode.wrong : ''}
-                               closeModal={this.closeColletionCodeModal}
+                               closeModal={this.closeCollectionCodeModal}
                                onSubmit={this.compareCollectionCode}/>
                     <TextInput visible={this.state.isPaymentCodeModalOpen}
-                               text={'Enter Payment Code'}
-                               errorMessage={this.state.isPaymentCodeWrong ? paymentCode.wrong : ''}
-                               onSubmit={this.makePayment}
-                               closeModal={this.closePaymentCodeModal}/>
+                        text={'Enter Payment Code'}
+                        errorMessage={this.state.isPaymentCodeWrong ? paymentCode.wrong : ''}
+                        onSubmit={this.makePayment}
+                        closeModal={this.closePaymentCodeModal} />
                 </div>
             </div>
         );
