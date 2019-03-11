@@ -23,5 +23,5 @@ export function timeSince(date) {
     if (interval > 1) {
         return interval + " minutes";
     }
-    return Math.floor(seconds) + " seconds";
+    return Math.max(0, Math.floor(seconds)) + " seconds";
 }
