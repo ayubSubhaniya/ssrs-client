@@ -9,13 +9,18 @@ class PaymentFailHistoryModal extends React.PureComponent {
     render() {
         const paymentFailHistoryList = this.props.inputList;
         return (
-            <Modal visible={this.props.openModal}>
-                <div className="modal-header" id='order_position'>
-                    <div className={'w-100'}>
-                        <h5 className="modal-title w-100 text-center">{"Payment Fail History"}</h5>
+            <Modal visible={this.props.visible}>
+                <div className="modal-header payment-fail-header">
+                    <div>
+                        <h5 className="modal-title">{"Payment Fail History"}</h5>
+                    </div>
+                    <div>
+                        <button className="btn btn-outline-dark btn-sm" onClick={this.props.closeModal}>
+                            <strong className="m-1">X</strong>
+                        </button>
                     </div>
                 </div>
-                <div className="modal-body payment-fail">
+                <div className="modal-body payment-fail-body">
                 {
                     _.map(paymentFailHistoryList, (o) => <PaymentFailHistoryModalCard 
                                                             paymentId={o.paymentId}
@@ -23,7 +28,7 @@ class PaymentFailHistoryModal extends React.PureComponent {
                                                             paymentType={o.paymentType} />)
                 }
                 </div>
-                <div className="modal-footer"></div>
+                <div className="modal-footer payment-fail-footer"></div>
             </Modal>
         )
     }

@@ -1,15 +1,20 @@
-import React, {PureComponent} from 'react';
-import {camelCaseToWords} from "../../helper/String";
+import React, { PureComponent } from 'react';
+import { camelCaseToWords } from "../../helper/String";
 
 class PaymentFailHistoryModalCard extends PureComponent {
 
     render() {
-        return(
+        const dateNtime = this.props.paymentDate.split(' ');
+        return (
             <div className="payment-fail-card">
-                <h6>{this.props.paymentId}</h6>
-                <h6>{this.props.paymentDate}</h6>
-                <h6>{camelCaseToWords(this.props.paymentType)}</h6>
-                
+                <div>
+                    <span className="mr-3 mb-3"><strong>{"Payment ID:"}</strong></span>{this.props.paymentId}<br/>
+                    <span className="mr-3"><strong>{"Gateway:"}</strong></span>{camelCaseToWords(this.props.paymentType)}
+                </div>
+                <div className="payment-fail-card-right">
+                    {dateNtime[0]}<br/>
+                    {dateNtime[1]}
+                </div>
             </div>
         )
     }
