@@ -1115,3 +1115,11 @@ hr.style14 {
     justify-content: center;
     margin-bottom: 10px;
 }
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.cursor-not-allowed {
+    cursor: not-allowed;
+}
