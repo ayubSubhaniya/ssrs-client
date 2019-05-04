@@ -8,6 +8,7 @@ import {isAdmin, isStudent} from "../../helper/userType";
 import {makeCall} from "../../helper/caller";
 import {handleError} from "../../helper/error";
 import {rcartStatus} from "../../constants/status";
+import {DEFAULT_PAGINATION_SIZE} from "../../constants/constants";
 
 const orders = {
     '-10': "all",
@@ -31,7 +32,7 @@ class Filter extends PureComponent {
             isFilterVisible: false,
             filterState: -1,
             pageNo: 1,
-            size: 3,
+            size: DEFAULT_PAGINATION_SIZE,
             cart: [],
         }
     }
