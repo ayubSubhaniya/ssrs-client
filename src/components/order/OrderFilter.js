@@ -30,6 +30,8 @@ class Filter extends PureComponent {
             filterKey: ['-10', 30, 40, 50, 70, 80, 90, 100, 110, 120, 130],
             isFilterVisible: false,
             filterState: -1,
+            pageNo: 1,
+            size: 3,
             cart: [],
         }
     }
@@ -46,12 +48,13 @@ class Filter extends PureComponent {
         }
     }
 
-    getCart = (filterState) => {
+    getCart = (filterState, next) => {
         if (filterState === -1)
             return [];
+        const pageNo = this.state.pageNo + (next === true ? +1 : (next === undefined ? 0 : -1));
         const params = filterState === '-10'
-            ? undefined
-            : {"status": filterState}
+            ? {"pageNo": pageNo, "size": this.state.size}
+            : {"status": filterState, "pageNo": pageNo, "size": this.state.size}
         makeCall({
             jobType: 'GET',
             urlParams: '/cart/all',
@@ -60,7 +63,8 @@ class Filter extends PureComponent {
             .then((response) => {
                 this.setState({
                     cart: response.cart,
-                    filterState: filterState
+                    filterState: filterState,
+                    pageNo: pageNo
                 })
             })
             .catch((error) => {
@@ -78,6 +82,14 @@ class Filter extends PureComponent {
         this.getCart(target.dataset.filter);
     }
 
+    fetchNextPage = () => {
+        this.getCart(this.state.filterState, true);
+    }
+
+    fetchPrevPage = () => {
+        this.getCart(this.state.filterState, false);
+    }
+
     render() {
         let cart = this.state.cart;
         let filterKey = this.state.filterKey;
@@ -93,7 +105,10 @@ class Filter extends PureComponent {
 
                     <OrderList carts={cart}
                                isFilterVisible={this.state.isFilterVisible}
-                               user={this.props.user}/>
+                               user={this.props.user}
+                               pageNo={this.state.pageNo}
+                               getNext={this.fetchNextPage}
+                               getPrev={this.fetchPrevPage}/>
 
                     <div className={`cd-filter ${this.state.isFilterVisible ? 'filter-is-visible' : ''}`}>
                         <form>

@@ -119,6 +119,30 @@ class OrderList extends PureComponent {
                                     }
                                     </tbody>
                                 </table>
+                                <div className="container d-flex justify-content-between">
+                                    {
+                                        this.props.pageNo > 1
+                                            ? <div className="btn btn-primary cursor-pointer p-2 mt-1"
+                                                   onClick={this.props.getPrev}>
+                                                {"⬅️ Prev"}
+                                            </div>
+                                            :
+                                            <div className="btn btn-secondary disabled cursor-not-allowed p-2 mt-1">
+                                                {"⬅️ Prev"}
+                                            </div>
+                                    }
+                                    {
+                                        carts.length > 0
+                                            ? <div className="btn btn-primary cursor-pointer p-2 mt-1"
+                                                   onClick={this.props.getNext}>
+                                                {"Next ➡️"}
+                                            </div>
+                                            :
+                                            <div className="btn btn-secondary disabled cursor-not-allowed p-2 mt-1">
+                                                {"Next ➡️"}
+                                            </div>
+                                    }
+                                </div>
                             </div>
                         </div>
                     </div>
