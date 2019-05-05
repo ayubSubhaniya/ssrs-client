@@ -22,6 +22,17 @@ const orders = {
     110: "refunded",
     120: "completed",
     130: "cancelled"
+};
+
+function getQueryVariable(queryString, variable) {
+    let vars = queryString.split('&');
+    for (let i = 0; i < vars.length; i++) {
+        let pair = vars[i].split('=');
+        pair[0] = pair[0].replace("?", "");
+        if (pair[0] === variable) {
+            return pair[1];
+        }
+    }
 }
 
 class Filter extends PureComponent {
@@ -32,20 +43,33 @@ class Filter extends PureComponent {
             isFilterVisible: false,
             filterState: -1,
             cart: [],
-        }
+        };
         this.pageNo = 1;
         this.size = DEFAULT_PAGINATION_SIZE;
     }
 
     componentDidMount() {
-        this.getCart(isAdmin(this.props.user)
-            ? rcartStatus.processing
-            : isStudent(this.props.user) ? '-10' : -1)
+        const queryString = this.props.location.search;
+        this.status = Number(getQueryVariable(queryString, "status"));
+        const pageNo = Number(getQueryVariable(queryString, "pageNo"));
+        if (pageNo)
+            this.pageNo = pageNo;
+
+        if (this.status) {
+            this.getCart(this.status);
+        } else {
+            this.getCart(isAdmin(this.props.user)
+                ? rcartStatus.processing
+                : isStudent(this.props.user) ? '-10' : -1)
+        }
     }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.userType !== this.props.user.userType) {
-            this.getCart((isAdmin(nextProps.user) ? rcartStatus.processing : '-10'))
+            if (this.status)
+                this.getCart(this.status);
+            else
+                this.getCart((isAdmin(nextProps.user) ? rcartStatus.processing : '-10'));
         }
     }
 
