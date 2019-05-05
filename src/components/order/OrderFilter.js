@@ -31,10 +31,10 @@ class Filter extends PureComponent {
             filterKey: ['-10', 30, 40, 50, 70, 80, 90, 100, 110, 120, 130],
             isFilterVisible: false,
             filterState: -1,
-            pageNo: 1,
-            size: DEFAULT_PAGINATION_SIZE,
             cart: [],
         }
+        this.pageNo = 1;
+        this.size = DEFAULT_PAGINATION_SIZE;
     }
 
     componentDidMount() {
@@ -52,10 +52,10 @@ class Filter extends PureComponent {
     getCart = (filterState, next) => {
         if (filterState === -1)
             return [];
-        const pageNo = this.state.pageNo + (next === true ? +1 : (next === undefined ? 0 : -1));
+        const pageNo = this.pageNo + (next === true ? +1 : (next === undefined ? 0 : -1));
         const params = filterState === '-10'
-            ? {"pageNo": pageNo, "size": this.state.size}
-            : {"status": filterState, "pageNo": pageNo, "size": this.state.size}
+            ? {"pageNo": pageNo, "size": this.size}
+            : {"status": filterState, "pageNo": pageNo, "size": this.size}
         makeCall({
             jobType: 'GET',
             urlParams: '/cart/all',
@@ -64,9 +64,9 @@ class Filter extends PureComponent {
             .then((response) => {
                 this.setState({
                     cart: response.cart,
-                    filterState: filterState,
-                    pageNo: pageNo
+                    filterState: filterState
                 })
+                this.pageNo = pageNo;
             })
             .catch((error) => {
                 handleError(error);
@@ -80,6 +80,7 @@ class Filter extends PureComponent {
     }
 
     updateFilter = ({target}) => {
+        this.pageNo = 1;
         this.getCart(target.dataset.filter);
     }
 
@@ -107,7 +108,7 @@ class Filter extends PureComponent {
                     <OrderList carts={cart}
                                isFilterVisible={this.state.isFilterVisible}
                                user={this.props.user}
-                               pageNo={this.state.pageNo}
+                               pageNo={this.pageNo}
                                getNext={this.fetchNextPage}
                                getPrev={this.fetchPrevPage}/>
 
