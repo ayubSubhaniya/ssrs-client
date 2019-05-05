@@ -119,27 +119,27 @@ class OrderList extends PureComponent {
                                     }
                                     </tbody>
                                 </table>
-                                <div className="container d-flex justify-content-between">
+                                <div className="container d-flex justify-content-end">
                                     {
                                         this.props.pageNo > 1
-                                            ? <div className="btn btn-primary cursor-pointer p-2 mt-1"
+                                            ? <div className="btn btn-outline-dark cursor-pointer mt-2 mr-1"
                                                    onClick={this.props.getPrev}>
-                                                {"⬅️ Prev"}
+                                                <i className="fa fa-angle-left"/>
                                             </div>
                                             :
-                                            <div className="btn btn-secondary disabled cursor-not-allowed p-2 mt-1">
-                                                {"⬅️ Prev"}
+                                            <div className="btn btn-outline-dark disabled cursor-not-allowed mt-2 mr-1">
+                                                <i className="fa fa-chevron-left"/>
                                             </div>
                                     }
                                     {
                                         carts.length > 0
-                                            ? <div className="btn btn-primary cursor-pointer p-2 mt-1"
+                                            ? <div className="btn btn-outline-dark cursor-pointer mt-2 ml-1"
                                                    onClick={this.props.getNext}>
-                                                {"Next ➡️"}
+                                                <i className="fa fa-chevron-right"/> 
                                             </div>
                                             :
-                                            <div className="btn btn-secondary disabled cursor-not-allowed p-2 mt-1">
-                                                {"Next ➡️"}
+                                            <div className="btn btn-outline-dark disabled cursor-not-allowed mt-2 ml-1">
+                                                <i className="fa fa-chevron-right"/> 
                                             </div>
                                     }
                                 </div>
