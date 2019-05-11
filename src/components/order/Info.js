@@ -26,7 +26,7 @@ export function DeliveryInfo({delivery}) {
             <TextInfoMod lable="Phone" data={delivery.contactNo}/>
             <TextInfoMod lable="Email" data={delivery.email}/>
             <TextInfoMod lable="Courier Service" data={delivery.courierServiceName}/>
-            <TextInfoMod lable="Courier Tacking ID" data={delivery.trackingId}/>
+            <TextInfoMod lable="Courier Tracking ID" data={delivery.trackingId}/>
         </React.Fragment>
     )
 }
