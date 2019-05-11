@@ -257,7 +257,19 @@ class OrderInfo extends PureComponent {
     };
 
     giveRefund = () => {
-        // TODO: send request for refund
+        makeCall({
+            jobType: 'PATCH',
+            urlParams: '/cart/changeStatus/' + this.state.cart._id,
+            params: {
+                status: rcartStatus.refunded
+            }
+        })
+            .then(() => {
+                this.getCart()
+            })
+            .catch((error) => {
+                handleError(error);
+            })
     };
 
     compareCollectionCode = (collectionCode) => {
@@ -316,15 +328,15 @@ class OrderInfo extends PureComponent {
                                 </a>
                                 : ''
                         }
-                        {/*{*/}
-                        {/*(cart.status === rcartStatus.cancelled)*/}
-                        {/*? <div className='btn btn-outline-primary mr-4 align-self-center'*/}
-                        {/*onClick={this.giveRefund}>*/}
-                        {/*<i className="fa fa-undo mr-2"></i>*/}
-                        {/*Refund*/}
-                        {/*</div>*/}
-                        {/*: ''*/}
-                        {/*}*/}
+                        {
+                        (cart.status === rcartStatus.cancelled)
+                        ? <div className='btn btn-outline-primary mr-4 align-self-center'
+                        onClick={this.giveRefund}>
+                        <i className="fa fa-undo mr-2"></i>
+                        Refund
+                        </div>
+                        : ''
+                        }
                         {
                             (cart.status === rcartStatus.paymentFailed)
                                 ? <div className='btn btn-outline-primary mr-4 align-self-center'

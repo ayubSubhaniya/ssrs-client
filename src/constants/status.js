@@ -9,8 +9,8 @@ export const cartStatus = {
     80: 'readyToDeliver',
     90: 'readyToPickup',
     100: 'onHold',
-    110: 'refunded',
     120: 'completed',
+    125: 'refunded',
     130: 'cancelled',
     0: 'Loading...'
 }
@@ -26,8 +26,8 @@ export const rcartStatus = {
     readyToDeliver: 80,
     readyToPickup: 90,
     onHold: 100,
-    refunded: 110,
     completed: 120,
+    refunded: 125,
     cancelled: 130,
 }
 
@@ -39,8 +39,8 @@ export const orderStatus = {
     40: "processing",
     50: "ready",
     60: "onHold",
-    70: "refunded",
     80: "completed",
+    85: "refunded",
     90: "cancelled"
 }
 
@@ -52,17 +52,18 @@ export const rorderStatus = {
     processing: 40,
     ready: 50,
     onHold: 60,
-    refunded: 70,
     completed: 80,
+    refunded: 85,
     cancelled: 90,
 }
 
 export const rcollectionStatus = {
-    failed: 0,
+    paymentFailed: 0,
     pendingPayment: 10,
     processing: 20,
     ready: 30,
     completed: 40,
+    refunded: 45,
     cancel: 50
 }
 
