@@ -207,6 +207,18 @@ class App extends PureComponent {
                 <Router>
                     <React.Fragment>
                         <Switch>
+                            {
+                                isAuthenticated === false
+                                    ? <AuthorizedRoute
+                                        permission={true}
+                                        path="/"
+                                        hideSpinner={this.hideSpinner}
+                                        showSpinner={this.showSpinner}
+                                        clearLoginMessage={this.clearLoginMessage}
+                                        user={this.state.user}
+                                        component={PublicPage}/>
+                                    : ''
+                            }
                             <AuthorizedRoute
                                 permission={true}
                                 exact path="/"
