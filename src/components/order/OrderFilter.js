@@ -86,11 +86,11 @@ class Filter extends PureComponent {
             params: params
         })
             .then((response) => {
+                this.pageNo = pageNo;
                 this.setState({
                     cart: response.cart,
                     filterState: filterState
                 })
-                this.pageNo = pageNo;
             })
             .catch((error) => {
                 handleError(error);

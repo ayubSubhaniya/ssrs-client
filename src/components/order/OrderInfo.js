@@ -329,13 +329,13 @@ class OrderInfo extends PureComponent {
                                 : ''
                         }
                         {
-                        (cart.status === rcartStatus.cancelled)
-                        ? <div className='btn btn-outline-primary mr-4 align-self-center'
-                        onClick={this.giveRefund}>
-                        <i className="fa fa-undo mr-2"></i>
-                        Refund
-                        </div>
-                        : ''
+                            (cart.status === rcartStatus.cancelled && cart.paymentStatus === true && isAdmin(this.props.user))
+                                ? <div className='btn btn-outline-primary mr-4 align-self-center'
+                                       onClick={this.giveRefund}>
+                                    <i className="fa fa-undo mr-2"></i>
+                                    Refund
+                                </div>
+                                : ''
                         }
                         {
                             (cart.status === rcartStatus.paymentFailed)
