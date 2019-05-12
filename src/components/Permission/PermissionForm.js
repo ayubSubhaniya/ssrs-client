@@ -185,11 +185,13 @@ class PermissionForm extends React.PureComponent {
         })
     };
     changeStatus = (e, key, d) => {
+        //console.log("chagned",key,d)
         let value = e.target.value
-        this.setState(function (state) {
-            state.data[`${key}`][`${d}`] = `${value}`
-            return {data: state.data};
-        });
+        let copy = JSON.parse(JSON.stringify(this.state.data))
+        copy[`${key}`][`${d}`] = `${value}`
+        this.setState({
+            data : copy
+        })
     }
     getList = () => {
         let keys = Object.keys(this.state.data);
@@ -197,7 +199,7 @@ class PermissionForm extends React.PureComponent {
             return (
                 <React.Fragment>
                     <tr>
-                        <th rowspan="4">{key}</th>
+                        <th rowSpan="4">{key}</th>
                         <td>read</td>
                         <td>
                             <div className={'d-flex flex-row'}>
@@ -209,7 +211,7 @@ class PermissionForm extends React.PureComponent {
                                                    type="radio"
                                                    value="any"
                                                    checked={this.state.data[`${key}`].read === "any"}
-                                                   onClick={(e) => this.changeStatus(e, `${key}`, "read")}/>
+                                                   onChange={(e) => this.changeStatus(e, `${key}`, "read")}/>
                                             any
                                         </label>
                                     </div>
@@ -222,7 +224,7 @@ class PermissionForm extends React.PureComponent {
                                                    type="radio"
                                                    value="own"
                                                    checked={this.state.data[`${key}`].read === "own"}
-                                                   onClick={(e) => this.changeStatus(e, `${key}`, "read")}/>
+                                                   onChange={(e) => this.changeStatus(e, `${key}`, "read")}/>
                                             own
                                         </label>
                                     </div>
@@ -235,7 +237,7 @@ class PermissionForm extends React.PureComponent {
                                                    type="radio"
                                                    value="none"
                                                    checked={this.state.data[`${key}`].read === "none"}
-                                                   onClick={(e) => this.changeStatus(e, `${key}`, "read")}/>
+                                                   onChange={(e) => this.changeStatus(e, `${key}`, "read")}/>
                                             none
                                         </label>
                                     </div>
@@ -256,7 +258,7 @@ class PermissionForm extends React.PureComponent {
                                                    type="radio"
                                                    value="any"
                                                    checked={this.state.data[`${key}`].update === "any"}
-                                                   onClick={(e) => this.changeStatus(e, `${key}`, "update")}/>
+                                                   onChange={(e) => this.changeStatus(e, `${key}`, "update")}/>
                                             any
                                         </label>
                                     </div>
@@ -269,7 +271,7 @@ class PermissionForm extends React.PureComponent {
                                                    type="radio"
                                                    value="own"
                                                    checked={this.state.data[`${key}`].update === "own"}
-                                                   onClick={(e) => this.changeStatus(e, `${key}`, "update")}/>
+                                                   onChange={(e) => this.changeStatus(e, `${key}`, "update")}/>
                                             own
                                         </label>
                                     </div>
@@ -282,7 +284,7 @@ class PermissionForm extends React.PureComponent {
                                                    type="radio"
                                                    value="none"
                                                    checked={this.state.data[`${key}`].update === "none"}
-                                                   onClick={(e) => this.changeStatus(e, `${key}`, "update")}/>
+                                                   onChange={(e) => this.changeStatus(e, `${key}`, "update")}/>
                                             none
                                         </label>
                                     </div>
@@ -302,7 +304,7 @@ class PermissionForm extends React.PureComponent {
                                                    type="radio"
                                                    value="any"
                                                    checked={this.state.data[`${key}`].create === "any"}
-                                                   onClick={(e) => this.changeStatus(e, `${key}`, "create")}/>
+                                                   onChange={(e) => this.changeStatus(e, `${key}`, "create")}/>
                                             any
                                         </label>
                                     </div>
@@ -315,7 +317,7 @@ class PermissionForm extends React.PureComponent {
                                                    type="radio"
                                                    value="own"
                                                    checked={this.state.data[`${key}`].create === "own"}
-                                                   onClick={(e) => this.changeStatus(e, `${key}`, "create")}/>
+                                                   onChange={(e) => this.changeStatus(e, `${key}`, "create")}/>
                                             own
                                         </label>
                                     </div>
@@ -328,7 +330,7 @@ class PermissionForm extends React.PureComponent {
                                                    type="radio"
                                                    value="none"
                                                    checked={this.state.data[`${key}`].create === "none"}
-                                                   onClick={(e) => this.changeStatus(e, `${key}`, "create")}/>
+                                                   onChange={(e) => this.changeStatus(e, `${key}`, "create")}/>
                                             none
                                         </label>
                                     </div>
@@ -348,7 +350,7 @@ class PermissionForm extends React.PureComponent {
                                                    type="radio"
                                                    value="any"
                                                    checked={this.state.data[`${key}`].delete === "any"}
-                                                   onClick={(e) => this.changeStatus(e, `${key}`, "delete")}/>
+                                                   onChange={(e) => this.changeStatus(e, `${key}`, "delete")}/>
                                             any
                                         </label>
                                     </div>
@@ -361,7 +363,7 @@ class PermissionForm extends React.PureComponent {
                                                    type="radio"
                                                    value="own"
                                                    checked={this.state.data[`${key}`].delete === "own"}
-                                                   onClick={(e) => this.changeStatus(e, `${key}`, "delete")}/>
+                                                   onChange={(e) => this.changeStatus(e, `${key}`, "delete")}/>
                                             own
                                         </label>
                                     </div>
@@ -374,7 +376,7 @@ class PermissionForm extends React.PureComponent {
                                                    type="radio"
                                                    value="none"
                                                    checked={this.state.data[`${key}`].delete === "none"}
-                                                   onClick={(e) => this.changeStatus(e, `${key}`, "delete")}/>
+                                                   onChange={(e) => this.changeStatus(e, `${key}`, "delete")}/>
                                             none
                                         </label>
                                     </div>
