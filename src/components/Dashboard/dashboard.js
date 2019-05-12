@@ -1,11 +1,11 @@
-import React, {PureComponent} from 'react';
+import React, { PureComponent } from 'react';
 import NavigationBar from '../NavigationBar';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import _ from "lodash"
 import 'react-datepicker/dist/react-datepicker.css';
-import {makeCall} from '../../helper/caller';
-import {handleError} from "../../helper/error";
+import { makeCall } from '../../helper/caller';
+import { handleError } from "../../helper/error";
 import '../../styles/text.css';
 
 class dashboard extends PureComponent {
@@ -14,7 +14,7 @@ class dashboard extends PureComponent {
         super(props, context);
         this.state = {
             todayService: {
-                order: {count: '0'}
+                order: { count: '0' }
             },
             pastService: [],
             totalPayment: 0,
@@ -51,8 +51,13 @@ class dashboard extends PureComponent {
     }
 
     getUrlQuery = () => {
-        return 'startDate=' + this.dateToString(this.state.startDate)
-            + '&endDate=' + this.dateToString(this.state.endDate);
+        let dateQuery = 'startDate=' + this.dateToString(this.state.startDate);
+        if (this.state.endDate)
+            dateQuery += '&endDate=' + this.dateToString(this.state.endDate);
+        else
+            dateQuery += '&endDate=' + this.dateToString(this.state.todayDate);
+
+        return dateQuery;
     }
 
     getCartStatistics = () => {
@@ -103,10 +108,10 @@ class dashboard extends PureComponent {
     render() {
         return (
             <React.Fragment>
-                <NavigationBar/>
+                <NavigationBar />
 
                 <h1 style={{
-                    fontSize: "70px",
+                    fontSize: "40px",
                     padding: "40px 50px",
                     textAlign: "center",
                     textTransform: "uppercase",
@@ -118,117 +123,131 @@ class dashboard extends PureComponent {
                 }}>Dashboard</h1>
                 <div className="container">
                     <div className="row">
-                        <div className="col-md-12" style={{marginTop: "5%"}}>
-                            <div className="row card d-flex flex-row p-4 dash" style={{backgroundColor: "#b3e0ff"}}>
-                                <p className="w-100 mb-4 text-center" style={{color: "black", fontSize: "25px"}}>
+                        <div className="col-md-12" style={{ marginTop: "5%" }}>
+                            <div className="row card d-flex flex-row p-4 dash" style={{ backgroundColor: "#b3e0ff" }}>
+                                <p className="w-100 mb-4 text-center" style={{ color: "black", fontSize: "25px" }}>
                                     <strong>Daily
                                         Statistics</strong></p>
-                                <div className="col-sm-3">
-                                    <div className="card p-4 dash" style={{backgroundColor: "#4db8ff"}}>
-                                        <h4 className="text-center" style={{fontSize: "30px", color: "black"}}>
+                                <div className="col-sm-3" style={{"maxWidth":"24.2%"}}>
+                                    <div className="card p-4 dash" style={{ backgroundColor: "#4db8ff" }}>
+                                        <h4 className="text-center" style={{ fontSize: "30px", color: "black" }}>
                                             <strong><span>&#8377;</span> {this.state.totalonline + this.state.totaloffline}
                                             </strong></h4>
-                                        <p className="text-center" style={{fontSize: "15px", color: "black"}}><strong>Total
+                                        <p className="text-center" style={{ fontSize: "15px", color: "black" }}><strong>Total
                                             Payment</strong></p>
                                     </div>
                                 </div>
-                                <div className="col-sm-3">
-                                    <div className="card p-4 dash" style={{backgroundColor: "#4db8ff"}}>
-                                        <h4 className="text-center" style={{fontSize: "30px", color: "black"}}>
+                                <div className="col-sm-3" style={{"maxWidth":"24.2%"}}>
+                                    <div className="card p-4 dash" style={{ backgroundColor: "#4db8ff" }}>
+                                        <h4 className="text-center" style={{ fontSize: "30px", color: "black" }}>
                                             <strong><span>&#8377;</span> {this.state.totalonline}</strong></h4>
-                                        <p className="text-center" style={{fontSize: "15px", color: "black"}}><strong>Online
+                                        <p className="text-center" style={{ fontSize: "15px", color: "black" }}><strong>Online
                                             Payment</strong></p>
                                     </div>
                                 </div>
-                                <div className="col-sm-3">
-                                    <div className="card p-4 dash" style={{backgroundColor: "#4db8ff"}}>
-                                        <h4 className="text-center" style={{fontSize: "30px", color: "black"}}>
+                                <div className="col-sm-3" style={{"maxWidth":"24.2%"}}>
+                                    <div className="card p-4 dash" style={{ backgroundColor: "#4db8ff" }}>
+                                        <h4 className="text-center" style={{ fontSize: "30px", color: "black" }}>
                                             <strong> <span>&#8377;</span> {this.state.totaloffline}</strong></h4>
-                                        <p className="text-center" style={{fontSize: "15px", color: "black"}}><strong>Offline
+                                        <p className="text-center" style={{ fontSize: "15px", color: "black" }}><strong>Offline
                                             Payment</strong></p>
                                     </div>
                                 </div>
-                                <div className="col-sm-3">
-                                    <div className="card p-4 dash" style={{backgroundColor: "#4db8ff"}}>
-                                        <h4 className="text-center" style={{fontSize: "30px", color: "black"}}>
-                                            <strong><span>&#8377;</span> {this.state.totalOrders}</strong></h4>
-                                        <p className="text-center" style={{fontSize: "15px", color: "black"}}><strong>Total
+                                <div className="col-sm-3" style={{"maxWidth":"2%", "left":"1.5%", "borderLeft":"thin solid slategrey"}}></div>
+                                <div className="col-sm-3" style={{"maxWidth":"24.2%"}}>
+                                    <div className="card p-4 dash" style={{ backgroundColor: "#4db8ff" }}>
+                                        <h4 className="text-center" style={{ fontSize: "30px", color: "black" }}>
+                                            <strong> {this.state.totalOrders}</strong></h4>
+                                        <p className="text-center" style={{ fontSize: "15px", color: "black" }}><strong>Total
                                             Orders</strong></p>
                                     </div>
                                 </div>
                             </div>
                             <div className="row card d-flex flex-row p-4 dash"
-                                 style={{backgroundColor: "#b3e0ff", marginTop: "5%"}}>
-                                <p className="w-100 mb-4 text-center" style={{color: "black", fontSize: "25px"}}>
+                                style={{ backgroundColor: "#b3e0ff", marginTop: "5%" }}>
+                                <p className="w-100 mb-4 text-center" style={{ color: "black", fontSize: "25px" }}>
                                     <strong>Service
                                         Revenue</strong></p>
                                 <div className="col-sm-6">
-                                    <div className="card p-4 dash" style={{backgroundColor: "#e0e0d1"}}>
+                                    <div className="card p-4 dash" style={{ backgroundColor: "#e0e0d1" }}>
                                         <p className="w-100 mb-2 text-center"
-                                           style={{color: "black", fontSize: "15px", borderBottom: "3px solid red"}}>
+                                            style={{ color: "black", fontSize: "15px", borderBottom: "3px solid red" }}>
                                             <strong>Daily</strong></p>
                                         <table className="table table-hover">
+                                            <thead>
+                                                <th>Service Name</th>
+                                                <th>Qty</th>
+                                                <th>Revenue</th>
+                                            </thead>
                                             <tbody>
-
-                                            {
-                                                _.map(this.state.todayService.service, (service) => {
-                                                    return (
-                                                        <tr>
-                                                            <td style={{borderRight: "1px solid #e1e1e1"}}>
-                                                                <strong>{service.service.name}</strong></td>
-                                                            <td style={{borderRight: "1px solid #e1e1e1"}}>
-                                                                {service.count}
-                                                            </td>
-                                                            <td>{<span>&#8377;</span> + ` ${service.revenue}`}</td>
-                                                        </tr>
-                                                    )
-                                                })
-                                            }
+                                                {
+                                                    _.map(this.state.todayService.service, (service) => {
+                                                        return (
+                                                            <tr>
+                                                                <td style={{ borderRight: "1px solid #e1e1e1" }}>
+                                                                    {service.service.name}
+                                                                </td>
+                                                                <td style={{ borderRight: "1px solid #e1e1e1" }}>
+                                                                    {service.count}
+                                                                </td>
+                                                                <td>&#8377; {service.revenue}</td>
+                                                            </tr>
+                                                        )
+                                                    })
+                                                }
                                             </tbody>
                                         </table>
                                     </div>
                                 </div>
                                 <div className="col-sm-6">
-                                    <div className="card p-4 dash" style={{backgroundColor: "#e0e0d1"}}>
+                                    <div className="card p-4 dash" style={{ backgroundColor: "#e0e0d1" }}>
                                         <div className="row">
+                                            <p className="w-100 mb-4 text-center"
+                                                style={{ color: "black", fontSize: "15px", borderBottom: "3px solid red" }}>
+                                                <strong>Past History</strong></p>
                                             <div className="col-sm-5">
                                                 <DatePicker
                                                     dateFormat="YYYY/MM/DD"
 
                                                     selected={this.state.startDate}
                                                     onChange={this.handleChange}
-                                                    placeholderText="Start Date"/>
+                                                    placeholderText="Start Date" />
                                             </div>
                                             <div className="col-sm-4">
                                                 <DatePicker
                                                     dateFormat="YYYY/MM/DD"
                                                     selected={this.state.endDate}
                                                     onChange={this.handleEndChange}
-                                                    placeholderText="End Date"/>
+                                                    placeholderText="End Date" />
                                             </div>
 
                                             <div className="col-sm-3">
                                                 <input type="submit"
-                                                       className="btn btn-primary style-btn"
-                                                       value="Submit"
-                                                       onClick={this.getCartStatistics}/>
+                                                    className="btn btn-primary style-btn"
+                                                    value="Search"
+                                                    onClick={this.getCartStatistics} />
                                             </div>
                                             <table className="table table-hover mt-2">
+                                                <thead>
+                                                    <th>Service Name</th>
+                                                    <th>Qty</th>
+                                                    <th>Revenue</th>
+                                                </thead>
                                                 <tbody>
-                                                {
-                                                    _.map(this.state.pastService.service, (service) => {
-                                                        return (
-                                                            <tr>
-                                                                <td style={{borderRight: "1px solid #e1e1e1"}}>
-                                                                    <strong>{service.service.name}</strong></td>
-                                                                <td style={{borderRight: "1px solid #e1e1e1"}}>
-                                                                    {service.count}
-                                                                </td>
-                                                                <td>{<span>&#8377;</span> + ` ${service.revenue}`}</td>
-                                                            </tr>
-                                                        )
-                                                    })
-                                                }
+                                                    {
+                                                        _.map(this.state.pastService.service, (service) => {
+                                                            return (
+                                                                <tr>
+                                                                    <td style={{ borderRight: "1px solid #e1e1e1" }}>
+                                                                        <strong>{service.service.name}</strong></td>
+                                                                    <td style={{ borderRight: "1px solid #e1e1e1" }}>
+                                                                        {service.count}
+                                                                    </td>
+                                                                    <td>&#8377; {service.revenue}</td>
+                                                                </tr>
+                                                            )
+                                                        })
+                                                    }
 
                                                 </tbody>
                                             </table>

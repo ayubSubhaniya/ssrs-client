@@ -9,6 +9,7 @@ export const paymentMode = [OFFLINE, ONLINE, NO_PAYMENT, PAYTM, NETBANKING, DEBI
 export const specialServiceUsers = "user_id";
 
 export const DEFAULT_PAGINATION_SIZE = 8;
+export const DEFAULT_USER_PAGINATION_SIZE = 50;
 
 export const collectionTypeCategory = {
     DELIVERY: "Delivery",
