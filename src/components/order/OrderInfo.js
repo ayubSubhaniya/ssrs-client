@@ -329,7 +329,7 @@ class OrderInfo extends PureComponent {
                                 : ''
                         }
                         {
-                            (cart.status === rcartStatus.cancelled && cart.paymentStatus === true && isAdmin(this.props.user))
+                            (cart.status === rcartStatus.cancelled && cart.paymentStatus === true && cart.totalCost > 0 && isAdmin(this.props.user))
                                 ? <div className='btn btn-outline-primary mr-4 align-self-center'
                                        onClick={this.giveRefund}>
                                     <i className="fa fa-undo mr-2"></i>
