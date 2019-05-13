@@ -73,13 +73,14 @@ class Filter extends PureComponent {
         }
     }
 
-    getCart = (filterState, next) => {
+    getCart = (filterState, next, searchQuery) => {
         if (filterState === -1)
             return [];
         const pageNo = this.pageNo + (next === true ? +1 : (next === undefined ? 0 : -1));
-        const params = filterState === '-10'
+        let params = filterState === '-10'
             ? {"pageNo": pageNo, "size": this.size}
             : {"status": filterState, "pageNo": pageNo, "size": this.size}
+            params = Object.assign(params, searchQuery);
         makeCall({
             jobType: 'GET',
             urlParams: '/cart/all',
@@ -116,6 +117,11 @@ class Filter extends PureComponent {
         this.getCart(this.state.filterState, false);
     }
 
+    onSearch = (data) => {
+        this.pageNo = 1;
+        this.getCart(this.state.filterState, undefined, data);
+    }
+
     render() {
         let cart = this.state.cart;
         let filterKey = this.state.filterKey;
@@ -133,6 +139,7 @@ class Filter extends PureComponent {
                                isFilterVisible={this.state.isFilterVisible}
                                user={this.props.user}
                                pageNo={this.pageNo}
+                               onSearch={this.onSearch}
                                getNext={this.fetchNextPage}
                                getPrev={this.fetchPrevPage}/>
 
