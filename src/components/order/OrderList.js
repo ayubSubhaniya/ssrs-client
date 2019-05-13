@@ -4,6 +4,7 @@ import OrderDetails from "./OrderDetails";
 import {isAdmin} from "../../helper/userType";
 import {handleChange} from "../../helper/StateUpdate";
 import {cartStatus} from "../../constants/status";
+import SearchForm from "./SearchForm";
 
 class OrderList extends PureComponent {
     constructor(props) {
@@ -65,15 +66,16 @@ class OrderList extends PureComponent {
 
                     <div className="container-table100 mb-5">
                         <div className="wrap-table100">
-                            <div className='col-3 mb-3 pb-0 d-flex flex-row' id='search_bar_position'>
-                                <i className="fa fa-search search-icon" aria-hidden="true"/>
-                                <input type="text"
-                                       className='form-control search-bar'
-                                       id='search_bar_position'
-                                       name={'searchText'}
-                                       onKeyUp={this.handleChange}
-                                       placeholder="Type Order-no or Service-name"/>
-                            </div>
+                            <SearchForm onSubmit={this.props.onSearch}/>
+                            {/*<div className='col-3 mb-3 pb-0 d-flex flex-row' id='search_bar_position'>*/}
+                                {/*<i className="fa fa-search search-icon" aria-hidden="true"/>*/}
+                                {/*<input type="text"*/}
+                                       {/*className='form-control search-bar'*/}
+                                       {/*id='search_bar_position'*/}
+                                       {/*name={'searchText'}*/}
+                                       {/*onKeyUp={this.handleChange}*/}
+                                       {/*placeholder="Type Order-no or Service-name"/>*/}
+                            {/*</div>*/}
                             <div className="table100">
                                 <table>
                                     <thead>
