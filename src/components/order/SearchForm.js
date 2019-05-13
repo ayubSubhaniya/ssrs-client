@@ -19,9 +19,9 @@ class SearchForm extends React.PureComponent {
                     e.preventDefault();
                     const searchQuery = {};
                     if(this.state.orderNo)
-                        searchQuery.orderNo = this.state.orderNo;
+                        searchQuery.orderId = this.state.orderNo;
                     if(this.state.daiictId)
-                        searchQuery.daiictId = this.state.daiictId;
+                        searchQuery.RequestedBy = this.state.daiictId;
                     if(this.state.paymentCode)
                         searchQuery.paymentCode = this.state.paymentCode;
 
