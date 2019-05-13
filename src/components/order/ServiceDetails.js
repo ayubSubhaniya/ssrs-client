@@ -178,7 +178,7 @@ class ServiceDetails extends PureComponent {
                             <div className=''>
                                 {
                                     order.status === rorderStatus.processing && isAdmin(this.props.user)
-                                        ? (<div className='btn btn-outline-success mr-3'
+                                        ? (<div className='btn btn-sm btn-outline-success mr-3'
                                                 onClick={() => this.statusUpdateToReady(order._id)}>
                                             Ready
                                         </div>)
@@ -186,7 +186,7 @@ class ServiceDetails extends PureComponent {
                                 }
                                 {
                                     order.status === rorderStatus.processing && isAdmin(this.props.user)
-                                        ? (<div className='btn btn-outline-warning mr-3'
+                                        ? (<div className='btn btn-sm btn-outline-warning mr-3'
                                                 onClick={this.openHoldModal}>
                                             Hold
                                         </div>)
@@ -194,9 +194,9 @@ class ServiceDetails extends PureComponent {
                                 }
                                 {
                                     order.status >= rorderStatus.placed
-                                    && order.status < rorderStatus.refunded
+                                    && order.status < rorderStatus.completed
                                     && isAdmin(this.props.user)
-                                        ? (<div className='btn btn-outline-danger mr-3'
+                                        ? (<div className='btn btn-sm btn-outline-danger mr-3'
                                                 onClick={this.openCancelModal}>
                                             Cancel
                                         </div>)
@@ -205,7 +205,7 @@ class ServiceDetails extends PureComponent {
                                 {
                                     order.status === rorderStatus.onHold && isStudent(this.props.user)
                                         ? <button type="button"
-                                                  className="btn btn-outline-primary"
+                                                  className="btn btn-sm btn-outline-primary"
                                                   onClick={this.openEditModal}>
                                             Edit
                                         </button>
