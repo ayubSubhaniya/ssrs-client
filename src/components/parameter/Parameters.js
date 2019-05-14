@@ -47,7 +47,7 @@ class Parameters extends PureComponent {
                 const parameterList = this.state.parameter;
                 parameterList[index] = response.parameter;
                 this.setState({
-                    parameter: parameterList,
+                    parameter: [...parameterList],
                 });
             })
             .catch((error) => {
