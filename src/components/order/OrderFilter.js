@@ -35,6 +35,14 @@ function getQueryVariable(queryString, variable) {
     }
 }
 
+function getQueryFromJson(queryJson) {
+    let queryString = '';
+    Object.entries(queryJson).forEach(([key, value]) => {
+        queryString += key + '=' + value + '&';
+    });
+    return queryString;
+}
+
 class Filter extends PureComponent {
     constructor(props) {
         super(props);
@@ -44,16 +52,17 @@ class Filter extends PureComponent {
             filterState: -1,
             cart: [],
         };
-        this.pageNo = 1;
         this.size = DEFAULT_PAGINATION_SIZE;
+        this.defaultPageUrl = 'pageNo=1&size=' + this.size;
     }
 
     componentDidMount() {
         const queryString = this.props.location.search;
         this.status = Number(getQueryVariable(queryString, "status"));
         const pageNo = Number(getQueryVariable(queryString, "pageNo"));
-        if (pageNo)
-            this.pageNo = pageNo;
+        if (pageNo) {
+            this.defaultPageUrl = 'pageNo=' + pageNo + 'size=' + this.size;
+        }
 
         if (this.status) {
             this.getCart(this.status);
@@ -76,21 +85,27 @@ class Filter extends PureComponent {
     getCart = (filterState, next, searchQuery) => {
         if (filterState === -1)
             return [];
-        const pageNo = this.pageNo + (next === true ? +1 : (next === undefined ? 0 : -1));
-        let params = filterState === '-10'
-            ? {"pageNo": pageNo, "size": this.size}
-            : {"status": filterState, "pageNo": pageNo, "size": this.size}
-            params = Object.assign(params, searchQuery);
+            
+        let queryparam = (next === true 
+            ? this.state.nextPageUrl 
+            : (next === undefined ? this.defaultPageUrl : this.state.prevPageUrl));
+        
+        if (filterState !== '-10')
+            queryparam += '&status=' + filterState;
+
+        if (searchQuery) 
+            queryparam += '&' + getQueryFromJson(searchQuery);
+            
         makeCall({
             jobType: 'GET',
-            urlParams: '/cart/all',
-            params: params
+            urlParams: '/cart/all?' + queryparam
         })
             .then((response) => {
-                this.pageNo = pageNo;
                 this.setState({
                     cart: response.cart,
-                    filterState: filterState
+                    filterState: filterState,
+                    prevPageUrl: response.prev,
+                    nextPageUrl: response.next
                 })
             })
             .catch((error) => {
@@ -105,7 +120,7 @@ class Filter extends PureComponent {
     }
 
     updateFilter = ({target}) => {
-        this.pageNo = 1;
+        this.defaultPageUrl = 'pageNo=1&size=' + this.size;
         this.getCart(target.dataset.filter);
     }
 
@@ -118,7 +133,7 @@ class Filter extends PureComponent {
     }
 
     onSearch = (data) => {
-        this.pageNo = 1;
+        this.defaultPageUrl = 'pageNo=1&size=' + this.size;
         this.getCart(this.state.filterState, undefined, data);
     }
 
@@ -138,10 +153,11 @@ class Filter extends PureComponent {
                     <OrderList carts={cart}
                                isFilterVisible={this.state.isFilterVisible}
                                user={this.props.user}
-                               pageNo={this.pageNo}
                                onSearch={this.onSearch}
                                getNext={this.fetchNextPage}
-                               getPrev={this.fetchPrevPage}/>
+                               getPrev={this.fetchPrevPage}
+                               isNextPage={this.state.nextPageUrl !== undefined}
+                               isPrevPage={this.state.prevPageUrl !== undefined}/>
 
                     <div className={`cd-filter ${this.state.isFilterVisible ? 'filter-is-visible' : ''}`}>
                         <form>

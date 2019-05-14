@@ -123,10 +123,10 @@ class OrderList extends PureComponent {
                                 </table>
                                 <div className="container d-flex justify-content-end">
                                     {
-                                        this.props.pageNo > 1
+                                        this.props.isPrevPage
                                             ? <div className="btn btn-outline-dark cursor-pointer mt-2 mr-1"
                                                    onClick={this.props.getPrev}>
-                                                <i className="fa fa-angle-left"/>
+                                                <i className="fa fa-chevron-left"/>
                                             </div>
                                             :
                                             <div className="btn btn-outline-dark disabled cursor-not-allowed mt-2 mr-1">
@@ -134,7 +134,7 @@ class OrderList extends PureComponent {
                                             </div>
                                     }
                                     {
-                                        carts.length > 0
+                                        this.props.isNextPage
                                             ? <div className="btn btn-outline-dark cursor-pointer mt-2 ml-1"
                                                    onClick={this.props.getNext}>
                                                 <i className="fa fa-chevron-right"/> 
