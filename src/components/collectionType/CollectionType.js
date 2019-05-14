@@ -47,7 +47,7 @@ class CollectionType extends PureComponent {
                 const collectionTypeList = this.state.collectionType;
                 collectionTypeList[index] = response.collectionType;
                 this.setState({
-                    collectionType: collectionTypeList,
+                    collectionType: [...collectionTypeList],
                 });
             })
             .catch((error) => {
