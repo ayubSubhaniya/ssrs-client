@@ -37,28 +37,10 @@ class OrderList extends PureComponent {
         }
     };
 
-    getMaxStatusTime = (statusChangeTime) => {
-        let time = [];
-        if (statusChangeTime.placed.time)
-            time.push(new Date(statusChangeTime.placed.time));
-        if (statusChangeTime.paymentFailed.time)
-            time.push(new Date(statusChangeTime.paymentFailed.time));
-        if (statusChangeTime.processingPayment.time)
-            time.push(new Date(statusChangeTime.processingPayment.time));
-
-        return new Date(Math.max.apply(null, time));
-    };
-
-    sortByDate = (carts) => {
-        return _.sortBy(carts, (cart) => {
-            return this.getMaxStatusTime(cart.statusChangeTime).getTime();
-        })
-    };
-
     render() {
         const {carts, ...others} = this.props;
         let filteredCarts = this.searchFilter(carts);
-        filteredCarts = _.reverse(this.sortByDate(filteredCarts));
+        
         return (
             <section className={`orders cd-gallery ${this.props.isFilterVisible ? 'filter-is-visible' : ''}`}>
 

@@ -95,6 +95,33 @@ class Filter extends PureComponent {
 
         if (searchQuery) 
             queryparam += '&' + getQueryFromJson(searchQuery);
+        
+        queryparam += '&sort=';
+        if (isAdmin(this.props.user)) {
+            switch (filterState) {                
+                case rcartStatus.placed:
+                    queryparam += '+statusChangeTime.placed.time'; break;
+                case rcartStatus.processing:
+                    queryparam += '+statusChangeTime.processing.time'; break;
+                case rcartStatus.readyToPickup:
+                    queryparam += '+statusChangeTime.readyToPickup.time'; break;
+                case rcartStatus.readyToDeliver:
+                    queryparam += '+statusChangeTime.readyToDeliver.time'; break;
+                default:
+                    queryparam += '-statusChangeTime.placed.time';
+            }
+        } else if (isStudent(this.props.user)) {
+            switch(filterState) {
+                case rcartStatus.invalid:
+                    queryparam += '-statusChangeTime.invalid.time'; break;
+                case rcartStatus.paymentFailed:
+                    queryparam += '-statusChangeTime.paymentFailed.time'; break;
+                case rcartStatus.processingPayment:
+                    queryparam += '-statusChangeTime.processingPayment.time'; break;
+                default:
+                    queryparam += '-statusChangeTime.placed.time';
+            }
+        }
             
         makeCall({
             jobType: 'GET',
