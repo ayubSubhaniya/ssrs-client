@@ -36,7 +36,8 @@ export const modalMessages = {
     serviceSwitch: "Are you sure enough to active/inactive this service?",
     serviceDelete: "Are you sure enough to delete this service?",
     userListSwitch: "Are you sure enough to active/inactive this user?",
-    newsOrNotificationDelete: "Are you sure to delete this item?"
+    newsOrNotificationDelete: "Are you sure to delete this item?",
+    refundCart: "Are you sure to refund this cart?"
 }
 
 export const orderStatus = {

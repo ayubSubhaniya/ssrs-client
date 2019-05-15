@@ -9,7 +9,7 @@ class ConfirmModal extends React.PureComponent {
                     <h5 className="modal-title">Just confirming...</h5>
                 </div>
                 <div className="modal-body">
-                    <h5 style={{"fontStyle": "italic"}}>{this.props.message ? this.props.message : "Are you sure?"}</h5>
+                    <p style={{"fontStyle": "italic", "fontSize": "15px"}}>{this.props.message ? this.props.message : "Are you sure?"}</p>
                 </div>
                 <div className="modal-footer">
                     <button type="button" className="btn btn-secondary" onClick={this.props.close}>
