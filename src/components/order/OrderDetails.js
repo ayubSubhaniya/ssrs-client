@@ -18,13 +18,15 @@ class OrderDetails extends PureComponent {
         let time = []
 
         if (statusChangeTime.placed.time)
-            time.push(new Date(statusChangeTime.placed.time));
+            return statusChangeTime.placed.time;
         if (statusChangeTime.paymentFailed.time)
-            time.push(new Date(statusChangeTime.paymentFailed.time));
+            return statusChangeTime.paymentFailed.time;
         if (statusChangeTime.processingPayment.time)
-            time.push(new Date(statusChangeTime.processingPayment.time));
+            return statusChangeTime.processingPayment.time;
+        if (statusChangeTime.invalid.time)
+            return statusChangeTime.invalid.time;
 
-        return new Date(Math.max.apply(null, time));
+        return statusChangeTime.unplaced.time;
     }
 
     getStatusColorClass = (status) => {

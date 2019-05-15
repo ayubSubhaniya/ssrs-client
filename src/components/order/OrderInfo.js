@@ -15,12 +15,13 @@ import ServiceList from "./ServiceList";
 import { DeliveryInfo, PickupInfo } from './Info'
 import { isAdmin } from "../../helper/userType";
 import { handleError } from "../../helper/error";
-import { domainUrl, errorMessages } from "../../config/configuration";
+import { domainUrl, errorMessages, modalMessages } from "../../config/configuration";
 import * as HttpStatus from "http-status-codes";
 import ErrorMessage from "../error/ErrorMessage";
 import _ from "lodash";
 import PaymentFailHistoryModal from './PaymentFailHistoryModal';
 import PaymentFailHistoryModalCard from './PaymentFailHistoryModalCard';
+import ConfirmModal from '../ConfirmModal';
 
 function PaymentInfo({ cart, visible, openModal, closeModal }) {
     let paymentStatus = '';
@@ -89,6 +90,7 @@ class OrderInfo extends PureComponent {
             isCollectionCodeWrong: false,
             isCourierDetailsModalOpen: false,
             isPaymentFailHistoryModalOpen: false,
+            isRefundModalOpen: false,
         }
     }
 
@@ -222,6 +224,18 @@ class OrderInfo extends PureComponent {
         })
     }
 
+    openRefundModal = () => {
+        this.setState({
+            isRefundModalOpen: true
+        })
+    }
+
+    closeRefundModal = () => {
+        this.setState({
+            isRefundModalOpen: false
+        })
+    }
+
     completeOrder = (data) => {
         makeCall({
             jobType: 'PATCH',
@@ -257,7 +271,19 @@ class OrderInfo extends PureComponent {
     };
 
     giveRefund = () => {
-        // TODO: send request for refund
+        makeCall({
+            jobType: 'PATCH',
+            urlParams: '/cart/changeStatus/' + this.state.cart._id,
+            params: {
+                status: rcartStatus.refunded
+            }
+        })
+            .then(() => {
+                this.getCart()
+            })
+            .catch((error) => {
+                handleError(error);
+            })
     };
 
     compareCollectionCode = (collectionCode) => {
@@ -316,15 +342,15 @@ class OrderInfo extends PureComponent {
                                 </a>
                                 : ''
                         }
-                        {/*{*/}
-                        {/*(cart.status === rcartStatus.cancelled)*/}
-                        {/*? <div className='btn btn-outline-primary mr-4 align-self-center'*/}
-                        {/*onClick={this.giveRefund}>*/}
-                        {/*<i className="fa fa-undo mr-2"></i>*/}
-                        {/*Refund*/}
-                        {/*</div>*/}
-                        {/*: ''*/}
-                        {/*}*/}
+                        {
+                            (cart.status === rcartStatus.cancelled && cart.paymentStatus === true && cart.totalCost > 0 && isAdmin(this.props.user))
+                                ? <div className='btn btn-outline-primary mr-4 align-self-center'
+                                       onClick={this.openRefundModal}>
+                                    <i className="fa fa-undo mr-2"></i>
+                                    Refund
+                                </div>
+                                : ''
+                        }
                         {
                             (cart.status === rcartStatus.paymentFailed)
                                 ? <div className='btn btn-outline-primary mr-4 align-self-center'
@@ -387,6 +413,10 @@ class OrderInfo extends PureComponent {
                         errorMessage={this.state.isPaymentCodeWrong ? paymentCode.wrong : ''}
                         onSubmit={this.makePayment}
                         closeModal={this.closePaymentCodeModal} />
+                    <ConfirmModal open={this.state.isRefundModalOpen}
+                        onYes={this.giveRefund}
+                        close={this.closeRefundModal}
+                        message={modalMessages.refundCart} />
                 </div>
             </div>
         );

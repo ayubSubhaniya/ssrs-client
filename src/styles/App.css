@@ -490,7 +490,7 @@ input[type=submit] {
     #position_lable{
         font-weight: bold;
         padding-left: 10px;
-        width: 115px;
+        width: 133px;
         height: 25px;
     }
 
@@ -1102,7 +1102,7 @@ hr.style14 {
 
 
   .dash {
-    box-shadow: 0px 4px 8px 0 rgba(0, 0, 0, 0.8), 0 6px 20px 0 rgba(0, 0, 0, 0.8);
+    box-shadow: 0px 4px 8px 0 rgba(0, 0, 0, 0.24), 0 6px 20px 0 rgba(0, 0, 0, 0.404);
 }
 
 
@@ -1114,4 +1114,12 @@ hr.style14 {
     display: flex;
     justify-content: center;
     margin-bottom: 10px;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.cursor-not-allowed {
+    cursor: not-allowed;
 }

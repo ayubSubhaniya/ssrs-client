@@ -77,7 +77,7 @@ class ServiceList extends PureComponent {
                 const serviceList = this.state.service;
                 serviceList[index] = response.service;
                 this.setState({
-                    service: serviceList,
+                    service: [...serviceList],
                 });
             })
             .catch((error) => {

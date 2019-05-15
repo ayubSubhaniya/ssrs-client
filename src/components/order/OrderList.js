@@ -4,6 +4,7 @@ import OrderDetails from "./OrderDetails";
 import {isAdmin} from "../../helper/userType";
 import {handleChange} from "../../helper/StateUpdate";
 import {cartStatus} from "../../constants/status";
+import SearchForm from "./SearchForm";
 
 class OrderList extends PureComponent {
     constructor(props) {
@@ -36,28 +37,10 @@ class OrderList extends PureComponent {
         }
     };
 
-    getMaxStatusTime = (statusChangeTime) => {
-        let time = [];
-        if (statusChangeTime.placed.time)
-            time.push(new Date(statusChangeTime.placed.time));
-        if (statusChangeTime.paymentFailed.time)
-            time.push(new Date(statusChangeTime.paymentFailed.time));
-        if (statusChangeTime.processingPayment.time)
-            time.push(new Date(statusChangeTime.processingPayment.time));
-
-        return new Date(Math.max.apply(null, time));
-    };
-
-    sortByDate = (carts) => {
-        return _.sortBy(carts, (cart) => {
-            return this.getMaxStatusTime(cart.statusChangeTime).getTime();
-        })
-    };
-
     render() {
         const {carts, ...others} = this.props;
         let filteredCarts = this.searchFilter(carts);
-        filteredCarts = _.reverse(this.sortByDate(filteredCarts));
+        
         return (
             <section className={`orders cd-gallery ${this.props.isFilterVisible ? 'filter-is-visible' : ''}`}>
 
@@ -65,15 +48,16 @@ class OrderList extends PureComponent {
 
                     <div className="container-table100 mb-5">
                         <div className="wrap-table100">
-                            <div className='col-3 mb-3 pb-0 d-flex flex-row' id='search_bar_position'>
-                                <i className="fa fa-search search-icon" aria-hidden="true"/>
-                                <input type="text"
-                                       className='form-control search-bar'
-                                       id='search_bar_position'
-                                       name={'searchText'}
-                                       onKeyUp={this.handleChange}
-                                       placeholder="Type Order-no or Service-name"/>
-                            </div>
+                            <SearchForm onSubmit={this.props.onSearch}/>
+                            {/*<div className='col-3 mb-3 pb-0 d-flex flex-row' id='search_bar_position'>*/}
+                                {/*<i className="fa fa-search search-icon" aria-hidden="true"/>*/}
+                                {/*<input type="text"*/}
+                                       {/*className='form-control search-bar'*/}
+                                       {/*id='search_bar_position'*/}
+                                       {/*name={'searchText'}*/}
+                                       {/*onKeyUp={this.handleChange}*/}
+                                       {/*placeholder="Type Order-no or Service-name"/>*/}
+                            {/*</div>*/}
                             <div className="table100">
                                 <table>
                                     <thead>
@@ -119,6 +103,30 @@ class OrderList extends PureComponent {
                                     }
                                     </tbody>
                                 </table>
+                                <div className="container d-flex justify-content-end">
+                                    {
+                                        this.props.isPrevPage
+                                            ? <div className="btn btn-outline-dark cursor-pointer mt-2 mr-1"
+                                                   onClick={this.props.getPrev}>
+                                                <i className="fa fa-chevron-left"/>
+                                            </div>
+                                            :
+                                            <div className="btn btn-outline-dark disabled cursor-not-allowed mt-2 mr-1">
+                                                <i className="fa fa-chevron-left"/>
+                                            </div>
+                                    }
+                                    {
+                                        this.props.isNextPage
+                                            ? <div className="btn btn-outline-dark cursor-pointer mt-2 ml-1"
+                                                   onClick={this.props.getNext}>
+                                                <i className="fa fa-chevron-right"/> 
+                                            </div>
+                                            :
+                                            <div className="btn btn-outline-dark disabled cursor-not-allowed mt-2 ml-1">
+                                                <i className="fa fa-chevron-right"/> 
+                                            </div>
+                                    }
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -8,6 +8,7 @@ import {isAdmin, isStudent} from "../../helper/userType";
 import {makeCall} from "../../helper/caller";
 import {handleError} from "../../helper/error";
 import {rcartStatus} from "../../constants/status";
+import {DEFAULT_PAGINATION_SIZE} from "../../constants/constants";
 
 const orders = {
     '-10': "all",
@@ -21,6 +22,25 @@ const orders = {
     110: "refunded",
     120: "completed",
     130: "cancelled"
+};
+
+function getQueryVariable(queryString, variable) {
+    let vars = queryString.split('&');
+    for (let i = 0; i < vars.length; i++) {
+        let pair = vars[i].split('=');
+        pair[0] = pair[0].replace("?", "");
+        if (pair[0] === variable) {
+            return pair[1];
+        }
+    }
+}
+
+function getQueryFromJson(queryJson) {
+    let queryString = '';
+    Object.entries(queryJson).forEach(([key, value]) => {
+        queryString += key + '=' + value + '&';
+    });
+    return queryString;
 }
 
 class Filter extends PureComponent {
@@ -31,36 +51,88 @@ class Filter extends PureComponent {
             isFilterVisible: false,
             filterState: -1,
             cart: [],
-        }
+        };
+        this.size = DEFAULT_PAGINATION_SIZE;
+        this.defaultPageUrl = 'pageNo=1&size=' + this.size;
     }
 
     componentDidMount() {
-        this.getCart(isAdmin(this.props.user)
-            ? rcartStatus.processing
-            : isStudent(this.props.user) ? '-10' : -1)
+        const queryString = this.props.location.search;
+        this.status = Number(getQueryVariable(queryString, "status"));
+        const pageNo = Number(getQueryVariable(queryString, "pageNo"));
+        if (pageNo) {
+            this.defaultPageUrl = 'pageNo=' + pageNo + 'size=' + this.size;
+        }
+
+        if (this.status) {
+            this.getCart(this.status);
+        } else {
+            this.getCart(isAdmin(this.props.user)
+                ? rcartStatus.processing
+                : isStudent(this.props.user) ? '-10' : -1)
+        }
     }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.userType !== this.props.user.userType) {
-            this.getCart((isAdmin(nextProps.user) ? rcartStatus.processing : '-10'))
+            if (this.status)
+                this.getCart(this.status);
+            else
+                this.getCart((isAdmin(nextProps.user) ? rcartStatus.processing : '-10'));
         }
     }
 
-    getCart = (filterState) => {
+    getCart = (filterState, next, searchQuery) => {
         if (filterState === -1)
             return [];
-        const params = filterState === '-10'
-            ? undefined
-            : {"status": filterState}
+            
+        let queryparam = (next === true 
+            ? this.state.nextPageUrl 
+            : (next === undefined ? this.defaultPageUrl : this.state.prevPageUrl));
+        
+        if (filterState !== '-10')
+            queryparam += '&status=' + filterState;
+
+        if (searchQuery) 
+            queryparam += '&' + getQueryFromJson(searchQuery);
+        
+        queryparam += '&sort=';
+        if (isAdmin(this.props.user)) {
+            switch (filterState) {                
+                case rcartStatus.placed:
+                    queryparam += '+statusChangeTime.placed.time'; break;
+                case rcartStatus.processing:
+                    queryparam += '+statusChangeTime.processing.time'; break;
+                case rcartStatus.readyToPickup:
+                    queryparam += '+statusChangeTime.readyToPickup.time'; break;
+                case rcartStatus.readyToDeliver:
+                    queryparam += '+statusChangeTime.readyToDeliver.time'; break;
+                default:
+                    queryparam += '-statusChangeTime.placed.time';
+            }
+        } else if (isStudent(this.props.user)) {
+            switch(filterState) {
+                case rcartStatus.invalid:
+                    queryparam += '-statusChangeTime.invalid.time'; break;
+                case rcartStatus.paymentFailed:
+                    queryparam += '-statusChangeTime.paymentFailed.time'; break;
+                case rcartStatus.processingPayment:
+                    queryparam += '-statusChangeTime.processingPayment.time'; break;
+                default:
+                    queryparam += '-statusChangeTime.placed.time';
+            }
+        }
+            
         makeCall({
             jobType: 'GET',
-            urlParams: '/cart/all',
-            params: params
+            urlParams: '/cart/all?' + queryparam
         })
             .then((response) => {
                 this.setState({
                     cart: response.cart,
-                    filterState: filterState
+                    filterState: filterState,
+                    prevPageUrl: response.prev,
+                    nextPageUrl: response.next
                 })
             })
             .catch((error) => {
@@ -75,7 +147,21 @@ class Filter extends PureComponent {
     }
 
     updateFilter = ({target}) => {
+        this.defaultPageUrl = 'pageNo=1&size=' + this.size;
         this.getCart(target.dataset.filter);
+    }
+
+    fetchNextPage = () => {
+        this.getCart(this.state.filterState, true);
+    }
+
+    fetchPrevPage = () => {
+        this.getCart(this.state.filterState, false);
+    }
+
+    onSearch = (data) => {
+        this.defaultPageUrl = 'pageNo=1&size=' + this.size;
+        this.getCart(this.state.filterState, undefined, data);
     }
 
     render() {
@@ -93,7 +179,12 @@ class Filter extends PureComponent {
 
                     <OrderList carts={cart}
                                isFilterVisible={this.state.isFilterVisible}
-                               user={this.props.user}/>
+                               user={this.props.user}
+                               onSearch={this.onSearch}
+                               getNext={this.fetchNextPage}
+                               getPrev={this.fetchPrevPage}
+                               isNextPage={this.state.nextPageUrl !== undefined}
+                               isPrevPage={this.state.prevPageUrl !== undefined}/>
 
                     <div className={`cd-filter ${this.state.isFilterVisible ? 'filter-is-visible' : ''}`}>
                         <form>
