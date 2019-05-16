@@ -940,6 +940,21 @@ input:checked + .slider:before {
     padding-right: 2%;
 }
 
+/* Advanced search */
+.advanced-search {
+    float: right;
+    margin-bottom: 1%;
+    margin-right: 2%;
+}
+
+.advanced-search-btn {
+    margin-bottom: 3px;
+}
+
+#searchForm {
+    padding: 8px;
+}
+
 /* order filter*/
 
 .filter-col {
