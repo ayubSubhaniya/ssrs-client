@@ -32,7 +32,7 @@ class SearchForm extends React.PureComponent {
             <div className="advanced-search">
                 <div className="advanced-search-btn">
                     <button className="btn btn-primary" data-toggle="collapse" data-target="#searchForm" aria-expanded="false" aria-controls="searchForm">
-                        <span><i class="fa fa-bars mr-2"></i>{"Advanced Search"}</span>
+                        <span><i class="fa fa-bars mr-2"></i>{"Search options"}</span>
                     </button>
                 </div>
                 <div id="searchForm" className="card collapse multi-collapse">
