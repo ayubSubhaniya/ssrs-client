@@ -213,7 +213,10 @@ class Filter extends PureComponent {
                     </div>
 
                     <div className={`cd-filter-trigger ${this.state.isFilterVisible ? 'filter-is-visible' : ''}`}
-                         onClick={this.toggleFilter}>Filters
+                         onClick={this.toggleFilter}>
+                         <button className={`btn btn-lg pl-3 pr-3 ${this.state.isFilterVisible ? 'btn-dark' : 'btn-outline-dark'}`}>
+                            <span><i class="fa fa-bars mr-2"></i>{"Status Filters"}</span>
+                         </button>
                     </div>
                 </main>
             </div>
