@@ -953,6 +953,7 @@ input:checked + .slider:before {
 
 #searchForm {
     padding: 8px;
+    border: 1px solid slategray;
 }
 
 /* order filter*/
