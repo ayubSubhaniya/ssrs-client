@@ -154,7 +154,87 @@ class ServiceDetails extends PureComponent {
                     <td data-th="Parameter Cost" className="text-center">{`₹ ${order.parameterCost}`}</td>
                     <td data-th="Subtotal" className="text-center">{`₹ ${order.totalCost}`}</td>
                 </tr>
-                <tr>
+                {
+                    isStudent(this.props.user) && (order.status === rorderStatus.onHold || order.status === rorderStatus.cancelled)
+                        ? <tr>
+                            <td colSpan={7} className='border-top-0'>
+                                <div className='d-flex justify-content-between align-content-center'>
+                                    {
+                                        order.status === rorderStatus.onHold
+                                            ? <div className='w-50'>
+                                                <span>
+                                                    <strong>Hold Reason: </strong>
+                                                    {order.holdReason}
+                                                </span>
+                                            </div>
+                                            : ''
+                                    }
+                                    {
+                                        order.status === rorderStatus.cancelled
+                                            ? <div className='w-50'>
+                                                <div>
+                                                    <strong>Cancellation Reason: </strong>
+                                                    {order.cancelReason}
+                                                </div>
+                                            </div>
+                                            : ''
+                                    }
+                                    <div>
+                                        {
+                                            order.status === rorderStatus.onHold && isStudent(this.props.user)
+                                                ? <button type="button"
+                                                    className="btn btn-sm btn-outline-primary"
+                                                    onClick={this.openEditModal}>
+                                                    Edit
+                                                </button>
+                                                : ''
+                                        }
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        : ''
+                }
+                {
+                    isAdmin(this.props.user) && order.status !== rorderStatus.cancelled
+                        ? <tr>
+                            <td colSpan={7} className='border-top-0'>
+                                <div className='d-flex justify-content-between align-content-center'>
+                                    <div className='w-50'></div>
+                                    <div>
+                                        {
+                                            order.status === rorderStatus.processing && isAdmin(this.props.user)
+                                                ? (<div className='btn btn-sm btn-outline-success mr-3'
+                                                    onClick={() => this.statusUpdateToReady(order._id)}>
+                                                    Ready
+                                        </div>)
+                                                : ''
+                                        }
+                                        {
+                                            order.status === rorderStatus.processing && isAdmin(this.props.user)
+                                                ? (<div className='btn btn-sm btn-outline-warning mr-3'
+                                                    onClick={this.openHoldModal}>
+                                                    Hold
+                                        </div>)
+                                                : ''
+                                        }
+                                        {
+                                            order.status >= rorderStatus.placed
+                                                && order.status < rorderStatus.completed
+                                                && isAdmin(this.props.user)
+                                                ? (<div className='btn btn-sm btn-outline-danger mr-3'
+                                                    onClick={this.openCancelModal}>
+                                                    Cancel
+                                        </div>)
+                                                : ''
+                                        }
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        : ''
+                }
+                {/* <tr>
                     <td colSpan={7} className='border-top-0'>
                         <div className='d-flex justify-content-between align-content-center'>
                             <div className='w-50'>
@@ -215,6 +295,7 @@ class ServiceDetails extends PureComponent {
                         </div>
                     </td>
                 </tr>
+                */}
                 <EditCartForm id={order._id}
                               visible={this.state.isEditModalOpen}
                               close={this.closeEditModal}
