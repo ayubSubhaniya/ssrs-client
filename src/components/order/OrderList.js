@@ -45,19 +45,10 @@ class OrderList extends PureComponent {
             <section className={`orders cd-gallery ${this.props.isFilterVisible ? 'filter-is-visible' : ''}`}>
 
                 <div className="limiter">
-
+                    <SearchForm onSubmit={this.onSearch}
+                                user={this.props.user}/>
                     <div className="container-table100 mb-5">
                         <div className="wrap-table100">
-                            <SearchForm onSubmit={this.props.onSearch}/>
-                            {/*<div className='col-3 mb-3 pb-0 d-flex flex-row' id='search_bar_position'>*/}
-                                {/*<i className="fa fa-search search-icon" aria-hidden="true"/>*/}
-                                {/*<input type="text"*/}
-                                       {/*className='form-control search-bar'*/}
-                                       {/*id='search_bar_position'*/}
-                                       {/*name={'searchText'}*/}
-                                       {/*onKeyUp={this.handleChange}*/}
-                                       {/*placeholder="Type Order-no or Service-name"/>*/}
-                            {/*</div>*/}
                             <div className="table100">
                                 <table>
                                     <thead>
