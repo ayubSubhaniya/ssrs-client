@@ -357,6 +357,12 @@ input[type=submit] {
 
 }
 
+.position_head {
+    margin-bottom: 1rem;
+    font-size: 18px;
+    font-weight: 600;
+}
+
 .payment-fail-header {
     background-color: #eaeaea;
     border-bottom: 1px solid #b0b0b0;
@@ -372,8 +378,11 @@ input[type=submit] {
     border-top: 1px solid #b0b0b0;
 }
 .payment-fail-card {
-    margin: 8px; 
-    border: 2px solid #777777; 
+    margin-left: 12px;
+    margin-right: 12px;
+    /* margin-top: 2px; */
+    margin-bottom: 5px;
+    border: 0.15rem solid #777777; 
     border-radius: 6px; 
     padding: 5px;
     display: flex;
@@ -488,7 +497,7 @@ input[type=submit] {
 }
 @media screen and (min-width: 476px){
     #position_lable{
-        font-weight: bold;
+        font-weight: 580;
         padding-left: 10px;
         width: 133px;
         height: 25px;

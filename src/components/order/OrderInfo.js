@@ -34,13 +34,24 @@ function PaymentInfo({ cart, visible, openModal, closeModal }) {
     else
         paymentStatus = 'Pending';
 
+    cart.paymentFailHistory = [
+        {
+            "paymentId": "1",
+            "paymentDate": "2019-05-19 12:34"
+        },
+        {
+            "paymentId": "2",
+            "paymentDate": "2019-05-19 13:54"   
+        }
+    ]
+
     if (cart.paymentFailHistory.length) {
         cart.paymentFailHistory = _.reverse(cart.paymentFailHistory);
     }
     return (
         <div className='w-50 p-3 ml-3' style={{"border":"2px solid #343a40", "borderRadius":"4px"}}>
-            <h5 className="position_head">PAYMENT INFORMATION</h5>
-            <div className='container p-1'>
+            <h5 className="position_head ml-3">Payment Information</h5>
+            <div className='container ml-2 pb-0'>
                 <TextInfoMod lable="Payment Mode" data={camelCaseToWords(cart.paymentType)} />
                 <TextInfoMod lable="Payment Code" data={cart.paymentCode} />
                 <TextInfoMod lable="Payment Status" data={paymentStatus} />
@@ -50,7 +61,7 @@ function PaymentInfo({ cart, visible, openModal, closeModal }) {
                 cart.paymentFailHistory.length > 0
                     ? <div>
                         <hr />
-                        <h5>PAYMENT FAIL HISTORY</h5>
+                        <h5 className="position_head ml-3">Payment Fail History</h5>
                         <PaymentFailHistoryModalCard
                             paymentId={cart.paymentFailHistory[0].paymentId}
                             paymentDate={cart.paymentFailHistory[0].paymentDate}
@@ -62,7 +73,7 @@ function PaymentInfo({ cart, visible, openModal, closeModal }) {
                                         visible={visible}
                                         inputList={cart.paymentFailHistory}
                                         closeModal={closeModal} />
-                                    <button className="btn btn-outline-info btn-sm" onClick={openModal} style={{ "float": "right" }}>
+                                    <button className="btn btn-outline-info btn-sm mr-3" onClick={openModal} style={{ "float": "right" }}>
                                         View All<i className="fa fa-angle-right" style={{ "marginLeft": "3px" }}></i>
                                     </button>
                                 </div>
@@ -381,17 +392,18 @@ class OrderInfo extends PureComponent {
                             className='price'>{cart.totalCost}</span></div>
                     </div>
                     <hr />
-                    <div className='d-flex'>
+                    <div className='d-flex' style={{"fontFamily": "Roboto,-apple-system,BlinkMacSystemFont,Helvetica Neue,Segoe UI,sans-serif"}}>
                         <div className='w-50' style={{"border":"2px solid #343a40", "borderRadius":"4px"}}>
-                            <div className='container p-3'>
-                                <h5 className="position_head">COLLECTION INFORMATION</h5>
-
-                                <TextInfoMod lable="Collection Type" data={cart.collectionType.name}/>
-                                {
-                                    delivery
-                                        ? <DeliveryInfo delivery={delivery} />
-                                        : <PickupInfo pickup={pickup} />
-                                }
+                            <div className='container p-3 ml-3'>
+                                <h5 className="position_head">Collection Information</h5>
+                                <div style={{"marginLeft": "6px"}}>
+                                    <TextInfoMod lable="Collection Type" data={cart.collectionType.name}/>
+                                    {
+                                        delivery
+                                            ? <DeliveryInfo delivery={delivery} />
+                                            : <PickupInfo pickup={pickup} />
+                                    }
+                                </div>
                             </div>
                         </div>
                         <PaymentInfo cart={cart}
