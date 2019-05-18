@@ -189,7 +189,6 @@ class Filter extends PureComponent {
                     <div className={`cd-filter ${this.state.isFilterVisible ? 'filter-is-visible' : ''}`}>
                         <form>
                             <div className="cd-filter-block">
-                                <h4>Order Status</h4>
                                 <ul className="cd-filter-content cd-filters list m-0 list-unstyled">
                                     {
                                         _.map(filterKey, (key) => {

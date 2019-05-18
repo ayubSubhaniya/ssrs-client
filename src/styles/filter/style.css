@@ -303,7 +303,7 @@ xfilter
 -------------------------------- */
 .cd-filter {
   position: absolute;
-  top: -46px;
+  top: -14px;
   left: 0;
   width: 280px;
   background: #ffffff;
@@ -334,7 +334,7 @@ xfilter
   left: 0;
   height: 50px;
   width: 100%;
-  background-color: #34363a;
+  background-color: #343a40;
   z-index: 2;
 }
 .cd-filter form {
@@ -383,7 +383,7 @@ xfilter
 
 .cd-filter-trigger {
   position: absolute;
-  top: -47px;
+  top: -15px;
   left: 0;
   height: 50px;
   line-height: 50px;
