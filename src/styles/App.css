@@ -320,6 +320,25 @@ input[type=submit] {
     text-indent: 15px;
 }
 
+#orderinfo-mid {
+    margin-top: 3rem;
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 8px 11px 0 hsla(200,5%,88%,.5);
+    padding: 2%;
+}
+
+#orderinfo-bottom {
+    padding-left: 1%;
+    padding-right: 1%;
+    padding-top: 2%;
+    padding-bottom: 2%;
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 8px 11px 0 hsla(200,5%,88%,.5);
+    margin-top: 3rem;
+}
+
 /* CUrrent order mobile UI */
 @media screen and (max-width: 475px){
     #position_steps{
@@ -382,7 +401,7 @@ input[type=submit] {
     margin-right: 12px;
     /* margin-top: 2px; */
     margin-bottom: 5px;
-    border: 0.15rem solid #777777; 
+    border: 0.15rem solid #bbbbbb; 
     border-radius: 6px; 
     padding: 5px;
     display: flex;

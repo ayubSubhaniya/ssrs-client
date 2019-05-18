@@ -49,40 +49,42 @@ function PaymentInfo({ cart, visible, openModal, closeModal }) {
         cart.paymentFailHistory = _.reverse(cart.paymentFailHistory);
     }
     return (
-        <div className='w-50 p-3 ml-3' style={{"border":"2px solid #343a40", "borderRadius":"4px"}}>
-            <h5 className="position_head ml-3">Payment Information</h5>
-            <div className='container ml-2 pb-0'>
-                <TextInfoMod lable="Payment Mode" data={camelCaseToWords(cart.paymentType)} />
-                <TextInfoMod lable="Payment Code" data={cart.paymentCode} />
-                <TextInfoMod lable="Payment Status" data={paymentStatus} />
+        <div className='w-50'>
+            <div className="container p-3 ml-3">
+                <h5 className="position_head ml-3">Payment Information</h5>
+                <div className='container ml-2 pb-0'>
+                    <TextInfoMod lable="Payment Mode" data={camelCaseToWords(cart.paymentType)} />
+                    <TextInfoMod lable="Payment Code" data={cart.paymentCode} />
+                    <TextInfoMod lable="Payment Status" data={paymentStatus} />
+                </div>
+
+                {
+                    cart.paymentFailHistory.length > 0
+                        ? <div>
+                            <hr />
+                            <h5 className="position_head ml-3">Payment Fail History</h5>
+                            <PaymentFailHistoryModalCard
+                                paymentId={cart.paymentFailHistory[0].paymentId}
+                                paymentDate={cart.paymentFailHistory[0].paymentDate}
+                                paymentType={cart.paymentFailHistory[0].paymentType} />
+                            {
+                                cart.paymentFailHistory.length > 1
+                                    ? <div>
+                                        <PaymentFailHistoryModal
+                                            visible={visible}
+                                            inputList={cart.paymentFailHistory}
+                                            closeModal={closeModal} />
+                                        <button className="btn btn-outline-info btn-sm mr-3" onClick={openModal} style={{ "float": "right" }}>
+                                            View All<i className="fa fa-angle-right" style={{ "marginLeft": "3px" }}></i>
+                                        </button>
+                                    </div>
+                                    : ''
+                            }
+                        </div>
+                        : ''
+
+                }
             </div>
-
-            {
-                cart.paymentFailHistory.length > 0
-                    ? <div>
-                        <hr />
-                        <h5 className="position_head ml-3">Payment Fail History</h5>
-                        <PaymentFailHistoryModalCard
-                            paymentId={cart.paymentFailHistory[0].paymentId}
-                            paymentDate={cart.paymentFailHistory[0].paymentDate}
-                            paymentType={cart.paymentFailHistory[0].paymentType} />
-                        {
-                            cart.paymentFailHistory.length > 1
-                                ? <div>
-                                    <PaymentFailHistoryModal
-                                        visible={visible}
-                                        inputList={cart.paymentFailHistory}
-                                        closeModal={closeModal} />
-                                    <button className="btn btn-outline-info btn-sm mr-3" onClick={openModal} style={{ "float": "right" }}>
-                                        View All<i className="fa fa-angle-right" style={{ "marginLeft": "3px" }}></i>
-                                    </button>
-                                </div>
-                                : ''
-                        }
-                    </div>
-                    : ''
-
-            }
         </div>
     )
 }
@@ -326,10 +328,6 @@ class OrderInfo extends PureComponent {
             <div className='mb-4 pb-4'>
                 <NavigationBar />
                 <div className="container pb-0 mt-4">
-                    <h3>
-                        <strong>Order #: {cart.orderId}</strong>
-                    </h3>
-                    <hr />
                     <div className='d-flex justify-content-between'>
                         <h3 className='order-status'>
                             {camelCaseToWords(cartStatus[cart.status])}
@@ -382,18 +380,22 @@ class OrderInfo extends PureComponent {
                         openCollectionCodeModal={this.openCollectionCodeModal}
                         openCourierDetailsModal={this.openCourierDetailsModal}
                         isDelivery={delivery} />
-                    <ServiceList cart={cart}
-                                 collectionType={cart.collectionType}
-                                 user={this.props.user}
-                                 getCart={this.getCart}/>
-                    <ErrorMessage message={this.state.errorMessage} clearMessage={this.cleanErrorMessage}/>
-                    <div className="total-price">
-                        <div><span className={'total'}>Total: ₹ </span><span
-                            className='price'>{cart.totalCost}</span></div>
+                    
+                    <div id="orderinfo-mid" className='card'>
+                        <h3><strong>Order #: {cart.orderId}</strong></h3>
+                        <ServiceList cart={cart}
+                                    collectionType={cart.collectionType}
+                                    user={this.props.user}
+                                    getCart={this.getCart}/>
+                        <ErrorMessage message={this.state.errorMessage} clearMessage={this.cleanErrorMessage}/>
+                        <div className="total-price">
+                            <div><span className={'total'}>Total: ₹ </span><span
+                                className='price'>{cart.totalCost}</span></div>
+                        </div>
                     </div>
-                    <hr />
-                    <div className='d-flex' style={{"fontFamily": "Roboto,-apple-system,BlinkMacSystemFont,Helvetica Neue,Segoe UI,sans-serif"}}>
-                        <div className='w-50' style={{"border":"2px solid #343a40", "borderRadius":"4px"}}>
+                    
+                    <div id="orderinfo-bottom" className='card d-flex' style={{"flexDirection": "row", "fontFamily": "Roboto,-apple-system,BlinkMacSystemFont,Helvetica Neue,Segoe UI,sans-serif"}}>
+                        <div className='w-50' style={{"borderRight":"1px solid #dbdbdb"}}>
                             <div className='container p-3 ml-3'>
                                 <h5 className="position_head">Collection Information</h5>
                                 <div style={{"marginLeft": "6px"}}>
