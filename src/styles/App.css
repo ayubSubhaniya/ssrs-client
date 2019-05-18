@@ -320,25 +320,6 @@ input[type=submit] {
     text-indent: 15px;
 }
 
-#orderinfo-mid {
-    margin-top: 3rem;
-    background: #fff;
-    border-radius: 15px;
-    box-shadow: 0 8px 11px 0 hsla(200,5%,88%,.5);
-    padding: 2%;
-}
-
-#orderinfo-bottom {
-    padding-left: 1%;
-    padding-right: 1%;
-    padding-top: 2%;
-    padding-bottom: 2%;
-    background: #fff;
-    border-radius: 15px;
-    box-shadow: 0 8px 11px 0 hsla(200,5%,88%,.5);
-    margin-top: 3rem;
-}
-
 /* CUrrent order mobile UI */
 @media screen and (max-width: 475px){
     #position_steps{
@@ -518,7 +499,7 @@ input[type=submit] {
     #position_lable{
         font-weight: 580;
         padding-left: 10px;
-        width: 133px;
+        width: 140px;
         height: 25px;
     }
 
@@ -869,12 +850,38 @@ input:checked + .slider:before {
 
 /*Order Info*/
 
-.total-price {
-    display: flex;
+#orderinfo-mid {
+    margin-top: 3rem;
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 8px 11px 0 hsla(200,5%,88%,.5);
+    font-family: 'Roboto',-apple-system,BlinkMacSystemFont,Helvetica Neue,Segoe UI,sans-serif;
+}
+
+#orderinfo-mid-heading {
     width: 100%;
-    color: blue;
-    flex-direction: row-reverse;
+    flex-direction: row;
+    border-bottom: 1px solid #dbdbdb;
+    padding: 1.3rem 1.6rem 0.6rem;
+    display: flex;
+    /* justify-content: space-between; */
+}
+
+#orderinfo-mid-body {
+    padding: 1.3rem 1.6rem 0.6rem
+}
+
+#orderinfo-bottom {
+    padding-left: 1%;
     padding-right: 1%;
+    padding-top: 2%;
+    padding-bottom: 2%;
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 8px 11px 0 hsla(200,5%,88%,.5);
+    margin-top: 3rem;
+    flex-direction: row;
+    font-family: 'Roboto',-apple-system,BlinkMacSystemFont,Helvetica Neue,Segoe UI,sans-serif;
 }
 
 .total {

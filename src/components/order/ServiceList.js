@@ -4,7 +4,8 @@ import React from "react";
 
 function ServiceList({cart, collectionType, user, getCart}) {
     return (
-        <table id="cart" className="table table-hover table-condensed mt-4">
+        <div id="orderinfo-mid-body">
+        <table id="cart" className="table table-hover table-condensed">
             <thead>
             <tr style={{'cursor': 'default'}}>
                 <th>Service</th>
@@ -36,6 +37,7 @@ function ServiceList({cart, collectionType, user, getCart}) {
             </tr>
             </tbody>
         </table>
+        </div>
     )
 }
 

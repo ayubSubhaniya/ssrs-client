@@ -5,9 +5,9 @@ import '../../styles/orderstatus.css'
 import { cartStatus, rcartStatus } from "../../constants/status";
 import { camelCaseToWords } from "../../helper/String";
 import TextInput from "./TextInput";
-import {makeCall} from "../../helper/caller";
-import {collectionTypeCategory, defaultCart, ONLINE} from "../../constants/constants";
-import {collectionCode, paymentCode} from "../../constants/errorMessage";
+import { makeCall } from "../../helper/caller";
+import { collectionTypeCategory, defaultCart, ONLINE } from "../../constants/constants";
+import { collectionCode, paymentCode } from "../../constants/errorMessage";
 import TextInfoMod from "./TextInfoMod"
 import CourierForm from "./CourierForm";
 import OrderStatusBar from "./OrderStatusBar"
@@ -34,17 +34,6 @@ function PaymentInfo({ cart, visible, openModal, closeModal }) {
     else
         paymentStatus = 'Pending';
 
-    cart.paymentFailHistory = [
-        {
-            "paymentId": "1",
-            "paymentDate": "2019-05-19 12:34"
-        },
-        {
-            "paymentId": "2",
-            "paymentDate": "2019-05-19 13:54"   
-        }
-    ]
-
     if (cart.paymentFailHistory.length) {
         cart.paymentFailHistory = _.reverse(cart.paymentFailHistory);
     }
@@ -54,6 +43,11 @@ function PaymentInfo({ cart, visible, openModal, closeModal }) {
                 <h5 className="position_head ml-3">Payment Information</h5>
                 <div className='container ml-2 pb-0'>
                     <TextInfoMod lable="Payment Mode" data={camelCaseToWords(cart.paymentType)} />
+                    {
+                        cart.paymentId !== cart.paymentCode
+                            ? <TextInfoMod lable="Payment ID" data={cart.paymentId} />
+                            : ''
+                    }
                     <TextInfoMod lable="Payment Code" data={cart.paymentCode} />
                     <TextInfoMod lable="Payment Status" data={paymentStatus} />
                 </div>
@@ -330,7 +324,7 @@ class OrderInfo extends PureComponent {
                 <div className="container pb-0 mt-4">
                     <div className='d-flex justify-content-between'>
                         <h3 className='order-status'>
-                            {camelCaseToWords(cartStatus[cart.status])}
+                            {/* {camelCaseToWords(cartStatus[cart.status])} */}
                         </h3>
                         {
                             (cart.status >= rcartStatus.placed && cart.status < rcartStatus.completed && isAdmin(this.props.user))
@@ -343,10 +337,10 @@ class OrderInfo extends PureComponent {
                         {
                             (cart.status === rcartStatus.completed)
                                 ? <a href={domainUrl + '/cart/invoice/' + cart._id}
-                                     target="_blank"
-                                     download={`invoice_${cart.orderId}.pdf`}
-                                     className='btn btn-outline-primary mr-4 align-self-center'>
-                                    <i className="fa fa-download mr-2" aria-hidden="true"/>
+                                    target="_blank"
+                                    download={`invoice_${cart.orderId}.pdf`}
+                                    className='btn btn-outline-primary mr-4 align-self-center'>
+                                    <i className="fa fa-download mr-2" aria-hidden="true" />
                                     Invoice
                                 </a>
                                 : ''
@@ -354,7 +348,7 @@ class OrderInfo extends PureComponent {
                         {
                             (cart.status === rcartStatus.cancelled && cart.paymentStatus === true && cart.totalCost > 0 && isAdmin(this.props.user))
                                 ? <div className='btn btn-outline-primary mr-4 align-self-center'
-                                       onClick={this.openRefundModal}>
+                                    onClick={this.openRefundModal}>
                                     <i className="fa fa-undo mr-2"></i>
                                     Refund
                                 </div>
@@ -380,26 +374,29 @@ class OrderInfo extends PureComponent {
                         openCollectionCodeModal={this.openCollectionCodeModal}
                         openCourierDetailsModal={this.openCourierDetailsModal}
                         isDelivery={delivery} />
-                    
+
                     <div id="orderinfo-mid" className='card'>
-                        <h3><strong>Order #: {cart.orderId}</strong></h3>
-                        <ServiceList cart={cart}
-                                    collectionType={cart.collectionType}
-                                    user={this.props.user}
-                                    getCart={this.getCart}/>
-                        <ErrorMessage message={this.state.errorMessage} clearMessage={this.cleanErrorMessage}/>
-                        <div className="total-price">
-                            <div><span className={'total'}>Total: ₹ </span><span
-                                className='price'>{cart.totalCost}</span></div>
+                        <div id="orderinfo-mid-heading">
+                            <div className="w-50" style={{ "fontWeight": "600", "margin": "auto" }}>
+                                <h4>Order #: {cart.orderId}</h4>
+                            </div>
+                            <div className="w-50" style={{"textAlign": "right"}}>
+                                <h6>Order Total: </h6><h3>₹{cart.totalCost}</h3>
+                            </div>
                         </div>
+                        <ServiceList cart={cart}
+                            collectionType={cart.collectionType}
+                            user={this.props.user}
+                            getCart={this.getCart} />
+                        <ErrorMessage message={this.state.errorMessage} clearMessage={this.cleanErrorMessage} />
                     </div>
-                    
-                    <div id="orderinfo-bottom" className='card d-flex' style={{"flexDirection": "row", "fontFamily": "Roboto,-apple-system,BlinkMacSystemFont,Helvetica Neue,Segoe UI,sans-serif"}}>
-                        <div className='w-50' style={{"borderRight":"1px solid #dbdbdb"}}>
+
+                    <div id="orderinfo-bottom" className='card d-flex'>
+                        <div className='w-50' style={{ "borderRight": "1px solid #dbdbdb" }}>
                             <div className='container p-3 ml-3'>
                                 <h5 className="position_head">Collection Information</h5>
-                                <div style={{"marginLeft": "6px"}}>
-                                    <TextInfoMod lable="Collection Type" data={cart.collectionType.name}/>
+                                <div style={{ "marginLeft": "6px" }}>
+                                    <TextInfoMod lable="Collection Type" data={cart.collectionType.name} />
                                     {
                                         delivery
                                             ? <DeliveryInfo delivery={delivery} />
@@ -418,10 +415,10 @@ class OrderInfo extends PureComponent {
                         closeModal={this.closeCancelModal}
                         onSubmit={this.cancelCart} />
                     <TextInput visible={this.state.isCollectionCodeModalOpen}
-                               text={'Enter Collection Code'}
-                               errorMessage={this.state.isCollectionCodeWrong ? collectionCode.wrong : ''}
-                               closeModal={this.closeCollectionCodeModal}
-                               onSubmit={this.compareCollectionCode}/>
+                        text={'Enter Collection Code'}
+                        errorMessage={this.state.isCollectionCodeWrong ? collectionCode.wrong : ''}
+                        closeModal={this.closeCollectionCodeModal}
+                        onSubmit={this.compareCollectionCode} />
                     <TextInput visible={this.state.isPaymentCodeModalOpen}
                         text={'Enter Payment Code'}
                         errorMessage={this.state.isPaymentCodeWrong ? paymentCode.wrong : ''}
