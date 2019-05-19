@@ -1,13 +1,14 @@
-import React, {PureComponent} from 'react';
+import React, { PureComponent } from 'react';
 import _ from "lodash"
-import {orderStatus, rorderStatus} from "../../constants/status";
-import {camelCaseToWords} from "../../helper/String";
-import {makeCall} from "../../helper/caller";
-import {isAdmin, isStudent} from "../../helper/userType";
+import { orderStatus, rorderStatus } from "../../constants/status";
+import { camelCaseToWords } from "../../helper/String";
+import { makeCall } from "../../helper/caller";
+import { isAdmin, isStudent } from "../../helper/userType";
 import TextInput from "./TextInput";
 import EditCartForm from "./cart/EditCartForm";
 import $ from "jquery";
-import {handleError} from "../../helper/error";
+import { handleError } from "../../helper/error";
+import TextInfoMod from "./TextInfoMod";
 
 class ServiceDetails extends PureComponent {
     constructor() {
@@ -126,195 +127,165 @@ class ServiceDetails extends PureComponent {
             })
     };
 
+    getOrderStatusColorClass = (status) => {
+        let className = 'badge badge-';
+        switch (status) {
+            case 'placed':
+                className += 'info';
+                break;
+            case 'processing':
+                className += 'primary';
+                break;
+            case 'ready':
+                className += 'success';
+                break;
+            case 'completed':
+                className += 'success';
+                break;
+            case 'refunded':
+                className += 'success';
+                break;
+            case 'onHold':
+                className += 'warning';
+                break;
+            case 'cancelled':
+                className += 'danger';
+                break;
+            default:
+                className += 'secondary'
+        }
+
+        return className;
+    }
+
     render() {
-        const order = this.props.order;
+
+        const { index, order } = this.props;
         const service = order.service;
         const parameters = order.parameters;
         return (
-            <React.Fragment>
-                <tr style={{'cursor': 'default'}}>
-                    <td data-th="Service">
-                        <div className="row">
-                            <div className="col-sm-10">
-                                <h4 className="nomargin">{service.name}</h4>
-                                {
-                                    order.comment
-                                        ? (<div><strong>Comment: </strong>{order.comment}</div>) : ''
-                                }
-                            </div>
+            <div key={order._id} className="card">
+                <div id="orderinfo-mid-body-card-heading" className="card-header">
+                    <a className="d-flex collapsed card-link text-dark" data-toggle="collapse" href={"#orderinfo-collapse" + index}>
+                        <div className="w-50">
+                            <h4> {service.name}</h4>
                         </div>
-                    </td>
-                    <td data-th="Status" className="text-center">
-                        {camelCaseToWords(orderStatus[order.status])}
-                    </td>
-                    <td data-th="Parameters"
-                        className="text-center">{parameters.length > 0 ? _.map(parameters, 'name').join(", ") : 'None'}</td>
-                    <td data-th="Quantity" className="text-center">{order.unitsRequested}</td>
-                    <td data-th="Service Cost" className="text-center">{`₹ ${order.serviceCost}`}</td>
-                    <td data-th="Parameter Cost" className="text-center">{`₹ ${order.parameterCost}`}</td>
-                    <td data-th="Subtotal" className="text-center">{`₹ ${order.totalCost}`}</td>
-                </tr>
-                {
-                    isStudent(this.props.user) && (order.status === rorderStatus.onHold || order.status === rorderStatus.cancelled)
-                        ? <tr>
-                            <td colSpan={7} className='border-top-0'>
-                                <div className='d-flex justify-content-between align-content-center'>
-                                    {
-                                        order.status === rorderStatus.onHold
-                                            ? <div className='w-50'>
-                                                <span>
-                                                    <strong>Hold Reason: </strong>
-                                                    {order.holdReason}
-                                                </span>
-                                            </div>
-                                            : ''
-                                    }
-                                    {
-                                        order.status === rorderStatus.cancelled
-                                            ? <div className='w-50'>
-                                                <div>
-                                                    <strong>Cancellation Reason: </strong>
-                                                    {order.cancelReason}
-                                                </div>
-                                            </div>
-                                            : ''
-                                    }
-                                    <div>
+                        <div className="w-50" style={{ "display": "flex", "justifyContent": "flex-end" }}>
+                            <div style={{ "marginTop": "0.38rem" }}><span class={this.getOrderStatusColorClass(orderStatus[order.status])} style={{ "lineHeight": "1.35" }}>{camelCaseToWords(orderStatus[order.status])}</span></div>
+                            <div style={{ "width": "20%", "textAlign": "right", "fontSize": "1.5rem", "fontWeight": "500" }}>{`₹${order.totalCost}`}</div>
+                        </div>
+                    </a>
+                </div>
+                <div id={'orderinfo-collapse' + index} className="collapse">
+                    <div id="orderinfo-mid-body-card-body" className="card-body">
+                        <div style={{ "width": "70%", "paddingLeft": "1.8rem" }}>
+                            <div id="orderinfo-mid-card-body-detail" className="row">
+                                <div className="detail-label">Quantity:</div>
+                                <div>{order.unitsRequested}</div>
+                            </div>
+                            <div id="orderinfo-mid-card-body-detail" className="row">
+                                <div className="detail-label">Parameters:</div>
+                                <div>{parameters.length > 0 ? _.map(parameters, 'name').join(", ") : 'None'}</div>
+                            </div>
+                            {
+                                order.comment
+                                    ? <div id="orderinfo-mid-card-body-detail" className="row">
+                                        <div className="detail-label">Comment:</div>
+                                        <div>{order.comment}</div>
+                                    </div>
+                                    : ''
+                            }
+                            {
+                                order.status === rorderStatus.onHold
+                                    ? <div className="d-flex justify-content-between">
+                                        <div id="orderinfo-mid-card-body-detail" className="row">
+                                            <div className="detail-label">Hold reason:</div>
+                                            <div>{order.holdReason}</div>
+                                        </div>
                                         {
-                                            order.status === rorderStatus.onHold && isStudent(this.props.user)
+                                            isStudent(this.props.user)
                                                 ? <button type="button"
-                                                    className="btn btn-sm btn-outline-primary"
+                                                    className="btn btn-sm btn-outline-primary mr-5"
                                                     onClick={this.openEditModal}>
                                                     Edit
                                                 </button>
                                                 : ''
                                         }
                                     </div>
-                                </div>
-                            </td>
-                        </tr>
-                        : ''
-                }
-                {
-                    isAdmin(this.props.user) && order.status !== rorderStatus.cancelled
-                        ? <tr>
-                            <td colSpan={7} className='border-top-0'>
-                                <div className='d-flex justify-content-between align-content-center'>
-                                    <div className='w-50'></div>
-                                    <div>
-                                        {
-                                            order.status === rorderStatus.processing && isAdmin(this.props.user)
-                                                ? (<div className='btn btn-sm btn-outline-success mr-3'
-                                                    onClick={() => this.statusUpdateToReady(order._id)}>
-                                                    Ready
-                                        </div>)
-                                                : ''
-                                        }
-                                        {
-                                            order.status === rorderStatus.processing && isAdmin(this.props.user)
-                                                ? (<div className='btn btn-sm btn-outline-warning mr-3'
-                                                    onClick={this.openHoldModal}>
-                                                    Hold
-                                        </div>)
-                                                : ''
-                                        }
-                                        {
-                                            order.status >= rorderStatus.placed
-                                                && order.status < rorderStatus.completed
-                                                && isAdmin(this.props.user)
-                                                ? (<div className='btn btn-sm btn-outline-danger mr-3'
-                                                    onClick={this.openCancelModal}>
-                                                    Cancel
-                                        </div>)
-                                                : ''
-                                        }
+                                    : ''
+                            }
+                            {
+                                order.status === rorderStatus.cancelled
+                                    ? <div id="orderinfo-mid-card-body-detail" className="row">
+                                        <div className="detail-label">Cancel reason:</div>
+                                        <div>{order.cancelReason}</div>
                                     </div>
+                                    : ''
+                            }
+                        </div>
+                        <div style={{ "width": "30%", "borderLeft": "1px solid #dbdbdb", "paddingLeft": "1.5rem" }}>
+                            <div className="mb-3 mr-2">
+                                <div style={{ "display": "flex", "justifyContent": "space-between", "lineHeight": "1.5" }}>
+                                    <div style={{ "fontSize": "15px", "color": "#666" }}>Service cost</div>
+                                    <div style={{ "fontSize": "15px", "color": "#666" }}>₹{order.serviceCost}</div>
                                 </div>
-                            </td>
-                        </tr>
-                        : ''
-                }
-                {/* <tr>
-                    <td colSpan={7} className='border-top-0'>
-                        <div className='d-flex justify-content-between align-content-center'>
-                            <div className='w-50'>
+                                <div style={{ "display": "flex", "justifyContent": "space-between", "lineHeight": "1.5" }}>
+                                    <div style={{ "fontSize": "15px", "color": "#666" }}>Parameter cost</div>
+                                    <div style={{ "fontSize": "15px", "color": "#666" }}>₹{order.parameterCost}</div>
+                                </div>
+                            </div>
+                            <div style={{ "display": "flex", "justifyContent": "space-evenly" }}>
                                 {
-                                    order.status === rorderStatus.onHold
-                                        ? <span>
-                                        <strong>Hold Reason: </strong>
-                                            {order.holdReason}
-                                    </span>
-                                        : ''
-                                }
-                                {
-                                    order.status === rorderStatus.cancelled
-                                        ? <div>
-                                            <strong>Cancellation Reason: </strong>
-                                            {order.cancelReason}
+                                    order.status === rorderStatus.processing && isAdmin(this.props.user)
+                                        ? <div className='btn btn-sm btn-outline-success mr-3'
+                                            onClick={() => this.statusUpdateToReady(order._id)}>
+                                            Ready
                                         </div>
                                         : ''
                                 }
-                            </div>
-                            <div className=''>
                                 {
                                     order.status === rorderStatus.processing && isAdmin(this.props.user)
-                                        ? (<div className='btn btn-sm btn-outline-success mr-3'
-                                                onClick={() => this.statusUpdateToReady(order._id)}>
-                                            Ready
-                                        </div>)
-                                        : ''
-                                }
-                                {
-                                    order.status === rorderStatus.processing && isAdmin(this.props.user)
-                                        ? (<div className='btn btn-sm btn-outline-warning mr-3'
-                                                onClick={this.openHoldModal}>
+                                        ? <div className='btn btn-sm btn-outline-warning mr-3'
+                                            onClick={this.openHoldModal}>
                                             Hold
-                                        </div>)
+                                        </div>
                                         : ''
                                 }
                                 {
                                     order.status >= rorderStatus.placed
-                                    && order.status < rorderStatus.completed
-                                    && isAdmin(this.props.user)
-                                        ? (<div className='btn btn-sm btn-outline-danger mr-3'
-                                                onClick={this.openCancelModal}>
+                                        && order.status < rorderStatus.completed
+                                        && isAdmin(this.props.user)
+                                        ? <div className='btn btn-sm btn-outline-danger'
+                                            onClick={this.openCancelModal}>
                                             Cancel
-                                        </div>)
-                                        : ''
-                                }
-                                {
-                                    order.status === rorderStatus.onHold && isStudent(this.props.user)
-                                        ? <button type="button"
-                                                  className="btn btn-sm btn-outline-primary"
-                                                  onClick={this.openEditModal}>
-                                            Edit
-                                        </button>
+                                        </div>
                                         : ''
                                 }
                             </div>
                         </div>
-                    </td>
-                </tr>
-                */}
+
+                    </div>
+                </div>
+
                 <EditCartForm id={order._id}
-                              visible={this.state.isEditModalOpen}
-                              close={this.closeEditModal}
-                              service={service}
-                              parameter={parameters}
-                              units={order.unitsRequested}
-                              comment={order.comment}
-                              index={this.props.index}
-                              hide={true}
-                              updateOrder={this.edit}/>
+                    visible={this.state.isEditModalOpen}
+                    close={this.closeEditModal}
+                    service={service}
+                    parameter={parameters}
+                    units={order.unitsRequested}
+                    comment={order.comment}
+                    index={this.props.index}
+                    hide={true}
+                    updateOrder={this.edit} />
                 <TextInput visible={this.state.isHoldModalOpen}
-                           text={'Enter Reason Holding Of Order'}
-                           closeModal={this.closeHoldModal}
-                           onSubmit={(data) => this.hold(data, order._id)}/>
+                    text={'Enter Reason Holding Of Order'}
+                    closeModal={this.closeHoldModal}
+                    onSubmit={(data) => this.hold(data, order._id)} />
                 <TextInput visible={this.state.isCancelModalOpen}
-                           text={'Enter Reason Cancellation'}
-                           closeModal={this.closeCancelModal}
-                           onSubmit={(data) => this.cancel(data, order._id)}/>
-            </React.Fragment>
+                    text={'Enter Reason Cancellation'}
+                    closeModal={this.closeCancelModal}
+                    onSubmit={(data) => this.cancel(data, order._id)} />
+            </div>
         );
     }
 }

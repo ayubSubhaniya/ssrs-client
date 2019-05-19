@@ -877,7 +877,43 @@ input:checked + .slider:before {
 }
 
 #orderinfo-mid-body {
-    padding: 1.3rem 1.6rem 0.6rem
+    /* padding: 1.3rem 1.6rem 0.6rem */
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    margin-bottom: 10px;
+}
+
+#orderinfo-mid-body-card-heading {
+    width: 100%;
+    flex-direction: row;
+    padding-right: 1.6rem;
+    padding-left: 1.6rem;
+    border-bottom: 0px solid;
+    background-color: #fff;
+}
+
+#orderinfo-mid-body-card-body {
+    width: 100%;
+    display: flex;
+    padding-top: 0rem;
+    /* flex-direction: row; */
+}
+
+#orderinfo-mid-card-body-detail {
+    font-size: 15px;
+    line-height: 1.4;
+}
+
+#orderinfo-mid-card-body-detail > .detail-label {
+    padding-right: 6px;
+    font-weight: 600;
+}
+
+#orderinfo-mid-body-shipping {
+    display: flex;
+    padding-left: 1.6rem;
+    padding-right: 1.6rem;
+    justify-content: flex-end;
 }
 
 #orderinfo-bottom {
@@ -891,6 +927,14 @@ input:checked + .slider:before {
     margin-top: 3rem;
     flex-direction: row;
     font-family: 'Roboto',-apple-system,BlinkMacSystemFont,Helvetica Neue,Segoe UI,sans-serif;
+}
+
+.total-price {
+    display: flex;
+    width: 100%;
+    color: blue;
+    flex-direction: row-reverse;
+    padding-right: 1%;
 }
 
 .total {

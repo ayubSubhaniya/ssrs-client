@@ -381,14 +381,27 @@ class OrderInfo extends PureComponent {
                                 <h4>Order #: {cart.orderId}</h4>
                             </div>
                             <div className="w-50" style={{"textAlign": "right"}}>
-                                <h6>Order Total: </h6><h3>₹{cart.totalCost}</h3>
+                                <h6>Order Total: </h6><h2>₹{cart.totalCost}</h2>
                             </div>
                         </div>
+    
                         <ServiceList cart={cart}
                             collectionType={cart.collectionType}
                             user={this.props.user}
                             getCart={this.getCart} />
-                        <ErrorMessage message={this.state.errorMessage} clearMessage={this.cleanErrorMessage} />
+
+                        {
+                            delivery
+                            ? <div id="orderinfo-mid-body-shipping">
+                                <div><h4 style={{"fontWeight": "500"}}>{cart.collectionType.name}</h4></div>
+                                <div style={{"width": "10%", "textAlign": "right"}}><h4 style={{"fontWeight": "500"}}>₹{cart.collectionTypeCost}</h4></div>
+                            </div>
+                            : ''
+                        }
+                        
+                        <div style={{"padding": "0.5rem"}}>
+                            <ErrorMessage message={this.state.errorMessage} clearMessage={this.cleanErrorMessage} />
+                        </div>
                     </div>
 
                     <div id="orderinfo-bottom" className='card d-flex'>
