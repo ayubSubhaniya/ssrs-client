@@ -319,9 +319,9 @@ class OrderInfo extends PureComponent {
         const delivery = cart.collectionType.category === collectionTypeCategory.DELIVERY ? cart.delivery : undefined;
         const pickup = cart.collectionType.category === collectionTypeCategory.PICKUP ? cart.pickup : undefined;
         return (
-            <div className='mb-4 pb-4'>
+            <div className=''>
                 <NavigationBar />
-                <div className="container pb-0 mt-4">
+                <div id="orderinfo-main">
                     <div className='d-flex justify-content-between'>
                         <h3 className='order-status'>
                             {/* {camelCaseToWords(cartStatus[cart.status])} */}
