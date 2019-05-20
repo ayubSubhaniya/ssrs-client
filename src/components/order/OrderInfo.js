@@ -5,9 +5,9 @@ import '../../styles/orderstatus.css'
 import { cartStatus, rcartStatus } from "../../constants/status";
 import { camelCaseToWords } from "../../helper/String";
 import TextInput from "./TextInput";
-import {makeCall} from "../../helper/caller";
-import {collectionTypeCategory, defaultCart, ONLINE} from "../../constants/constants";
-import {collectionCode, paymentCode} from "../../constants/errorMessage";
+import { makeCall } from "../../helper/caller";
+import { collectionTypeCategory, defaultCart, ONLINE } from "../../constants/constants";
+import { collectionCode, paymentCode } from "../../constants/errorMessage";
 import TextInfoMod from "./TextInfoMod"
 import CourierForm from "./CourierForm";
 import OrderStatusBar from "./OrderStatusBar"
@@ -38,40 +38,47 @@ function PaymentInfo({ cart, visible, openModal, closeModal }) {
         cart.paymentFailHistory = _.reverse(cart.paymentFailHistory);
     }
     return (
-        <div className='w-50 p-3 ml-3' style={{"border":"2px solid #343a40", "borderRadius":"4px"}}>
-            <h5 className="position_head">PAYMENT INFORMATION</h5>
-            <div className='container p-1'>
-                <TextInfoMod lable="Payment Mode" data={camelCaseToWords(cart.paymentType)} />
-                <TextInfoMod lable="Payment Code" data={cart.paymentCode} />
-                <TextInfoMod lable="Payment Status" data={paymentStatus} />
+        <div className='w-50'>
+            <div className="container p-3 ml-3">
+                <h5 className="position_head ml-3">Payment Information</h5>
+                <div className='container ml-2 pb-0'>
+                    <TextInfoMod lable="Payment Mode" data={camelCaseToWords(cart.paymentType)} />
+                    {
+                        cart.paymentId !== cart.paymentCode
+                            ? <TextInfoMod lable="Payment ID" data={cart.paymentId} />
+                            : ''
+                    }
+                    <TextInfoMod lable="Payment Code" data={cart.paymentCode} />
+                    <TextInfoMod lable="Payment Status" data={paymentStatus} />
+                </div>
+
+                {
+                    cart.paymentFailHistory.length > 0
+                        ? <div>
+                            <hr />
+                            <h5 className="position_head ml-3">Payment Fail History</h5>
+                            <PaymentFailHistoryModalCard
+                                paymentId={cart.paymentFailHistory[0].paymentId}
+                                paymentDate={cart.paymentFailHistory[0].paymentDate}
+                                paymentType={cart.paymentFailHistory[0].paymentType} />
+                            {
+                                cart.paymentFailHistory.length > 1
+                                    ? <div>
+                                        <PaymentFailHistoryModal
+                                            visible={visible}
+                                            inputList={cart.paymentFailHistory}
+                                            closeModal={closeModal} />
+                                        <button className="btn btn-outline-info btn-sm mr-3" onClick={openModal} style={{ "float": "right" }}>
+                                            View All<i className="fa fa-angle-right" style={{ "marginLeft": "3px" }}></i>
+                                        </button>
+                                    </div>
+                                    : ''
+                            }
+                        </div>
+                        : ''
+
+                }
             </div>
-
-            {
-                cart.paymentFailHistory.length > 0
-                    ? <div>
-                        <hr />
-                        <h5>PAYMENT FAIL HISTORY</h5>
-                        <PaymentFailHistoryModalCard
-                            paymentId={cart.paymentFailHistory[0].paymentId}
-                            paymentDate={cart.paymentFailHistory[0].paymentDate}
-                            paymentType={cart.paymentFailHistory[0].paymentType} />
-                        {
-                            cart.paymentFailHistory.length > 1
-                                ? <div>
-                                    <PaymentFailHistoryModal
-                                        visible={visible}
-                                        inputList={cart.paymentFailHistory}
-                                        closeModal={closeModal} />
-                                    <button className="btn btn-outline-info btn-sm" onClick={openModal} style={{ "float": "right" }}>
-                                        View All<i className="fa fa-angle-right" style={{ "marginLeft": "3px" }}></i>
-                                    </button>
-                                </div>
-                                : ''
-                        }
-                    </div>
-                    : ''
-
-            }
         </div>
     )
 }
@@ -312,16 +319,12 @@ class OrderInfo extends PureComponent {
         const delivery = cart.collectionType.category === collectionTypeCategory.DELIVERY ? cart.delivery : undefined;
         const pickup = cart.collectionType.category === collectionTypeCategory.PICKUP ? cart.pickup : undefined;
         return (
-            <div className='mb-4 pb-4'>
+            <div className=''>
                 <NavigationBar />
-                <div className="container pb-0 mt-4">
-                    <h3>
-                        <strong>Order #: {cart.orderId}</strong>
-                    </h3>
-                    <hr />
+                <div id="orderinfo-main">
                     <div className='d-flex justify-content-between'>
                         <h3 className='order-status'>
-                            {camelCaseToWords(cartStatus[cart.status])}
+                            {/* {camelCaseToWords(cartStatus[cart.status])} */}
                         </h3>
                         {
                             (cart.status >= rcartStatus.placed && cart.status < rcartStatus.completed && isAdmin(this.props.user))
@@ -334,10 +337,10 @@ class OrderInfo extends PureComponent {
                         {
                             (cart.status === rcartStatus.completed)
                                 ? <a href={domainUrl + '/cart/invoice/' + cart._id}
-                                     target="_blank"
-                                     download={`invoice_${cart.orderId}.pdf`}
-                                     className='btn btn-outline-primary mr-4 align-self-center'>
-                                    <i className="fa fa-download mr-2" aria-hidden="true"/>
+                                    target="_blank"
+                                    download={`invoice_${cart.orderId}.pdf`}
+                                    className='btn btn-outline-primary mr-4 align-self-center'>
+                                    <i className="fa fa-download mr-2" aria-hidden="true" />
                                     Invoice
                                 </a>
                                 : ''
@@ -345,7 +348,7 @@ class OrderInfo extends PureComponent {
                         {
                             (cart.status === rcartStatus.cancelled && cart.paymentStatus === true && cart.totalCost > 0 && isAdmin(this.props.user))
                                 ? <div className='btn btn-outline-primary mr-4 align-self-center'
-                                       onClick={this.openRefundModal}>
+                                    onClick={this.openRefundModal}>
                                     <i className="fa fa-undo mr-2"></i>
                                     Refund
                                 </div>
@@ -371,27 +374,48 @@ class OrderInfo extends PureComponent {
                         openCollectionCodeModal={this.openCollectionCodeModal}
                         openCourierDetailsModal={this.openCourierDetailsModal}
                         isDelivery={delivery} />
-                    <ServiceList cart={cart}
-                                 collectionType={cart.collectionType}
-                                 user={this.props.user}
-                                 getCart={this.getCart}/>
-                    <ErrorMessage message={this.state.errorMessage} clearMessage={this.cleanErrorMessage}/>
-                    <div className="total-price">
-                        <div><span className={'total'}>Total: ₹ </span><span
-                            className='price'>{cart.totalCost}</span></div>
-                    </div>
-                    <hr />
-                    <div className='d-flex'>
-                        <div className='w-50' style={{"border":"2px solid #343a40", "borderRadius":"4px"}}>
-                            <div className='container p-3'>
-                                <h5 className="position_head">COLLECTION INFORMATION</h5>
 
-                                <TextInfoMod lable="Collection Type" data={cart.collectionType.name}/>
-                                {
-                                    delivery
-                                        ? <DeliveryInfo delivery={delivery} />
-                                        : <PickupInfo pickup={pickup} />
-                                }
+                    <div id="orderinfo-mid" className='card'>
+                        <div id="orderinfo-mid-heading">
+                            <div className="w-50" style={{ "fontWeight": "600", "margin": "auto" }}>
+                                <h4>Order #: {cart.orderId}</h4>
+                            </div>
+                            <div className="w-50" style={{"textAlign": "right"}}>
+                                <h6>Order Total: </h6><h2>₹{cart.totalCost}</h2>
+                            </div>
+                        </div>
+    
+                        <ServiceList cart={cart}
+                            collectionType={cart.collectionType}
+                            user={this.props.user}
+                            getCart={this.getCart} />
+
+                        {
+                            delivery
+                            ? <div id="orderinfo-mid-body-shipping">
+                                <div><h4 style={{"fontWeight": "500"}}>{cart.collectionType.name}</h4></div>
+                                <div style={{"width": "10%", "textAlign": "right"}}><h4 style={{"fontWeight": "500"}}>₹{cart.collectionTypeCost}</h4></div>
+                            </div>
+                            : ''
+                        }
+                        
+                        <div style={{"padding": "0.5rem"}}>
+                            <ErrorMessage message={this.state.errorMessage} clearMessage={this.cleanErrorMessage} />
+                        </div>
+                    </div>
+
+                    <div id="orderinfo-bottom" className='card d-flex'>
+                        <div className='w-50' style={{ "borderRight": "1px solid #dbdbdb" }}>
+                            <div className='container p-3 ml-3'>
+                                <h5 className="position_head">Collection Information</h5>
+                                <div style={{ "marginLeft": "6px" }}>
+                                    <TextInfoMod lable="Collection Type" data={cart.collectionType.name} />
+                                    {
+                                        delivery
+                                            ? <DeliveryInfo delivery={delivery} />
+                                            : <PickupInfo pickup={pickup} />
+                                    }
+                                </div>
                             </div>
                         </div>
                         <PaymentInfo cart={cart}
@@ -404,10 +428,10 @@ class OrderInfo extends PureComponent {
                         closeModal={this.closeCancelModal}
                         onSubmit={this.cancelCart} />
                     <TextInput visible={this.state.isCollectionCodeModalOpen}
-                               text={'Enter Collection Code'}
-                               errorMessage={this.state.isCollectionCodeWrong ? collectionCode.wrong : ''}
-                               closeModal={this.closeCollectionCodeModal}
-                               onSubmit={this.compareCollectionCode}/>
+                        text={'Enter Collection Code'}
+                        errorMessage={this.state.isCollectionCodeWrong ? collectionCode.wrong : ''}
+                        closeModal={this.closeCollectionCodeModal}
+                        onSubmit={this.compareCollectionCode} />
                     <TextInput visible={this.state.isPaymentCodeModalOpen}
                         text={'Enter Payment Code'}
                         errorMessage={this.state.isPaymentCodeWrong ? paymentCode.wrong : ''}

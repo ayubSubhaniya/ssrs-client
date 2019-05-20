@@ -39,7 +39,7 @@ class SignInPage extends React.PureComponent {
     render() {
         const {isTourOpen} = this.state;
         const accentColor = '#5cb7b7';
-        const {daiictId, handleChange, password, loginMessage, logIn, openModal, clearLoginMessage} = this.props;
+        const {daiictId, handleChange, password, loginMessage, logIn, openModal, clearLoginMessage, showPassword, changePassworVisibility} = this.props;
         return (
             <div className="page">
                 <Button h="4" onClick={this.openTour} style={{
@@ -71,18 +71,34 @@ class SignInPage extends React.PureComponent {
                 }}>
                     <div data-tut="reactour__positionID">
                         <TextInputUserName daiictId={daiictId}
-                                           handleChange={handleChange}/></div>
+                            handleChange={handleChange} /></div>
                     <div className="page-input" data-tut="reactour__positionPassword">
                         <div className="title"><i className="fa fa-lock"></i> PASSWORD
                         </div>
-                        <input className="form-control" type="password" name="password" value={password}
-                               onChange={handleChange}/>
-                        <ErrorMessage message={loginMessage} clearMessage={clearLoginMessage}/>
+                        <div className="input-group mb-3">
+                            <input type={showPassword ? "text" : "password"}
+                                className="form-control"
+                                aria-label="password"
+                                value={password}
+                                onChange={handleChange}
+                                name="password"
+                                aria-describedby="basic-addon" />
+                            <div className="input-group-append">
+                                <span className="input-group-text"
+                                    id="basic-addon">
+                                    <i className={`fa ${showPassword ? 'fa-eye' : 'fa-eye-slash'}`}
+                                        style={{ "cursor": "pointer", "fontSize": "1.6rem" }}
+                                        onClick={changePassworVisibility}></i>
+                                </span>
+                            </div>
+                        </div>
+
+                        <ErrorMessage message={loginMessage} clearMessage={clearLoginMessage} />
                     </div>
-                    <div className="page-input"><input type="submit" value="ENTER"/></div>
+                    <div className="page-input"><input type="submit" value="ENTER" /></div>
                     <input data-tut="reactour__positionForgetPassword" type="button" className={'page-link-cstm mt-2'}
-                           value="Forgot Password?"
-                           onClick={openModal}/>
+                        value="Forgot Password?"
+                        onClick={openModal} />
                 </form>
             </div>
         )
