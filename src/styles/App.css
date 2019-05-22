@@ -839,7 +839,7 @@ input:checked + .slider:before {
 .temp-inactive {
     color: #343a40;
     background-color: #fff;
-    border-color: #343a40;
+    border: 1px solid #343a40;
 }
 
 @media screen and (max-width: 600px) {
