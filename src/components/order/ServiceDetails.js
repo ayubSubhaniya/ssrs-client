@@ -263,7 +263,6 @@ class ServiceDetails extends PureComponent {
                                 }
                             </div>
                         </div>
-
                     </div>
                 </div>
 

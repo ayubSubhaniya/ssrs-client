@@ -1,7 +1,6 @@
 let domainUrl = "";
 if (process.env.NODE_ENV === "development") {
-    // domainUrl = "https://ssrs-daiict-api.herokuapp.com"
-    domainUrl = "http://localhost:3001"
+    domainUrl = "https://ssrs-daiict-api.herokuapp.com"
 }else{
     domainUrl = "https://ssrs.daiict.ac.in:8443";
 }
