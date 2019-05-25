@@ -503,6 +503,10 @@ input[type=submit] {
         height: 25px;
     }
 
+    #position_data {
+        flex: 1;
+    }
+
     #spac{
         padding-left: 30px;
     }
