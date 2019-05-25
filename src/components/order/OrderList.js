@@ -106,6 +106,7 @@ class OrderList extends PureComponent {
                                                 <i className="fa fa-chevron-left"/>
                                             </div>
                                     }
+                                    <div className="btn btn-dark mt-2">{this.props.currPageNum}</div>
                                     {
                                         this.props.isNextPage
                                             ? <div className="btn btn-outline-dark cursor-pointer mt-2 ml-1"

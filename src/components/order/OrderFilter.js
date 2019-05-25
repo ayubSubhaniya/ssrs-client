@@ -58,6 +58,7 @@ class Filter extends PureComponent {
             filterState: -1,
             cart: [],
         };
+        this.currPageNum = 1;
         this.size = (isAdmin(props.user) ? DEFAULT_ADMIN_PAGINATION_SIZE : DEFAULT_STUDENT_PAGINATION_SIZE);
         this.defaultPageUrl = 'pageNo=1&size=' + this.size;
     }
@@ -67,6 +68,7 @@ class Filter extends PureComponent {
         this.status = Number(getQueryVariable(queryString, "status"));
         const pageNo = Number(getQueryVariable(queryString, "pageNo"));
         if (pageNo) {
+            this.currPageNum = pageNo;
             this.defaultPageUrl = 'pageNo=' + pageNo + 'size=' + this.size;
         }
 
@@ -134,6 +136,7 @@ class Filter extends PureComponent {
             urlParams: '/cart/all?' + queryparam
         })
             .then((response) => {
+                this.currPageNum += (next === true ? 1 : (next === false ? -1 : 0));
                 this.setState({
                     cart: response.cart,
                     filterState: filterState,
@@ -186,6 +189,7 @@ class Filter extends PureComponent {
                                isFilterVisible={this.state.isFilterVisible}
                                user={this.props.user}
                                onSearch={this.onSearch}
+                               currPageNum={this.currPageNum}
                                getNext={this.fetchNextPage}
                                getPrev={this.fetchPrevPage}
                                isNextPage={this.state.nextPageUrl !== undefined}
