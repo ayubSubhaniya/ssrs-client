@@ -8,7 +8,7 @@ import {isAdmin, isStudent} from "../../helper/userType";
 import {makeCall} from "../../helper/caller";
 import {handleError} from "../../helper/error";
 import {rcartStatus} from "../../constants/status";
-import {DEFAULT_PAGINATION_SIZE} from "../../constants/constants";
+import {DEFAULT_ADMIN_PAGINATION_SIZE, DEFAULT_STUDENT_PAGINATION_SIZE} from "../../constants/constants";
 
 const orders = {
     '-10': "all",
@@ -19,10 +19,16 @@ const orders = {
     80: "readyToDeliver",
     90: "readyToPickup",
     100: "onHold",
-    110: "refunded",
     120: "completed",
-    130: "cancelled"
+    125: "refunded",
+    130: "cancelled",
 };
+
+function getFilterKeys() {
+    let keys = Object.keys(orders);
+    keys.unshift(keys.pop());
+    return keys;
+}
 
 function getQueryVariable(queryString, variable) {
     let vars = queryString.split('&');
@@ -47,12 +53,13 @@ class Filter extends PureComponent {
     constructor(props) {
         super(props);
         this.state = {
-            filterKey: ['-10', 30, 40, 50, 70, 80, 90, 100, 110, 120, 130],
+            filterKey: getFilterKeys(),
             isFilterVisible: false,
             filterState: -1,
             cart: [],
         };
-        this.size = DEFAULT_PAGINATION_SIZE;
+        this.currPageNum = 1;
+        this.size = (isAdmin(props.user) ? DEFAULT_ADMIN_PAGINATION_SIZE : DEFAULT_STUDENT_PAGINATION_SIZE);
         this.defaultPageUrl = 'pageNo=1&size=' + this.size;
     }
 
@@ -61,6 +68,7 @@ class Filter extends PureComponent {
         this.status = Number(getQueryVariable(queryString, "status"));
         const pageNo = Number(getQueryVariable(queryString, "pageNo"));
         if (pageNo) {
+            this.currPageNum = pageNo;
             this.defaultPageUrl = 'pageNo=' + pageNo + 'size=' + this.size;
         }
 
@@ -128,6 +136,7 @@ class Filter extends PureComponent {
             urlParams: '/cart/all?' + queryparam
         })
             .then((response) => {
+                this.currPageNum += (next === true ? 1 : (next === false ? -1 : 0));
                 this.setState({
                     cart: response.cart,
                     filterState: filterState,
@@ -168,8 +177,7 @@ class Filter extends PureComponent {
         let cart = this.state.cart;
         let filterKey = this.state.filterKey;
         if (isAdmin(this.props.user)) {
-            cart = _.filter(this.state.cart, (x) => (x.status !== rcartStatus.processingPayment))
-            filterKey = _.filter(this.state.filterKey, (x) => (x !== rcartStatus.processingPayment && x !== rcartStatus.paymentFailed))
+            filterKey = _.filter(this.state.filterKey, (x) => (x <= 0 || x >= rcartStatus.placed))
         }
         return (
             <div>
@@ -181,6 +189,7 @@ class Filter extends PureComponent {
                                isFilterVisible={this.state.isFilterVisible}
                                user={this.props.user}
                                onSearch={this.onSearch}
+                               currPageNum={this.currPageNum}
                                getNext={this.fetchNextPage}
                                getPrev={this.fetchPrevPage}
                                isNextPage={this.state.nextPageUrl !== undefined}
