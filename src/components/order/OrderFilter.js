@@ -19,10 +19,16 @@ const orders = {
     80: "readyToDeliver",
     90: "readyToPickup",
     100: "onHold",
-    110: "refunded",
     120: "completed",
-    130: "cancelled"
+    125: "refunded",
+    130: "cancelled",
 };
+
+function getFilterKeys() {
+    let keys = Object.keys(orders);
+    keys.unshift(keys.pop());
+    return keys;
+}
 
 function getQueryVariable(queryString, variable) {
     let vars = queryString.split('&');
@@ -47,7 +53,7 @@ class Filter extends PureComponent {
     constructor(props) {
         super(props);
         this.state = {
-            filterKey: ['-10', 30, 40, 50, 70, 80, 90, 100, 110, 120, 130],
+            filterKey: getFilterKeys(),
             isFilterVisible: false,
             filterState: -1,
             cart: [],
@@ -168,8 +174,7 @@ class Filter extends PureComponent {
         let cart = this.state.cart;
         let filterKey = this.state.filterKey;
         if (isAdmin(this.props.user)) {
-            cart = _.filter(this.state.cart, (x) => (x.status !== rcartStatus.processingPayment))
-            filterKey = _.filter(this.state.filterKey, (x) => (x !== rcartStatus.processingPayment && x !== rcartStatus.paymentFailed))
+            filterKey = _.filter(this.state.filterKey, (x) => (x <= 0 || x >= rcartStatus.placed))
         }
         return (
             <div>
