@@ -8,7 +8,7 @@ import {isAdmin, isStudent} from "../../helper/userType";
 import {makeCall} from "../../helper/caller";
 import {handleError} from "../../helper/error";
 import {rcartStatus} from "../../constants/status";
-import {DEFAULT_PAGINATION_SIZE} from "../../constants/constants";
+import {DEFAULT_ADMIN_PAGINATION_SIZE, DEFAULT_STUDENT_PAGINATION_SIZE} from "../../constants/constants";
 
 const orders = {
     '-10': "all",
@@ -58,7 +58,7 @@ class Filter extends PureComponent {
             filterState: -1,
             cart: [],
         };
-        this.size = DEFAULT_PAGINATION_SIZE;
+        this.size = (isAdmin(props.user) ? DEFAULT_ADMIN_PAGINATION_SIZE : DEFAULT_STUDENT_PAGINATION_SIZE);
         this.defaultPageUrl = 'pageNo=1&size=' + this.size;
     }
 
