@@ -57,7 +57,9 @@ class Filter extends PureComponent {
             isFilterVisible: false,
             filterState: -1,
             cart: [],
+            sortOrder: isAdmin(this.props.user) ? "+" : "-"
         };
+        this.searchData = {};
         this.currPageNum = 1;
         this.size = (isAdmin(props.user) ? DEFAULT_ADMIN_PAGINATION_SIZE : DEFAULT_STUDENT_PAGINATION_SIZE);
         this.defaultPageUrl = 'pageNo=1&size=' + this.size;
@@ -71,7 +73,7 @@ class Filter extends PureComponent {
             this.currPageNum = pageNo;
             this.defaultPageUrl = 'pageNo=' + pageNo + 'size=' + this.size;
         }
-
+        this.setState({sortOrder: isAdmin(this.props.user) ? "+" : "-"});
         if (this.status) {
             this.getCart(this.status);
         } else {
@@ -87,50 +89,46 @@ class Filter extends PureComponent {
                 this.getCart(this.status);
             else
                 this.getCart((isAdmin(nextProps.user) ? rcartStatus.processing : '-10'));
+            this.setState({sortOrder: isAdmin(this.props.user) ? "+" : "-"});
         }
     }
 
-    getCart = (filterState, next, searchQuery) => {
+    getCart = (filterState, next, searchQuery, isToggleSort) => {
         if (filterState === -1)
             return [];
-            
-        let queryparam = (next === true 
-            ? this.state.nextPageUrl 
+
+        let queryparam = (next === true
+            ? this.state.nextPageUrl
             : (next === undefined ? this.defaultPageUrl : this.state.prevPageUrl));
-        
+
         if (filterState !== '-10')
             queryparam += '&status=' + filterState;
 
-        if (searchQuery) 
+        if (searchQuery)
             queryparam += '&' + getQueryFromJson(searchQuery);
-        
+
         queryparam += '&sort=';
-        if (isAdmin(this.props.user)) {
-            switch (filterState) {                
-                case rcartStatus.placed:
-                    queryparam += '+statusChangeTime.placed.time'; break;
-                case rcartStatus.processing:
-                    queryparam += '+statusChangeTime.processing.time'; break;
-                case rcartStatus.readyToPickup:
-                    queryparam += '+statusChangeTime.readyToPickup.time'; break;
-                case rcartStatus.readyToDeliver:
-                    queryparam += '+statusChangeTime.readyToDeliver.time'; break;
-                default:
-                    queryparam += '-statusChangeTime.placed.time';
-            }
-        } else if (isStudent(this.props.user)) {
-            switch(filterState) {
-                case rcartStatus.invalid:
-                    queryparam += '-statusChangeTime.invalid.time'; break;
-                case rcartStatus.paymentFailed:
-                    queryparam += '-statusChangeTime.paymentFailed.time'; break;
-                case rcartStatus.processingPayment:
-                    queryparam += '-statusChangeTime.processingPayment.time'; break;
-                default:
-                    queryparam += '-statusChangeTime.placed.time';
-            }
+        let sortOrder = this.state.sortOrder;
+        if(isToggleSort){
+            sortOrder = sortOrder==="+"?"-":"+";
         }
-            
+        switch (filterState) {
+            case rcartStatus.placed:
+                queryparam += sortOrder + 'statusChangeTime.placed.time';
+                break;
+            case rcartStatus.processing:
+                queryparam += sortOrder + 'statusChangeTime.processing.time';
+                break;
+            case rcartStatus.readyToPickup:
+                queryparam += sortOrder + 'statusChangeTime.readyToPickup.time';
+                break;
+            case rcartStatus.readyToDeliver:
+                queryparam += sortOrder + 'statusChangeTime.readyToDeliver.time';
+                break;
+            default:
+                queryparam += sortOrder + 'statusChangeTime.placed.time';
+        }
+
         makeCall({
             jobType: 'GET',
             urlParams: '/cart/all?' + queryparam
@@ -141,7 +139,8 @@ class Filter extends PureComponent {
                     cart: response.cart,
                     filterState: filterState,
                     prevPageUrl: response.prev,
-                    nextPageUrl: response.next
+                    nextPageUrl: response.next,
+                    sortOrder:sortOrder
                 })
             })
             .catch((error) => {
@@ -169,8 +168,14 @@ class Filter extends PureComponent {
     }
 
     onSearch = (data) => {
+        this.searchData = data;
         this.defaultPageUrl = 'pageNo=1&size=' + this.size;
         this.getCart(this.state.filterState, undefined, data);
+    }
+
+    toggleSort = () => {
+        this.defaultPageUrl = 'pageNo=1&size=' + this.size;
+        this.getCart(this.state.filterState, undefined, this.searchData, true);
     }
 
     render() {
@@ -189,6 +194,8 @@ class Filter extends PureComponent {
                                isFilterVisible={this.state.isFilterVisible}
                                user={this.props.user}
                                onSearch={this.onSearch}
+                               toggleSort={this.toggleSort}
+                               sortOrder={this.state.sortOrder}
                                currPageNum={this.currPageNum}
                                getNext={this.fetchNextPage}
                                getPrev={this.fetchPrevPage}
@@ -222,9 +229,10 @@ class Filter extends PureComponent {
 
                     <div className={`cd-filter-trigger ${this.state.isFilterVisible ? 'filter-is-visible' : ''}`}
                          onClick={this.toggleFilter}>
-                         <button className={`btn btn-lg pl-3 pr-3 ${this.state.isFilterVisible ? 'btn-dark' : 'btn-outline-dark'}`}>
+                        <button
+                            className={`btn btn-lg pl-3 pr-3 ${this.state.isFilterVisible ? 'btn-dark' : 'btn-outline-dark'}`}>
                             <span><i class="fa fa-filter mr-2"></i>{"Status Filters"}</span>
-                         </button>
+                        </button>
                     </div>
                 </main>
             </div>

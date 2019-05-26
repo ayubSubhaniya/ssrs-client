@@ -27,18 +27,21 @@ class SearchForm extends React.PureComponent {
     }
 
     render() {
-        console.log(this.props.user);
         return (
             <div className="advanced-search">
-                <div className="advanced-search-btn">
+                <div className="advanced-search-btn d-flex justify-content-end">
+                        <div className="cursor-pointer btn btn-outline-primary mr-2" onClick={this.props.toggleSort}> {
+                            this.props.sortOrder==="-"?"Newest":"Oldest"
+                        }
+                        </div>
                     <button className="btn btn-primary" data-toggle="collapse" data-target="#searchForm" aria-expanded="false" aria-controls="searchForm">
-                        <span><i class="fa fa-bars mr-2"></i>{"Search options"}</span>
+                        <span><i class="fa fa-bars mr-2"/>{"Search options"}</span>
                     </button>
                 </div>
                 <div id="searchForm" className="card collapse multi-collapse">
                     <form autoComplete="off" onSubmit={(e) => this.searchIt(e)}>
                         <div className="form-row">
-                            <div className={'form-group col-sm-5'}>
+                            <div className={'form-group col-sm-12'}>
                                 <label>Order No:</label>
                                 <input name="orderNo"
                                     value={this.state.name}
@@ -48,7 +51,7 @@ class SearchForm extends React.PureComponent {
                             </div>
                             {
                                 isAdmin(this.props.user)
-                                    ? <div className={'form-group col-sm-4'}>
+                                    ? <div className={'form-group col-sm-12'}>
                                         <label>DA-IICT ID:</label>
                                         <input name="daiictId"
                                             value={this.state.name}
@@ -58,7 +61,7 @@ class SearchForm extends React.PureComponent {
                                     </div>
                                     : ''
                             }
-                            <div className={'form-group col-sm-3'}>
+                            <div className={'form-group col-sm-12'}>
                                 <label>Payment Code:</label>
                                 <input name="paymentCode"
                                     value={this.state.name}

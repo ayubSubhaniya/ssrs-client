@@ -185,7 +185,6 @@ class PermissionForm extends React.PureComponent {
         })
     };
     changeStatus = (e, key, d) => {
-        //console.log("chagned",key,d)
         let value = e.target.value
         let copy = JSON.parse(JSON.stringify(this.state.data))
         copy[`${key}`][`${d}`] = `${value}`

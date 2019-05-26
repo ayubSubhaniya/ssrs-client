@@ -8,7 +8,6 @@ function ServiceList({ cart, collectionType, user, getCart }) {
             <div id="orderinfo-mid-accordion">
                 {
                     _.map(cart.orders, (order, i) => {
-                        console.log(order);
                         return (
                             <ServiceDetails key={order._id}
                                 order={order}
