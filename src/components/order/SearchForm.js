@@ -30,9 +30,12 @@ class SearchForm extends React.PureComponent {
         return (
             <div className="advanced-search">
                 <div className="advanced-search-btn d-flex justify-content-end">
-                        <div className="cursor-pointer btn btn-outline-primary mr-2" onClick={this.props.toggleSort}> {
-                            this.props.sortOrder==="-"?"Newest":"Oldest"
-                        }
+                        <div className="cursor-pointer btn btn-outline-primary mr-2" onClick={this.props.toggleSort}> 
+                            {
+                                this.props.sortOrder === '-'
+                                ? <span><i className="fa fa-long-arrow-down mr-1"/>{"Newest"}</span>
+                                : <span><i className="fa fa-long-arrow-up mr-1"/>{"Oldest"}</span>
+                            }
                         </div>
                     <button className="btn btn-primary" data-toggle="collapse" data-target="#searchForm" aria-expanded="false" aria-controls="searchForm">
                         <span><i class="fa fa-bars mr-2"/>{"Search options"}</span>
