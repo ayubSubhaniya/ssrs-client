@@ -162,6 +162,7 @@ class Filter extends PureComponent {
     }
 
     updateFilter = ({target}) => {
+        this.currPageNum = 1;
         this.defaultPageUrl = 'pageNo=1&size=' + this.size;
         this.getCart(target.dataset.filter);
     }
@@ -176,6 +177,7 @@ class Filter extends PureComponent {
 
     onSearch = (data) => {
         this.searchData = data;
+        this.currPageNum = 1;
         this.defaultPageUrl = 'pageNo=1&size=' + this.size;
         this.getCart(this.state.filterState, undefined, data);
     }
