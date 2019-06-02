@@ -26,27 +26,19 @@ class OrderList extends PureComponent {
             || cartStatus[cart.status].match(regexOfSearch))
     };
 
-    searchFilter = (carts) => {
-        if (this.state.searchText) {
-            const regexOfSearch = new RegExp(this.state.searchText, 'gi');
-            return _.filter(carts, (cart) => {
-                return this.isMatched(cart, regexOfSearch)
-            })
-        } else {
-            return carts;
-        }
-    };
-
     render() {
         const {carts, ...others} = this.props;
-        let filteredCarts = this.searchFilter(carts);
-        
+        let filteredCarts = carts;
+
         return (
             <section className={`orders cd-gallery ${this.props.isFilterVisible ? 'filter-is-visible' : ''}`}>
 
                 <div className="limiter">
                     <SearchForm onSubmit={this.onSearch}
+                                toggleSort={this.props.toggleSort}
+                                sortOrder={this.props.sortOrder}
                                 user={this.props.user}/>
+
                     <div className="container-table100 mb-5">
                         <div className="wrap-table100">
                             <div className="table100">
@@ -74,7 +66,7 @@ class OrderList extends PureComponent {
                                                     return (
                                                         <OrderDetails key={cart._id}
                                                                       cart={cart}
-                                                                      index={i}
+                                                                      index={i+((this.props.currPageNum-1)*this.props.pageSize)}
                                                                       {...others}/>
                                                     )
                                                 } else {
@@ -111,11 +103,11 @@ class OrderList extends PureComponent {
                                         this.props.isNextPage
                                             ? <div className="btn btn-outline-dark cursor-pointer mt-2 ml-1"
                                                    onClick={this.props.getNext}>
-                                                <i className="fa fa-chevron-right"/> 
+                                                <i className="fa fa-chevron-right"/>
                                             </div>
                                             :
                                             <div className="btn btn-outline-dark disabled cursor-not-allowed mt-2 ml-1">
-                                                <i className="fa fa-chevron-right"/> 
+                                                <i className="fa fa-chevron-right"/>
                                             </div>
                                     }
                                 </div>
