@@ -174,7 +174,7 @@ class Filter extends PureComponent {
     }
 
     toggleSort = () => {
-        this.defaultPageUrl = 'pageNo=1&size=' + this.size;
+        this.defaultPageUrl = 'pageNo=' + this.currPageNum + '&size=' + this.size;
         this.getCart(this.state.filterState, undefined, this.searchData, true);
     }
 
