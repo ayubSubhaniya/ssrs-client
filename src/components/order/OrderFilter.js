@@ -89,7 +89,6 @@ class Filter extends PureComponent {
                 this.getCart(this.status);
             else
                 this.getCart((isAdmin(nextProps.user) ? rcartStatus.processing : '-10'));
-            this.setState({sortOrder: isAdmin(this.props.user) ? "+" : "-"});
         }
     }
 
@@ -97,40 +96,33 @@ class Filter extends PureComponent {
         if (filterState === -1)
             return [];
 
+        /* Setting page number and size */
         let queryparam = (next === true
             ? this.state.nextPageUrl
             : (next === undefined ? this.defaultPageUrl : this.state.prevPageUrl));
 
+        /* Setting status filter */
         if (filterState !== '-10')
             queryparam += '&status=' + filterState;
 
+        /* Add advanced search parameters */
         if (searchQuery)
             queryparam += '&' + getQueryFromJson(searchQuery);
 
-        queryparam += '&sort=';
+        /* Set sort order */
         let sortOrder = this.state.sortOrder;
-        if(isToggleSort){
-            sortOrder = sortOrder==="+"?"-":"+";
+        if (isToggleSort) {
+            sortOrder = sortOrder === "+" ? "-" : "+";
         }
 
+        /* Add sort query based on the status filter */
+        queryparam += '&sort=';
         switch (filterState) {
             case rcartStatus.paymentFailed:
                 queryparam += sortOrder + 'statusChangeTime.paymentFailed.time';
                 break;
             case rcartStatus.processingPayment:
                 queryparam += sortOrder + 'statusChangeTime.processingPayment.time';
-                break;
-            case rcartStatus.placed:
-                queryparam += sortOrder + 'statusChangeTime.placed.time';
-                break;
-            case rcartStatus.processing:
-                queryparam += sortOrder + 'statusChangeTime.processing.time';
-                break;
-            case rcartStatus.readyToPickup:
-                queryparam += sortOrder + 'statusChangeTime.readyToPickup.time';
-                break;
-            case rcartStatus.readyToDeliver:
-                queryparam += sortOrder + 'statusChangeTime.readyToDeliver.time';
                 break;
             default:
                 queryparam += sortOrder + 'statusChangeTime.placed.time';
@@ -147,7 +139,7 @@ class Filter extends PureComponent {
                     filterState: filterState,
                     prevPageUrl: response.prev,
                     nextPageUrl: response.next,
-                    sortOrder:sortOrder
+                    sortOrder: sortOrder
                 })
             })
             .catch((error) => {
