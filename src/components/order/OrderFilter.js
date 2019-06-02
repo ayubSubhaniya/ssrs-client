@@ -112,7 +112,14 @@ class Filter extends PureComponent {
         if(isToggleSort){
             sortOrder = sortOrder==="+"?"-":"+";
         }
+
         switch (filterState) {
+            case rcartStatus.paymentFailed:
+                queryparam += sortOrder + 'statusChangeTime.paymentFailed.time';
+                break;
+            case rcartStatus.processingPayment:
+                queryparam += sortOrder + 'statusChangeTime.processingPayment.time';
+                break;
             case rcartStatus.placed:
                 queryparam += sortOrder + 'statusChangeTime.placed.time';
                 break;
