@@ -197,6 +197,7 @@ class Filter extends PureComponent {
                                toggleSort={this.toggleSort}
                                sortOrder={this.state.sortOrder}
                                currPageNum={this.currPageNum}
+                               pageSize={this.size}
                                getNext={this.fetchNextPage}
                                getPrev={this.fetchPrevPage}
                                isNextPage={this.state.nextPageUrl !== undefined}

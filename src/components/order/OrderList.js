@@ -66,7 +66,7 @@ class OrderList extends PureComponent {
                                                     return (
                                                         <OrderDetails key={cart._id}
                                                                       cart={cart}
-                                                                      index={i}
+                                                                      index={i+((this.props.currPageNum-1)*this.props.pageSize)}
                                                                       {...others}/>
                                                     )
                                                 } else {
