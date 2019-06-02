@@ -303,7 +303,7 @@ xfilter
 -------------------------------- */
 .cd-filter {
   position: absolute;
-  top: -46px;
+  top: -14px;
   left: 0;
   width: 280px;
   background: #ffffff;
@@ -334,7 +334,7 @@ xfilter
   left: 0;
   height: 50px;
   width: 100%;
-  background-color: #34363a;
+  background-color: #343a40;
   z-index: 2;
 }
 .cd-filter form {
@@ -383,7 +383,7 @@ xfilter
 
 .cd-filter-trigger {
   position: absolute;
-  top: -47px;
+  top: -15px;
   left: 0;
   height: 50px;
   line-height: 50px;
@@ -394,7 +394,6 @@ xfilter
   color: transparent;
   white-space: nowrap;
   cursor: pointer;
-  background: transparent url("../img/cd-icon-filter.svg") no-repeat center center;
   z-index: 3;
 }
 @media only screen and (min-width: 1170px) {
@@ -406,7 +405,6 @@ xfilter
     text-transform: uppercase;
     font-size: 1.3rem;
     font-weight: 700;
-    padding-left: 24px;
     background-position: left center;
     -webkit-transition: color 0.3s;
     -moz-transition: color 0.3s;

@@ -214,7 +214,9 @@ class PublicPage extends PureComponent {
                                                     openModal={this.openModal}
                                                     clearLoginMessage={this.props.clearLoginMessage}
                                                     handleChange={this.handleChange}
-                                                    password={password}/>
+                                                    password={password}
+                                                    showPassword={showPassword}
+                                                    changePassworVisibility={this.changePassworVisibility}/>
                                         <SignUpPage daiictId={daiictId}
                                                     password={password}
                                                     showPassword={showPassword}
