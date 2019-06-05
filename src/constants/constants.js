@@ -6,7 +6,7 @@ export const ONLINE = 'online';
 export const NO_PAYMENT = 'noPayment';
 
 export const paymentMode = [OFFLINE, ONLINE, NO_PAYMENT, PAYTM, NETBANKING, DEBITCARD];
-export const specialServiceUsers = "user_id";
+export const specialServiceFileColumnName = "DAIICT ID";
 
 export const DEFAULT_ADMIN_PAGINATION_SIZE = 25;
 export const DEFAULT_STUDENT_PAGINATION_SIZE = 10;
