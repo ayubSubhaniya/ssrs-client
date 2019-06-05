@@ -1,5 +1,5 @@
 import _ from "lodash";
-import {specialServiceUsers} from "../constants/constants";
+import {specialServiceFileColumnName} from "../constants/constants";
 
 export function handleChange({target}) {
     this.setState({
@@ -62,8 +62,8 @@ export function getServiceFromState() {
 export function specialServiceFileHandler(data) {
     let arr = [];
     for (let i = 0; i < data.length; i++) {
-        if (data[i][specialServiceUsers])
-            arr.push(data[i][specialServiceUsers]);
+        if (data[i][specialServiceFileColumnName])
+            arr.push(data[i][specialServiceFileColumnName]);
     }
 
     if (arr.length > 0) {
