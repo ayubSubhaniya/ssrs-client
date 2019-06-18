@@ -52,6 +52,7 @@ export function payOffline(id){
     })
         .then((response) => {
             this.setState({
+                cart: response.cart,
                 isPaymentDone: true
             });
         })

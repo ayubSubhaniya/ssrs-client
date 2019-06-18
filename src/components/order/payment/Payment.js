@@ -81,7 +81,7 @@ class Payment extends React.PureComponent {
             this.props.alert.success(infoMessages.orderPlaced);
             return (
                 <Redirect to={{
-                    pathname: "/order",
+                    pathname: "/order/" + this.state.cart._id,
                 }}/>
             )
         }

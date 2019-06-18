@@ -99,10 +99,12 @@ class OrderInfo extends PureComponent {
             isPaymentFailHistoryModalOpen: false,
             isRefundModalOpen: false,
         }
+        this.reactRef = React.createRef();
     }
 
     componentDidMount() {
         this.getCart();
+        this.reactRef.current.scrollTo(0,0);
     }
 
 
@@ -319,7 +321,7 @@ class OrderInfo extends PureComponent {
         const delivery = cart.collectionType.category === collectionTypeCategory.DELIVERY ? cart.delivery : undefined;
         const pickup = cart.collectionType.category === collectionTypeCategory.PICKUP ? cart.pickup : undefined;
         return (
-            <div className=''>
+            <div ref={this.reactRef}>
                 <NavigationBar />
                 <div id="orderinfo-main">
                     <div className='d-flex justify-content-between'>
