@@ -81,6 +81,17 @@ class GuideForServices extends PureComponent {
                         </ol>
                     </div>
                 </div>
+                <HrefComponent isToggle = {false}
+                            name = "File format for uploading Special Service Users"
+                            id = "collapseExample26"/>
+                <div className="collapse" id="collapseExample26">
+                    <div className="card card-body"
+                        style={{ marginLeft: "10px", marginRight: "10px", fontSize: "18px", background: "#e6f5fd" }}>
+                        <ul style={{ paddingLeft: "10px" }}>
+                            <li>Create a single column file with column heading as <strong>"DAIICT ID"</strong> (without quotes).</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         );
     }
