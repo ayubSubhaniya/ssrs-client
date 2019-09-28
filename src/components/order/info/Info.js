@@ -133,7 +133,9 @@ class Info extends React.PureComponent {
         const cart = this.state.cart;
         if (Number(index) !== this.state.selectedCollectionTypeIndex) {
             cart.delivery = undefined;
-            cart.pickup = undefined;
+            /* Removed because this line cleared the information when one switches from and
+            reverts back to pickup collection type */
+            // cart.pickup = undefined;
         }
         this.setState({
             selectedCollectionTypeIndex: Number(index),
