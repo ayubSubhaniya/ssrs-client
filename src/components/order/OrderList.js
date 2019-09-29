@@ -34,7 +34,7 @@ class OrderList extends PureComponent {
             <section className={`orders cd-gallery ${this.props.isFilterVisible ? 'filter-is-visible' : ''}`}>
 
                 <div className="limiter">
-                    <SearchForm onSubmit={this.onSearch}
+                    <SearchForm onSubmit={this.props.onSearch}
                                 toggleSort={this.props.toggleSort}
                                 sortOrder={this.props.sortOrder}
                                 user={this.props.user}/>
