@@ -1,6 +1,6 @@
 import React, {PureComponent} from 'react';
 
-class Devs extends PureComponent {
+class CoreDevs extends PureComponent {
     render() {
         const {image_url, name, designation, batch} = this.props;
         const {facebook_url, github_url, linkedin_url, googleplus_url} = this.props;
@@ -33,4 +33,4 @@ class Devs extends PureComponent {
     }
 }
 
-export default Devs;
+export default CoreDevs;
