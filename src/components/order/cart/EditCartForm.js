@@ -38,7 +38,7 @@ function syncFetch(dataName, key) {
 class EditCartForm extends PureComponent {
     constructor(props) {
         super(props);
-        const availableParameters = _.map(this.props.service.availableParameters, (id) => syncFetch(`parameter/${id}`, 'parameter'))
+        const availableParameters = this.props.service.availableParameters;
         this.state = {
             units: props.units,
             comments: props.comment,
@@ -50,7 +50,7 @@ class EditCartForm extends PureComponent {
     }
 
     componentWillReceiveProps(nextProps) {
-        const availableParameters = _.map(this.props.service.availableParameters, (id) => syncFetch(`parameter/${id}`, 'parameter'))
+        const availableParameters = this.props.service.availableParameters
         this.setState({
             units: nextProps.units,
             comments: nextProps.comment ? nextProps.comment : '',
