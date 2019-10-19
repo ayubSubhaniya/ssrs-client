@@ -3,7 +3,7 @@ import NavigationBar from "../../NavigationBar";
 import Service from "./Service";
 import Stapes from "../../service/Stapes";
 import {Link} from "react-router-dom";
-import {asyncFetch, syncFetch} from "../../../helper/FetchData";
+import {asyncFetch} from "../../../helper/FetchData";
 import _ from "lodash"
 import {domainUrl} from "../../../config/configuration";
 import * as HttpStatus from "http-status-codes";
@@ -19,17 +19,16 @@ class Cart extends PureComponent {
         this.asyncFetch = asyncFetch.bind(this);
     }
 
-    findAvailableCollectionTypes = () => {
-        this.syncFetch = syncFetch.bind(this);
-        let collectionType = this.syncFetch('collectionType');
-        const orders = this.state.cart.orders;
-        let availableCollectionType = _.map(collectionType, '_id');
-        _.forEach(orders, (order) => {
-            availableCollectionType = _.intersection(availableCollectionType, order.service.collectionTypes)
-        })
-        collectionType = _.filter(collectionType, (o) => _.some(availableCollectionType, (x) => x === o._id));
-        return collectionType;
-    }
+    getAllAvailableCollectionTypes = (cart) => {
+        const orders = cart.orders;
+        if (_.isEmpty(orders)) {
+            return [];
+        }
+
+        return _.reduce(orders, function (availableCollectionType, order) {
+            return _.intersectionBy(availableCollectionType, order.service.collectionTypes, "_id");
+        }, orders[0].service.collectionTypes);
+    };
 
     componentDidMount() {
         this.asyncFetch('cart');
@@ -93,7 +92,7 @@ class Cart extends PureComponent {
             )
         }
 
-        const availableCollectionTypes = this.findAvailableCollectionTypes();
+        const availableCollectionTypes = this.getAllAvailableCollectionTypes(this.state.cart);
         return (
             <div>
                 <NavigationBar/>
